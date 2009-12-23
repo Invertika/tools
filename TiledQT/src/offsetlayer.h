@@ -19,67 +19,53 @@
  * Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef CLIPBOARDMANAGER_H
-#define CLIPBOARDMANAGER_H
+#ifndef OFFSETLAYER_H
+#define OFFSETLAYER_H
 
-#include <QObject>
-
-class QClipboard;
+#include <QRect>
+#include <QPoint>
+#include <QUndoCommand>
 
 namespace Tiled {
 
-class Map;
+class Layer;
 
 namespace Internal {
 
 class MapDocument;
 
 /**
- * The clipboard manager deals with interaction with the clipboard.
+ * Undo command that offsets a map layer.
  */
-class ClipboardManager : public QObject
+class OffsetLayer : public QUndoCommand
 {
-    Q_OBJECT
-
 public:
-    ClipboardManager(QObject *parent = 0);
-
     /**
-     * Returns whether the clipboard has a map.
+     * Creates an undo command that offsets the layer at \a index by \a offset,
+     * within \a bounds, and can optionally wrap on the x or y axis.
      */
-    bool hasMap() const { return mHasMap; }
+    OffsetLayer(MapDocument *mapDocument,
+                int index,
+                const QPoint &offset,
+                const QRect &bounds,
+                bool xWrap,
+                bool yWrap);
 
-    /**
-     * Retrieves the map from the clipboard. Returns 0 when there was no map or
-     * loading failed.
-     */
-    Map *map() const;
+    ~OffsetLayer();
 
-    /**
-     * Sets the given map on the clipboard.
-     */
-    void setMap(const Map *map);
-
-    /**
-     * Convenience method to copy the current selection to the clipboard.
-     */
-    void copySelection(const MapDocument *mapDocument);
-
-signals:
-    /**
-     * Emitted when whether the clip has a map changed.
-     */
-    void hasMapChanged();
-
-private slots:
-    void updateHasMap();
+    void undo();
+    void redo();
 
 private:
-    QClipboard *mClipboard;
-    bool mHasMap;
-};
+    Layer *swapLayer(Layer *layer);
 
-#endif // CLIPBOARDMANAGER_H
+    MapDocument *mMapDocument;
+    int mIndex;
+    Layer *mOriginalLayer;
+    Layer *mOffsetLayer;
+};
 
 } // namespace Internal
 } // namespace Tiled
+
+#endif // OFFSETLAYER_H

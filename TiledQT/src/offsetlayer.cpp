@@ -19,7 +19,7 @@
  * Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include "resizelayer.h"
+#include "offsetlayer.h"
 
 #include "layer.h"
 #include "layermodel.h"
@@ -31,43 +31,45 @@
 using namespace Tiled;
 using namespace Tiled::Internal;
 
-ResizeLayer::ResizeLayer(MapDocument *mapDocument,
+OffsetLayer::OffsetLayer(MapDocument *mapDocument,
                          int index,
-                         const QSize &size,
-                         const QPoint &offset)
+                         const QPoint &offset,
+                         const QRect &bounds,
+                         bool wrapX,
+                         bool wrapY)
     : QUndoCommand(QCoreApplication::translate("Undo Commands",
-                                               "Resize Layer"))
+                                               "Offset Layer"))
     , mMapDocument(mapDocument)
     , mIndex(index)
     , mOriginalLayer(0)
 {
-    // Create the resized layer (once)
+    // Create the offset layer (once)
     Layer *layer = mMapDocument->map()->layerAt(mIndex);
-    mResizedLayer = layer->clone();
-    mResizedLayer->resize(size, offset);
+    mOffsetLayer = layer->clone();
+    mOffsetLayer->offset(offset, bounds, wrapX, wrapY);
 }
 
-ResizeLayer::~ResizeLayer()
+OffsetLayer::~OffsetLayer()
 {
     delete mOriginalLayer;
-    delete mResizedLayer;
+    delete mOffsetLayer;
 }
 
-void ResizeLayer::undo()
+void OffsetLayer::undo()
 {
-    Q_ASSERT(!mResizedLayer);
-    mResizedLayer = swapLayer(mOriginalLayer);
+    Q_ASSERT(!mOffsetLayer);
+    mOffsetLayer = swapLayer(mOriginalLayer);
     mOriginalLayer = 0;
 }
 
-void ResizeLayer::redo()
+void OffsetLayer::redo()
 {
     Q_ASSERT(!mOriginalLayer);
-    mOriginalLayer = swapLayer(mResizedLayer);
-    mResizedLayer = 0;
+    mOriginalLayer = swapLayer(mOffsetLayer);
+    mOffsetLayer = 0;
 }
 
-Layer *ResizeLayer::swapLayer(Layer *layer)
+Layer *OffsetLayer::swapLayer(Layer *layer)
 {
     const int currentIndex = mMapDocument->currentLayer();
 

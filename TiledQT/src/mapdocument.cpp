@@ -27,6 +27,7 @@
 #include "map.h"
 #include "movelayer.h"
 #include "objectgroup.h"
+#include "offsetlayer.h"
 #include "orthogonalrenderer.h"
 #include "resizelayer.h"
 #include "resizemap.h"
@@ -114,6 +115,27 @@ void MapDocument::resizeMap(const QSize &size, const QPoint &offset)
 
     // TODO: Handle layers that don't match the map size correctly
     // TODO: Objects that fall outside of the map should be deleted
+}
+
+void MapDocument::offsetMap(const QList<int> &layerIndexes,
+                            const QPoint &offset,
+                            const QRect &bounds,
+                            bool wrapX, bool wrapY)
+{
+    if (layerIndexes.empty())
+        return;
+
+    if (layerIndexes.size() == 1) {
+        mUndoStack->push(new OffsetLayer(this, layerIndexes.first(), offset,
+                                         bounds, wrapX, wrapY));
+    } else {
+        mUndoStack->beginMacro(tr("Offset Map"));
+        foreach (int layerIndex, layerIndexes) {
+            mUndoStack->push(new OffsetLayer(this, layerIndex, offset,
+                                             bounds, wrapX, wrapY));
+        }
+        mUndoStack->endMacro();
+    }
 }
 
 /**

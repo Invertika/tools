@@ -37,6 +37,7 @@
 #include "newtilesetdialog.h"
 #include "propertiesdialog.h"
 #include "resizedialog.h"
+#include "offsetmapdialog.h"
 #include "saveasimagedialog.h"
 #include "selectiontool.h"
 #include "stampbrush.h"
@@ -170,6 +171,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
     connect(mUi->actionNewTileset, SIGNAL(triggered()), SLOT(newTileset()));
     connect(mUi->actionResizeMap, SIGNAL(triggered()), SLOT(resizeMap()));
+    connect(mUi->actionOffsetMap, SIGNAL(triggered()), SLOT(offsetMap()));
     connect(mUi->actionMapProperties, SIGNAL(triggered()),
             SLOT(editMapProperties()));
 
@@ -200,7 +202,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     menu->addSeparator();
     QIcon clearIcon(QLatin1String(":images/16x16/edit-clear.png"));
     QAction *clear = new QAction(clearIcon,
-                                 QLatin1String("Clear Recent Files"),
+                                 tr("Clear Recent Files"),
                                  this);
     menu->addAction(clear);
     connect(clear, SIGNAL(triggered()), this, SLOT(clearRecentFiles()));
@@ -548,6 +550,25 @@ void MainWindow::resizeMap()
         const QPoint &offset = resizeDialog.offset();
         if (newSize != map->size() || !offset.isNull())
             mMapDocument->resizeMap(newSize, offset);
+    }
+}
+
+void MainWindow::offsetMap()
+{
+    if (!mMapDocument)
+        return;
+
+    OffsetMapDialog offsetDialog(mMapDocument, this);
+    if (offsetDialog.exec()) {
+        const QList<int> layerIndexes = offsetDialog.affectedLayerIndexes();
+        if (layerIndexes.empty())
+            return;
+
+        mMapDocument->offsetMap(layerIndexes,
+                                offsetDialog.offset(),
+                                offsetDialog.affectedBoundingRect(),
+                                offsetDialog.wrapX(),
+                                offsetDialog.wrapY());
     }
 }
 

@@ -34,6 +34,7 @@
 #include "tilelayeritem.h"
 #include "tileselectionitem.h"
 #include "toolmanager.h"
+#include "tilesetmanager.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QPainter>
@@ -57,6 +58,10 @@ MapScene::MapScene(QObject *parent):
     ToolManager *toolManager = ToolManager::instance();
     connect(toolManager, SIGNAL(selectedToolChanged(AbstractTool*)),
             this, SLOT(setActiveTool(AbstractTool*)));
+
+    TilesetManager *tilesetManager = TilesetManager::instance();
+    connect(tilesetManager, SIGNAL(tilesetChanged(Tileset*)),
+            this, SLOT(tilesetChanged(Tileset*)));
 }
 
 void MapScene::setMapDocument(MapDocument *mapDocument)
@@ -226,11 +231,20 @@ void MapScene::mapChanged()
 {
     const QSize mapSize = mMapDocument->renderer()->mapSize();
     setSceneRect(0, 0, mapSize.width(), mapSize.height());
-    
+
     foreach (QGraphicsItem *item, mLayerItems) {
         if (TileLayerItem *tli = dynamic_cast<TileLayerItem*>(item))
             tli->syncWithTileLayer();
     }
+}
+
+void MapScene::tilesetChanged(Tileset *tileset)
+{
+    if (!mMapDocument)
+        return;
+
+    if (mMapDocument->map()->tilesets().contains(tileset))
+        update();
 }
 
 void MapScene::layerAdded(int index)

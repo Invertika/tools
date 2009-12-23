@@ -23,6 +23,7 @@
 
 #include <QApplication>
 #include <QDebug>
+#include <QDir>
 #include <QLocale>
 #include <QTranslator>
 
@@ -104,9 +105,13 @@ int main(int argc, char *argv[])
     a.setApplicationName(QLatin1String("Tiled"));
     a.setApplicationVersion(QLatin1String("0.3.1"));
 
+    QDir translationsDir(QCoreApplication::applicationDirPath());
+    translationsDir.cd(QLatin1String("../translations"));
+
     QTranslator translator;
-    translator.load(QLatin1String("tiled_") + QLocale::system().name());
-    a.installTranslator(&translator);
+    if (translator.load(QLatin1String("tiled_") + QLocale::system().name(),
+                        translationsDir.path()))
+        a.installTranslator(&translator);
 
     CommandLineOptions options;
     parseCommandLineArguments(options);

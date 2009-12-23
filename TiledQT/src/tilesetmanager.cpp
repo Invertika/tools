@@ -22,13 +22,24 @@
 #include "tilesetmanager.h"
 #include "tileset.h"
 
+#include <QFileSystemWatcher>
+
 using namespace Tiled;
 using namespace Tiled::Internal;
 
 TilesetManager *TilesetManager::mInstance = 0;
 
-TilesetManager::TilesetManager()
+TilesetManager::TilesetManager():
+    mWatcher(new QFileSystemWatcher(this))
 {
+    connect(mWatcher, SIGNAL(fileChanged(QString)),
+            this, SLOT(fileChanged(QString)));
+
+    mChangedFilesTimer.setInterval(100);
+    mChangedFilesTimer.setSingleShot(true);
+
+    connect(&mChangedFilesTimer, SIGNAL(timeout()),
+            this, SLOT(fileChangedTimeout()));
 }
 
 TilesetManager::~TilesetManager()
@@ -41,7 +52,7 @@ TilesetManager::~TilesetManager()
 TilesetManager *TilesetManager::instance()
 {
     if (!mInstance)
-        mInstance = new TilesetManager();
+        mInstance = new TilesetManager;
 
     return mInstance;
 }
@@ -79,19 +90,25 @@ Tileset *TilesetManager::findTileset(const TilesetSpec &spec) const
 
 void TilesetManager::addReference(Tileset *tileset)
 {
-    if (!mTilesets.contains(tileset))
-        mTilesets.insert(tileset, 1);
-    else
+    if (mTilesets.contains(tileset)) {
         mTilesets[tileset]++;
+    } else {
+        mTilesets.insert(tileset, 1);
+        if (!tileset->imageSource().isEmpty())
+            mWatcher->addPath(tileset->imageSource());
+    }
 }
 
 void TilesetManager::removeReference(Tileset *tileset)
 {
-    Q_ASSERT(mTilesets.contains(tileset) && mTilesets.value(tileset) > 0);
+    Q_ASSERT(mTilesets.value(tileset) > 0);
     mTilesets[tileset]--;
 
     if (mTilesets.value(tileset) == 0) {
         mTilesets.remove(tileset);
+        if (!tileset->imageSource().isEmpty())
+            mWatcher->removePath(tileset->imageSource());
+
         delete tileset;
     }
 }
@@ -99,4 +116,29 @@ void TilesetManager::removeReference(Tileset *tileset)
 QList<Tileset*> TilesetManager::tilesets() const
 {
     return mTilesets.keys();
+}
+
+void TilesetManager::fileChanged(const QString &path)
+{
+    /*
+     * Use a one-shot timer since GIMP (for example) seems to generate many
+     * file changes during a save, and some of the intermediate attempts to
+     * reload the tileset images actually fail (at least for .png files).
+     */
+    if (!mChangedFiles.contains(path)) {
+        mChangedFiles.insert(path);
+        mChangedFilesTimer.start();
+    }
+}
+
+void TilesetManager::fileChangedTimeout()
+{
+    foreach (Tileset *tileset, tilesets()) {
+        if (mChangedFiles.contains(tileset->imageSource())) {
+            tileset->loadFromImage(tileset->imageSource());
+            emit tilesetChanged(tileset);
+        }
+    }
+
+    mChangedFiles.clear();
 }
