@@ -20,6 +20,8 @@
  */
 
 #include "tilesetmanager.h"
+
+#include "preferences.h"
 #include "tileset.h"
 
 #include <QFileSystemWatcher>
@@ -35,7 +37,7 @@ TilesetManager::TilesetManager():
     connect(mWatcher, SIGNAL(fileChanged(QString)),
             this, SLOT(fileChanged(QString)));
 
-    mChangedFilesTimer.setInterval(100);
+    mChangedFilesTimer.setInterval(200);
     mChangedFilesTimer.setSingleShot(true);
 
     connect(&mChangedFilesTimer, SIGNAL(timeout()),
@@ -120,6 +122,9 @@ QList<Tileset*> TilesetManager::tilesets() const
 
 void TilesetManager::fileChanged(const QString &path)
 {
+    if (!Preferences::instance()->reloadTilesetsOnChange())
+        return;
+
     /*
      * Use a one-shot timer since GIMP (for example) seems to generate many
      * file changes during a save, and some of the intermediate attempts to

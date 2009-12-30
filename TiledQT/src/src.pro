@@ -14,6 +14,7 @@ OBJECTS_DIR = .obj
 SOURCES += aboutdialog.cpp \
     brushitem.cpp \
     compression.cpp \
+    languagemanager.cpp \
     layer.cpp \
     layerdock.cpp \
     layermodel.cpp \
@@ -27,6 +28,8 @@ SOURCES += aboutdialog.cpp \
     mapview.cpp \
     objectgroup.cpp \
     painttilelayer.cpp \
+    preferencesdialog.cpp \
+    preferences.cpp \
     propertiesdialog.cpp \
     propertiesmodel.cpp \
     resizehelper.cpp \
@@ -74,10 +77,13 @@ SOURCES += aboutdialog.cpp \
     orthogonalrenderer.cpp \
     isometricrenderer.cpp \
     offsetlayer.cpp \
-    offsetmapdialog.cpp
+    offsetmapdialog.cpp \
+    bucketfilltool.cpp \
+    filltiles.cpp
 HEADERS += aboutdialog.h \
     brushitem.h \
     compression.h \
+    languagemanager.h \
     layer.h \
     layerdock.h \
     layermodel.h \
@@ -92,6 +98,8 @@ HEADERS += aboutdialog.h \
     mapview.h \
     objectgroup.h \
     painttilelayer.h \
+    preferencesdialog.h \
+    preferences.h \
     propertiesdialog.h \
     propertiesmodel.h \
     resizedialog.h \
@@ -142,10 +150,13 @@ HEADERS += aboutdialog.h \
     orthogonalrenderer.h \
     isometricrenderer.h \
     offsetlayer.h \
-    offsetmapdialog.h
+    offsetmapdialog.h \
+    bucketfilltool.h \
+    filltiles.h
 FORMS += aboutdialog.ui \
     mainwindow.ui \
     resizedialog.ui \
+    preferencesdialog.ui \
     propertiesdialog.ui \
     newmapdialog.ui \
     newtilesetdialog.ui \

@@ -27,6 +27,9 @@
 #include "clipboardmanager.h"
 #include "eraser.h"
 #include "erasetiles.h"
+#include "bucketfilltool.h"
+#include "filltiles.h"
+#include "languagemanager.h"
 #include "layer.h"
 #include "layerdock.h"
 #include "layermodel.h"
@@ -38,6 +41,8 @@
 #include "propertiesdialog.h"
 #include "resizedialog.h"
 #include "offsetmapdialog.h"
+#include "preferences.h"
+#include "preferencesdialog.h"
 #include "saveasimagedialog.h"
 #include "selectiontool.h"
 #include "stampbrush.h"
@@ -75,6 +80,17 @@ static void setThemeIcon(QAction *action, const char *name)
     QIcon themeIcon = QIcon::fromTheme(QLatin1String(name));
     if (!themeIcon.isNull())
         action->setIcon(themeIcon);
+}
+
+/**
+ * Looks up the icon with the specified \a name from the system theme and set
+ * it on the \a menu when found.
+ */
+static void setThemeIcon(QMenu *menu, const char *name)
+{
+    QIcon themeIcon = QIcon::fromTheme(QLatin1String(name));
+    if (!themeIcon.isNull())
+        menu->setIcon(themeIcon);
 }
 #endif
 
@@ -150,6 +166,8 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
     connect(mUi->actionNew, SIGNAL(triggered()), SLOT(newMap()));
     connect(mUi->actionOpen, SIGNAL(triggered()), SLOT(openFile()));
+    connect(mUi->actionClearRecentFiles, SIGNAL(triggered()),
+            SLOT(clearRecentFiles()));
     connect(mUi->actionSave, SIGNAL(triggered()), SLOT(saveFile()));
     connect(mUi->actionSaveAs, SIGNAL(triggered()), SLOT(saveFileAs()));
     connect(mUi->actionSaveAsImage, SIGNAL(triggered()), SLOT(saveAsImage()));
@@ -161,6 +179,8 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     connect(mUi->actionPaste, SIGNAL(triggered()), SLOT(paste()));
     connect(mUi->actionSelectAll, SIGNAL(triggered()), SLOT(selectAll()));
     connect(mUi->actionSelectNone, SIGNAL(triggered()), SLOT(selectNone()));
+    connect(mUi->actionPreferences, SIGNAL(triggered()),
+            SLOT(openPreferences()));
 
     connect(mUi->actionZoomIn, SIGNAL(triggered()),
             mUi->mapView, SLOT(zoomIn()));
@@ -190,31 +210,25 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     connect(mUi->actionAbout, SIGNAL(triggered()), SLOT(aboutTiled()));
     connect(mUi->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
-    QMenu *menu = new QMenu(this);
+    // Add recent file actions to the recent files menu
+    QMenu *menu = mUi->menuRecentFiles;
     for (int i = 0; i < MaxRecentFiles; ++i)
     {
          mRecentFiles[i] = new QAction(this);
-         menu->addAction(mRecentFiles[i]);
+         menu->insertAction(mUi->actionClearRecentFiles, mRecentFiles[i]);
          mRecentFiles[i]->setVisible(false);
          connect(mRecentFiles[i], SIGNAL(triggered()),
                  this, SLOT(openRecentFile()));
     }
-    menu->addSeparator();
-    QIcon clearIcon(QLatin1String(":images/16x16/edit-clear.png"));
-    QAction *clear = new QAction(clearIcon,
-                                 tr("Clear Recent Files"),
-                                 this);
-    menu->addAction(clear);
-    connect(clear, SIGNAL(triggered()), this, SLOT(clearRecentFiles()));
-    mUi->actionRecentFiles->setMenu(menu);
+    menu->insertSeparator(mUi->actionClearRecentFiles);
 
     // Qt 4.6 supports requesting icons from the system theme, at least on
     // desktops where there is a system theme (ie. Linux).
 #if QT_VERSION >= 0x040600
     setThemeIcon(mUi->actionNew, "document-new");
     setThemeIcon(mUi->actionOpen, "document-open");
-    setThemeIcon(mUi->actionRecentFiles, "document-open-recent");
-    setThemeIcon(clear, "edit-clear");
+    setThemeIcon(mUi->menuRecentFiles, "document-open-recent");
+    setThemeIcon(mUi->actionClearRecentFiles, "edit-clear");
     setThemeIcon(mUi->actionSave, "document-save");
     setThemeIcon(mUi->actionSaveAs, "document-save-as");
     setThemeIcon(mUi->actionClose, "window-close");
@@ -249,9 +263,11 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
             this, SLOT(setStampBrush(const TileLayer*)));
 
     mStampBrush = new StampBrush(this);
+    mBucketFillTool = new BucketFillTool(this);
 
     ToolManager *toolManager = ToolManager::instance();
     toolManager->registerTool(mStampBrush);
+    toolManager->registerTool(mBucketFillTool);
     toolManager->registerTool(new Eraser(this));
     toolManager->registerTool(new SelectionTool(this));
 
@@ -280,6 +296,8 @@ MainWindow::~MainWindow()
 
     ToolManager::deleteInstance();
     TilesetManager::deleteInstance();
+    Preferences::deleteInstance();
+    LanguageManager::deleteInstance();
 
     delete mUi;
 }
@@ -307,6 +325,7 @@ void MainWindow::changeEvent(QEvent *event)
     switch (event->type()) {
     case QEvent::LanguageChange:
         mUi->retranslateUi(this);
+        retranslateUi();
         break;
     default:
         break;
@@ -384,7 +403,12 @@ bool MainWindow::saveFile(const QString &fileName)
 {
     if (!mMapDocument)
         return false;
+
+    Preferences *prefs = Preferences::instance();
+
     TmxMapWriter mapWriter;
+    mapWriter.setLayerDataFormat(prefs->layerDataFormat());
+
     if (!mapWriter.write(mMapDocument->map(), fileName)) {
         QMessageBox::critical(this, tr("Error while saving map"),
                               mapWriter.errorString());
@@ -520,6 +544,12 @@ void MainWindow::paste()
     }
 }
 
+void MainWindow::openPreferences()
+{
+    PreferencesDialog preferencesDialog(this);
+    preferencesDialog.exec();
+}
+
 void MainWindow::newTileset()
 {
     if (!mMapDocument)
@@ -646,7 +676,7 @@ void MainWindow::updateRecentFiles()
     {
         mRecentFiles[j]->setVisible(false);
     }
-    mUi->actionRecentFiles->setEnabled(numRecentFiles > 0);
+    mUi->menuRecentFiles->setEnabled(numRecentFiles > 0);
 }
 
 void MainWindow::updateActions()
@@ -806,8 +836,10 @@ void MainWindow::editLayerProperties()
  */
 void MainWindow::setStampBrush(const TileLayer *tiles)
 {
-    if (tiles)
+    if (tiles) {
         mStampBrush->setStamp(static_cast<TileLayer*>(tiles->clone()));
+        mBucketFillTool->setStamp(static_cast<TileLayer*>(tiles->clone()));
+    }
 }
 
 void MainWindow::updateStatusInfoLabel(const QString &statusInfo)
@@ -863,6 +895,7 @@ void MainWindow::setMapDocument(MapDocument *mapDocument)
     mLayerDock->setMapDocument(mapDocument);
     mTilesetDock->setMapDocument(mapDocument);
     mStampBrush->setMapDocument(mapDocument);
+    mBucketFillTool->setMapDocument(mapDocument);
 
     // TODO: Add support for multiple map documents
     delete mMapDocument;
@@ -885,4 +918,12 @@ void MainWindow::aboutTiled()
 {
     AboutDialog aboutDialog(this);
     aboutDialog.exec();
+}
+
+void MainWindow::retranslateUi()
+{
+    if (!mCurrentFileName.isEmpty()) {
+        const QString fileName = QFileInfo(mCurrentFileName).fileName();
+        setWindowTitle(tr("%1[*] - Tiled").arg(fileName));
+    }
 }

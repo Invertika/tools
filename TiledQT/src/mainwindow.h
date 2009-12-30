@@ -45,6 +45,7 @@ class ClipboardManager;
 class LayerDock;
 class MapScene;
 class StampBrush;
+class BucketFillTool;
 class TilesetDock;
 
 /**
@@ -92,6 +93,7 @@ private slots:
     void cut();
     void copy();
     void paste();
+    void openPreferences();
 
     void newTileset();
     void resizeMap();
@@ -153,6 +155,8 @@ private:
 
     void addLayer(MapDocument::LayerType type);
 
+    void retranslateUi();
+
     Ui::MainWindow *mUi;
     MapDocument *mMapDocument;
     MapScene *mScene;
@@ -165,6 +169,7 @@ private:
     QUndoGroup *mUndoGroup;
 
     StampBrush *mStampBrush;
+    BucketFillTool *mBucketFillTool;
 
     ClipboardManager *mClipboardManager;
 
