@@ -22,6 +22,7 @@
 #include "preferences.h"
 
 #include "languagemanager.h"
+#include "tilesetmanager.h"
 
 #include <QSettings>
 
@@ -50,6 +51,7 @@ Preferences::Preferences()
     mLayerDataFormat = (TmxMapWriter::LayerDataFormat)
                        mSettings->value(QLatin1String("LayerDataFormat"),
                                         TmxMapWriter::Base64Gzip).toInt();
+    mDtdEnabled = mSettings->value(QLatin1String("DtdEnabled")).toBool();
     mReloadTilesetsOnChange =
             mSettings->value(QLatin1String("ReloadTilesets"), true).toBool();
     mSettings->endGroup();
@@ -59,6 +61,9 @@ Preferences::Preferences()
     mLanguage = mSettings->value(QLatin1String("Language"),
                                  QString()).toString();
     mSettings->endGroup();
+
+    TilesetManager *tilesetManager = TilesetManager::instance();
+    tilesetManager->setReloadTilesetsOnChange(mReloadTilesetsOnChange);
 }
 
 Preferences::~Preferences()
@@ -79,6 +84,17 @@ void Preferences::setLayerDataFormat(TmxMapWriter::LayerDataFormat
     mLayerDataFormat = layerDataFormat;
     mSettings->setValue(QLatin1String("Storage/LayerDataFormat"),
                         mLayerDataFormat);
+}
+
+bool Preferences::dtdEnabled() const
+{
+    return mDtdEnabled;
+}
+
+void Preferences::setDtdEnabled(bool enabled)
+{
+    mDtdEnabled = enabled;
+    mSettings->setValue(QLatin1String("Storage/DtdEnabled"), enabled);
 }
 
 QString Preferences::language() const
@@ -111,4 +127,7 @@ void Preferences::setReloadTilesetsOnChanged(bool value)
     mReloadTilesetsOnChange = value;
     mSettings->setValue(QLatin1String("Storage/ReloadTilesets"),
                         mReloadTilesetsOnChange);
+
+    TilesetManager *tilesetManager = TilesetManager::instance();
+    tilesetManager->setReloadTilesetsOnChange(mReloadTilesetsOnChange);
 }

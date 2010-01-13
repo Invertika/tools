@@ -36,6 +36,8 @@ using namespace Tiled::Internal;
 
 TmxMapWriter::TmxMapWriter()
     : mUseAbsolutePaths(false)
+    , mLayerDataFormat(Base64Gzip)
+    , mDtdEnabled(false)
 {
 }
 
@@ -55,8 +57,13 @@ bool TmxMapWriter::write(const Map *map, const QString &fileName)
     writer.setAutoFormattingIndent(1);
 
     writer.writeStartDocument();
-    writer.writeDTD(QLatin1String("<!DOCTYPE map SYSTEM \""
-                                  "http://mapeditor.org/dtd/1.0/map.dtd\">"));
+
+    if (mDtdEnabled) {
+        writer.writeDTD(QLatin1String("<!DOCTYPE map SYSTEM \""
+                                      "http://mapeditor.org/dtd/1.0/"
+                                      "map.dtd\">"));
+    }
+
     writeMap(writer, map);
     writer.writeEndDocument();
 
@@ -309,6 +316,11 @@ void TmxMapWriter::writeObjectGroup(QXmlStreamWriter &w,
                                     const ObjectGroup *objectGroup)
 {
     w.writeStartElement(QLatin1String("objectgroup"));
+
+    if (objectGroup->color().isValid())
+        w.writeAttribute(QLatin1String("color"),
+                         objectGroup->color().name());
+
     writeLayerAttributes(w, objectGroup);
     writeProperties(w, objectGroup->properties());
 
