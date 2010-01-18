@@ -25,6 +25,11 @@
 #include "changeproperties.h"
 #include "propertiesmodel.h"
 
+#include "objectgroup.h"
+#include "objectgrouppropertiesdialog.h"
+
+#include "mapdocument.h"
+
 #include <QShortcut>
 #include <QUndoStack>
 
@@ -70,6 +75,28 @@ void PropertiesDialog::accept()
                                               properties));
     }
     QDialog::accept();
+}
+
+void PropertiesDialog::showDialogFor(Layer *layer,
+                                     MapDocument *mapDocument,
+                                     QWidget *parent)
+{
+    ObjectGroup *objectGroup = dynamic_cast<ObjectGroup*>(layer);
+    PropertiesDialog *dialog;
+
+    if (objectGroup) {
+        dialog = new ObjectGroupPropertiesDialog(mapDocument,
+                                                 objectGroup,
+                                                 parent);
+    } else {
+        dialog = new PropertiesDialog(tr("Layer"),
+                                      layer->properties(),
+                                      mapDocument->undoStack(),
+                                      parent);
+    }
+
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->exec();
 }
 
 void PropertiesDialog::deleteSelectedProperties()
