@@ -45,12 +45,12 @@ p, li { white-space: pre-wrap; }
         <translation>&amp;Ficheiro</translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+25"/>
         <source>&amp;Edit</source>
         <translation>&amp;Editar</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+13"/>
         <source>&amp;Help</source>
         <translation>&amp;Ajuda</translation>
     </message>
@@ -120,12 +120,12 @@ p, li { white-space: pre-wrap; }
         <translation>&amp;Propriedades do Mapa...</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="-177"/>
         <source>&amp;Recent Files</source>
         <translation>Ficheiros &amp;Recentes</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+185"/>
         <source>Show &amp;Grid</source>
         <translation>Mostrar &amp;Grelha</translation>
     </message>
@@ -247,20 +247,30 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+5"/>
         <source>&amp;Offset Map...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Deslocamento do mapa...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Offsets everything in a layer</source>
-        <translation type="unfinished"></translation>
+        <translation>Deslucar tudo numa camada</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Pre&amp;ferences...</source>
+        <translation>Pre&amp;ferências...</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Clear Recent Files</source>
+        <translation>Limpar Ficheiros Recentes</translation>
     </message>
 </context>
 <context>
     <name>MapObjectItem</name>
     <message>
-        <location filename="../src/mapobjectitem.cpp" line="+285"/>
+        <location filename="../src/mapobjectitem.cpp" line="+253"/>
         <source>&amp;Duplicate</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Duplicar</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -287,20 +297,40 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="+6"/>
-        <location line="+49"/>
+        <location line="+55"/>
         <source>Width:</source>
         <translation>Largura:</translation>
     </message>
     <message>
-        <location line="-29"/>
-        <location line="+49"/>
+        <location line="-32"/>
+        <location line="+55"/>
         <source>Height:</source>
         <translation>Altura:</translation>
     </message>
     <message>
-        <location line="-26"/>
+        <location line="-29"/>
         <source>Tile size</source>
         <translation>Tamanho do Tile</translation>
+    </message>
+    <message>
+        <location line="+78"/>
+        <source>Map</source>
+        <translation>Mapa</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Orientation:</source>
+        <translation>Orientação:</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>Orthogonal</source>
+        <translation>Ortogonal</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Isometric</source>
+        <translation>Isométrica</translation>
     </message>
 </context>
 <context>
@@ -366,63 +396,126 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/offsetmapdialog.ui" line="+17"/>
         <source>Offset Map</source>
-        <translation type="unfinished"></translation>
+        <translation>Deslocamento do Mapa</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Offset Contents of Map</source>
-        <translation type="unfinished"></translation>
+        <translation>Deslocamento dos conteúdos do Mapa</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>X:</source>
-        <translation type="unfinished"></translation>
+        <translation>X:</translation>
     </message>
     <message>
         <location line="+23"/>
         <location line="+43"/>
         <source>Wrap</source>
-        <translation type="unfinished"></translation>
+        <translation>Embrulhar</translation>
     </message>
     <message>
         <location line="-36"/>
         <source>Y:</source>
-        <translation type="unfinished"></translation>
+        <translation>Y:</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>Layers:</source>
-        <translation type="unfinished"></translation>
+        <translation>Camadas:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>All Visible Layers</source>
-        <translation type="unfinished"></translation>
+        <translation>Todas as Camadas Visíveis</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>All Layers</source>
-        <translation type="unfinished"></translation>
+        <translation>Todas as Camadas</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Selected Layer</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecionar Camada</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Bounds:</source>
-        <translation type="unfinished"></translation>
+        <translation>Limites:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Whole Map</source>
-        <translation type="unfinished"></translation>
+        <translation>Todo o Mapa</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Current Selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleção Currente</translation>
+    </message>
+</context>
+<context>
+    <name>PreferencesDialog</name>
+    <message>
+        <location filename="../src/preferencesdialog.ui" line="+14"/>
+        <source>Preferences</source>
+        <translation>Preferências</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Saving and Loading</source>
+        <translation>Guardar e Abrir</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>&amp;Store tile layer data as:</source>
+        <translation>&amp;Armazenar dados das camadas de tiles como:</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>XML</source>
+        <translation>XML</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Base64 (uncompressed)</source>
+        <translation>Base64 (descomprimido)</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Base64 (gzip compressed)</source>
+        <translation>Base64 (comprimido com gzip)</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Base64 (zlib compressed)</source>
+        <translation>Base64 (comprimido com zlib)</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>&amp;Reload tileset images when they change</source>
+        <translation>&amp;Recarregar imagens de tileset quando existirem mudanças</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Not enabled by default since a reference to an external DTD is known to cause problems with some XML parsers.</source>
+        <translation>Desabilitado por defeito porque a referencia para um DTD externo é conhecida por causar problemas para alguns analisadores de XML.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Include &amp;DTD reference in saved maps</source>
+        <translation>Incluir referências &amp;DTD nos mapas guardados</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Interface</source>
+        <translation>Interface</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>&amp;Language:</source>
+        <translation>&amp;Linguagem:</translation>
     </message>
 </context>
 <context>
@@ -510,6 +603,19 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>Tiled::Internal::BucketFillTool</name>
+    <message>
+        <location filename="../src/bucketfilltool.cpp" line="+36"/>
+        <source>Bucket Fill Tool</source>
+        <translation>Ferramenta de Preenchimento</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>F</source>
+        <translation>F</translation>
+    </message>
+</context>
+<context>
     <name>Tiled::Internal::Eraser</name>
     <message>
         <location filename="../src/eraser.cpp" line="+37"/>
@@ -525,7 +631,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>Tiled::Internal::LayerDock</name>
     <message>
-        <location filename="../src/layerdock.cpp" line="+41"/>
+        <location filename="../src/layerdock.cpp" line="+142"/>
         <source>Layers</source>
         <translation>Camadas</translation>
     </message>
@@ -546,20 +652,19 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>Tiled::Internal::LayerView</name>
     <message>
-        <location filename="../src/layerdock.cpp" line="+155"/>
+        <location filename="../src/layerdock.cpp" line="+75"/>
         <source>Properties...</source>
         <translation>Propriedades...</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>Layer</source>
-        <translation>Camada</translation>
+        <translation type="obsolete">Camada</translation>
     </message>
 </context>
 <context>
     <name>Tiled::Internal::MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="+110"/>
+        <location filename="../src/mainwindow.cpp" line="+127"/>
         <source>Undo</source>
         <translation>Desfazer</translation>
     </message>
@@ -569,12 +674,7 @@ p, li { white-space: pre-wrap; }
         <translation>Refazer</translation>
     </message>
     <message>
-        <location line="+94"/>
-        <source>Clear Recent Files</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+139"/>
+        <location line="+236"/>
         <source>Error while opening map</source>
         <translation>Erro na abertura do mapa</translation>
     </message>
@@ -585,7 +685,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location line="+1"/>
-        <location line="+32"/>
+        <location line="+38"/>
         <source>Tiled map files (*.tmx)</source>
         <translation>Ficheiros de mapa do Tiled (*.tmx)</translation>
     </message>
@@ -605,17 +705,17 @@ p, li { white-space: pre-wrap; }
         <translation>Existem mudanças por salvar. Deseja salvar agora?</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+55"/>
         <source>Cut</source>
         <translation>Cortar</translation>
     </message>
     <message>
-        <location line="+100"/>
+        <location line="+106"/>
         <source>Map</source>
         <translation>Mapa</translation>
     </message>
     <message>
-        <location line="+123"/>
+        <location line="+124"/>
         <source>%1%</source>
         <translation></translation>
     </message>
@@ -640,12 +740,12 @@ p, li { white-space: pre-wrap; }
         <translation>Nova Camada</translation>
     </message>
     <message>
-        <location line="+49"/>
         <source>Layer</source>
-        <translation>Camada</translation>
+        <translation type="obsolete">Camada</translation>
     </message>
     <message>
-        <location line="+57"/>
+        <location line="+105"/>
+        <location line="+42"/>
         <source>%1[*] - Tiled</source>
         <translation></translation>
     </message>
@@ -660,7 +760,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location line="+22"/>
         <source>Offset Map</source>
-        <translation type="unfinished"></translation>
+        <translation>Deslocamento do Mapa</translation>
     </message>
     <message>
         <location line="+38"/>
@@ -676,7 +776,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>Tiled::Internal::NewMapDialog</name>
     <message>
-        <location filename="../src/newmapdialog.cpp" line="+57"/>
+        <location filename="../src/newmapdialog.cpp" line="+58"/>
         <source>Layer 1</source>
         <translation>Camada1</translation>
     </message>
@@ -687,6 +787,19 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/newtilesetdialog.cpp" line="+90"/>
         <source>Tileset Image</source>
         <translation>Imagem de Tileset</translation>
+    </message>
+</context>
+<context>
+    <name>Tiled::Internal::ObjectGroupPropertiesDialog</name>
+    <message>
+        <location filename="../src/objectgrouppropertiesdialog.cpp" line="+43"/>
+        <source>Object Layer</source>
+        <translation>Camada de Objectos</translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>Color:</source>
+        <translation>Cor:</translation>
     </message>
 </context>
 <context>
@@ -713,11 +826,25 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>Tiled::Internal::PreferencesDialog</name>
+    <message>
+        <location filename="../src/preferencesdialog.cpp" line="+38"/>
+        <location line="+32"/>
+        <source>System default</source>
+        <translation>Padrão do Sistema</translation>
+    </message>
+</context>
+<context>
     <name>Tiled::Internal::PropertiesDialog</name>
     <message>
-        <location filename="../src/propertiesdialog.cpp" line="+56"/>
+        <location filename="../src/propertiesdialog.cpp" line="+61"/>
         <source>%1 Properties</source>
         <translation>%1 Propriedades</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <source>Layer</source>
+        <translation>Camada</translation>
     </message>
 </context>
 <context>
@@ -750,7 +877,8 @@ p, li { white-space: pre-wrap; }
         <location line="+1"/>
         <source>%1 already exists.
 Do you want to replace it?</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 já existe.
+Deseja substituí-lo?</translation>
     </message>
     <message>
         <location line="+47"/>
@@ -792,7 +920,7 @@ Do you want to replace it?</source>
 <context>
     <name>Tiled::Internal::TilesetDock</name>
     <message>
-        <location filename="../src/tilesetdock.cpp" line="+40"/>
+        <location filename="../src/tilesetdock.cpp" line="+186"/>
         <source>Tilesets</source>
         <translation></translation>
     </message>
@@ -808,8 +936,12 @@ Do you want to replace it?</source>
 <context>
     <name>Tiled::Internal::UndoDock</name>
     <message>
-        <location filename="../src/undodock.cpp" line="+31"/>
         <source>Undo Stack</source>
+        <translation type="obsolete">Histórico</translation>
+    </message>
+    <message>
+        <location filename="../src/undodock.cpp" line="+64"/>
+        <source>History</source>
         <translation>Histórico</translation>
     </message>
 </context>
@@ -821,7 +953,7 @@ Do you want to replace it?</source>
         <translation>Leitor de mapas XML (*.tmx)</translation>
     </message>
     <message>
-        <location filename="../src/tmxmapwriter.cpp" line="+46"/>
+        <location filename="../src/tmxmapwriter.cpp" line="+48"/>
         <source>Could not open file for writing.</source>
         <translation>Impossivel abrir para escrita.</translation>
     </message>
@@ -856,7 +988,7 @@ Linha %1, coluna %2</translation>
     <message>
         <location line="+10"/>
         <source>File not found: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ficheiro não encontrado: %1</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -866,7 +998,7 @@ Linha %1, coluna %2</translation>
     <message>
         <location line="+61"/>
         <source>Unsupported map orientation: &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Orientação de mapa não suportado: &quot;%1&quot;</translation>
     </message>
     <message>
         <location line="+56"/>
@@ -987,7 +1119,7 @@ Linha %1, coluna %2</translation>
     <message>
         <location filename="../src/offsetlayer.cpp" line="+40"/>
         <source>Offset Layer</source>
-        <translation type="unfinished"></translation>
+        <translation>Deslocamento da Camada</translation>
     </message>
     <message>
         <location filename="../src/painttilelayer.cpp" line="+50"/>
@@ -1013,6 +1145,17 @@ Linha %1, coluna %2</translation>
         <location filename="../src/resizemapobject.cpp" line="+40"/>
         <source>Resize Object</source>
         <translation>Redimensionar Objecto</translation>
+    </message>
+    <message>
+        <location filename="../src/changeobjectgroupproperties.cpp" line="+37"/>
+        <location filename="../src/objectgrouppropertiesdialog.cpp" line="+21"/>
+        <source>Change Object Layer Properties</source>
+        <translation>Mudificar Propriedades da Camada de Objectos</translation>
+    </message>
+    <message>
+        <location filename="../src/filltiles.cpp" line="+36"/>
+        <source>Fill Area</source>
+        <translation>Área de Preênchimento</translation>
     </message>
 </context>
 <context>
