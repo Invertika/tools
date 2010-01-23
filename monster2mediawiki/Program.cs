@@ -45,6 +45,8 @@ namespace monsters2mediawiki
 
 					foreach(Monster monster in monsters)
 					{
+						if(item.ID>9999) continue; //Experimentele Monster ignorieren
+						
 						sw.WriteLine("| align=\"center\" | [[Image:monster-{0}.png]]", monster.ID);
 						sw.WriteLine("| align=\"center\" | {0}", monster.ID);
 						sw.WriteLine("| {0}", monster.Name);
