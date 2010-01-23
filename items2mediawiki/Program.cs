@@ -28,10 +28,10 @@ namespace items2mediawiki
 				{
 					sw.WriteLine("{| border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\" align=\"center\"\n"
 					+"! style=\"background:#efdead;\" | Bild\n"
-					+"! style=\"background:#efdead;\" | Name\n"
 					+"! style=\"background:#efdead;\" | ID\n"
-					+"! style=\"background:#efdead;\" | HP\n"
+					+"! style=\"background:#efdead;\" | Name\n"
 					+"! style=\"background:#efdead;\" | Beschreibung\n"
+					+"! style=\"background:#efdead;\" | HP\n"
 					+"! style=\"background:#efdead;\" | Gewicht\n"
 					+"! style=\"background:#efdead;\" | Verteidigung\n"
 					+"! style=\"background:#efdead;\" | Maximale Anzahl pro Slot\n"
@@ -45,10 +45,10 @@ namespace items2mediawiki
 						if(item.ID<0) continue; //Unötige Items (Hairsets etc) ignorieren
 
 						sw.WriteLine("| align=\"center\" | [[Image:item-{0}.png]]", item.ID);
-						sw.WriteLine("| {0}", item.Name);
 						sw.WriteLine("| align=\"center\" | {0}", item.ID);
-						sw.WriteLine("| align=\"center\" | {0}", item.HP);
+						sw.WriteLine("| {0}", item.Name);
 						sw.WriteLine("| align=\"center\" | {0}", item.Description);
+						sw.WriteLine("| align=\"center\" | {0}", item.HP);
 						sw.WriteLine("| align=\"center\" | {0}", item.Weight);
 						sw.WriteLine("| align=\"center\" | {0}%", item.Defense);
 						sw.WriteLine("| align=\"center\" | {0}", item.MaxPerSlot);
