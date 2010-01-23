@@ -28,8 +28,6 @@
 #include "mapscene.h"
 #include "tilelayer.h"
 
-#include <QGraphicsSceneMouseEvent>
-
 using namespace Tiled;
 using namespace Tiled::Internal;
 
@@ -64,6 +62,12 @@ void Eraser::mouseReleased(const QPointF &, Qt::MouseButton button)
 {
     if (button == Qt::LeftButton)
         mErasing = false;
+}
+
+void Eraser::languageChanged()
+{
+    setName(tr("Eraser"));
+    setShortcut(QKeySequence(tr("E")));
 }
 
 void Eraser::doErase(bool mergeable)

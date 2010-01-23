@@ -27,9 +27,6 @@
 #include "mapdocument.h"
 #include "mapscene.h"
 #include "tilelayer.h"
-#include "tileselectionmodel.h"
-
-#include <QGraphicsSceneMouseEvent>
 
 using namespace Tiled;
 using namespace Tiled::Internal;
@@ -93,8 +90,7 @@ void SelectionTool::mouseReleased(const QPointF &,
         mSelecting = false;
 
         MapDocument *mapDocument = mapScene()->mapDocument();
-        TileSelectionModel *selectionModel = mapDocument->selectionModel();
-        QRegion selection = selectionModel->selection();
+        QRegion selection = mapDocument->tileSelection();
         const QRect area = selectedArea();
 
         switch (mSelectionMode) {
@@ -104,7 +100,7 @@ void SelectionTool::mouseReleased(const QPointF &,
         case Intersect: selection &= area; break;
         }
 
-        if (selection != selectionModel->selection()) {
+        if (selection != mapDocument->tileSelection()) {
             QUndoCommand *cmd = new ChangeSelection(mapDocument, selection);
             mapDocument->undoStack()->push(cmd);
         }
@@ -112,6 +108,12 @@ void SelectionTool::mouseReleased(const QPointF &,
         brushItem()->setTileRegion(QRegion());
         updateStatusInfo();
     }
+}
+
+void SelectionTool::languageChanged()
+{
+    setName(tr("Rectangular Select"));
+    setShortcut(QKeySequence(tr("R")));
 }
 
 QRect SelectionTool::selectedArea() const

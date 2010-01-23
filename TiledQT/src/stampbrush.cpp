@@ -28,8 +28,6 @@
 #include "painttilelayer.h"
 #include "tilelayer.h"
 
-#include <QGraphicsSceneMouseEvent>
-
 using namespace Tiled;
 using namespace Tiled::Internal;
 
@@ -88,6 +86,12 @@ void StampBrush::mouseReleased(const QPointF &, Qt::MouseButton button)
         endPaint();
     else if (mCapturing && button == Qt::RightButton)
         endCapture();
+}
+
+void StampBrush::languageChanged()
+{
+    setName(tr("Stamp Brush"));
+    setShortcut(QKeySequence(tr("B")));
 }
 
 void StampBrush::setMapDocument(MapDocument *mapDocument)

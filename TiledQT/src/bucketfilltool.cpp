@@ -27,7 +27,6 @@
 #include "tilepainter.h"
 #include "mapscene.h"
 #include "mapdocument.h"
-#include "tileselectionmodel.h"
 
 using namespace Tiled;
 using namespace Tiled::Internal;
@@ -129,6 +128,12 @@ void BucketFillTool::mouseReleased(const QPointF &pos, Qt::MouseButton button)
     Q_UNUSED(button);
 }
 
+void BucketFillTool::languageChanged()
+{
+    setName(tr("Bucket Fill Tool"));
+    setShortcut(QKeySequence(tr("F")));
+}
+
 void BucketFillTool::setMapDocument(MapDocument *mapDocument)
 {
     if (mMapDocument == mapDocument)
@@ -182,8 +187,7 @@ void BucketFillTool::makeConnections()
 
     // Overlay needs be cleared if the selection changes, since
     // the overlay may be bound or may need to be bound to the selection
-    const TileSelectionModel *selectionModel = mMapDocument->selectionModel();
-    connect(selectionModel, SIGNAL(selectionChanged(QRegion,QRegion)),
+    connect(mMapDocument, SIGNAL(tileSelectionChanged(QRegion,QRegion)),
             this, SLOT(clearOverlay()));
 }
 
@@ -198,7 +202,6 @@ void BucketFillTool::clearConnections()
     disconnect(mMapDocument, SIGNAL(currentLayerChanged(int)),
                this, SLOT(clearOverlay()));
 
-    const TileSelectionModel *selectionModel = mMapDocument->selectionModel();
-    disconnect(selectionModel, SIGNAL(selectionChanged(QRegion,QRegion)),
+    disconnect(mMapDocument, SIGNAL(tileSelectionChanged(QRegion,QRegion)),
                this, SLOT(clearOverlay()));
 }

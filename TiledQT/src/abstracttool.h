@@ -29,7 +29,6 @@
 #include <QString>
 
 class QEvent;
-class QGraphicsSceneMouseEvent;
 
 namespace Tiled {
 namespace Internal {
@@ -66,8 +65,13 @@ public:
     virtual ~AbstractTool() {}
 
     QString name() const { return mName; }
+    void setName(const QString &name) { mName = name; }
+
     QIcon icon() const { return mIcon; }
+    void setIcon(const QIcon &icon) { mIcon = icon; }
+
     QKeySequence shortcut() const { return mShortcut; }
+    void setShortcut(const QKeySequence &shortcut) { mShortcut = shortcut; }
 
     QString statusInfo() const { return mStatusInfo; }
     void setStatusInfo(const QString &statusInfo);
@@ -113,6 +117,11 @@ public:
      */
     virtual void mouseReleased(const QPointF &pos,
                                Qt::MouseButton button) = 0;
+
+    /**
+     * Called when the application language changed.
+     */
+    virtual void languageChanged() = 0;
 
 signals:
     void statusInfoChanged(const QString &statusInfo);

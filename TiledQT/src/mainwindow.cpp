@@ -47,7 +47,6 @@
 #include "selectiontool.h"
 #include "stampbrush.h"
 #include "tilelayer.h"
-#include "tileselectionmodel.h"
 #include "tileset.h"
 #include "tilesetdock.h"
 #include "tilesetmanager.h"
@@ -55,6 +54,7 @@
 #include "tmxmapreader.h"
 #include "tmxmapwriter.h"
 #include "undodock.h"
+#include "utils.h"
 #include "zoomable.h"
 
 #include <QCloseEvent>
@@ -70,30 +70,7 @@
 
 using namespace Tiled;
 using namespace Tiled::Internal;
-
-#if QT_VERSION >= 0x040600
-/**
- * Looks up the icon with the specified \a name from the system theme and set
- * it on the \a action when found.
- */
-static void setThemeIcon(QAction *action, const char *name)
-{
-    QIcon themeIcon = QIcon::fromTheme(QLatin1String(name));
-    if (!themeIcon.isNull())
-        action->setIcon(themeIcon);
-}
-
-/**
- * Looks up the icon with the specified \a name from the system theme and set
- * it on the \a menu when found.
- */
-static void setThemeIcon(QMenu *menu, const char *name)
-{
-    QIcon themeIcon = QIcon::fromTheme(QLatin1String(name));
-    if (!themeIcon.isNull())
-        menu->setIcon(themeIcon);
-}
-#endif
+using namespace Tiled::Utils;
 
 MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     : QMainWindow(parent, flags)
@@ -109,6 +86,10 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
     QIcon redoIcon(QLatin1String(":images/16x16/edit-redo.png"));
     QIcon undoIcon(QLatin1String(":images/16x16/edit-undo.png"));
+
+    QIcon tiledIcon(QLatin1String(":images/tiled-icon-16.png"));
+    tiledIcon.addFile(QLatin1String(":images/tiled-icon-32.png"));
+    setWindowIcon(tiledIcon);
 
     // Add larger icon versions for actions used in the tool bar
     QIcon newIcon = mUi->actionNew->icon();
@@ -133,8 +114,9 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     UndoDock *undoDock = new UndoDock(mUndoGroup, this);
 
     addDockWidget(Qt::RightDockWidgetArea, mLayerDock);
-    addDockWidget(Qt::BottomDockWidgetArea, mTilesetDock);
     addDockWidget(Qt::RightDockWidgetArea, undoDock);
+    tabifyDockWidget(undoDock, mLayerDock);
+    addDockWidget(Qt::RightDockWidgetArea, mTilesetDock);
 
     updateZoomLabel(mUi->mapView->zoomable()->scale());
     connect(mUi->mapView->zoomable(), SIGNAL(scaleChanged(qreal)),
@@ -223,9 +205,6 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     }
     menu->insertSeparator(mUi->actionClearRecentFiles);
 
-    // Qt 4.6 supports requesting icons from the system theme, at least on
-    // desktops where there is a system theme (ie. Linux).
-#if QT_VERSION >= 0x040600
     setThemeIcon(mUi->actionNew, "document-new");
     setThemeIcon(mUi->actionOpen, "document-open");
     setThemeIcon(mUi->menuRecentFiles, "document-open-recent");
@@ -250,7 +229,6 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     setThemeIcon(mUi->actionMoveLayerDown, "go-down");
     setThemeIcon(mUi->actionLayerProperties, "document-properties");
     setThemeIcon(mUi->actionAbout, "help-about");
-#endif
 
     mScene = new MapScene(this);
     mUi->mapView->setScene(mScene);
@@ -496,7 +474,7 @@ void MainWindow::cut()
     if (!tileLayer)
         return;
 
-    const QRegion &selection = mMapDocument->selectionModel()->selection();
+    const QRegion &selection = mMapDocument->tileSelection();
     if (selection.isEmpty())
         return;
 
@@ -692,7 +670,7 @@ void MainWindow::updateActions()
     if (mMapDocument) {
         map = mMapDocument->map();
         currentLayer = mMapDocument->currentLayer();
-        selection = mMapDocument->selectionModel()->selection();
+        selection = mMapDocument->tileSelection();
 
         if (currentLayer != -1) {
             Layer *layer = mMapDocument->map()->layerAt(currentLayer);
@@ -713,6 +691,7 @@ void MainWindow::updateActions()
     mUi->actionSelectNone->setEnabled(!selection.isEmpty());
     mUi->actionNewTileset->setEnabled(map);
     mUi->actionResizeMap->setEnabled(map);
+    mUi->actionOffsetMap->setEnabled(map);
     mUi->actionMapProperties->setEnabled(map);
     mUi->actionAddTileLayer->setEnabled(map);
     mUi->actionAddObjectLayer->setEnabled(map);
@@ -752,7 +731,7 @@ void MainWindow::selectNone()
     if (!mMapDocument)
         return;
 
-    if (mMapDocument->selectionModel()->selection().isEmpty())
+    if (mMapDocument->tileSelection().isEmpty())
         return;
 
     QUndoCommand *command = new ChangeSelection(mMapDocument, QRegion());
@@ -905,8 +884,7 @@ void MainWindow::setMapDocument(MapDocument *mapDocument)
     if (mMapDocument) {
         connect(mapDocument, SIGNAL(currentLayerChanged(int)),
                 SLOT(updateActions()));
-        connect(mapDocument->selectionModel(),
-                SIGNAL(selectionChanged(QRegion,QRegion)),
+        connect(mapDocument, SIGNAL(tileSelectionChanged(QRegion,QRegion)),
                 SLOT(updateActions()));
 
         QUndoStack *undoStack = mMapDocument->undoStack();
