@@ -16,8 +16,7 @@ namespace items2mediawiki
 			//TODO System Dateisystemzeichen auswerten
 
 			//Parameter auswerten
-			string fnItemsXml=cmdLine.GetString("file000").TrimEnd('\\')+'\\';
-			fnItemsXml=@"D:\#\Eigende Dateien\Dev\invertika.sourceforge.net\client-data\items.xml";
+			string fnItemsXml=cmdLine.GetString("file000");
 			string fnItemsMediaWiki=FileSystem.GetPath(fnItemsXml)+FileSystem.GetFilenameWithoutExt(fnItemsXml)+".mediawiki";
 
 			if(FileSystem.Exists(fnItemsXml))

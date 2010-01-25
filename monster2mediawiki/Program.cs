@@ -17,7 +17,7 @@ namespace monsters2mediawiki
 			//TODO System Dateisystemzeichen auswerten
 
 			//Parameter auswerten
-			string fnMonsterXml=cmdLine.GetString("file000").TrimEnd('\\')+'\\';
+			string fnMonsterXml=cmdLine.GetString("file000");
 			string fnMonsterMediaWiki=FileSystem.GetPath(fnMonsterXml) + FileSystem.GetFilenameWithoutExt(fnMonsterXml)+".mediawiki";
 
 			if(FileSystem.Exists(fnMonsterXml))
@@ -45,7 +45,7 @@ namespace monsters2mediawiki
 
 					foreach(Monster monster in monsters)
 					{
-						if(item.ID>9999) continue; //Experimentelle Monster ignorieren
+						if(monster.ID>9999) continue; //Experimentelle Monster ignorieren
 						
 						sw.WriteLine("| align=\"center\" | [[Image:monster-{0}.png]]", monster.ID);
 						sw.WriteLine("| align=\"center\" | {0}", monster.ID);
