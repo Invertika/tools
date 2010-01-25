@@ -10,11 +10,11 @@ using System.IO;
 using CSCL.FileFormats.TMX;
 using CSCL.Graphic;
 using System.Reflection;
-using EnterpriseDT.Net.Ftp;
 using ICSharpCode.SharpZipLib;
 using ICSharpCode.SharpZipLib.Zip;
 using CSCL.Crypto;
 using CSCL.Games.Manasource;
+using CSCL.Network.Ftp;
 
 namespace Invertika_Development_Helper
 {
