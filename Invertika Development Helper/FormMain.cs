@@ -707,7 +707,7 @@ namespace Invertika_Development_Helper
 			RefreshScriptOutput();
 		}
 
-		private void linkLabel1_Click(object sender, EventArgs e)
+		private void label23_Click(object sender, EventArgs e)
 		{
 			// Webbrowser mit Doamin aufrufen
 			System.Diagnostics.Process p=new System.Diagnostics.Process();

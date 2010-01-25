@@ -71,17 +71,13 @@
       <Project>{0E720343-5366-4C3A-BC59-7B7FD2C311B5}</Project>
       <Name>CSCL %28Lib_dotNet\CSCL%29</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Lib_dotNet_3rdParty\DevAgeSourcePack\DevAge.Windows.Forms\DevAge.Windows.Forms.csproj">
-      <Project>{3DF8B880-8A23-4F10-9EAB-D72EF0672C3E}</Project>
-      <Name>DevAge.Windows.Forms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Lib_dotNet_3rdParty\edtftpnet\src\edtFTPnet.csproj">
+    <ProjectReference Include="..\..\..\fbottke_devel\Lib_dotNet_3rdParty\edtftpnet\src\edtFTPnet.csproj">
       <Project>{E5AD8FAE-D003-45FE-A6BC-EF0619D445F4}</Project>
       <Name>edtFTPnet</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Lib_dotNet_3rdParty\ICSharpCode.SharpZipLib\ICSharpCode.SharpZLib.csproj">
-      <Project>{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}</Project>
-      <Name>ICSharpCode.SharpZLib</Name>
+    <ProjectReference Include="..\Externals\SharpZipLib\src\ICSharpCode.SharpZLib.csproj">
+      <Project>{F2C113CB-33AC-455A-AE85-8D8B40319B03}</Project>
+      <Name>ICSharpCode.SharpZLib %28Invertika\ICSharpCode.SharpZLib%29</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

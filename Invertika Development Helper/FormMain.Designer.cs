@@ -35,6 +35,7 @@
 			this.toolStripMenuItem1=new System.Windows.Forms.ToolStripSeparator();
 			this.beendenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip=new System.Windows.Forms.StatusStrip();
+			this.tsbStatusLabel=new System.Windows.Forms.ToolStripStatusLabel();
 			this.TabControl=new System.Windows.Forms.TabControl();
 			this.tpCreateMisc=new System.Windows.Forms.TabPage();
 			this.groupBox3=new System.Windows.Forms.GroupBox();
@@ -58,6 +59,7 @@
 			this.label14=new System.Windows.Forms.Label();
 			this.label13=new System.Windows.Forms.Label();
 			this.groupBox1=new System.Windows.Forms.GroupBox();
+			this.cbClearCache=new System.Windows.Forms.CheckBox();
 			this.label8=new System.Windows.Forms.Label();
 			this.pbCreateMapImages=new System.Windows.Forms.ProgressBar();
 			this.btnBrowseMapImagesDataFolder=new System.Windows.Forms.Button();
@@ -81,7 +83,6 @@
 			this.label22=new System.Windows.Forms.Label();
 			this.tabPage1=new System.Windows.Forms.TabPage();
 			this.groupBox5=new System.Windows.Forms.GroupBox();
-			this.linkLabel1=new DevAge.Windows.Forms.LinkLabel();
 			this.rtbScriptOutput=new System.Windows.Forms.RichTextBox();
 			this.label21=new System.Windows.Forms.Label();
 			this.rtbSentences=new System.Windows.Forms.RichTextBox();
@@ -107,8 +108,7 @@
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.bgwCreateMapImages=new System.ComponentModel.BackgroundWorker();
 			this.bgwCreateDataFolders=new System.ComponentModel.BackgroundWorker();
-			this.cbClearCache=new System.Windows.Forms.CheckBox();
-			this.tsbStatusLabel=new System.Windows.Forms.ToolStripStatusLabel();
+			this.label23=new System.Windows.Forms.Label();
 			this.menuStrip.SuspendLayout();
 			this.statusStrip.SuspendLayout();
 			this.TabControl.SuspendLayout();
@@ -179,6 +179,12 @@
 			this.statusStrip.Size=new System.Drawing.Size(734, 22);
 			this.statusStrip.TabIndex=1;
 			this.statusStrip.Text="statusStrip1";
+			// 
+			// tsbStatusLabel
+			// 
+			this.tsbStatusLabel.Name="tsbStatusLabel";
+			this.tsbStatusLabel.Size=new System.Drawing.Size(44, 17);
+			this.tsbStatusLabel.Text="READY.";
 			// 
 			// TabControl
 			// 
@@ -447,6 +453,16 @@
 			this.groupBox1.TabStop=false;
 			this.groupBox1.Text="Erzeuge Karten Thumbnails und Minimaps";
 			// 
+			// cbClearCache
+			// 
+			this.cbClearCache.AutoSize=true;
+			this.cbClearCache.Location=new System.Drawing.Point(9, 83);
+			this.cbClearCache.Name="cbClearCache";
+			this.cbClearCache.Size=new System.Drawing.Size(321, 17);
+			this.cbClearCache.TabIndex=18;
+			this.cbClearCache.Text="Zwischenspeicher löschen (alle Karten werden neu berechnet)";
+			this.cbClearCache.UseVisualStyleBackColor=true;
+			// 
 			// label8
 			// 
 			this.label8.AutoSize=true;
@@ -689,7 +705,7 @@
 			// 
 			// groupBox5
 			// 
-			this.groupBox5.Controls.Add(this.linkLabel1);
+			this.groupBox5.Controls.Add(this.label23);
 			this.groupBox5.Controls.Add(this.rtbScriptOutput);
 			this.groupBox5.Controls.Add(this.label21);
 			this.groupBox5.Controls.Add(this.rtbSentences);
@@ -709,22 +725,6 @@
 			this.groupBox5.TabIndex=0;
 			this.groupBox5.TabStop=false;
 			this.groupBox5.Text="NPC Generierung";
-			// 
-			// linkLabel1
-			// 
-			this.linkLabel1.BackColor=System.Drawing.SystemColors.Control;
-			this.linkLabel1.BorderColor=System.Drawing.Color.Black;
-			this.linkLabel1.BorderRound=0;
-			this.linkLabel1.Cursor=System.Windows.Forms.Cursors.Hand;
-			this.linkLabel1.Font=new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.linkLabel1.ForeColor=System.Drawing.Color.Blue;
-			this.linkLabel1.Location=new System.Drawing.Point(9, 438);
-			this.linkLabel1.Name="linkLabel1";
-			this.linkLabel1.Size=new System.Drawing.Size(148, 20);
-			this.linkLabel1.TabIndex=12;
-			this.linkLabel1.Text="http://wiki.invertika.org/NPC_Entwicklung";
-			this.linkLabel1.TextAlignment=DevAge.Drawing.ContentAlignment.TopLeft;
-			this.linkLabel1.Click+=new System.EventHandler(this.linkLabel1_Click);
 			// 
 			// rtbScriptOutput
 			// 
@@ -975,21 +975,17 @@
 			this.bgwCreateDataFolders.DoWork+=new System.ComponentModel.DoWorkEventHandler(this.bgwCreateDataFolders_DoWork);
 			this.bgwCreateDataFolders.RunWorkerCompleted+=new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwCreateDataFolders_RunWorkerCompleted);
 			// 
-			// cbClearCache
+			// label23
 			// 
-			this.cbClearCache.AutoSize=true;
-			this.cbClearCache.Location=new System.Drawing.Point(9, 83);
-			this.cbClearCache.Name="cbClearCache";
-			this.cbClearCache.Size=new System.Drawing.Size(321, 17);
-			this.cbClearCache.TabIndex=18;
-			this.cbClearCache.Text="Zwischenspeicher löschen (alle Karten werden neu berechnet)";
-			this.cbClearCache.UseVisualStyleBackColor=true;
-			// 
-			// tsbStatusLabel
-			// 
-			this.tsbStatusLabel.Name="tsbStatusLabel";
-			this.tsbStatusLabel.Size=new System.Drawing.Size(44, 17);
-			this.tsbStatusLabel.Text="READY.";
+			this.label23.AutoSize=true;
+			this.label23.Font=new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label23.ForeColor=System.Drawing.SystemColors.ActiveCaption;
+			this.label23.Location=new System.Drawing.Point(6, 440);
+			this.label23.Name="label23";
+			this.label23.Size=new System.Drawing.Size(123, 13);
+			this.label23.TabIndex=12;
+			this.label23.Text="http://invertika.org/NPC";
+			this.label23.Click+=new System.EventHandler(this.label23_Click);
 			// 
 			// FormMain
 			// 
@@ -1118,10 +1114,10 @@
 		private System.Windows.Forms.Label label21;
 		private System.Windows.Forms.RichTextBox rtbSentences;
 		private System.Windows.Forms.Label label20;
-		private DevAge.Windows.Forms.LinkLabel linkLabel1;
 		private System.Windows.Forms.Label label22;
 		private System.Windows.Forms.CheckBox cbClearCache;
 		private System.Windows.Forms.ToolStripStatusLabel tsbStatusLabel;
+		private System.Windows.Forms.Label label23;
     }
 }
 
