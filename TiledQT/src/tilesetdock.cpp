@@ -107,7 +107,7 @@ void TilesetDock::changeEvent(QEvent *e)
 
 void TilesetDock::addTilesetView(Tileset *tileset)
 {
-    TilesetView *view = new TilesetView;
+    TilesetView *view = new TilesetView(mMapDocument);
     view->setModel(new TilesetModel(tileset, view));
 
     connect(view->selectionModel(),
@@ -140,9 +140,6 @@ void TilesetDock::selectionChanged()
     }
 
     // Create a tile layer from the current selection
-    // Precondition: the selection is contiguous
-    Q_ASSERT((maxX - minX + 1) * (maxY - minY + 1) == indexes.size());
-
     TileLayer *tileLayer = new TileLayer(QString(), 0, 0,
                                          maxX - minX + 1,
                                          maxY - minY + 1);
