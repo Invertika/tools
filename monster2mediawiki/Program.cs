@@ -18,6 +18,13 @@ namespace monsters2mediawiki
 
 			//Parameter auswerten
 			string fnMonsterXml=cmdLine.GetString("file000");
+
+			if(fnMonsterXml=="")
+			{
+				Console.WriteLine("Kein Dateiname angegeben!");
+				return;
+			}
+
 			string fnMonsterMediaWiki=FileSystem.GetPath(fnMonsterXml) + FileSystem.GetFilenameWithoutExt(fnMonsterXml)+".mediawiki";
 
 			if(FileSystem.Exists(fnMonsterXml))

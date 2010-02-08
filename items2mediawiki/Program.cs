@@ -17,6 +17,13 @@ namespace items2mediawiki
 
 			//Parameter auswerten
 			string fnItemsXml=cmdLine.GetString("file000");
+
+			if(fnItemsXml=="")
+			{
+				Console.WriteLine("Kein Dateiname angegeben!");
+				return;
+			}
+
 			string fnItemsMediaWiki=FileSystem.GetPath(fnItemsXml)+FileSystem.GetFilenameWithoutExt(fnItemsXml)+".mediawiki";
 
 			if(FileSystem.Exists(fnItemsXml))
