@@ -24,6 +24,13 @@
 
 #include <QApplication>
 #include <QDebug>
+#include <QtPlugin>
+
+#if !defined(QT_SHARED) && !defined(QT_DLL)
+Q_IMPORT_PLUGIN(qgif)
+Q_IMPORT_PLUGIN(qjpeg)
+Q_IMPORT_PLUGIN(qtiff)
+#endif
 
 using namespace Tiled::Internal;
 
@@ -102,6 +109,9 @@ int main(int argc, char *argv[])
     a.setOrganizationDomain(QLatin1String("mapeditor.org"));
     a.setApplicationName(QLatin1String("Tiled"));
     a.setApplicationVersion(QLatin1String("0.4.0"));
+#ifdef Q_WS_MAC
+    a.setAttribute(Qt::AA_DontShowIconsInMenus);
+#endif
 
     LanguageManager *languageManager = LanguageManager::instance();
     languageManager->installTranslators();
