@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Invertika Development Helper")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("seeseekey.net")]
+[assembly: AssemblyCompany("invertika.org")]
 [assembly: AssemblyProduct("Invertika Development Helper")]
 [assembly: AssemblyCopyright("© 2008 - 2010 by seeseekey")]
 [assembly: AssemblyTrademark("")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.60.1.1")]
-[assembly: AssemblyFileVersion("0.60.1.1")]
+[assembly: AssemblyVersion("0.60.2.1")]
+[assembly: AssemblyFileVersion("0.60.2.1")]

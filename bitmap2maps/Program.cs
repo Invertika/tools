@@ -45,7 +45,7 @@ namespace bitmap2maps
 			gtImage tmp=gtImage.FromFile(fnBitmap);
 
 			//Vars
-			uint kSize=180;
+			uint kSize=100;
 
 			uint y=0;
 			uint x=0;

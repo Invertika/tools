@@ -105,7 +105,7 @@ namespace Invertika_Development_Helper
 
 			#region Bilderordner löschen
 			List<string> filesToClear=new List<string>();
-			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-180*"));
+			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-100*"));
 			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-800*"));
 			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-1400*"));
 
@@ -157,26 +157,25 @@ namespace Invertika_Development_Helper
 
 				gtImage pic1400=pic.Resize(1400, 1400);
 				gtImage pic800=pic.Resize(800, 800);
-				gtImage pic180=pic800.Resize(180, 180);
-				gtImage picMinimap=pic180.Resize(100, 100);
+				gtImage pic100=pic800.Resize(100, 100);
 
 				string fn=FileSystem.GetFilenameWithoutExt(i);
 
 				string fn1400=temp+fn+"-1400.png";
 				string fn800=temp+fn+"-800.png";
-				string fn180=temp+fn+"-180.png";
+				string fn100=temp+fn+"-100.png";
 				string fnMinimap=pathMapImages+"\\graphics\\minimaps\\"+fn+".png";
 
 				pic1400.SaveToFile(fn1400);
 				pic800.SaveToFile(fn800);
-				pic180.SaveToFile(fn180);
-				picMinimap.SaveToFile(fnMinimap);
+				pic100.SaveToFile(fn100);
+				pic100.SaveToFile(fnMinimap);
 			}
 			#endregion
 
 			#region Bilder per FTP hochladen
 			List<string> filesToUpload=new List<string>();
-			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-180*"));
+			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-100*"));
 			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-800*"));
 			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-1400*"));
 
