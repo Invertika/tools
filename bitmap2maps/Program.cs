@@ -97,7 +97,7 @@ namespace bitmap2maps
 					}
 					#endregion
 
-					FileSystem.CopyFile(pathMapsTemplates+TemplateMap, pathOutput+Map.GetOuterWorldMapFilenameWithoutExtension(MapX, MapY, 0));
+					FileSystem.CopyFile(pathMapsTemplates+TemplateMap, pathOutput+Map.GetOuterWorldMapFilenameWithoutExtension(MapX, MapY, 0)+".tmx");
 
 					x+=kSize;
 					MapX++;
