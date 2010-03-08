@@ -63,7 +63,17 @@ namespace createmapscripts
 					{
 						//Definition eintragen
 						List<XmlNode> mapnodes=mapAsXml.GetElements("map");
-						XmlNode mapnode=mapnodes[0];
+						XmlNode mapnode=null;
+
+						foreach(XmlNode xmlnode in mapnodes)
+						{
+							if(xmlnode.Name.ToLower()=="map")
+							{
+								mapnode=xmlnode;
+							}
+						}
+							
+							//mapnodes[0];
 
 						XmlNode objectgroup=mapAsXml.AddElement(mapnode, "objectgroup", "");
 						mapAsXml.AddAttribute(objectgroup, "name", "Object");
@@ -95,21 +105,51 @@ namespace createmapscripts
 					{
 						case "ow":
 							{
+								Map tmpMap;
+
 								string tmpName=Map.IncreaseArcofMap(i.Name, XYZ.Y);
-								Map tmpMap=Map.GetMapFromName(maps, tmpName);
-								int MapUp=tmpMap.ID;
+								int MapUp=0;
+								try
+								{
+									tmpMap=Map.GetMapFromName(maps, tmpName);
+									MapUp=tmpMap.ID;
+								}
+								catch
+								{
+								}
 
 								tmpName=Map.IncreaseArcofMap(i.Name, XYZ.X);
-								tmpMap=Map.GetMapFromName(maps, tmpName);
-								int MapRight=tmpMap.ID;
+								int MapRight=0;
+								try
+								{
+									tmpMap=Map.GetMapFromName(maps, tmpName);
+									MapRight=tmpMap.ID;
+								}
+								catch
+								{
+								}
 
 								tmpName=Map.DecreaseArcofMap(i.Name, XYZ.Y);
-								tmpMap=Map.GetMapFromName(maps, tmpName);
-								int MapDown=tmpMap.ID;
+								int MapDown=0;
+								try
+								{
+									tmpMap=Map.GetMapFromName(maps, tmpName);
+									MapDown=tmpMap.ID;
+								}
+								catch
+								{
+								}
 
 								tmpName=Map.DecreaseArcofMap(i.Name, XYZ.X);
-								tmpMap=Map.GetMapFromName(maps, tmpName);
-								int MapLeft=tmpMap.ID;
+								int MapLeft=0;
+								try
+								{
+									tmpMap=Map.GetMapFromName(maps, tmpName);
+									MapLeft=tmpMap.ID;
+								}
+								catch
+								{
+								}
 	
 								CreateMapScriptFile(fnLuaOutput, MapUp, MapRight, MapDown, MapLeft, true);
 								break;

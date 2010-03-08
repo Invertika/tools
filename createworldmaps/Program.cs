@@ -49,11 +49,11 @@ namespace createworldmaps
 			}
 
 			//Kartenerzeugen
-			CreateWorldmapHTML(pathOutput+"worldmap.html", xmin, xmax, ymin, ymax, 100, false);
-			CreateWorldmapHTML(pathOutput+"worldmap-print.html", xmin, xmax, ymin, ymax, 100, true);
-			CreateWorldmapHTML(pathOutput+"worldmap-big.html", xmin, xmax, ymin, ymax, 1400, false);
+			CreateWorldmapHTML(pathOutput+"weltkarte.html", xmin, xmax, ymin, ymax, 100, false);
+			CreateWorldmapHTML(pathOutput+"weltkarte-print.html", xmin, xmax, ymin, ymax, 100, true);
+			CreateWorldmapHTML(pathOutput+"weltkarte-big.html", xmin, xmax, ymin, ymax, 1400, false);
 
-			CreateWorldmapMediaWiki(pathOutput+"worldmap.mediawiki", xmin, xmax, ymin, ymax, maps);
+			CreateWorldmapMediaWiki(pathOutput+"weltkarte.mediawiki", xmin, xmax, ymin, ymax, maps);
 			return;
 		}
 
@@ -139,7 +139,7 @@ namespace createworldmaps
 						}
 					}
 
-					swWorldMap.WriteLine("| http://data.invertika.org/worldmap/{0}-100.png [http://data.invertika.org/worldmap/{0}-1400.png Küste] ({1})", Map.GetOuterWorldMapFilenameWithoutExtension(MapX, MapY, 0), mapID);
+					swWorldMap.WriteLine("| http://data.invertika.org/worldmap/{0}-100.png [http://data.invertika.org/worldmap/{0}-1400.png Ozean] ({1})", Map.GetOuterWorldMapFilenameWithoutExtension(MapX, MapY, 0), mapID);
 
 					MapX++;
 				}
