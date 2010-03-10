@@ -48,6 +48,8 @@ namespace createworldmaps
 				if(i.Y>ymax) ymax=i.Y;
 			}
 
+			FileSystem.CreateDirectory(pathOutput, true);
+
 			//Kartenerzeugen
 			CreateWorldmapHTML(pathOutput+"weltkarte.html", xmin, xmax, ymin, ymax, 100, false);
 			CreateWorldmapHTML(pathOutput+"weltkarte-print.html", xmin, xmax, ymin, ymax, 100, true);
@@ -107,12 +109,12 @@ namespace createworldmaps
 
 			StreamWriter swWorldMap=new StreamWriter(filename);
 
-			swWorldMap.WriteLine("{| border=\"1\" cellpadding=\"2\" cellspacing=\"2\"");
-			swWorldMap.WriteLine("! width=\"100px\" align=\"center\" | X/Y");
+			swWorldMap.WriteLine("{|  border=\"1\" cellpadding=\"2\" cellspacing=\"2\" style=\"table-layout:fixed;width:100px\"");
+			swWorldMap.WriteLine("! width=\"25\" valign=\"top\" |X/Y");
 
 			while(MapX<=xmax)
 			{
-				swWorldMap.WriteLine("! width=\"100px\" align=\"center\" | {0}", MapX);
+				swWorldMap.WriteLine("! width=\"100\" valign=\"top\" |{0}", MapX);
 				MapX++;
 			}
 
@@ -121,7 +123,7 @@ namespace createworldmaps
 			while(MapY>=ymin)
 			{
 				swWorldMap.WriteLine("|-");
-				swWorldMap.WriteLine("! align=\"center\" | {0}", MapY);
+				swWorldMap.WriteLine("! {0}", MapY);
 
 				MapX=xmin;
 
@@ -139,7 +141,7 @@ namespace createworldmaps
 						}
 					}
 
-					swWorldMap.WriteLine("| http://data.invertika.org/worldmap/{0}-100.png [http://data.invertika.org/worldmap/{0}-1400.png Ozean] ({1})", Map.GetOuterWorldMapFilenameWithoutExtension(MapX, MapY, 0), mapID);
+					swWorldMap.WriteLine("| valign=\"top\" | http://data.invertika.org/worldmap/{0}-100.png [[{0}|Ozean]] [http://data.invertika.org/worldmap/{0}-1400.png (+)] ({1})", Map.GetOuterWorldMapFilenameWithoutExtension(MapX, MapY, 0), mapID);
 
 					MapX++;
 				}
