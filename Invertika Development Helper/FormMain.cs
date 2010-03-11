@@ -173,7 +173,7 @@ namespace Invertika_Development_Helper
 				pic800.SaveToFile(fn800);
 				pic100.SaveToFile(fn100);
 				pic100.SaveToFile(fnMinimap);
-				pic50.SaveToFile(fn100);
+				pic50.SaveToFile(fn50);
 			}
 			#endregion
 
