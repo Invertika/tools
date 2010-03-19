@@ -91,6 +91,18 @@ namespace Invertika_Development_Helper
 			}
 		}
 
+		private int GetNextImageSize(int currentSize)
+		{
+			if(currentSize>50)
+			{
+				return currentSize/2;
+			}
+			else
+			{
+				return currentSize-10;
+			}
+		}
+
 		private void bgwCreateMapImages_DoWork(object sender, DoWorkEventArgs e)
 		{
 			string pathMapImages=tbMapImagesDataFolder.Text;
@@ -105,10 +117,17 @@ namespace Invertika_Development_Helper
 
 			#region Bilderordner löschen
 			List<string> filesToClear=new List<string>();
-			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-50*"));
-			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-100*"));
+			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-3200*"));
+			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-1600*"));
 			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-800*"));
-			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-1400*"));
+			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-400*"));
+			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-200*"));
+			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-100*"));
+			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-50*"));
+			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-40*"));
+			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-30*"));
+			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-20*"));
+			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-10*"));
 
 			FileSystem.RemoveFiles(filesToClear);
 			#endregion
@@ -156,33 +175,55 @@ namespace Invertika_Development_Helper
 
 				gtImage pic=file.Render();
 
-				gtImage pic1400=pic.Resize(1400, 1400);
-				gtImage pic800=pic.Resize(800, 800);
-				gtImage pic100=pic.Resize(100, 100);
-				gtImage pic50=pic.Resize(50, 50);
+				int imageSizeOriginal=(int)pic.Width;
+				int imageSize=GetNextImageSize(imageSizeOriginal);
+				pic=pic.Resize(imageSize, imageSize);
 
-				string fn=FileSystem.GetFilenameWithoutExt(i);
+				bool next=true;
 
-				string fn1400=temp+fn+"-1400.png";
-				string fn800=temp+fn+"-800.png";
-				string fn100=temp+fn+"-100.png";
-				string fn50=temp+fn+"-50.png";
-				string fnMinimap=pathMapImages+"\\graphics\\minimaps\\"+fn+".png";
+				while(next)
+				{
+					string fn=FileSystem.GetFilenameWithoutExt(i);
+					string fnNumeric=temp+fn+"-"+ imageSize + ".png";
+					pic.SaveToFile(fnNumeric);
 
-				pic1400.SaveToFile(fn1400);
-				pic800.SaveToFile(fn800);
-				pic100.SaveToFile(fn100);
-				pic100.SaveToFile(fnMinimap);
-				pic50.SaveToFile(fn50);
+					switch(imageSize)
+					{
+						case 100:
+							{
+								//Minimap zusätzlich speichern
+								string fnMinimap=pathMapImages+"\\graphics\\minimaps\\"+fn+".png";
+								pic.SaveToFile(fnMinimap);
+								break;
+							}
+						case 10:
+							{
+								next=false;
+								break;
+							}
+					}
+
+					imageSize=GetNextImageSize(imageSize);
+
+					pic=pic.Resize(imageSize, imageSize);
+					GC.Collect(3);
+				}
 			}
 			#endregion
 
 			#region Bilder per FTP hochladen
 			List<string> filesToUpload=new List<string>();
-			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-50*"));
-			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-100*"));
+			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-3200*"));
+			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-1600*"));
 			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-800*"));
-			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-1400*"));
+			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-400*"));
+			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-200*"));
+			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-100*"));
+			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-50*"));
+			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-40*"));
+			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-30*"));
+			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-20*"));
+			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-10*"));
 
 			FTPConnection Client=new FTPConnection();
 
@@ -250,6 +291,7 @@ namespace Invertika_Development_Helper
 		private void btnStartCreateMapImages_Click(object sender, EventArgs e)
 		{
 			btnStartCreateMapImages.Enabled=false;
+			//bgwCreateMapImages_DoWork(null, null);
 			bgwCreateMapImages.RunWorkerAsync();
 		}
 
