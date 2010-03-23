@@ -7,6 +7,7 @@
     ?>
 	
     <script type="text/javascript" src="js/drag.js"></script>
+	<script type="text/javascript" src="js/sprintf.js"></script>
 	
 	<?php 
 	require 'config.php'; 
@@ -65,7 +66,7 @@
     </div>
 	
     <br />
-    Zoom Level:  <a href="?zoom=10">10</a> <a href="?zoom=2">20</a> <a href="?zoom=30">30</a> <a href="?zoom=40">40</a> <a href="?zoom=50">50</a> 
+    Zoom Level:  <a href="?zoom=10">10</a> <a href="?zoom=20">20</a> <a href="?zoom=30">30</a> <a href="?zoom=40">40</a> <a href="?zoom=50">50</a> 
 	<a href="?zoom=100">100</a> <a href="?zoom=200">200</a> <a href="?zoom=400">400</a> <a href="?zoom=800">800</a> <a href="?zoom=1600">1600</a> <a href="?zoom=3200">3200</a>
 	
     <script type="text/javascript">	
@@ -81,6 +82,31 @@
 		var topEdge = el.parentNode.clientHeight - el.clientHeight;
 		var dragObj = new dragObject(el, null, new Position(leftEdge, topEdge), new Position(0, 0));
 	   
+		function GetOuterWorldMapFilename(internalX, internalY, zoomLevel) 
+		{
+			var vX="";
+			if(internalX==0) vX="o";
+			else if(internalX<0) vX="n";
+			else if(internalX>0) vX="p";
+
+			var vY="";
+			if(internalY==0) vY="o";
+			else if(internalY<0) vY="n";
+			else if(internalY>0) vY="p";
+
+			var ret = sprintf("ow-%s%'04d-%s%'04d-o0000-%d.png", vX, Math.abs(internalX), vY, Math.abs(internalY), zoomLevel);
+			return ret;
+		}
+		
+		function GetImgTag(internalX, internalY, zoomLevel)
+		{
+			var fn=GetOuterWorldMapFilename(internalX, internalY, zoomLevel);
+			fn='<?php echo $mappath; ?>' + fn;
+			var ret='<img src="' + fn + '" style="margin:0;padding:0;border:0 none;"/>';
+			return ret;
+		}
+
+	   
 		function reload() {
 			if(el.offsetLeft + el.offsetWidth-500  <= 100 && x <= limX) {
 				//neue felder nach rechts laden
@@ -89,7 +115,7 @@
 					t = document.createElement('td');
 					rows[i].appendChild(t);
 					ty=<?php echo $map_y_max; ?>-i;
-					t.innerHTML = '<img src="map.php?fieldX='+x+'&fieldY='+ty+'&zoom='+z+'" style="margin:0;padding:0;border:0 none;"/>';
+					t.innerHTML = GetImgTag(x, ty, z);
 				}
 				x++;
 				el.style.width = (x+<?php echo $map_x_max; ?>)*n+"px";
@@ -105,7 +131,7 @@
 					document.getElementById('map_table').appendChild(t);
 				for(i = 0; i < x-(<?php echo $map_x_min; ?>); i++) {
 				    tx=i+(<?php echo $map_x_min; ?>);
-					t.innerHTML += '<td><img src="map.php?fieldX='+tx+'&fieldY='+y+'&zoom='+z+'" style="margin:0;padding:0;border:0 none;"/></td>';
+					t.innerHTML = GetImgTag(tx, y, z);
 				}
 				y--;
 				el.style.height = (<?php echo $map_y_max; ?>-y)*n+"px";
