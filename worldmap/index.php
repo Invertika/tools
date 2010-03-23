@@ -2,7 +2,7 @@
 <html>
 <head>
 	<?php 
-	  require("config.php");
+	  require 'config.php'; 	
 	  echo "<title>" . $title . "</title>";
     ?>
 	
@@ -10,7 +10,6 @@
 	<script type="text/javascript" src="js/sprintf.js"></script>
 	
 	<?php 
-	require 'config.php'; 
 
 	$zoom = 100;
 	if(!empty($_GET['zoom']) && is_numeric($_GET['zoom'])) $zoom = $_GET['zoom'];
@@ -26,7 +25,22 @@
 </head>
 <body>
 		<?php 
-			require 'config.php'; 
+			function GetOuterWorldMapFilename($internalX, $internalY, $zoomLevel) 
+			{
+				$vX="";
+				if($internalX==0) $vX="o";
+				else if($internalX<0) $vX="n";
+				else if($internalX>0) $vX="p";
+
+				$vY="";
+				if($internalY==0) $vY="o";
+				else if($internalY<0) $vY="n";
+				else if($internalY>0) $vY="p";
+
+				$ret = sprintf("ow-%s%'04d-%s%'04d-o0000-%d.png", $vX, abs($internalX), $vY, abs($internalY), $zoomLevel);
+				return $ret;
+			}
+		
 
 			$controlWidth=500;
 			$controlHeight=500;
@@ -48,14 +62,15 @@
             ?>;">
             <table border="0" cellspacing="0" cellpadding="0" id="map_table">
                 <?php
-					require 'config.php'; 						
+										
 				
 					for($y = 0; $y < $TileCountY; $y++) {
 						echo '<tr>';
 						
 						for($x = 0; $x < $TileCountX; $x++) 
 						{
-							echo '<td><img src="map.php?fieldX='.($x+$map_x_min).'&fieldY='.($map_y_max-$y).'&zoom='.$zoom.'" style="margin:0;padding:0;border:0 none;"/></td>';
+							$fnImageFile=$mappath . GetOuterWorldMapFilename($x+$map_x_min, $map_y_max-$y, $zoom);
+							echo '<td><img src="' . $fnImageFile . '" style="margin:0;padding:0;border:0 none;"/></td>';
 						}
 						
 						echo '</tr>';
@@ -105,45 +120,44 @@
 			var ret='<img src="' + fn + '" style="margin:0;padding:0;border:0 none;"/>';
 			return ret;
 		}
-
 	   
-		function reload() {
-			if(el.offsetLeft + el.offsetWidth-500  <= 100 && x <= limX) {
-				//neue felder nach rechts laden
+	  function reload() {
+				if(el.offsetLeft + el.offsetWidth-500  <= 100 && x <= limX) {
+						//neue felder nach rechts laden
+						
+						for(i = 0; i < rows.length; i++) {
+								t = document.createElement('td');
+								rows[i].appendChild(t);
+								ty=<?php echo $map_y_max; ?>-i;
+								t.innerHTML = GetImgTag(x, ty, z);
+						}
+						x++;
+						el.style.width = (x+<?php echo $map_x_max; ?>)*n+"px";
+						leftEdge = el.parentNode.clientWidth - el.clientWidth;
+						topEdge = el.parentNode.clientHeight - el.clientHeight;
+						dragObj = new dragObject(el, null, new Position(leftEdge, topEdge), new Position(0, 0));
 				
-				for(i = 0; i < rows.length; i++) {
-					t = document.createElement('td');
-					rows[i].appendChild(t);
-					ty=<?php echo $map_y_max; ?>-i;
-					t.innerHTML = GetImgTag(x, ty, z);
 				}
-				x++;
-				el.style.width = (x+<?php echo $map_x_max; ?>)*n+"px";
-				leftEdge = el.parentNode.clientWidth - el.clientWidth;
-				topEdge = el.parentNode.clientHeight - el.clientHeight;
-				dragObj = new dragObject(el, null, new Position(leftEdge, topEdge), new Position(0, 0));
-			
-			}
-			
-			if(el.offsetTop + el.offsetHeight-500  <= 100 && y >= limY) {
-				//neue felder nach unten laden
-				t = document.createElement('tr');
-					document.getElementById('map_table').appendChild(t);
-				for(i = 0; i < x-(<?php echo $map_x_min; ?>); i++) {
-				    tx=i+(<?php echo $map_x_min; ?>);
-					t.innerHTML = GetImgTag(tx, y, z);
+				
+				if(el.offsetTop + el.offsetHeight-500  <= 100 && y >= limY) {
+						//neue felder nach unten laden
+						t = document.createElement('tr');
+								document.getElementById('map_table').appendChild(t);
+						for(i = 0; i < x-(<?php echo $map_x_min; ?>); i++) {
+							tx=i+(<?php echo $map_x_min; ?>);	
+								t.innerHTML += '<td>' + GetImgTag(tx, y, z) + '</td>';
+						}
+						y--;
+						el.style.height = (<?php echo $map_y_max; ?>-y)*n+"px";
+						rows = document.getElementById('map_table').getElementsByTagName('tr');
+						leftEdge = el.parentNode.clientWidth - el.clientWidth;
+						topEdge = el.parentNode.clientHeight - el.clientHeight;
+						dragObj = new dragObject(el, null, new Position(leftEdge, topEdge), new Position(0, 0));                                
 				}
-				y--;
-				el.style.height = (<?php echo $map_y_max; ?>-y)*n+"px";
-				rows = document.getElementById('map_table').getElementsByTagName('tr');
-				leftEdge = el.parentNode.clientWidth - el.clientWidth;
-				topEdge = el.parentNode.clientHeight - el.clientHeight;
-				dragObj = new dragObject(el, null, new Position(leftEdge, topEdge), new Position(0, 0));				
-			}
-			 
-			 window.setTimeout('reload()',150);
+				 
+				 window.setTimeout('reload()',150);
 		}
-		
+
 		reload();
     </script>
 </body>
