@@ -1,4 +1,3 @@
-<!-- TODO - Es werden nur bilder auf der x achse nachgeladen... aber auch für die y achse sollte dies kein großer aufwand werden -->
 <html>
 <head>
 	<?php 
@@ -10,7 +9,6 @@
 	<script type="text/javascript" src="js/sprintf.js"></script>
 	
 	<?php 
-
 	$zoom = 100;
 	if(!empty($_GET['zoom']) && is_numeric($_GET['zoom'])) $zoom = $_GET['zoom'];
 	
@@ -25,27 +23,14 @@
 </head>
 <body>
 		<?php 
-			function GetOuterWorldMapFilename($internalX, $internalY, $zoomLevel) 
-			{
-				$vX="";
-				if($internalX==0) $vX="o";
-				else if($internalX<0) $vX="n";
-				else if($internalX>0) $vX="p";
-
-				$vY="";
-				if($internalY==0) $vY="o";
-				else if($internalY<0) $vY="n";
-				else if($internalY>0) $vY="p";
-
-				$ret = sprintf("ow-%s%'04d-%s%'04d-o0000-%d.png", $vX, abs($internalX), $vY, abs($internalY), $zoomLevel);
-				return $ret;
-			}
-		
-
+			//$controlWidth="100%";
+			//$controlHeight="100%";
+			
 			$controlWidth=500;
 			$controlHeight=500;
 			
 			echo "<div style=\"position: relative; border: 1px solid black; width: ".$controlWidth."px; height: ".$controlHeight."px; overflow: hidden;\">";
+			//echo "<div style=\"position: relative; border: 1px solid black; width: ".$controlWidth."; height: ".$controlHeight."; overflow: hidden;\">";
 			
 			$zoom = 100;
 			if(!empty($_GET['zoom']) && is_numeric($_GET['zoom'])) $zoom = $_GET['zoom'];
@@ -61,21 +46,6 @@
             position: relative; width: <?php echo $controlWidth; ?>; height: <?php echo $controlHeight;
             ?>;">
             <table border="0" cellspacing="0" cellpadding="0" id="map_table">
-                <?php
-										
-				
-					for($y = 0; $y < $TileCountY; $y++) {
-						echo '<tr>';
-						
-						for($x = 0; $x < $TileCountX; $x++) 
-						{
-							$fnImageFile=$mappath . GetOuterWorldMapFilename($x+$map_x_min, $map_y_max-$y, $zoom);
-							echo '<td><img src="' . $fnImageFile . '" style="margin:0;padding:0;border:0 none;"/></td>';
-						}
-						
-						echo '</tr>';
-					}
-				?>
             </table>
         </div>
     </div>
@@ -95,6 +65,9 @@
 		var leftEdge = el.parentNode.clientWidth - el.clientWidth;
 		var topEdge = el.parentNode.clientHeight - el.clientHeight;
 		var dragObj = new dragObject(el, null, new Position(leftEdge, topEdge), new Position(0, 0));
+		
+		var TileCountXJS=0;
+		var TileCountYJS=0;
 	   
 		function GetOuterWorldMapFilename(internalX, internalY, zoomLevel) 
 		{
@@ -119,6 +92,31 @@
 			var ret='<img src="' + fn + '" style="margin:0;padding:0;border:0 none;"/>';
 			return ret;
 		}
+		
+		function init() {				
+					TileCountXJS=el.clientWidth/z;
+					TileCountYJS=el.clientHeight/z;
+					
+					table = document.getElementById('map_table');
+					
+					for(yz = 0; yz < TileCountYJS; yz++) 
+					{
+						t = document.createElement('tr');
+						table.appendChild(t);
+						
+						for(xz = 0; xz < TileCountXJS; xz++)
+						{
+							var xv=xz+<?php echo $map_x_min; ?>;
+							var yv=<?php echo $map_y_max; ?>-yz;
+							
+							ctd = document.createElement('td');
+							ctd.innerHTML = GetImgTag(xv, yv, z);
+							
+							t.appendChild(ctd);
+						
+						}
+					}                           
+		}
 	   
 	  function reload() {
 				if(el.offsetLeft + el.offsetWidth-500  <= 100 && x <= limX) {
@@ -135,7 +133,6 @@
 						leftEdge = el.parentNode.clientWidth - el.clientWidth;
 						topEdge = el.parentNode.clientHeight - el.clientHeight;
 						dragObj = new dragObject(el, null, new Position(leftEdge, topEdge), new Position(0, 0));
-				
 				}
 				
 				if(el.offsetTop + el.offsetHeight-500  <= 100 && y >= limY) {
@@ -157,6 +154,7 @@
 				 window.setTimeout('reload()',150);
 		}
 
+		init();
 		reload();
     </script>
 </body>
