@@ -90,7 +90,6 @@
 		var y = <?php echo $map_y_max-$TileCountY; ?>;
 		var limY = <?php echo $map_y_min; ?>;
 		var z = <?php echo $zoom; ?>;
-		var n = <?php echo $zoom; ?>;
 		var rows = document.getElementById('map_table').getElementsByTagName('tr');
 		var el = document.getElementById('mapholder');
 		var leftEdge = el.parentNode.clientWidth - el.clientWidth;
@@ -132,7 +131,7 @@
 								t.innerHTML = GetImgTag(x, ty, z);
 						}
 						x++;
-						el.style.width = (x+<?php echo $map_x_max; ?>)*n+"px";
+						el.style.width = (x+<?php echo $map_x_max; ?>)*z+"px";
 						leftEdge = el.parentNode.clientWidth - el.clientWidth;
 						topEdge = el.parentNode.clientHeight - el.clientHeight;
 						dragObj = new dragObject(el, null, new Position(leftEdge, topEdge), new Position(0, 0));
@@ -148,7 +147,7 @@
 								t.innerHTML += '<td>' + GetImgTag(tx, y, z) + '</td>';
 						}
 						y--;
-						el.style.height = (<?php echo $map_y_max; ?>-y)*n+"px";
+						el.style.height = (<?php echo $map_y_max; ?>-y)*z+"px";
 						rows = document.getElementById('map_table').getElementsByTagName('tr');
 						leftEdge = el.parentNode.clientWidth - el.clientWidth;
 						topEdge = el.parentNode.clientHeight - el.clientHeight;
