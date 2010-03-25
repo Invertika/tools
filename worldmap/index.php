@@ -4,7 +4,7 @@
 		require 'config.php'; 	
 		echo "<title>" . $title . "</title>";
 		
-		$zoom = 100;
+		$zoom = 50;
 		if(!empty($_GET['zoom']) && is_numeric($_GET['zoom'])) $zoom = $_GET['zoom'];
 		
 		echo "<style type=\"text/css\">";
