@@ -1,50 +1,33 @@
 <html>
 <head>
 	<?php 
-	  require 'config.php'; 	
-	  echo "<title>" . $title . "</title>";
-    ?>
-	
-    <script type="text/javascript" src="js/drag.js"></script>
-	<script type="text/javascript" src="js/sprintf.js"></script>
-	
-	<?php 
-	$zoom = 100;
-	if(!empty($_GET['zoom']) && is_numeric($_GET['zoom'])) $zoom = $_GET['zoom'];
-	
-	echo "<style type=\"text/css\">";
-	echo "	img {";
-	echo "		height:". $zoom ."px;";
-	echo "		width:". $zoom ."px;";
-	echo "		background-color:gray;";
-	echo "	}";
-	echo "</style>";
+		require 'config.php'; 	
+		echo "<title>" . $title . "</title>";
+		
+		$zoom = 100;
+		if(!empty($_GET['zoom']) && is_numeric($_GET['zoom'])) $zoom = $_GET['zoom'];
+		
+		echo "<style type=\"text/css\">";
+		echo "	img {";
+		echo "		height:". $zoom ."px;";
+		echo "		width:". $zoom ."px;";
+		echo "		background-color:gray;";
+		echo "	}";
+		echo "</style>";
 	?>
+	
+	<script type="text/javascript" src="js/drag.js"></script>
+	<script type="text/javascript" src="js/sprintf.js"></script>
 </head>
 <body>
 		<?php 
-			//$controlWidth="100%";
-			//$controlHeight="100%";
+			$controlWidth="100%";
+			$controlHeight="100%";
 			
-			$controlWidth=500;
-			$controlHeight=500;
-			
-			echo "<div style=\"position: relative; border: 1px solid black; width: ".$controlWidth."px; height: ".$controlHeight."px; overflow: hidden;\">";
-			//echo "<div style=\"position: relative; border: 1px solid black; width: ".$controlWidth."; height: ".$controlHeight."; overflow: hidden;\">";
-			
-			$zoom = 100;
-			if(!empty($_GET['zoom']) && is_numeric($_GET['zoom'])) $zoom = $_GET['zoom'];
-			
-			$TileCountX = $controlWidth/$zoom;
-			$TileCountY = $controlHeight/$zoom;
-		
-			$limX=$map_x_max-$map_x_min+1; // +1 0 Kachel
-			$limY=$map_y_max-$map_y_min+1; // +1 0 Kachel
+			echo "<div style=\"position: relative; border: 1px solid black; width: ".$controlWidth."; height: ".$controlHeight."; overflow: hidden;\">";
         ?>
 		
-        <div id="mapholder" style="padding: 0; margin: 0; cursor: move; white-space: nowrap;
-            position: relative; width: <?php echo $controlWidth; ?>; height: <?php echo $controlHeight;
-            ?>;">
+        <div id="mapholder" style="padding: 0; margin: 0; cursor: move; white-space: nowrap; position: relative; width: <?php echo $controlWidth; ?>; height: <?php echo $controlHeight; ?>;">
             <table border="0" cellspacing="0" cellpadding="0" id="map_table">
             </table>
         </div>
@@ -55,9 +38,9 @@
 	<a href="?zoom=100">100</a> <a href="?zoom=200">200</a> <a href="?zoom=400">400</a> <a href="?zoom=800">800</a> <a href="?zoom=1600">1600</a> <a href="?zoom=3200">3200</a>
 	
     <script type="text/javascript">	
-		var x = <?php echo $TileCountX+$map_x_min; ?>;
+		var x = 0;
 		var limX = <?php echo $map_x_max; ?>;
-		var y = <?php echo $map_y_max-$TileCountY; ?>;
+		var y =0;
 		var limY = <?php echo $map_y_min; ?>;
 		var z = <?php echo $zoom; ?>;
 		var rows = document.getElementById('map_table').getElementsByTagName('tr');
@@ -94,9 +77,22 @@
 		}
 		
 		function init() {				
-					TileCountXJS=el.clientWidth/z;
-					TileCountYJS=el.clientHeight/z;
+					TileCountXJS=Math.ceil(el.clientWidth/z);
+					TileCountYJS=Math.ceil(el.clientHeight/z);
 					
+					var MaxTileCountX=<?php echo $map_x_max; ?>-(<?php echo $map_x_min; ?>)+1;
+					var MaxTileCountY=<?php echo $map_y_max; ?>-(<?php echo $map_y_min; ?>)+1;
+					
+					if(TileCountXJS>MaxTileCountX)
+					{
+						TileCountXJS=MaxTileCountX;
+					}
+					
+					if(TileCountYJS>MaxTileCountY)
+					{
+						TileCountYJS=MaxTileCountY;
+					}
+
 					table = document.getElementById('map_table');
 					
 					for(yz = 0; yz < TileCountYJS; yz++) 
@@ -115,19 +111,24 @@
 							t.appendChild(ctd);
 						
 						}
-					}                           
+					}       
+
+			x = TileCountXJS+<?php echo $map_x_min; ?>;
+			y = <?php echo $map_y_max ?>-TileCountYJS;
 		}
 	   
 	  function reload() {
-				if(el.offsetLeft + el.offsetWidth-500  <= 100 && x <= limX) {
+				if(el.offsetLeft + el.offsetWidth-el.clientWidth  <= 100 && x <= limX) {
 						//neue felder nach rechts laden
 						
-						for(i = 0; i < rows.length; i++) {
+						for(i = 0; i < rows.length; i++) 
+						{
 								t = document.createElement('td');
 								rows[i].appendChild(t);
 								ty=<?php echo $map_y_max; ?>-i;
 								t.innerHTML = GetImgTag(x, ty, z);
 						}
+						
 						x++;
 						el.style.width = (x+<?php echo $map_x_max; ?>)*z+"px";
 						leftEdge = el.parentNode.clientWidth - el.clientWidth;
@@ -135,14 +136,18 @@
 						dragObj = new dragObject(el, null, new Position(leftEdge, topEdge), new Position(0, 0));
 				}
 				
-				if(el.offsetTop + el.offsetHeight-500  <= 100 && y >= limY) {
+				if(el.offsetTop + el.offsetHeight-el.clientHeight  <= 100 && y >= limY) {
 						//neue felder nach unten laden
+						
 						t = document.createElement('tr');
-								document.getElementById('map_table').appendChild(t);
-						for(i = 0; i < x-(<?php echo $map_x_min; ?>); i++) {
+						document.getElementById('map_table').appendChild(t);
+								
+						for(i = 0; i < x-(<?php echo $map_x_min; ?>); i++) 
+						{
 							tx=i+(<?php echo $map_x_min; ?>);	
 								t.innerHTML += '<td>' + GetImgTag(tx, y, z) + '</td>';
 						}
+						
 						y--;
 						el.style.height = (<?php echo $map_y_max; ?>-y)*z+"px";
 						rows = document.getElementById('map_table').getElementsByTagName('tr');
