@@ -57,6 +57,8 @@ namespace createworldmaps
 			CreateWorldmapHTML(pathOutput+"weltkarte-big.html", xmin, xmax, ymin, ymax, 1400, false);
 
 			CreateWorldmapMediaWiki(pathOutput+"weltkarte.mediawiki", xmin, xmax, ymin, ymax, maps);
+
+			CreateMySQLScript(pathOutput+"weltkarte.sql", maps);
 			return;
 		}
 
@@ -153,6 +155,38 @@ namespace createworldmaps
 			swWorldMap.WriteLine("|}");
 
 			swWorldMap.Close();
+		}
+
+		static void CreateMySQLScript(string filename, List<Map> maps)
+		{
+			StreamWriter sw=new StreamWriter(filename);
+
+			//Tabellen Erzeugen
+			string CreateSQL="CREATE TABLE IF NOT EXISTS `wmInformation` ("
+				+"`IndexID` int(11) NOT NULL AUTO_INCREMENT,"
+				+"`MapID` text character set utf8 collate utf8_unicode_ci NOT NULL,"
+				+"`FileName` text character set utf8 collate utf8_unicode_ci NOT NULL,"
+				+"`Title` text character set utf8 collate utf8_unicode_ci NOT NULL,"
+				+"PRIMARY KEY  (`IndexID`)"
+				+") ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+
+			sw.WriteLine(CreateSQL);
+			sw.WriteLine();
+
+			//Daten reinschreiben
+
+			foreach(Map i in maps)
+			{
+				if(i.MapType=="ow")
+				{
+					string InsertSQL=String.Format("INSERT INTO `wmInformation` (`MapID`, `FileName`, `Title`) VALUES ({0}, '{1}', 'Ozean');", i.ID, i.Name);
+					sw.WriteLine(InsertSQL);
+				}
+			}
+			
+
+			//READY.
+			sw.Close();
 		}
 	}
 }
