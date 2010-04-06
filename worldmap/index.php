@@ -16,6 +16,9 @@
 		echo "</style>";
 	?>
 	
+	<link rel="stylesheet" href="index.css" type="text/css" />
+	
+	<script type="text/javascript" src="js/tooltip.js"></script>
 	<script type="text/javascript" src="js/drag.js"></script>
 	<script type="text/javascript" src="js/sprintf.js"></script>
 </head>
@@ -34,8 +37,19 @@
     </div>
 	
     <br />
-    Zoom Level:  <a href="?zoom=10">10</a> <a href="?zoom=20">20</a> <a href="?zoom=30">30</a> <a href="?zoom=40">40</a> <a href="?zoom=50">50</a> 
+	
+	<div class="divboxes" id="InfoBox" style="position:absolute; left:15px; top:20px; width: 200px; z-index:+1">
+	<b>Invertika Weltkarte</b>
+	<ul>
+	 <li>Mit der Maus kann die Karte bewegt werden</li>
+	 <li>Doppelklick auf eine Kachel um detailierte Informationen anzuzeigen</li>
+	</ul>
+	</div>
+	
+	<div class="divboxes" id="zoombox" style="position:absolute; left: 230px; top:20px; z-index:+1;">
+	Zoom Level: <a href="?zoom=10">10</a> <a href="?zoom=20">20</a> <a href="?zoom=30">30</a> <a href="?zoom=40">40</a> <a href="?zoom=50">50</a> 
 	<a href="?zoom=100">100</a> <a href="?zoom=200">200</a> <a href="?zoom=400">400</a> <a href="?zoom=800">800</a> <a href="?zoom=1600">1600</a> <a href="?zoom=3200">3200</a>
+	</div>
 	
     <script type="text/javascript">	
 		var x = 0;
@@ -51,7 +65,7 @@
 		
 		var TileCountXJS=0;
 		var TileCountYJS=0;
-	   
+		
 		function GetOuterWorldMapFilename(internalX, internalY, zoomLevel) 
 		{
 			var vX="";
@@ -72,11 +86,11 @@
 		{
 			var fn=GetOuterWorldMapFilename(internalX, internalY, zoomLevel);
 			fn='<?php echo $mappath; ?>' + fn;
-			var ret='<img src="' + fn + '" style="margin:0;padding:0;border:0 none;"/>';
+			var ret='<img src="' + fn + '" style="margin:0;padding:0;border:0 none;" ondblclick="showLayer(' + internalX + ' , ' + internalY + ')" />';
 			return ret;
 		}
 		
-		function init() {				
+		function init() {		
 					TileCountXJS=Math.ceil(el.clientWidth/z);
 					TileCountYJS=Math.ceil(el.clientHeight/z);
 					
