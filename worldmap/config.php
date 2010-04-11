@@ -7,6 +7,8 @@
   $map_x_max=25;
   $map_y_min=-25;
   $map_y_max=25;
+
+  $initial_zoom=50;
   
   //Datenbank
   $host = 'localhost'; // Datenbank Server - meistens "localhost" kann aber auch eine IP sein
