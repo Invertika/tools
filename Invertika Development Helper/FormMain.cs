@@ -396,7 +396,7 @@ namespace Invertika_Development_Helper
 				devRelativ=devRelativ.Replace("client-data\\", "");
 				string devNewClient=FolderLastClient+'\\'+devRelativ;
 
-				if(devRelativ.ToLower()=="cmakelists") continue;
+				if(FileSystem.GetFilename(devRelativ).ToLower()=="cmakelists.txt") continue;
 
 				if(FileSystem.ExistsFile(devNewClient))
 				{
@@ -412,8 +412,6 @@ namespace Invertika_Development_Helper
 						if(hashDev==hashLastClient) continue;
 					}
 				}
-
-
 
 				filesNew.Add(i);
 			}
