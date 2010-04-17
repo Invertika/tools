@@ -68,6 +68,19 @@ void BrushItem::setTileLayer(TileLayer *tileLayer)
     update();
 }
 
+void BrushItem::setTileLayerPosition(const QPoint &pos)
+{
+    if (!mTileLayer)
+        return;
+
+    const QPoint oldPosition(mTileLayer->x(), mTileLayer->y());
+    if (oldPosition == pos)
+        return;
+
+    mRegion.translate(pos - oldPosition);
+    updateBoundingRect();
+}
+
 void BrushItem::setTileRegion(const QRegion &region)
 {
     if (mRegion == region)
@@ -123,10 +136,14 @@ void BrushItem::updateBoundingRect()
 
     mBoundingRect = mMapDocument->renderer()->boundingRect(bounds);
 
-    // Adjust for amount of pixels tiles extend above the brush
+    // Adjust for amount of pixels tiles extend at the top and to the right
     if (mTileLayer) {
-        const int tileHeight = mMapDocument->map()->tileHeight();
-        const int extra = qMax(0, mTileLayer->maxTileHeight() - tileHeight);
-        mBoundingRect.adjust(0, -extra, 0, 0);
+        const Map *map = mMapDocument->map();
+        const int tileWidth = map->tileWidth();
+        const int tileHeight = map->tileHeight();
+        const QSize maxTileSize = mTileLayer->maxTileSize();
+        const int extendTop = -qMax(0, maxTileSize.height() - tileHeight);
+        const int extendRight = qMax(0, maxTileSize.width() - tileWidth);
+        mBoundingRect.adjust(0, extendTop, extendRight, 0);
     }
 }
