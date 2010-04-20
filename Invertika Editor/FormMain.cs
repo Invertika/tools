@@ -14,5 +14,10 @@ namespace Invertika_Editor
 		{
 			InitializeComponent();
 		}
+
+		private void beendenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Close();
+		}
 	}
 }
