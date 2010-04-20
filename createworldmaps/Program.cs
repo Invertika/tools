@@ -28,7 +28,7 @@ namespace createworldmaps
 			}
 
 			string fnMapsXml=cmdLine.GetString("file000");
-			string pathOutput=FileSystem.GetPathWithBackslash(cmdLine.GetString("file001"));
+			string pathOutput=FileSystem.GetPathWithPathDelimiter(cmdLine.GetString("file001"));
 
 			//xmin, xmax, ymin und ymax ermitteln
 			List<Map> maps=Map.GetMapsFromMapsXml(fnMapsXml);

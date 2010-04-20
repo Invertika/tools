@@ -33,8 +33,8 @@ namespace bitmap2maps
 			}
 
 			string fnBitmap=cmdLine.GetString("file000");
-			string pathMapsTemplates=FileSystem.GetPathWithBackslash(cmdLine.GetString("file001"));
-			string pathOutput=FileSystem.GetPathWithBackslash(cmdLine.GetString("file002"));
+			string pathMapsTemplates=FileSystem.GetPathWithPathDelimiter(cmdLine.GetString("file001"));
+			string pathOutput=FileSystem.GetPathWithPathDelimiter(cmdLine.GetString("file002"));
 			int MapX=Convert.ToInt32(cmdLine.GetString("xmin", ""));
 			int MapY=Convert.ToInt32(cmdLine.GetString("ymax", ""));
 

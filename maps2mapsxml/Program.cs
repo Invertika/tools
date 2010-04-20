@@ -27,7 +27,7 @@ namespace maps2mapsxml
 			}
 
 			string fnMapsXml=cmdLine.GetString("file000");
-			string pathMaps=FileSystem.GetPathWithBackslash(cmdLine.GetString("file001"));
+			string pathMaps=FileSystem.GetPathWithPathDelimiter(cmdLine.GetString("file001"));
 
 			//Maps laden
 			List<Map> maps=Map.GetMapsFromMapsXml(fnMapsXml);

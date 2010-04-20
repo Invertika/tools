@@ -30,8 +30,8 @@ namespace createmapscripts
 			}
 
 			string fnMapsXml=cmdLine.GetString("file000");
-			string pathMaps=FileSystem.GetPathWithBackslash(cmdLine.GetString("file001"));
-			string pathOutput=FileSystem.GetPathWithBackslash(cmdLine.GetString("file002"));
+			string pathMaps=FileSystem.GetPathWithPathDelimiter(cmdLine.GetString("file001"));
+			string pathOutput=FileSystem.GetPathWithPathDelimiter(cmdLine.GetString("file002"));
 
 			//Maps laden
 			List<Map> maps=Map.GetMapsFromMapsXml(fnMapsXml);
