@@ -117,8 +117,6 @@ namespace Invertika_Development_Helper
 
 			#region Bilderordner löschen
 			List<string> filesToClear=new List<string>();
-			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-3200*"));
-			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-1600*"));
 			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-800*"));
 			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-400*"));
 			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-200*"));
@@ -176,7 +174,7 @@ namespace Invertika_Development_Helper
 				gtImage pic=file.Render();
 
 				int imageSizeOriginal=(int)pic.Width;
-				int imageSize=GetNextImageSize(imageSizeOriginal);
+				int imageSize=800;
 				pic=pic.Resize(imageSize, imageSize);
 
 				bool next=true;
@@ -213,8 +211,6 @@ namespace Invertika_Development_Helper
 
 			#region Bilder per FTP hochladen
 			List<string> filesToUpload=new List<string>();
-			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-3200*"));
-			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-1600*"));
 			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-800*"));
 			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-400*"));
 			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-200*"));
