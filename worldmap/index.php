@@ -48,7 +48,7 @@
 	
 	<div class="divboxes" id="zoombox" style="position:absolute; left: 230px; top:20px; z-index:+1;">
 	Zoom Level: <a href="?zoom=10">10</a> <a href="?zoom=20">20</a> <a href="?zoom=30">30</a> <a href="?zoom=40">40</a> <a href="?zoom=50">50</a> 
-	<a href="?zoom=100">100</a> <a href="?zoom=200">200</a> <a href="?zoom=400">400</a> <a href="?zoom=800">800</a> <a href="?zoom=1600">1600</a> <a href="?zoom=3200">3200</a>
+	<a href="?zoom=100">100</a> <a href="?zoom=200">200</a> <a href="?zoom=400">400</a> <a href="?zoom=800">800</a>
 	</div>
 	
     <script type="text/javascript">	
