@@ -30,7 +30,7 @@
   //Datenbank auf UTF8 setzen
   mysql_query("SET NAMES 'UTF8'");
   
-  // Datenbank ausw‰hlen
+  // Datenbank ausw√§hlen
   mysql_select_db ($name, $db) or die("Die Datenbank \"$name\" konnte nicht ausgew&auml;hlt werden");
   
   //Abfrage
@@ -45,9 +45,10 @@
       echo "<b>" . $row['Title'] . "</b><br/><br/>";
       echo "Map ID: " . $row['MapID'] . "<br/>";
 	  echo "Dateiname: " . $row['FileName'] . ".tmx<br/><br/>";
-	  echo "<a href=\"" . $wikilink . "\">...zur Wiki...</a>";
+	  echo "- <a href=\"" . $wikilink . "\">Wiki</a><br/>";
+	  echo "- <a href=\"" . $mappath . $row['FileName'] . "-800.png\">Gro√üansicht</a>";
   }
   
-  //Datenbank schlieﬂen
+  //Datenbank schlie√üen
   mysql_close($db);
 ?>

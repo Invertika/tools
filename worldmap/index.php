@@ -18,9 +18,9 @@
 	
 	<link rel="stylesheet" href="index.css" type="text/css" />
 	
-	<script type="text/javascript" src="js/tooltip.js"></script>
-	<script type="text/javascript" src="js/drag.js"></script>
-	<script type="text/javascript" src="js/sprintf.js"></script>
+	<script type="text/javascript" src="tooltip.js"></script>
+	<script type="text/javascript" src="drag.js"></script>
+	<script type="text/javascript" src="sprintf.js"></script>
 </head>
 <body>
 		<?php 
