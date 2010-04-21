@@ -45,7 +45,7 @@
       echo "<b>" . $row['Title'] . "</b><br/><br/>";
       echo "Map ID: " . $row['MapID'] . "<br/>";
 	  echo "Dateiname: " . $row['FileName'] . ".tmx<br/><br/>";
-	  echo "- <a href=\"" . $wikilink . "\">Wiki</a><br/>";
+	  echo "- <a href=\"" . $wikilink . "\" target=\"_blank\">Wiki</a><br/>";
 	  echo "- <a href=\"" . $mappath . $row['FileName'] . "-800.png\">Großansicht</a>";
   }
   

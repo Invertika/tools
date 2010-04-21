@@ -39,11 +39,10 @@
     <br />
 	
 	<div class="divboxes" id="InfoBox" style="position:absolute; left:15px; top:20px; width: 200px; z-index:+1">
-	<b>Invertika Weltkarte</b>
-	<ul>
-	 <li>Mit der Maus kann die Karte bewegt werden</li>
-	 <li>Doppelklick auf eine Kachel um detailierte Informationen anzuzeigen</li>
-	</ul>
+	<b>Invertika Weltkarte</b><br/>
+	<br/>
+	- Mit der Maus kann die Karte bewegt werden<br/>
+	- Doppelklick auf eine Kachel um detailierte Informationen anzuzeigen
 	</div>
 	
 	<div class="divboxes" id="zoombox" style="position:absolute; left: 230px; top:20px; z-index:+1;">
