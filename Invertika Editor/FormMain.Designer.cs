@@ -30,39 +30,42 @@
 		{
 			System.ComponentModel.ComponentResourceManager resources=new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
 			this.menuStrip=new System.Windows.Forms.MenuStrip();
-			this.toolStrip=new System.Windows.Forms.ToolStrip();
-			this.statusStrip=new System.Windows.Forms.StatusStrip();
 			this.dateiToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.hilfeToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.überToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.beendenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.mappingToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.höhlengeneratorToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.automatismenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.optionenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem1=new System.Windows.Forms.ToolStripSeparator();
-			this.kartenthumbnailsUndMinimapsErzeugenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.clientUpdateErstellenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.datenOrdnerErstellenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem2=new System.Windows.Forms.ToolStripSeparator();
-			this.skriptingToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.nPCGeneratorToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.xMLÖffnenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem3=new System.Windows.Forms.ToolStripSeparator();
 			this.xMLSpeichernToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem4=new System.Windows.Forms.ToolStripSeparator();
+			this.optionenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem1=new System.Windows.Forms.ToolStripSeparator();
+			this.beendenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.mappingToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.koordinatenrechnerToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.höhlengeneratorToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem5=new System.Windows.Forms.ToolStripSeparator();
 			this.mapsInDieMapsxmlToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.exportToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.monsterxmlMediaWikiToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.itemsxmlMediaWikiToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.mapsAusEinerBitmapErzeugenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.skriptingToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.nPCGeneratorToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem7=new System.Windows.Forms.ToolStripSeparator();
+			this.mapskripteErzeugenUndEintragenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.exportToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.itemsxmlMediaWikiToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.monsterxmlMediaWikiToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.automatismenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.kartenthumbnailsUndMinimapsErzeugenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem2=new System.Windows.Forms.ToolStripSeparator();
+			this.clientUpdateErstellenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.datenOrdnerErstellenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem6=new System.Windows.Forms.ToolStripSeparator();
 			this.weltkartenErzeugenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.mapskripteErzeugenUndEintragenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem7=new System.Windows.Forms.ToolStripSeparator();
+			this.hilfeToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.überToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStrip=new System.Windows.Forms.ToolStrip();
+			this.statusStrip=new System.Windows.Forms.StatusStrip();
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog=new System.Windows.Forms.SaveFileDialog();
+			this.testsToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.tMXÖffnenUndRendernToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -73,6 +76,7 @@
             this.mappingToolStripMenuItem,
             this.skriptingToolStripMenuItem,
             this.exportToolStripMenuItem,
+            this.testsToolStripMenuItem,
             this.automatismenToolStripMenuItem,
             this.hilfeToolStripMenuItem});
 			this.menuStrip.Location=new System.Drawing.Point(0, 0);
@@ -80,22 +84,6 @@
 			this.menuStrip.Size=new System.Drawing.Size(1006, 24);
 			this.menuStrip.TabIndex=0;
 			this.menuStrip.Text="menuStrip1";
-			// 
-			// toolStrip
-			// 
-			this.toolStrip.Location=new System.Drawing.Point(0, 24);
-			this.toolStrip.Name="toolStrip";
-			this.toolStrip.Size=new System.Drawing.Size(1006, 25);
-			this.toolStrip.TabIndex=1;
-			this.toolStrip.Text="toolStrip1";
-			// 
-			// statusStrip
-			// 
-			this.statusStrip.Location=new System.Drawing.Point(0, 451);
-			this.statusStrip.Name="statusStrip";
-			this.statusStrip.Size=new System.Drawing.Size(1006, 22);
-			this.statusStrip.TabIndex=2;
-			this.statusStrip.Text="statusStrip1";
 			// 
 			// dateiToolStripMenuItem
 			// 
@@ -110,107 +98,6 @@
 			this.dateiToolStripMenuItem.Name="dateiToolStripMenuItem";
 			this.dateiToolStripMenuItem.Size=new System.Drawing.Size(44, 20);
 			this.dateiToolStripMenuItem.Text="&Datei";
-			// 
-			// hilfeToolStripMenuItem
-			// 
-			this.hilfeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.überToolStripMenuItem});
-			this.hilfeToolStripMenuItem.Name="hilfeToolStripMenuItem";
-			this.hilfeToolStripMenuItem.Size=new System.Drawing.Size(40, 20);
-			this.hilfeToolStripMenuItem.Text="&Hilfe";
-			// 
-			// überToolStripMenuItem
-			// 
-			this.überToolStripMenuItem.Name="überToolStripMenuItem";
-			this.überToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
-			this.überToolStripMenuItem.Text="Ü&ber...";
-			// 
-			// beendenToolStripMenuItem
-			// 
-			this.beendenToolStripMenuItem.Name="beendenToolStripMenuItem";
-			this.beendenToolStripMenuItem.Size=new System.Drawing.Size(165, 22);
-			this.beendenToolStripMenuItem.Text="B&eenden";
-			this.beendenToolStripMenuItem.Click+=new System.EventHandler(this.beendenToolStripMenuItem_Click);
-			// 
-			// mappingToolStripMenuItem
-			// 
-			this.mappingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.höhlengeneratorToolStripMenuItem,
-            this.toolStripMenuItem5,
-            this.mapsInDieMapsxmlToolStripMenuItem,
-            this.mapsAusEinerBitmapErzeugenToolStripMenuItem});
-			this.mappingToolStripMenuItem.Name="mappingToolStripMenuItem";
-			this.mappingToolStripMenuItem.Size=new System.Drawing.Size(59, 20);
-			this.mappingToolStripMenuItem.Text="&Mapping";
-			// 
-			// höhlengeneratorToolStripMenuItem
-			// 
-			this.höhlengeneratorToolStripMenuItem.Name="höhlengeneratorToolStripMenuItem";
-			this.höhlengeneratorToolStripMenuItem.Size=new System.Drawing.Size(252, 22);
-			this.höhlengeneratorToolStripMenuItem.Text="Höhlengenerator...";
-			// 
-			// automatismenToolStripMenuItem
-			// 
-			this.automatismenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.kartenthumbnailsUndMinimapsErzeugenToolStripMenuItem,
-            this.toolStripMenuItem2,
-            this.clientUpdateErstellenToolStripMenuItem,
-            this.datenOrdnerErstellenToolStripMenuItem,
-            this.toolStripMenuItem6,
-            this.weltkartenErzeugenToolStripMenuItem});
-			this.automatismenToolStripMenuItem.Name="automatismenToolStripMenuItem";
-			this.automatismenToolStripMenuItem.Size=new System.Drawing.Size(65, 20);
-			this.automatismenToolStripMenuItem.Text="S&onstiges";
-			// 
-			// optionenToolStripMenuItem
-			// 
-			this.optionenToolStripMenuItem.Name="optionenToolStripMenuItem";
-			this.optionenToolStripMenuItem.Size=new System.Drawing.Size(165, 22);
-			this.optionenToolStripMenuItem.Text="Optionen...";
-			// 
-			// toolStripMenuItem1
-			// 
-			this.toolStripMenuItem1.Name="toolStripMenuItem1";
-			this.toolStripMenuItem1.Size=new System.Drawing.Size(162, 6);
-			// 
-			// kartenthumbnailsUndMinimapsErzeugenToolStripMenuItem
-			// 
-			this.kartenthumbnailsUndMinimapsErzeugenToolStripMenuItem.Name="kartenthumbnailsUndMinimapsErzeugenToolStripMenuItem";
-			this.kartenthumbnailsUndMinimapsErzeugenToolStripMenuItem.Size=new System.Drawing.Size(295, 22);
-			this.kartenthumbnailsUndMinimapsErzeugenToolStripMenuItem.Text="Kartenthumbnails und Minimaps erzeugen...";
-			// 
-			// clientUpdateErstellenToolStripMenuItem
-			// 
-			this.clientUpdateErstellenToolStripMenuItem.Name="clientUpdateErstellenToolStripMenuItem";
-			this.clientUpdateErstellenToolStripMenuItem.Size=new System.Drawing.Size(295, 22);
-			this.clientUpdateErstellenToolStripMenuItem.Text="Client Update erstellen...";
-			// 
-			// datenOrdnerErstellenToolStripMenuItem
-			// 
-			this.datenOrdnerErstellenToolStripMenuItem.Name="datenOrdnerErstellenToolStripMenuItem";
-			this.datenOrdnerErstellenToolStripMenuItem.Size=new System.Drawing.Size(295, 22);
-			this.datenOrdnerErstellenToolStripMenuItem.Text="Daten Ordner erstellen...";
-			// 
-			// toolStripMenuItem2
-			// 
-			this.toolStripMenuItem2.Name="toolStripMenuItem2";
-			this.toolStripMenuItem2.Size=new System.Drawing.Size(292, 6);
-			// 
-			// skriptingToolStripMenuItem
-			// 
-			this.skriptingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.nPCGeneratorToolStripMenuItem,
-            this.toolStripMenuItem7,
-            this.mapskripteErzeugenUndEintragenToolStripMenuItem});
-			this.skriptingToolStripMenuItem.Name="skriptingToolStripMenuItem";
-			this.skriptingToolStripMenuItem.Size=new System.Drawing.Size(60, 20);
-			this.skriptingToolStripMenuItem.Text="&Skripting";
-			// 
-			// nPCGeneratorToolStripMenuItem
-			// 
-			this.nPCGeneratorToolStripMenuItem.Name="nPCGeneratorToolStripMenuItem";
-			this.nPCGeneratorToolStripMenuItem.Size=new System.Drawing.Size(267, 22);
-			this.nPCGeneratorToolStripMenuItem.Text="NPC Generator...";
 			// 
 			// xMLÖffnenToolStripMenuItem
 			// 
@@ -234,6 +121,50 @@
 			this.toolStripMenuItem4.Name="toolStripMenuItem4";
 			this.toolStripMenuItem4.Size=new System.Drawing.Size(162, 6);
 			// 
+			// optionenToolStripMenuItem
+			// 
+			this.optionenToolStripMenuItem.Name="optionenToolStripMenuItem";
+			this.optionenToolStripMenuItem.Size=new System.Drawing.Size(165, 22);
+			this.optionenToolStripMenuItem.Text="Optionen...";
+			this.optionenToolStripMenuItem.Click+=new System.EventHandler(this.optionenToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem1
+			// 
+			this.toolStripMenuItem1.Name="toolStripMenuItem1";
+			this.toolStripMenuItem1.Size=new System.Drawing.Size(162, 6);
+			// 
+			// beendenToolStripMenuItem
+			// 
+			this.beendenToolStripMenuItem.Name="beendenToolStripMenuItem";
+			this.beendenToolStripMenuItem.Size=new System.Drawing.Size(165, 22);
+			this.beendenToolStripMenuItem.Text="B&eenden";
+			this.beendenToolStripMenuItem.Click+=new System.EventHandler(this.beendenToolStripMenuItem_Click);
+			// 
+			// mappingToolStripMenuItem
+			// 
+			this.mappingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.koordinatenrechnerToolStripMenuItem,
+            this.höhlengeneratorToolStripMenuItem,
+            this.toolStripMenuItem5,
+            this.mapsInDieMapsxmlToolStripMenuItem,
+            this.mapsAusEinerBitmapErzeugenToolStripMenuItem});
+			this.mappingToolStripMenuItem.Name="mappingToolStripMenuItem";
+			this.mappingToolStripMenuItem.Size=new System.Drawing.Size(59, 20);
+			this.mappingToolStripMenuItem.Text="&Mapping";
+			// 
+			// koordinatenrechnerToolStripMenuItem
+			// 
+			this.koordinatenrechnerToolStripMenuItem.Name="koordinatenrechnerToolStripMenuItem";
+			this.koordinatenrechnerToolStripMenuItem.Size=new System.Drawing.Size(252, 22);
+			this.koordinatenrechnerToolStripMenuItem.Text="Koordinatenrechner...";
+			this.koordinatenrechnerToolStripMenuItem.Click+=new System.EventHandler(this.koordinatenrechnerToolStripMenuItem_Click);
+			// 
+			// höhlengeneratorToolStripMenuItem
+			// 
+			this.höhlengeneratorToolStripMenuItem.Name="höhlengeneratorToolStripMenuItem";
+			this.höhlengeneratorToolStripMenuItem.Size=new System.Drawing.Size(252, 22);
+			this.höhlengeneratorToolStripMenuItem.Text="Höhlengenerator...";
+			// 
 			// toolStripMenuItem5
 			// 
 			this.toolStripMenuItem5.Name="toolStripMenuItem5";
@@ -245,6 +176,40 @@
 			this.mapsInDieMapsxmlToolStripMenuItem.Size=new System.Drawing.Size(252, 22);
 			this.mapsInDieMapsxmlToolStripMenuItem.Text="Maps in die maps.xml eintragen...";
 			// 
+			// mapsAusEinerBitmapErzeugenToolStripMenuItem
+			// 
+			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Name="mapsAusEinerBitmapErzeugenToolStripMenuItem";
+			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Size=new System.Drawing.Size(252, 22);
+			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Text="Maps aus einer Bitmap erzeugen...";
+			// 
+			// skriptingToolStripMenuItem
+			// 
+			this.skriptingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.nPCGeneratorToolStripMenuItem,
+            this.toolStripMenuItem7,
+            this.mapskripteErzeugenUndEintragenToolStripMenuItem});
+			this.skriptingToolStripMenuItem.Name="skriptingToolStripMenuItem";
+			this.skriptingToolStripMenuItem.Size=new System.Drawing.Size(60, 20);
+			this.skriptingToolStripMenuItem.Text="&Skripting";
+			// 
+			// nPCGeneratorToolStripMenuItem
+			// 
+			this.nPCGeneratorToolStripMenuItem.Name="nPCGeneratorToolStripMenuItem";
+			this.nPCGeneratorToolStripMenuItem.Size=new System.Drawing.Size(267, 22);
+			this.nPCGeneratorToolStripMenuItem.Text="NPC Generator...";
+			this.nPCGeneratorToolStripMenuItem.Click+=new System.EventHandler(this.nPCGeneratorToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem7
+			// 
+			this.toolStripMenuItem7.Name="toolStripMenuItem7";
+			this.toolStripMenuItem7.Size=new System.Drawing.Size(264, 6);
+			// 
+			// mapskripteErzeugenUndEintragenToolStripMenuItem
+			// 
+			this.mapskripteErzeugenUndEintragenToolStripMenuItem.Name="mapskripteErzeugenUndEintragenToolStripMenuItem";
+			this.mapskripteErzeugenUndEintragenToolStripMenuItem.Size=new System.Drawing.Size(267, 22);
+			this.mapskripteErzeugenUndEintragenToolStripMenuItem.Text="Mapskripte erzeugen und eintragen...";
+			// 
 			// exportToolStripMenuItem
 			// 
 			this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -254,23 +219,58 @@
 			this.exportToolStripMenuItem.Size=new System.Drawing.Size(51, 20);
 			this.exportToolStripMenuItem.Text="E&xport";
 			// 
-			// monsterxmlMediaWikiToolStripMenuItem
-			// 
-			this.monsterxmlMediaWikiToolStripMenuItem.Name="monsterxmlMediaWikiToolStripMenuItem";
-			this.monsterxmlMediaWikiToolStripMenuItem.Size=new System.Drawing.Size(221, 22);
-			this.monsterxmlMediaWikiToolStripMenuItem.Text="monster.xml -> MediaWiki...";
-			// 
 			// itemsxmlMediaWikiToolStripMenuItem
 			// 
 			this.itemsxmlMediaWikiToolStripMenuItem.Name="itemsxmlMediaWikiToolStripMenuItem";
 			this.itemsxmlMediaWikiToolStripMenuItem.Size=new System.Drawing.Size(221, 22);
 			this.itemsxmlMediaWikiToolStripMenuItem.Text="items.xml -> MediaWiki...";
+			this.itemsxmlMediaWikiToolStripMenuItem.Click+=new System.EventHandler(this.itemsxmlMediaWikiToolStripMenuItem_Click);
 			// 
-			// mapsAusEinerBitmapErzeugenToolStripMenuItem
+			// monsterxmlMediaWikiToolStripMenuItem
 			// 
-			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Name="mapsAusEinerBitmapErzeugenToolStripMenuItem";
-			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Size=new System.Drawing.Size(252, 22);
-			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Text="Maps aus einer Bitmap erzeugen...";
+			this.monsterxmlMediaWikiToolStripMenuItem.Name="monsterxmlMediaWikiToolStripMenuItem";
+			this.monsterxmlMediaWikiToolStripMenuItem.Size=new System.Drawing.Size(221, 22);
+			this.monsterxmlMediaWikiToolStripMenuItem.Text="monster.xml -> MediaWiki...";
+			this.monsterxmlMediaWikiToolStripMenuItem.Click+=new System.EventHandler(this.monsterxmlMediaWikiToolStripMenuItem_Click);
+			// 
+			// automatismenToolStripMenuItem
+			// 
+			this.automatismenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.kartenthumbnailsUndMinimapsErzeugenToolStripMenuItem,
+            this.toolStripMenuItem2,
+            this.clientUpdateErstellenToolStripMenuItem,
+            this.datenOrdnerErstellenToolStripMenuItem,
+            this.toolStripMenuItem6,
+            this.weltkartenErzeugenToolStripMenuItem});
+			this.automatismenToolStripMenuItem.Name="automatismenToolStripMenuItem";
+			this.automatismenToolStripMenuItem.Size=new System.Drawing.Size(65, 20);
+			this.automatismenToolStripMenuItem.Text="S&onstiges";
+			// 
+			// kartenthumbnailsUndMinimapsErzeugenToolStripMenuItem
+			// 
+			this.kartenthumbnailsUndMinimapsErzeugenToolStripMenuItem.Name="kartenthumbnailsUndMinimapsErzeugenToolStripMenuItem";
+			this.kartenthumbnailsUndMinimapsErzeugenToolStripMenuItem.Size=new System.Drawing.Size(295, 22);
+			this.kartenthumbnailsUndMinimapsErzeugenToolStripMenuItem.Text="Kartenthumbnails und Minimaps erzeugen...";
+			this.kartenthumbnailsUndMinimapsErzeugenToolStripMenuItem.Click+=new System.EventHandler(this.kartenthumbnailsUndMinimapsErzeugenToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem2
+			// 
+			this.toolStripMenuItem2.Name="toolStripMenuItem2";
+			this.toolStripMenuItem2.Size=new System.Drawing.Size(292, 6);
+			// 
+			// clientUpdateErstellenToolStripMenuItem
+			// 
+			this.clientUpdateErstellenToolStripMenuItem.Name="clientUpdateErstellenToolStripMenuItem";
+			this.clientUpdateErstellenToolStripMenuItem.Size=new System.Drawing.Size(295, 22);
+			this.clientUpdateErstellenToolStripMenuItem.Text="Client Update erstellen...";
+			this.clientUpdateErstellenToolStripMenuItem.Click+=new System.EventHandler(this.clientUpdateErstellenToolStripMenuItem_Click);
+			// 
+			// datenOrdnerErstellenToolStripMenuItem
+			// 
+			this.datenOrdnerErstellenToolStripMenuItem.Name="datenOrdnerErstellenToolStripMenuItem";
+			this.datenOrdnerErstellenToolStripMenuItem.Size=new System.Drawing.Size(295, 22);
+			this.datenOrdnerErstellenToolStripMenuItem.Text="Daten Ordner erstellen...";
+			this.datenOrdnerErstellenToolStripMenuItem.Click+=new System.EventHandler(this.datenOrdnerErstellenToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem6
 			// 
@@ -283,16 +283,50 @@
 			this.weltkartenErzeugenToolStripMenuItem.Size=new System.Drawing.Size(295, 22);
 			this.weltkartenErzeugenToolStripMenuItem.Text="Weltkarten erzeugen...";
 			// 
-			// mapskripteErzeugenUndEintragenToolStripMenuItem
+			// hilfeToolStripMenuItem
 			// 
-			this.mapskripteErzeugenUndEintragenToolStripMenuItem.Name="mapskripteErzeugenUndEintragenToolStripMenuItem";
-			this.mapskripteErzeugenUndEintragenToolStripMenuItem.Size=new System.Drawing.Size(267, 22);
-			this.mapskripteErzeugenUndEintragenToolStripMenuItem.Text="Mapskripte erzeugen und eintragen...";
+			this.hilfeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.überToolStripMenuItem});
+			this.hilfeToolStripMenuItem.Name="hilfeToolStripMenuItem";
+			this.hilfeToolStripMenuItem.Size=new System.Drawing.Size(40, 20);
+			this.hilfeToolStripMenuItem.Text="&Hilfe";
 			// 
-			// toolStripMenuItem7
+			// überToolStripMenuItem
 			// 
-			this.toolStripMenuItem7.Name="toolStripMenuItem7";
-			this.toolStripMenuItem7.Size=new System.Drawing.Size(264, 6);
+			this.überToolStripMenuItem.Name="überToolStripMenuItem";
+			this.überToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
+			this.überToolStripMenuItem.Text="Ü&ber...";
+			// 
+			// toolStrip
+			// 
+			this.toolStrip.Location=new System.Drawing.Point(0, 24);
+			this.toolStrip.Name="toolStrip";
+			this.toolStrip.Size=new System.Drawing.Size(1006, 25);
+			this.toolStrip.TabIndex=1;
+			this.toolStrip.Text="toolStrip1";
+			// 
+			// statusStrip
+			// 
+			this.statusStrip.Location=new System.Drawing.Point(0, 451);
+			this.statusStrip.Name="statusStrip";
+			this.statusStrip.Size=new System.Drawing.Size(1006, 22);
+			this.statusStrip.TabIndex=2;
+			this.statusStrip.Text="statusStrip1";
+			// 
+			// testsToolStripMenuItem
+			// 
+			this.testsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tMXÖffnenUndRendernToolStripMenuItem});
+			this.testsToolStripMenuItem.Name="testsToolStripMenuItem";
+			this.testsToolStripMenuItem.Size=new System.Drawing.Size(45, 20);
+			this.testsToolStripMenuItem.Text="Tests";
+			// 
+			// tMXÖffnenUndRendernToolStripMenuItem
+			// 
+			this.tMXÖffnenUndRendernToolStripMenuItem.Name="tMXÖffnenUndRendernToolStripMenuItem";
+			this.tMXÖffnenUndRendernToolStripMenuItem.Size=new System.Drawing.Size(214, 22);
+			this.tMXÖffnenUndRendernToolStripMenuItem.Text="TMX öffnen und rendern...";
+			this.tMXÖffnenUndRendernToolStripMenuItem.Click+=new System.EventHandler(this.tMXÖffnenUndRendernToolStripMenuItem_Click);
 			// 
 			// FormMain
 			// 
@@ -308,6 +342,8 @@
 			this.StartPosition=System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text="Invertika Editor";
 			this.WindowState=System.Windows.Forms.FormWindowState.Maximized;
+			this.Load+=new System.EventHandler(this.FormMain_Load);
+			this.FormClosing+=new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
 			this.menuStrip.ResumeLayout(false);
 			this.menuStrip.PerformLayout();
 			this.ResumeLayout(false);
@@ -351,6 +387,9 @@
 		private System.Windows.Forms.ToolStripMenuItem weltkartenErzeugenToolStripMenuItem;
 		private System.Windows.Forms.OpenFileDialog openFileDialog;
 		private System.Windows.Forms.SaveFileDialog saveFileDialog;
+		private System.Windows.Forms.ToolStripMenuItem koordinatenrechnerToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem testsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem tMXÖffnenUndRendernToolStripMenuItem;
 	}
 }
 

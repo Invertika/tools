@@ -42,10 +42,7 @@ namespace Invertika_Development_Helper
 
 			if(ExitsConfig)
 			{
-				tbFTPFolder.Text=Globals.Options.GetElementAsString("xml.Options.FTPFolder");
-				tbFTPPasswort.Text=Globals.Options.GetElementAsString("xml.Options.FTPPasswort");
-				tbFTPServer.Text=Globals.Options.GetElementAsString("xml.Options.FTPServer");
-				tbFTPUser.Text=Globals.Options.GetElementAsString("xml.Options.FTPUser");
+
 
 				tbMapImagesDataFolder.Text=Globals.Options.GetElementAsString("xml.Options.MapImagesDataFolder");
 

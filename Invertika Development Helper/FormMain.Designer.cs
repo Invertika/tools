@@ -39,14 +39,6 @@
 			this.TabControl=new System.Windows.Forms.TabControl();
 			this.tpCreateMisc=new System.Windows.Forms.TabPage();
 			this.groupBox3=new System.Windows.Forms.GroupBox();
-			this.label7=new System.Windows.Forms.Label();
-			this.label6=new System.Windows.Forms.Label();
-			this.pbCreateDataFolders=new System.Windows.Forms.ProgressBar();
-			this.btnStart=new System.Windows.Forms.Button();
-			this.btnTargetBrowse=new System.Windows.Forms.Button();
-			this.tbTargetPath=new System.Windows.Forms.TextBox();
-			this.tbSourcePath=new System.Windows.Forms.TextBox();
-			this.btnSourceBrowse=new System.Windows.Forms.Button();
 			this.groupBox2=new System.Windows.Forms.GroupBox();
 			this.btnUpdateTargetfolderBrowse=new System.Windows.Forms.Button();
 			this.tbUpdateTargetfolder=new System.Windows.Forms.TextBox();
@@ -83,6 +75,7 @@
 			this.label22=new System.Windows.Forms.Label();
 			this.tabPage1=new System.Windows.Forms.TabPage();
 			this.groupBox5=new System.Windows.Forms.GroupBox();
+			this.label23=new System.Windows.Forms.Label();
 			this.rtbScriptOutput=new System.Windows.Forms.RichTextBox();
 			this.label21=new System.Windows.Forms.Label();
 			this.rtbSentences=new System.Windows.Forms.RichTextBox();
@@ -108,7 +101,14 @@
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.bgwCreateMapImages=new System.ComponentModel.BackgroundWorker();
 			this.bgwCreateDataFolders=new System.ComponentModel.BackgroundWorker();
-			this.label23=new System.Windows.Forms.Label();
+			this.btnSourceBrowse=new System.Windows.Forms.Button();
+			this.tbSourcePath=new System.Windows.Forms.TextBox();
+			this.tbTargetPath=new System.Windows.Forms.TextBox();
+			this.btnTargetBrowse=new System.Windows.Forms.Button();
+			this.btnStart=new System.Windows.Forms.Button();
+			this.pbCreateDataFolders=new System.Windows.Forms.ProgressBar();
+			this.label6=new System.Windows.Forms.Label();
+			this.label7=new System.Windows.Forms.Label();
 			this.menuStrip.SuspendLayout();
 			this.statusStrip.SuspendLayout();
 			this.TabControl.SuspendLayout();
@@ -230,88 +230,6 @@
 			this.groupBox3.TabIndex=20;
 			this.groupBox3.TabStop=false;
 			this.groupBox3.Text="Erzeuge Data Ordner";
-			// 
-			// label7
-			// 
-			this.label7.AutoSize=true;
-			this.label7.Location=new System.Drawing.Point(9, 16);
-			this.label7.Name="label7";
-			this.label7.Size=new System.Drawing.Size(87, 13);
-			this.label7.TabIndex=15;
-			this.label7.Text="Quellverzeichnis:";
-			// 
-			// label6
-			// 
-			this.label6.AutoSize=true;
-			this.label6.Location=new System.Drawing.Point(9, 53);
-			this.label6.Name="label6";
-			this.label6.Size=new System.Drawing.Size(80, 13);
-			this.label6.TabIndex=14;
-			this.label6.Text="Zielverzeichnis:";
-			// 
-			// pbCreateDataFolders
-			// 
-			this.pbCreateDataFolders.Anchor=((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)
-						|System.Windows.Forms.AnchorStyles.Right)));
-			this.pbCreateDataFolders.Location=new System.Drawing.Point(9, 95);
-			this.pbCreateDataFolders.Name="pbCreateDataFolders";
-			this.pbCreateDataFolders.Size=new System.Drawing.Size(583, 23);
-			this.pbCreateDataFolders.TabIndex=13;
-			// 
-			// btnStart
-			// 
-			this.btnStart.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
-			this.btnStart.Location=new System.Drawing.Point(603, 95);
-			this.btnStart.Name="btnStart";
-			this.btnStart.Size=new System.Drawing.Size(103, 23);
-			this.btnStart.TabIndex=12;
-			this.btnStart.Text="Start";
-			this.btnStart.UseVisualStyleBackColor=true;
-			this.btnStart.Click+=new System.EventHandler(this.btnStart_Click);
-			// 
-			// btnTargetBrowse
-			// 
-			this.btnTargetBrowse.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
-			this.btnTargetBrowse.Location=new System.Drawing.Point(603, 68);
-			this.btnTargetBrowse.Name="btnTargetBrowse";
-			this.btnTargetBrowse.Size=new System.Drawing.Size(103, 20);
-			this.btnTargetBrowse.TabIndex=11;
-			this.btnTargetBrowse.Text="Durchsuchen...";
-			this.btnTargetBrowse.UseVisualStyleBackColor=true;
-			this.btnTargetBrowse.Click+=new System.EventHandler(this.btnTargetBrowse_Click);
-			// 
-			// tbTargetPath
-			// 
-			this.tbTargetPath.Anchor=((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)
-						|System.Windows.Forms.AnchorStyles.Right)));
-			this.tbTargetPath.Location=new System.Drawing.Point(9, 69);
-			this.tbTargetPath.Name="tbTargetPath";
-			this.tbTargetPath.ReadOnly=true;
-			this.tbTargetPath.Size=new System.Drawing.Size(583, 20);
-			this.tbTargetPath.TabIndex=10;
-			this.tbTargetPath.TextChanged+=new System.EventHandler(this.tbFTPServer_TextChanged);
-			// 
-			// tbSourcePath
-			// 
-			this.tbSourcePath.Anchor=((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)
-						|System.Windows.Forms.AnchorStyles.Right)));
-			this.tbSourcePath.Location=new System.Drawing.Point(9, 30);
-			this.tbSourcePath.Name="tbSourcePath";
-			this.tbSourcePath.ReadOnly=true;
-			this.tbSourcePath.Size=new System.Drawing.Size(583, 20);
-			this.tbSourcePath.TabIndex=9;
-			this.tbSourcePath.TextChanged+=new System.EventHandler(this.tbFTPServer_TextChanged);
-			// 
-			// btnSourceBrowse
-			// 
-			this.btnSourceBrowse.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
-			this.btnSourceBrowse.Location=new System.Drawing.Point(603, 30);
-			this.btnSourceBrowse.Name="btnSourceBrowse";
-			this.btnSourceBrowse.Size=new System.Drawing.Size(103, 20);
-			this.btnSourceBrowse.TabIndex=8;
-			this.btnSourceBrowse.Text="Durchsuchen...";
-			this.btnSourceBrowse.UseVisualStyleBackColor=true;
-			this.btnSourceBrowse.Click+=new System.EventHandler(this.btnSourceBrowse_Click);
 			// 
 			// groupBox2
 			// 
@@ -726,6 +644,18 @@
 			this.groupBox5.TabStop=false;
 			this.groupBox5.Text="NPC Generierung";
 			// 
+			// label23
+			// 
+			this.label23.AutoSize=true;
+			this.label23.Font=new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label23.ForeColor=System.Drawing.SystemColors.ActiveCaption;
+			this.label23.Location=new System.Drawing.Point(6, 440);
+			this.label23.Name="label23";
+			this.label23.Size=new System.Drawing.Size(123, 13);
+			this.label23.TabIndex=12;
+			this.label23.Text="http://invertika.org/NPC";
+			this.label23.Click+=new System.EventHandler(this.label23_Click);
+			// 
 			// rtbScriptOutput
 			// 
 			this.rtbScriptOutput.Anchor=((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)
@@ -975,17 +905,87 @@
 			this.bgwCreateDataFolders.DoWork+=new System.ComponentModel.DoWorkEventHandler(this.bgwCreateDataFolders_DoWork);
 			this.bgwCreateDataFolders.RunWorkerCompleted+=new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwCreateDataFolders_RunWorkerCompleted);
 			// 
-			// label23
+			// btnSourceBrowse
 			// 
-			this.label23.AutoSize=true;
-			this.label23.Font=new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label23.ForeColor=System.Drawing.SystemColors.ActiveCaption;
-			this.label23.Location=new System.Drawing.Point(6, 440);
-			this.label23.Name="label23";
-			this.label23.Size=new System.Drawing.Size(123, 13);
-			this.label23.TabIndex=12;
-			this.label23.Text="http://invertika.org/NPC";
-			this.label23.Click+=new System.EventHandler(this.label23_Click);
+			this.btnSourceBrowse.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
+			this.btnSourceBrowse.Location=new System.Drawing.Point(603, 30);
+			this.btnSourceBrowse.Name="btnSourceBrowse";
+			this.btnSourceBrowse.Size=new System.Drawing.Size(103, 20);
+			this.btnSourceBrowse.TabIndex=8;
+			this.btnSourceBrowse.Text="Durchsuchen...";
+			this.btnSourceBrowse.UseVisualStyleBackColor=true;
+			this.btnSourceBrowse.Click+=new System.EventHandler(this.btnSourceBrowse_Click);
+			// 
+			// tbSourcePath
+			// 
+			this.tbSourcePath.Anchor=((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)
+						|System.Windows.Forms.AnchorStyles.Right)));
+			this.tbSourcePath.Location=new System.Drawing.Point(9, 30);
+			this.tbSourcePath.Name="tbSourcePath";
+			this.tbSourcePath.ReadOnly=true;
+			this.tbSourcePath.Size=new System.Drawing.Size(583, 20);
+			this.tbSourcePath.TabIndex=9;
+			this.tbSourcePath.TextChanged+=new System.EventHandler(this.tbFTPServer_TextChanged);
+			// 
+			// tbTargetPath
+			// 
+			this.tbTargetPath.Anchor=((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)
+						|System.Windows.Forms.AnchorStyles.Right)));
+			this.tbTargetPath.Location=new System.Drawing.Point(9, 69);
+			this.tbTargetPath.Name="tbTargetPath";
+			this.tbTargetPath.ReadOnly=true;
+			this.tbTargetPath.Size=new System.Drawing.Size(583, 20);
+			this.tbTargetPath.TabIndex=10;
+			this.tbTargetPath.TextChanged+=new System.EventHandler(this.tbFTPServer_TextChanged);
+			// 
+			// btnTargetBrowse
+			// 
+			this.btnTargetBrowse.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
+			this.btnTargetBrowse.Location=new System.Drawing.Point(603, 68);
+			this.btnTargetBrowse.Name="btnTargetBrowse";
+			this.btnTargetBrowse.Size=new System.Drawing.Size(103, 20);
+			this.btnTargetBrowse.TabIndex=11;
+			this.btnTargetBrowse.Text="Durchsuchen...";
+			this.btnTargetBrowse.UseVisualStyleBackColor=true;
+			this.btnTargetBrowse.Click+=new System.EventHandler(this.btnTargetBrowse_Click);
+			// 
+			// btnStart
+			// 
+			this.btnStart.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
+			this.btnStart.Location=new System.Drawing.Point(603, 95);
+			this.btnStart.Name="btnStart";
+			this.btnStart.Size=new System.Drawing.Size(103, 23);
+			this.btnStart.TabIndex=12;
+			this.btnStart.Text="Start";
+			this.btnStart.UseVisualStyleBackColor=true;
+			this.btnStart.Click+=new System.EventHandler(this.btnStart_Click);
+			// 
+			// pbCreateDataFolders
+			// 
+			this.pbCreateDataFolders.Anchor=((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)
+						|System.Windows.Forms.AnchorStyles.Right)));
+			this.pbCreateDataFolders.Location=new System.Drawing.Point(9, 95);
+			this.pbCreateDataFolders.Name="pbCreateDataFolders";
+			this.pbCreateDataFolders.Size=new System.Drawing.Size(583, 23);
+			this.pbCreateDataFolders.TabIndex=13;
+			// 
+			// label6
+			// 
+			this.label6.AutoSize=true;
+			this.label6.Location=new System.Drawing.Point(9, 53);
+			this.label6.Name="label6";
+			this.label6.Size=new System.Drawing.Size(80, 13);
+			this.label6.TabIndex=14;
+			this.label6.Text="Zielverzeichnis:";
+			// 
+			// label7
+			// 
+			this.label7.AutoSize=true;
+			this.label7.Location=new System.Drawing.Point(9, 16);
+			this.label7.Name="label7";
+			this.label7.Size=new System.Drawing.Size(87, 13);
+			this.label7.TabIndex=15;
+			this.label7.Text="Quellverzeichnis:";
 			// 
 			// FormMain
 			// 
@@ -1073,14 +1073,6 @@
 		private System.Windows.Forms.Label label14;
 		private System.Windows.Forms.Label label13;
 		private System.Windows.Forms.GroupBox groupBox3;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.ProgressBar pbCreateDataFolders;
-		private System.Windows.Forms.Button btnStart;
-		private System.Windows.Forms.Button btnTargetBrowse;
-		private System.Windows.Forms.TextBox tbTargetPath;
-		private System.Windows.Forms.TextBox tbSourcePath;
-		private System.Windows.Forms.Button btnSourceBrowse;
 		private System.ComponentModel.BackgroundWorker bgwCreateDataFolders;
 		private System.Windows.Forms.TabPage tpMappingTools;
 		private System.Windows.Forms.GroupBox groupBox4;
@@ -1118,6 +1110,14 @@
 		private System.Windows.Forms.CheckBox cbClearCache;
 		private System.Windows.Forms.ToolStripStatusLabel tsbStatusLabel;
 		private System.Windows.Forms.Label label23;
+		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.ProgressBar pbCreateDataFolders;
+		private System.Windows.Forms.Button btnStart;
+		private System.Windows.Forms.Button btnTargetBrowse;
+		private System.Windows.Forms.TextBox tbTargetPath;
+		private System.Windows.Forms.TextBox tbSourcePath;
+		private System.Windows.Forms.Button btnSourceBrowse;
     }
 }
 

@@ -40,16 +40,71 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormCoordinateCalculator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCoordinateCalculator.Designer.cs">
+      <DependentUpon>FormCoordinateCalculator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormCreateDataFolder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCreateDataFolder.Designer.cs">
+      <DependentUpon>FormCreateDataFolder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormCreateMapThumbnailsAndMinimaps.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCreateMapThumbnailsAndMinimaps.Designer.cs">
+      <DependentUpon>FormCreateMapThumbnailsAndMinimaps.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormCreateClientUpdate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCreateClientUpdate.Designer.cs">
+      <DependentUpon>FormCreateClientUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormNPCGenerator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormNPCGenerator.Designer.cs">
+      <DependentUpon>FormNPCGenerator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormOptions.Designer.cs">
+      <DependentUpon>FormOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Globals.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormCoordinateCalculator.resx">
+      <DependentUpon>FormCoordinateCalculator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCreateDataFolder.resx">
+      <DependentUpon>FormCreateDataFolder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCreateMapThumbnailsAndMinimaps.resx">
+      <DependentUpon>FormCreateMapThumbnailsAndMinimaps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCreateClientUpdate.resx">
+      <DependentUpon>FormCreateClientUpdate.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormNPCGenerator.resx">
+      <DependentUpon>FormNPCGenerator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormOptions.resx">
+      <DependentUpon>FormOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -74,6 +129,10 @@
     <ProjectReference Include="..\Externals\CSCL\CSCL\CSCL.csproj">
       <Project>{0E720343-5366-4C3A-BC59-7B7FD2C311B5}</Project>
       <Name>CSCL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Externals\SharpZipLib\src\ICSharpCode.SharpZLib.csproj">
+      <Project>{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}</Project>
+      <Name>ICSharpCode.SharpZLib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
