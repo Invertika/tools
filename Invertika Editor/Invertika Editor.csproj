@@ -52,6 +52,12 @@
     <Compile Include="FormCreateDataFolder.Designer.cs">
       <DependentUpon>FormCreateDataFolder.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormCreateMapsFromBitmap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormCreateMapsFromBitmap.Designer.cs">
+      <DependentUpon>FormCreateMapsFromBitmap.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormCreateMapThumbnailsAndMinimaps.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,6 +96,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormCreateDataFolder.resx">
       <DependentUpon>FormCreateDataFolder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormCreateMapsFromBitmap.resx">
+      <DependentUpon>FormCreateMapsFromBitmap.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormCreateMapThumbnailsAndMinimaps.resx">
       <DependentUpon>FormCreateMapThumbnailsAndMinimaps.cs</DependentUpon>

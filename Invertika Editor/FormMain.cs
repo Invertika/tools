@@ -10,6 +10,7 @@ using System.Reflection;
 using CSCL.FileFormats.TMX;
 using System.IO;
 using CSCL.Games.Manasource;
+using System.Xml;
 
 namespace Invertika_Editor
 {
@@ -271,6 +272,285 @@ namespace Invertika_Editor
 
 				MessageBox.Show("Wikidatei erfolgreich geschrieben.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
+		}
+
+		private void mapsInDieMapsxmlToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			string fnMapsXml=Globals.folder_serverdata+"maps.xml";
+			string pathMaps=Globals.folder_clientdata_maps;
+
+			//Maps laden
+			List<Map> maps=Map.GetMapsFromMapsXml(fnMapsXml);
+
+			List<string> mapfiles=FileSystem.GetFiles(pathMaps, true, "*.tmx");
+
+			foreach(string i in mapfiles)
+			{
+				string mapname=FileSystem.GetFilenameWithoutExt(i);
+
+				bool MapIsNew=true;
+
+				foreach(Map j in maps)
+				{
+					if(j.Name.ToLower()==mapname)
+					{
+						MapIsNew=false;
+						break;
+					}
+				}
+
+				if(MapIsNew)
+				{
+					char[] splitChars= { '-' };
+					string[] Splited=mapname.Split(splitChars);
+
+					int lastID=0;
+
+					switch(Splited[0].ToLower())
+					{
+						case "ow": // <!-- Outer World IDs > 0 -->
+							{
+								foreach(Map map in maps)
+								{
+									if(map.MapType.ToLower()!="ow") continue;
+									if(lastID<map.ID) lastID=map.ID;
+								}
+
+								if(lastID<=0||lastID>=19000) throw new Exception("Wertebereich ungültig!");
+
+								break;
+							}
+						case "uw": // <!-- Undefined World IDs > 19000 -->
+							{
+								foreach(Map map in maps)
+								{
+									if(map.MapType.ToLower()!="uw") continue;
+									if(lastID<map.ID) lastID=map.ID;
+								}
+
+								if(lastID<=19000||lastID>=20000) throw new Exception("Wertebereich ungültig!");
+
+								break;
+							}
+						case "iw": //<!-- Inner World IDs > 20000 -->
+							{
+								foreach(Map map in maps)
+								{
+									if(map.MapType.ToLower()!="iw") continue;
+									if(lastID<map.ID) lastID=map.ID;
+								}
+
+								if(lastID<=20000||lastID>=40000) throw new Exception("Wertebereich ungültig!");
+
+								break;
+							}
+					}
+
+					lastID++;
+
+					maps.Add(new Map(lastID, mapname));
+				}
+			}
+
+			//maps.xml speichern
+			Map.SaveToMapsXml(fnMapsXml, maps);
+
+			MessageBox.Show("Alle fehlenden Maps wurden in die maps.xml eingetragen!", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void weltkartenErzeugenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(folderBrowserDialog.ShowDialog()==DialogResult.OK)
+			{
+				string fnMapsXml=Globals.folder_serverdata+"maps.xml";
+				string pathOutput=FileSystem.GetPathWithPathDelimiter(folderBrowserDialog.SelectedPath);
+
+				//xmin, xmax, ymin und ymax ermitteln
+				List<Map> maps=Map.GetMapsFromMapsXml(fnMapsXml);
+
+				int xmin=0;
+				int xmax=0;
+				int ymin=0;
+				int ymax=0;
+
+				foreach(Map i in maps)
+				{
+					if(i.MapType.ToLower()!="ow") continue;
+
+					if(i.X<xmin) xmin=i.X;
+					if(i.X>xmax) xmax=i.X;
+					if(i.Y<ymin) ymin=i.Y;
+					if(i.Y>ymax) ymax=i.Y;
+				}
+
+				FileSystem.CreateDirectory(pathOutput, true);
+
+				//Kartenerzeugen
+				Globals.CreateWorldmapHTML(pathOutput+"weltkarte.html", xmin, xmax, ymin, ymax, 100, false);
+				Globals.CreateWorldmapHTML(pathOutput+"weltkarte-small.html", xmin, xmax, ymin, ymax, 50, false);
+				Globals.CreateWorldmapHTML(pathOutput+"weltkarte-print.html", xmin, xmax, ymin, ymax, 100, true);
+				Globals.CreateWorldmapHTML(pathOutput+"weltkarte-big.html", xmin, xmax, ymin, ymax, 1400, false);
+
+				Globals.CreateWorldmapMediaWiki(pathOutput+"weltkarte.mediawiki", xmin, xmax, ymin, ymax, maps);
+
+				Globals.CreateMySQLScript(pathOutput+"weltkarte.sql", maps);
+				return;
+			}
+		}
+
+		private void mapskripteErzeugenUndEintragenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(folderBrowserDialog.ShowDialog()==DialogResult.OK)
+			{
+				string fnMapsXml=Globals.folder_serverdata+"maps.xml";
+				string pathMaps=Globals.folder_clientdata_maps;
+				string pathOutput=FileSystem.GetPathWithPathDelimiter(folderBrowserDialog.SelectedPath);
+
+				//Maps laden
+				List<Map> maps=Map.GetMapsFromMapsXml(fnMapsXml);
+
+				foreach(Map i in maps)
+				{
+					string fnMap=String.Format("{0}{1}.tmx", pathMaps, i.Name);
+
+					bool ExistDef=false;
+
+					if(FileSystem.Exists(fnMap))
+					{
+						XmlData mapAsXml=new XmlData(fnMap);
+
+						List<XmlNode> nodes=mapAsXml.GetElements("map.objectgroup.object");
+
+						foreach(XmlNode node in nodes)
+						{
+							string name=mapAsXml.GetAttributeAsString(node, "name");
+
+							if(name.ToLower()=="external map events")
+							{
+								ExistDef=true;
+								break;
+							}
+						}
+
+						if(ExistDef==false)
+						{
+							//Definition eintragen
+							List<XmlNode> mapnodes=mapAsXml.GetElements("map");
+							XmlNode mapnode=null;
+
+							foreach(XmlNode xmlnode in mapnodes)
+							{
+								if(xmlnode.Name.ToLower()=="map")
+								{
+									mapnode=xmlnode;
+								}
+							}
+
+							//mapnodes[0];
+
+							XmlNode objectgroup=mapAsXml.AddElement(mapnode, "objectgroup", "");
+							mapAsXml.AddAttribute(objectgroup, "name", "Object");
+							mapAsXml.AddAttribute(objectgroup, "width", 70);
+							mapAsXml.AddAttribute(objectgroup, "height", 70);
+							mapAsXml.AddAttribute(objectgroup, "x", 70);
+							mapAsXml.AddAttribute(objectgroup, "y", 70);
+
+							XmlNode @object=mapAsXml.AddElement(objectgroup, "object", "");
+							mapAsXml.AddAttribute(@object, "name", "External Map Events");
+							mapAsXml.AddAttribute(@object, "type", "SCRIPT");
+							mapAsXml.AddAttribute(@object, "x", 0);
+							mapAsXml.AddAttribute(@object, "y", 0);
+
+							XmlNode properties=mapAsXml.AddElement(@object, "properties", "");
+							XmlNode property=mapAsXml.AddElement(properties, "property", "");
+							mapAsXml.AddAttribute(property, "name", "FILENAME");
+
+							string fnLuaScript=String.Format("scripts/maps/{0}.lua", i.Name);
+							mapAsXml.AddAttribute(property, "value", fnLuaScript);
+
+							mapAsXml.Save();
+						}
+
+						//Lua Script schreiben
+						string fnLuaOutput=String.Format("{0}{1}.lua", pathOutput, i.Name);
+
+						switch(i.MapType.ToLower())
+						{
+							case "ow":
+								{
+									Map tmpMap;
+
+									string tmpName=Map.IncreaseArcofMap(i.Name, XYZ.Y);
+									int MapUp=0;
+									try
+									{
+										tmpMap=Map.GetMapFromName(maps, tmpName);
+										MapUp=tmpMap.ID;
+									}
+									catch
+									{
+									}
+
+									tmpName=Map.IncreaseArcofMap(i.Name, XYZ.X);
+									int MapRight=0;
+									try
+									{
+										tmpMap=Map.GetMapFromName(maps, tmpName);
+										MapRight=tmpMap.ID;
+									}
+									catch
+									{
+									}
+
+									tmpName=Map.DecreaseArcofMap(i.Name, XYZ.Y);
+									int MapDown=0;
+									try
+									{
+										tmpMap=Map.GetMapFromName(maps, tmpName);
+										MapDown=tmpMap.ID;
+									}
+									catch
+									{
+									}
+
+									tmpName=Map.DecreaseArcofMap(i.Name, XYZ.X);
+									int MapLeft=0;
+									try
+									{
+										tmpMap=Map.GetMapFromName(maps, tmpName);
+										MapLeft=tmpMap.ID;
+									}
+									catch
+									{
+									}
+
+									Globals.CreateMapScriptFile(fnLuaOutput, MapUp, MapRight, MapDown, MapLeft, true);
+									break;
+								}
+							case "uw":
+								{
+									Globals.CreateMapScriptFile(fnLuaOutput, i.ID, i.ID, i.ID, i.ID, true);
+									break;
+								}
+							case "iw":
+								{
+									Globals.CreateMapScriptFile(fnLuaOutput);
+									break;
+								}
+						}
+					}
+					else
+					{
+						Console.WriteLine("Datei {0} existiert nicht!", fnMap);
+					}
+				}
+			}
+		}
+
+		private void mapsAusEinerBitmapErzeugenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			FormCreateMapsFromBitmap InstFormCreateMapsFromBitmap=new FormCreateMapsFromBitmap();
+			InstFormCreateMapsFromBitmap.Show();
 		}
 	}
 }
