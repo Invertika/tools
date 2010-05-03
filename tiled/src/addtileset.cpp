@@ -1,6 +1,6 @@
 /*
  * Tiled Map Editor (Qt)
- * Copyright 2009 Tiled (Qt) developers (see AUTHORS file)
+ * Copyright 2010 Tiled (Qt) developers (see AUTHORS file)
  *
  * This file is part of Tiled (Qt).
  *
@@ -19,41 +19,35 @@
  * Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef OBJECTPROPERTIESDIALOG_H
-#define OBJECTPROPERTIESDIALOG_H
+#include "addtileset.h"
 
-#include "propertiesdialog.h"
-#include "ui_objectpropertiesdialog.h"
+#include "mapdocument.h"
+#include "tilesetmanager.h"
 
-class QLineEdit;
+#include <QCoreApplication>
 
-namespace Tiled {
+using namespace Tiled::Internal;
 
-class MapObject;
-
-namespace Internal {
-
-class MapDocument;
-
-class ObjectPropertiesDialog : public PropertiesDialog
+AddTileset::AddTileset(MapDocument *mapDocument, Tileset *tileset) :
+    QUndoCommand(QCoreApplication::translate("Undo Commands", "Add Tileset")),
+    mMapDocument(mapDocument),
+    mTileset(tileset)
 {
-    Q_OBJECT
+    // Make sure the tileset manager keeps this tileset around
+    TilesetManager::instance()->addReference(mTileset);
+}
 
-public:
-    ObjectPropertiesDialog(MapDocument *mapDocument,
-                           MapObject *mapObject,
-                           QWidget *parent = 0);
+AddTileset::~AddTileset()
+{
+    TilesetManager::instance()->removeReference(mTileset);
+}
 
-    void accept();
+void AddTileset::undo()
+{
+    mMapDocument->removeTileset(mTileset);
+}
 
-private:
-    MapDocument *mMapDocument;
-    MapObject *mMapObject;
-
-    Ui::ObjectPropertiesDialog *mUi;
-};
-
-} // namespace Internal
-} // namespace Tiled
-
-#endif // OBJECTPROPERTIESDIALOG_H
+void AddTileset::redo()
+{
+    mMapDocument->addTileset(mTileset);
+}

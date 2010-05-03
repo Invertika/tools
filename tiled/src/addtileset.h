@@ -1,6 +1,6 @@
 /*
  * Tiled Map Editor (Qt)
- * Copyright 2009 Tiled (Qt) developers (see AUTHORS file)
+ * Copyright 2010 Tiled (Qt) developers (see AUTHORS file)
  *
  * This file is part of Tiled (Qt).
  *
@@ -19,14 +19,10 @@
  * Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef NEWTILESETDIALOG_H
-#define NEWTILESETDIALOG_H
+#ifndef ADDTILESET_H
+#define ADDTILESET_H
 
-#include <QtGui/QDialog>
-
-namespace Ui {
-class NewTilesetDialog;
-}
+#include <QUndoCommand>
 
 namespace Tiled {
 
@@ -34,40 +30,26 @@ class Tileset;
 
 namespace Internal {
 
+class MapDocument;
+
 /**
- * A dialog for the creation of a new tileset.
+ * Adds a tileset to a map.
  */
-class NewTilesetDialog : public QDialog
+class AddTileset : public QUndoCommand
 {
-    Q_OBJECT
-
 public:
-    NewTilesetDialog(const QString &path, QWidget *parent = 0);
-    ~NewTilesetDialog();
+    explicit AddTileset(MapDocument *mapDocument, Tileset *tileset);
+    ~AddTileset();
 
-    void setTileWidth(int width);
-    void setTileHeight(int height);
-
-    /**
-     * Shows the dialog and returns the created tileset. Returns 0 if the
-     * dialog was cancelled.
-     */
-    Tileset *createTileset();
-
-private slots:
-    void browse();
-    void nameEdited(const QString &name);
-    void updateOkButton();
-    void tryAccept();
+    void undo();
+    void redo();
 
 private:
-    QString mPath;
-    Ui::NewTilesetDialog *mUi;
-    bool mNameWasEdited;
-    Tileset *mNewTileset;
+    MapDocument *mMapDocument;
+    Tileset *mTileset;
 };
 
 } // namespace Internal
 } // namespace Tiled
 
-#endif // NEWTILESETDIALOG_H
+#endif // ADDTILESET_H

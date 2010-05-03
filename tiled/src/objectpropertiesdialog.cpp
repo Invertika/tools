@@ -24,6 +24,8 @@
 #include "changemapobject.h"
 #include "mapdocument.h"
 #include "mapobject.h"
+#include "movemapobject.h"
+#include "resizemapobject.h"
 
 #include <QGridLayout>
 #include <QLabel>
@@ -42,29 +44,61 @@ ObjectPropertiesDialog::ObjectPropertiesDialog(MapDocument *mapDocument,
                        parent)
     , mMapDocument(mapDocument)
     , mMapObject(mapObject)
-    , mNameEdit(new QLineEdit(mMapObject->name()))
-    , mTypeEdit(new QLineEdit(mMapObject->type()))
+    , mUi(new Ui::ObjectPropertiesDialog)
 {
-    QGridLayout *grid = new QGridLayout;
-    grid->addWidget(new QLabel(tr("Name:")), 0, 0);
-    grid->addWidget(new QLabel(tr("Type:")), 1, 0);
-    grid->addWidget(mNameEdit, 0, 1);
-    grid->addWidget(mTypeEdit, 1, 1);
-    qobject_cast<QBoxLayout*>(layout())->insertLayout(0, grid);
+    QWidget *widget = new QWidget;
+    mUi->setupUi(widget);
 
-    mNameEdit->setFocus();
+    // Initialize UI with values from the map-object
+    mUi->name->setText(mMapObject->name());
+    mUi->type->setText(mMapObject->type());
+    mUi->x->setValue(mMapObject->x());
+    mUi->y->setValue(mMapObject->y());
+    mUi->width->setValue(mMapObject->width());
+    mUi->height->setValue(mMapObject->height());
+
+    qobject_cast<QBoxLayout*>(layout())->insertWidget(0, widget);
+
+    mUi->name->setFocus();
+
+    // Resize the dialog to its recommended size
+    resize(sizeHint());
 }
 
 void ObjectPropertiesDialog::accept()
 {
-    const QString newName = mNameEdit->text();
-    const QString newType = mTypeEdit->text();
+    const QString newName = mUi->name->text();
+    const QString newType = mUi->type->text();
 
-    if (mMapObject->name() != newName || mMapObject->type() != newType) {
+    const qreal newPosX = mUi->x->value();
+    const qreal newPosY = mUi->y->value();
+    const qreal newWidth = mUi->width->value();
+    const qreal newHeight = mUi->height->value();
+
+    bool changed = false;
+    changed |= mMapObject->name() != newName;
+    changed |= mMapObject->type() != newType;
+    changed |= mMapObject->x() != newPosX;
+    changed |= mMapObject->y() != newPosY;
+    changed |= mMapObject->width() != newWidth;
+    changed |= mMapObject->height() != newHeight;
+
+    if (changed) {
         QUndoStack *undo = mMapDocument->undoStack();
         undo->beginMacro(tr("Change Object"));
         undo->push(new ChangeMapObject(mMapDocument, mMapObject,
                                        newName, newType));
+
+        const QPointF oldPos = mMapObject->position();
+        mMapObject->setX(newPosX);
+        mMapObject->setY(newPosY);
+        undo->push(new MoveMapObject(mMapDocument, mMapObject, oldPos));
+
+        const QSizeF oldSize = mMapObject->size();
+        mMapObject->setWidth(newWidth);
+        mMapObject->setHeight(newHeight);
+        undo->push(new ResizeMapObject(mMapDocument, mMapObject, oldSize));
+
         PropertiesDialog::accept(); // Let PropertiesDialog add its command
         undo->endMacro();
     } else {

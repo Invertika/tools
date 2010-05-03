@@ -82,7 +82,8 @@ SOURCES += aboutdialog.cpp \
     filltiles.cpp \
     objectgrouppropertiesdialog.cpp \
     changeobjectgroupproperties.cpp \
-    zoomable.cpp
+    zoomable.cpp \
+    addtileset.cpp
 HEADERS += aboutdialog.h \
     brushitem.h \
     compression.h \
@@ -158,7 +159,8 @@ HEADERS += aboutdialog.h \
     filltiles.h \
     objectgrouppropertiesdialog.h \
     changeobjectgroupproperties.h \
-    zoomable.h
+    zoomable.h \
+    addtileset.h
 FORMS += aboutdialog.ui \
     mainwindow.ui \
     resizedialog.ui \
@@ -167,20 +169,19 @@ FORMS += aboutdialog.ui \
     newmapdialog.ui \
     newtilesetdialog.ui \
     saveasimagedialog.ui \
-    offsetmapdialog.ui
+    offsetmapdialog.ui \
+    objectpropertiesdialog.ui
 RESOURCES += tiled.qrc
-mac {
+mac { 
     TARGET = Tiled
     LIBS += -lz
     QMAKE_INFO_PLIST = Info.plist
     ICON = images/tiled-icon-mac.icns
-    contains(QT_CONFIG, ppc):CONFIG += x86 ppc
+    contains(QT_CONFIG, ppc):CONFIG += x86 \
+        ppc
     QMAKE_MAC_SDK = /Developer/SDKs/MacOSX10.5.sdk
 }
 win32:INCLUDEPATH += $$(QTDIR)/src/3rdparty/zlib
-contains(CONFIG, static) {
-    QTPLUGIN += \
-        qgif \
-        qjpeg \
-        qtiff
-}
+contains(CONFIG, static):QTPLUGIN += qgif \
+    qjpeg \
+    qtiff
