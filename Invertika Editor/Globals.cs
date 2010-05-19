@@ -94,6 +94,14 @@ namespace Invertika_Editor
 			}
 		}
 
+		public static string folder_clientdata_mapstemplates
+		{
+			get
+			{
+				return folder_clientdata+"maps_templates"+FileSystem.PathDelimiter;
+			}
+		}
+
 		public static string folder_clientdata_music
 		{
 			get

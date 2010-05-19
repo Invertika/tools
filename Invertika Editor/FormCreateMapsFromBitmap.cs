@@ -12,37 +12,30 @@ namespace Invertika_Editor
 {
 	public partial class FormCreateMapsFromBitmap:Form
 	{
+		int FortschrittMax;
+		int FortschrittValue;
+
 		public FormCreateMapsFromBitmap()
 		{
 			InitializeComponent();
 		}
 
+		private void btnStartProcess_Click(object sender, EventArgs e)
+		{
+			//Pfade checken
+
+			btnStartProcess.Enabled=false;
+
+			backgroundWorker.RunWorkerAsync();
+		}
+
 		private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
-			Parameters cmdLine=Parameters.InterpretCommandLine(args);
-
-			//Parameter auswerten
-			string error="";
-			if(!cmdLine.Contains("file000")) { error="Kein Bitmap Dateiname angegeben!"; }
-			else if(!cmdLine.Contains("file001")) { error="Kein Maps Templatepfad angegeben!"; }
-			else if(!cmdLine.Contains("file002")) { error="Kein Zielpfad angegeben!"; }
-			else if(!cmdLine.Contains("xmin")) { error="Kein xmax angegeben!"; }
-			else if(!cmdLine.Contains("ymax")) { error="Kein ymax angegeben!"; }
-
-			if(error!="")
-			{
-				Console.WriteLine(error);
-				Console.WriteLine("");
-				Console.WriteLine("Benutzung: bitmap2maps.exe <Bitmap Dateiname> <Maps Templatepfad> <Zielpfad> [-xmin] [-ymin]");
-				Console.WriteLine(@"Beispiel: bitmap2maps.exe D:\weltkarte.bmp D:\invertika.googlecode.com\client-data\maps_templates D:\Output -xmin:-25 -ymax:25");
-				return;
-			}
-
-			string fnBitmap=cmdLine.GetString("file000");
-			string pathMapsTemplates=FileSystem.GetPathWithPathDelimiter(cmdLine.GetString("file001"));
-			string pathOutput=FileSystem.GetPathWithPathDelimiter(cmdLine.GetString("file002"));
-			int MapX=Convert.ToInt32(cmdLine.GetString("xmin", ""));
-			int MapY=Convert.ToInt32(cmdLine.GetString("ymax", ""));
+			string fnBitmap=tbBitmap.Text;
+			string pathMapsTemplates=Globals.folder_clientdata_mapstemplates;
+			string pathOutput=tbTargetPath.Text;
+			int MapX=(int)(decimal)nudXmin.Value;
+			int MapY=(int)(decimal)nudYmax.Value;
 
 			//Folder
 			FileSystem.CreateDirectory(pathOutput, true);
@@ -58,8 +51,14 @@ namespace Invertika_Editor
 
 			string TemplateMap="";
 
+			FortschrittMax=(int)tmp.Height;
+			FortschrittValue=0;
+
 			while(y<tmp.Height)
 			{
+				FortschrittValue=(int)y;
+				backgroundWorker.ReportProgress(0);
+
 				Console.Write(".");
 				x=0;
 				MapX=-25;
@@ -116,12 +115,14 @@ namespace Invertika_Editor
 
 		private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
 		{
-
+			progressBar.Maximum=FortschrittMax;
+			progressBar.Value=FortschrittValue;
 		}
 
 		private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
-
+			btnStartProcess.Enabled=true;
+			MessageBox.Show("Vorgang abgeschlossen!", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		static bool ColCheck(Color col, int r, int g, int b, int tol)
@@ -164,15 +165,6 @@ namespace Invertika_Editor
 			{
 				tbTargetPath.Text=folderBrowserDialog.SelectedPath;
 			}
-		}
-
-		private void btnStartProcess_Click(object sender, EventArgs e)
-		{
-			//Pfade checken
-
-			btnStartProcess.Enabled=false;
-
-			backgroundWorker.RunWorkerAsync();
 		}
 	}
 }
