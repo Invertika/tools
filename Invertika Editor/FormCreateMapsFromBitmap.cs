@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using CSCL;
 using CSCL.Graphic;
+using CSCL.Games.Manasource;
 
 namespace Invertika_Editor
 {
