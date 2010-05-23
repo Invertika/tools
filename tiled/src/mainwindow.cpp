@@ -23,7 +23,7 @@
 #include "ui_mainwindow.h"
 
 #include "aboutdialog.h"
-#include "addtileset.h"
+#include "addremovetileset.h"
 #include "changeselection.h"
 #include "clipboardmanager.h"
 #include "eraser.h"
@@ -317,6 +317,18 @@ void MainWindow::changeEvent(QEvent *event)
     default:
         break;
     }
+}
+
+void MainWindow::dragEnterEvent(QDragEnterEvent *e)
+{
+    const QList<QUrl> urls = e->mimeData()->urls();
+    if (urls.size() == 1 && !urls.at(0).toLocalFile().isEmpty())
+        e->accept();
+}
+
+void MainWindow::dropEvent(QDropEvent *e)
+{
+    openFile(e->mimeData()->urls().at(0).toLocalFile());
 }
 
 void MainWindow::newMap()

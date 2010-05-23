@@ -86,7 +86,16 @@ void MapScene::setMapDocument(MapDocument *mapDocument)
     }
 
     mMapDocument = mapDocument;
+
+    /* The refresh may generate events. This makes sure they don't get sent to
+     * the (disabled) active tool.
+     */
+    AbstractTool *temporaryDisabledTool = mActiveTool;
+    mActiveTool = 0;
+
     refreshScene();
+
+    mActiveTool = temporaryDisabledTool;
 
     if (mMapDocument) {
         connect(mMapDocument, SIGNAL(mapChanged()),
@@ -478,6 +487,14 @@ void MapScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
         mActiveTool->mouseReleased(mouseEvent->scenePos(), mouseEvent->button());
         mouseEvent->accept();
     }
+}
+
+/**
+ * Override to ignore drag enter events.
+ */
+void MapScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
+{
+    event->ignore();
 }
 
 void MapScene::startNewMapObject(const QPointF &pos)
