@@ -119,161 +119,6 @@ namespace Invertika_Editor
 			}
 		}
 
-		private void itemsxmlMediaWikiToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if(Globals.Options.GetElementAsString("xml.Options.Paths.Repository.Trunk")=="")
-			{
-				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				return;
-			}
-
-			saveFileDialog.Filter="MediaWiki Dateien (*.mediamiki)|*.mediamiki";
-
-			if(saveFileDialog.ShowDialog()==DialogResult.OK)
-			{
-				string fnItemsXml=Globals.folder_clientdata+"items.xml";
-				string fnItemsMediaWiki=saveFileDialog.FileName;
-
-				StreamWriter sw=new StreamWriter(fnItemsMediaWiki);
-
-				try
-				{
-					sw.WriteLine("{| border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\" align=\"center\"\n"
-					+"! style=\"background:#efdead;\" | Bild\n"
-					+"! style=\"background:#efdead;\" | ID\n"
-					+"! style=\"background:#efdead;\" | Name\n"
-					+"! style=\"background:#efdead;\" | Beschreibung\n"
-					+"! style=\"background:#efdead;\" | HP\n"
-					+"! style=\"background:#efdead;\" | Gewicht\n"
-					+"! style=\"background:#efdead;\" | Verteidigung\n"
-					+"! style=\"background:#efdead;\" | Maximale Anzahl pro Slot\n"
-					+"|-\n");
-
-					List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
-					items.Sort();
-
-					foreach(Item item in items)
-					{
-						if(item.ID<0) continue; //Unötige Items (Hairsets etc) ignorieren
-
-						sw.WriteLine("| align=\"center\" | [[Image:item-{0}.png]]", item.ID);
-						sw.WriteLine("| align=\"center\" | {0}", item.ID);
-						sw.WriteLine("| {0}", item.Name);
-						sw.WriteLine("| align=\"center\" | {0}", item.Description);
-						sw.WriteLine("| align=\"center\" | {0}", item.HP);
-						sw.WriteLine("| align=\"center\" | {0}", item.Weight);
-						sw.WriteLine("| align=\"center\" | {0}%", item.Defense);
-						sw.WriteLine("| align=\"center\" | {0}", item.MaxPerSlot);
-						sw.WriteLine("|-");
-					}
-
-					sw.WriteLine("|}");
-				}
-				catch(Exception ex)
-				{
-					string msg=String.Format("Fehler beim Erzeugen der Umsetzung zu MediaWiki Syntax:\n\nStacktrace:\n{0}", ex.StackTrace.ToString());
-					MessageBox.Show(msg, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
-					return;
-				}
-				finally
-				{
-					sw.Close();
-				}
-
-				MessageBox.Show("Wikidatei erfolgreich geschrieben.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-			}
-		}
-
-		private void monsterxmlMediaWikiToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			if(Globals.Options.GetElementAsString("xml.Options.Paths.Repository.Trunk")=="")
-			{
-				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				return;
-			}
-
-			saveFileDialog.Filter="MediaWiki Dateien (*.mediawiki)|*.mediawiki";
-
-			if(saveFileDialog.ShowDialog()==DialogResult.OK)
-			{
-				//Parameter auswerten
-				string fnMonsterXml=Globals.folder_clientdata+"monsters.xml";
-
-				if(fnMonsterXml=="")
-				{
-					Console.WriteLine("Kein Dateiname angegeben!");
-					return;
-				}
-
-				string fnMonsterMediaWiki=saveFileDialog.FileName;
-
-				StreamWriter sw=new StreamWriter(fnMonsterMediaWiki);
-
-				try
-				{
-					sw.WriteLine("{| border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\" align=\"center\"\n"
-					+"! style=\"background:#efdead;\" | Bild\n"
-					+"! style=\"background:#efdead;\" | ID\n"
-					+"! style=\"background:#efdead;\" | Name\n"
-					+"! style=\"background:#efdead;\" | HP\n"
-					+"! style=\"background:#efdead;\" | Agressiv\n"
-					+"! style=\"background:#efdead;\" | Angriff\n"
-					+"! style=\"background:#efdead;\" | Verteidigung (physisch)\n"
-					+"! style=\"background:#efdead;\" | Verteidigung (magisch)\n"
-					+"! style=\"background:#efdead;\" | Erfahrung\n"
-
-					//+"! style=\"background:#efdead;\" | Drops"
-					+"|-\n");
-
-					List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonsterXml);
-					monsters.Sort();
-
-					foreach(Monster monster in monsters)
-					{
-						if(monster.ID>9999) continue; //Experimentelle Monster ignorieren
-
-						sw.WriteLine("| align=\"center\" | [[Image:monster-{0}.png]]", monster.ID);
-						sw.WriteLine("| align=\"center\" | {0}", monster.ID);
-						sw.WriteLine("| {0}", monster.Name);
-						sw.WriteLine("| align=\"center\" | {0}", monster.Attributes.HP);
-
-						if(monster.Behavior!=null)
-						{
-							if(monster.Behavior.Aggressive) sw.WriteLine("| align=\"center\" | Ja");
-							else sw.WriteLine("| align=\"center\" | Nein");
-						}
-						else
-						{
-							sw.WriteLine("| align=\"center\" | nicht definiert");
-						}
-
-						sw.WriteLine("| align=\"center\" | {0}-{1}", monster.Attributes.AttackMin-monster.Attributes.AttackDelta, monster.Attributes.AttackMin+monster.Attributes.AttackDelta);
-						sw.WriteLine("| align=\"center\" | {0}%", monster.Attributes.PhysicalDefence);
-						sw.WriteLine("| align=\"center\" | {0}%", monster.Attributes.MagicalDefence);
-						sw.WriteLine("| align=\"center\" | {0}", monster.Exp);
-
-						//sw.WriteLine("| Bone (2.1%)<br>Skull (3%)<br>Dark Crystal (10%)<br>Warlord Helmet (0.03%)<br>Warlord Plate (0.02%)<br>Leather Gloves (0.35%)");
-						//sw.WriteLine("| ''<span style=\"color:#ad1818\">Aggro</span>''");
-						sw.WriteLine("|-");
-					}
-
-					sw.WriteLine("|}");
-				}
-				catch(Exception ex)
-				{
-					string msg=String.Format("Fehler beim Erzeugen der Umsetzung zu MediaWiki Syntax:\n\nStacktrace:\n{0}", ex.StackTrace.ToString());
-					MessageBox.Show(msg, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
-					return;
-				}
-				finally
-				{
-					sw.Close();
-				}
-
-				MessageBox.Show("Wikidatei erfolgreich geschrieben.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-			}
-		}
-
 		private void mapsInDieMapsxmlToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			string fnMapsXml=Globals.folder_serverdata+"maps.xml";
@@ -551,6 +396,181 @@ namespace Invertika_Editor
 		{
 			FormCreateMapsFromBitmap InstFormCreateMapsFromBitmap=new FormCreateMapsFromBitmap();
 			InstFormCreateMapsFromBitmap.Show();
+		}
+
+		public string GetItemsAsMediaWiki()
+		{
+			string ret="";
+			string fnItemsXml=Globals.folder_clientdata+"items.xml";
+
+			ret+="{| border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\" align=\"center\"\n"
+			+"! style=\"background:#efdead;\" | Bild\n"
+			+"! style=\"background:#efdead;\" | ID\n"
+			+"! style=\"background:#efdead;\" | Name\n"
+			+"! style=\"background:#efdead;\" | Beschreibung\n"
+			+"! style=\"background:#efdead;\" | HP\n"
+			+"! style=\"background:#efdead;\" | Gewicht\n"
+			+"! style=\"background:#efdead;\" | Verteidigung\n"
+			+"! style=\"background:#efdead;\" | Maximale Anzahl pro Slot\n"
+			+"|-\n";
+
+			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
+			items.Sort();
+
+			foreach(Item item in items)
+			{
+				if(item.ID<0) continue; //Unötige Items (Hairsets etc) ignorieren
+
+				ret+=String.Format("| align=\"center\" | [[Image:item-{0}.png]]\n", item.ID);
+				ret+=String.Format("| align=\"center\" | {0}\n", item.ID);
+				ret+=String.Format("| {0}\n", item.Name);
+				ret+=String.Format("| align=\"center\" | {0}\n", item.Description);
+				ret+=String.Format("| align=\"center\" | {0}\n", item.HP);
+				ret+=String.Format("| align=\"center\" | {0}\n", item.Weight);
+				ret+=String.Format("| align=\"center\" | {0}%\n", item.Defense);
+				ret+=String.Format("| align=\"center\" | {0}\n", item.MaxPerSlot);
+				ret+=String.Format("|-\n");
+			}
+
+			ret+="|}\n";
+			return ret;
+		}
+
+		private void inDateiToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.Options.GetElementAsString("xml.Options.Paths.Repository.Trunk")=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			saveFileDialog.Filter="MediaWiki Dateien (*.mediamiki)|*.mediamiki";
+
+			if(saveFileDialog.ShowDialog()==DialogResult.OK)
+			{
+				try
+				{
+					string ret=GetItemsAsMediaWiki();
+					File.WriteAllText(saveFileDialog.FileName, ret);
+					MessageBox.Show("Wikidatei erfolgreich geschrieben.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				catch(Exception ex)
+				{
+					string msg=String.Format("Fehler beim Erzeugen der Umsetzung zu MediaWiki Syntax:\n\nStacktrace:\n{0}", ex.StackTrace.ToString());
+					MessageBox.Show(msg, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
+		}
+
+		private void inZwischenablageToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.Options.GetElementAsString("xml.Options.Paths.Repository.Trunk")=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			string ret=GetItemsAsMediaWiki();
+			Clipboard.SetText(ret);
+
+			MessageBox.Show("Wikidatei erfolgreich in Zwischenablage geschreiben.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		public string GetMonstersAsMediaWiki()
+		{
+			string ret="";
+			//Parameter auswerten
+				string fnMonsterXml=Globals.folder_clientdata+"monsters.xml";
+
+
+					ret+="{| border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\" align=\"center\"\n"
+					+"! style=\"background:#efdead;\" | Bild\n"
+					+"! style=\"background:#efdead;\" | ID\n"
+					+"! style=\"background:#efdead;\" | Name\n"
+					+"! style=\"background:#efdead;\" | HP\n"
+					+"! style=\"background:#efdead;\" | Agressiv\n"
+					+"! style=\"background:#efdead;\" | Angriff\n"
+					+"! style=\"background:#efdead;\" | Verteidigung (physisch)\n"
+					+"! style=\"background:#efdead;\" | Verteidigung (magisch)\n"
+					+"! style=\"background:#efdead;\" | Erfahrung\n"
+					//+"! style=\"background:#efdead;\" | Drops"
+					+"|-\n";
+
+					List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonsterXml);
+					monsters.Sort();
+
+					foreach(Monster monster in monsters)
+					{
+						if(monster.ID>9999) continue; //Experimentelle Monster ignorieren
+
+						ret+=String.Format("| align=\"center\" | [[Image:monster-{0}.png]]\n", monster.ID);
+						ret+=String.Format("| align=\"center\" | {0}\n", monster.ID);
+						ret+=String.Format("| {0}\n", monster.Name);
+						ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.HP);
+
+						if(monster.Behavior!=null)
+						{
+							if(monster.Behavior.Aggressive) ret+=String.Format("| align=\"center\" | Ja\n");
+							else ret+=String.Format("| align=\"center\" | Nein\n");
+						}
+						else
+						{
+							ret+=String.Format("| align=\"center\" | nicht definiert");
+						}
+
+						ret+=String.Format("| align=\"center\" | {0}-{1}\n", monster.Attributes.AttackMin-monster.Attributes.AttackDelta, monster.Attributes.AttackMin+monster.Attributes.AttackDelta);
+						ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.PhysicalDefence);
+						ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.MagicalDefence);
+						ret+=String.Format("| align=\"center\" | {0}\n", monster.Exp);
+
+						//String.Format("| Bone (2.1%)<br>Skull (3%)<br>Dark Crystal (10%)<br>Warlord Helmet (0.03%)<br>Warlord Plate (0.02%)<br>Leather Gloves (0.35%)");
+						//String.Format("| ''<span style=\"color:#ad1818\">Aggro</span>''");
+						ret+=String.Format("|-\n");
+					}
+
+					ret+="|}\n";
+
+			return ret;
+		}
+
+		private void inDateiToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			if(Globals.Options.GetElementAsString("xml.Options.Paths.Repository.Trunk")=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			saveFileDialog.Filter="MediaWiki Dateien (*.mediamiki)|*.mediamiki";
+
+			if(saveFileDialog.ShowDialog()==DialogResult.OK)
+			{
+				try
+				{
+					string ret=GetMonstersAsMediaWiki();
+					File.WriteAllText(saveFileDialog.FileName, ret);
+					MessageBox.Show("Wikidatei erfolgreich geschrieben.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				catch(Exception ex)
+				{
+					string msg=String.Format("Fehler beim Erzeugen der Umsetzung zu MediaWiki Syntax:\n\nStacktrace:\n{0}", ex.StackTrace.ToString());
+					MessageBox.Show(msg, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+			}
+		}
+
+		private void inZwischenablageToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			if(Globals.Options.GetElementAsString("xml.Options.Paths.Repository.Trunk")=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			string ret=GetMonstersAsMediaWiki();
+			Clipboard.SetText(ret);
+
+			MessageBox.Show("Wikidatei erfolgreich in Zwischenablage geschreiben.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 	}
 }
