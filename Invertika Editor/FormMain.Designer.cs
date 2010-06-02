@@ -71,6 +71,7 @@
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog=new System.Windows.Forms.SaveFileDialog();
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
+			this.adler32EinerDateiBerechnenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -109,6 +110,7 @@
 			this.xMLÖffnenToolStripMenuItem.Name="xMLÖffnenToolStripMenuItem";
 			this.xMLÖffnenToolStripMenuItem.Size=new System.Drawing.Size(165, 22);
 			this.xMLÖffnenToolStripMenuItem.Text="XML öffnen...";
+			this.xMLÖffnenToolStripMenuItem.Click+=new System.EventHandler(this.xMLÖffnenToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem3
 			// 
@@ -276,7 +278,8 @@
 			// testsToolStripMenuItem
 			// 
 			this.testsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tMXÖffnenUndRendernToolStripMenuItem});
+            this.tMXÖffnenUndRendernToolStripMenuItem,
+            this.adler32EinerDateiBerechnenToolStripMenuItem});
 			this.testsToolStripMenuItem.Name="testsToolStripMenuItem";
 			this.testsToolStripMenuItem.Size=new System.Drawing.Size(45, 20);
 			this.testsToolStripMenuItem.Text="Tests";
@@ -284,7 +287,7 @@
 			// tMXÖffnenUndRendernToolStripMenuItem
 			// 
 			this.tMXÖffnenUndRendernToolStripMenuItem.Name="tMXÖffnenUndRendernToolStripMenuItem";
-			this.tMXÖffnenUndRendernToolStripMenuItem.Size=new System.Drawing.Size(214, 22);
+			this.tMXÖffnenUndRendernToolStripMenuItem.Size=new System.Drawing.Size(243, 22);
 			this.tMXÖffnenUndRendernToolStripMenuItem.Text="TMX öffnen und rendern...";
 			this.tMXÖffnenUndRendernToolStripMenuItem.Click+=new System.EventHandler(this.tMXÖffnenUndRendernToolStripMenuItem_Click);
 			// 
@@ -369,6 +372,13 @@
 			this.statusStrip.TabIndex=2;
 			this.statusStrip.Text="statusStrip1";
 			// 
+			// adler32EinerDateiBerechnenToolStripMenuItem
+			// 
+			this.adler32EinerDateiBerechnenToolStripMenuItem.Name="adler32EinerDateiBerechnenToolStripMenuItem";
+			this.adler32EinerDateiBerechnenToolStripMenuItem.Size=new System.Drawing.Size(243, 22);
+			this.adler32EinerDateiBerechnenToolStripMenuItem.Text="Adler32 einer Datei berechnen...";
+			this.adler32EinerDateiBerechnenToolStripMenuItem.Click+=new System.EventHandler(this.adler32EinerDateiBerechnenToolStripMenuItem_Click);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions=new System.Drawing.SizeF(6F, 13F);
@@ -436,6 +446,7 @@
 		private System.Windows.Forms.ToolStripMenuItem inZwischenablageToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem inDateiToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem inZwischenablageToolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem adler32EinerDateiBerechnenToolStripMenuItem;
 	}
 }
 

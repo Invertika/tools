@@ -572,5 +572,34 @@ namespace Invertika_Editor
 
 			MessageBox.Show("Wikidatei erfolgreich in Zwischenablage geschreiben.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
+
+		private void xMLÖffnenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void adler32EinerDateiBerechnenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			openFileDialog.Multiselect=false;
+			openFileDialog.FileName="";
+			openFileDialog.Filter="Alle Dateien (*.*)|*.*";
+
+			if(openFileDialog.ShowDialog()==DialogResult.OK)
+			{
+				//adler 32
+				ICSharpCode.SharpZipLib.Checksums.Adler32 adler=new ICSharpCode.SharpZipLib.Checksums.Adler32();
+
+				FileStream fs=new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read);
+				BinaryReader br=new BinaryReader(fs);
+
+				byte[] textToHash=br.ReadBytes((int)fs.Length);
+
+				adler.Reset();
+				adler.Update(textToHash);
+				string adler32=String.Format("{0:x}", adler.Value);
+
+				MessageBox.Show("Der Adler32 lautet: "+adler32, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+		}
 	}
 }
