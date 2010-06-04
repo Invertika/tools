@@ -598,7 +598,7 @@ namespace Invertika_Editor
 				adler.Update(textToHash);
 				string adler32=String.Format("{0:x}", adler.Value);
 
-				MessageBox.Show("Der Adler32 lautet: "+adler32, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("Der Adler32 lautet: "+adler32, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);  
 			}
 		}
 	}
