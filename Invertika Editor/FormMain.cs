@@ -601,5 +601,24 @@ namespace Invertika_Editor
 				MessageBox.Show("Der Adler32 lautet: "+adler32, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);  
 			}
 		}
+
+		private void bOMAusSkriptenUndMapsEntfernenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			List<string> files=new List<string>();
+			files.AddRange(FileSystem.GetFiles(Globals.folder_root, true, "*.xml"));
+			files.AddRange(FileSystem.GetFiles(Globals.folder_root, true, "*.lua"));
+			files.AddRange(FileSystem.GetFiles(Globals.folder_root, true, "*.tmx"));
+
+			foreach(string i in files)
+			{
+				//BOM entfernen
+				string text=File.ReadAllText(i);
+				StreamWriter streamWriter=new StreamWriter(i, false, new UTF8Encoding(false));
+				streamWriter.Write(text);
+				streamWriter.Close();
+			}
+
+			MessageBox.Show("Alle BOMs wurden entfernt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
 	}
 }

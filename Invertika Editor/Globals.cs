@@ -14,11 +14,19 @@ namespace Invertika_Editor
 		public static string OptionsXmlFilename=OptionsDirectory+"Invertika Editor.xml";
 
 		#region Eigenschaften
+		public static string folder_root
+		{
+			get
+			{
+				return FileSystem.GetPathWithPathDelimiter(Globals.Options.GetElementAsString("xml.Options.Paths.Repository.Trunk"));
+			}
+		}
+
 		public static string folder_client
 		{
 			get
 			{
-				return FileSystem.GetPathWithPathDelimiter(Globals.Options.GetElementAsString("xml.Options.Paths.Repository.Trunk"))+"client"+FileSystem.PathDelimiter;
+				return folder_root+"client"+FileSystem.PathDelimiter;
 			}
 		}
 
