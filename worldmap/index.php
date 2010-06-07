@@ -42,7 +42,7 @@
 	<b>Invertika Weltkarte</b><br/>
 	<br/>
 	- Mit der Maus kann die Karte bewegt werden<br/>
-	- Doppelklick auf eine Kachel um detailierte Informationen anzuzeigen
+	- Doppelklick auf eine Kachel um detaillierte Informationen anzuzeigen
 	</div>
 	
 	<div class="divboxes" id="zoombox" style="position:absolute; left: 230px; top:20px; z-index:+1;">
