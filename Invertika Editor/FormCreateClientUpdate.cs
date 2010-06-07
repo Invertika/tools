@@ -144,9 +144,9 @@ namespace Invertika_Editor
 				devRelativ2=devRelativ2.Replace("client"+FileSystem.PathDelimiter+"data"+FileSystem.PathDelimiter, "");
 				string path2=FileSystem.GetPath(devRelativ2, true);
 
-				FileSystem.CreateDirectory(FolderTarget+"+FileSystem.PathDelimiter+"+path2, true);
+				FileSystem.CreateDirectory(FolderTarget+FileSystem.PathDelimiter+path2, true);
 
-				FileSystem.CopyFile(i, FolderTarget+"+FileSystem.PathDelimiter+"+devRelativ2);
+				FileSystem.CopyFile(i, FolderTarget+FileSystem.PathDelimiter+devRelativ2);
 			}
 
 			List<string> filestarget=FileSystem.GetFiles(FolderTarget, true);
