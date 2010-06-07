@@ -74,7 +74,7 @@ namespace Invertika_Editor
 		{
 			get
 			{
-				return FileSystem.GetPathWithPathDelimiter(Globals.Options.GetElementAsString("xml.Options.Paths.Repository.Trunk"))+"server-data"+FileSystem.PathDelimiter;
+				return Globals.folder_root+"server-data"+FileSystem.PathDelimiter;
 			}
 		}
 
@@ -90,7 +90,7 @@ namespace Invertika_Editor
 		{
 			get
 			{
-				return FileSystem.GetPathWithPathDelimiter(Globals.Options.GetElementAsString("xml.Options.Paths.Repository.Trunk"))+"client-data"+FileSystem.PathDelimiter;
+				return Globals.folder_root+"client-data"+FileSystem.PathDelimiter;
 			}
 		}
 

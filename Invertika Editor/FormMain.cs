@@ -438,7 +438,7 @@ namespace Invertika_Editor
 
 		private void inDateiToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if(Globals.Options.GetElementAsString("xml.Options.Paths.Repository.Trunk")=="")
+			if(Globals.folder_root=="")
 			{
 				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
@@ -464,7 +464,7 @@ namespace Invertika_Editor
 
 		private void inZwischenablageToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if(Globals.Options.GetElementAsString("xml.Options.Paths.Repository.Trunk")=="")
+			if(Globals.folder_root=="")
 			{
 				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
@@ -535,7 +535,7 @@ namespace Invertika_Editor
 
 		private void inDateiToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
-			if(Globals.Options.GetElementAsString("xml.Options.Paths.Repository.Trunk")=="")
+			if(Globals.folder_root=="")
 			{
 				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
@@ -561,7 +561,7 @@ namespace Invertika_Editor
 
 		private void inZwischenablageToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
-			if(Globals.Options.GetElementAsString("xml.Options.Paths.Repository.Trunk")=="")
+			if(Globals.folder_root=="")
 			{
 				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;

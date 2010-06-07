@@ -18,7 +18,7 @@ namespace Invertika_Editor
 		private void FormOptions_Load(object sender, EventArgs e)
 		{
 			//Pfade
-			tbRepositoryTrunk.Text=Globals.Options.GetElementAsString("xml.Options.Paths.Repository.Trunk");
+			tbRepositoryTrunk.Text=Globals.folder_root;
 
 			//FTP (Weltkarte)
 			tbFTPWorldmapFolder.Text=Globals.Options.GetElementAsString("xml.Options.FTP.Worldmap.Folder");

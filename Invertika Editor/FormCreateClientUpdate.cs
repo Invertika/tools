@@ -69,13 +69,13 @@ namespace Invertika_Editor
 
 		private void btnStartUpdate_Click(object sender, EventArgs e)
 		{
-			if(Globals.Options.GetElementAsString("xml.Options.Paths.Repository.Trunk")=="")
+			if(Globals.folder_root=="")
 			{
 				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
 			}
 
-			string FolderDev=FileSystem.GetPathWithPathDelimiter(Globals.Options.GetElementAsString("xml.Options.Paths.Repository.Trunk"));
+			string FolderDev=Globals.folder_root;
 			string FolderLastClient=tbUpdateDataLastClient.Text;
 			string FolderTarget=tbUpdateTargetfolder.Text;
 
