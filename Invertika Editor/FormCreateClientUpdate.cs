@@ -54,6 +54,7 @@ namespace Invertika_Editor
 			if(folderBrowserDialog.ShowDialog()==DialogResult.OK)
 			{
 				tbUpdateDataLastClient.Text=folderBrowserDialog.SelectedPath;
+				Globals.Options.WriteElement("xml.Options.Paths.CreateClientUpdate.LastClient", folderBrowserDialog.SelectedPath);
 			}
 		}
 
@@ -64,6 +65,7 @@ namespace Invertika_Editor
 			if(folderBrowserDialog.ShowDialog()==DialogResult.OK)
 			{
 				tbUpdateTargetfolder.Text=folderBrowserDialog.SelectedPath;
+				Globals.Options.WriteElement("xml.Options.Paths.CreateClientUpdate.TargetFolder", folderBrowserDialog.SelectedPath);
 			}
 		}
 
@@ -103,8 +105,6 @@ namespace Invertika_Editor
 			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_clientdata_sfx));
 
 			//Last Client
-			List<string> filesLastClient=GetFilesWithoutSVN(FolderLastClient);
-
 			List<string> filesNew=new List<string>();
 
 			foreach(string i in filesDev)
@@ -115,28 +115,30 @@ namespace Invertika_Editor
 				string devNewClient=FolderLastClient+FileSystem.PathDelimiter+devRelativ;
 
 				if(FileSystem.GetFilename(devRelativ).ToLower()=="cmakelists.txt") continue;
+				if(FileSystem.GetFilename(devRelativ).ToLower()=="branding.xml") continue;
 
-				if(FileSystem.ExistsFile(devNewClient))
-				{
-					//Weitere Vergleiche
-					long SizeDev=FileSystem.GetFilesize(i);
-					long SizeLastClient=FileSystem.GetFilesize(devNewClient);
-
-					if(SizeDev==SizeLastClient)
+				//if(FileSystem.GetFilename(devRelativ)==FileSystem.GetFilename(i))
+				//{
+					if(FileSystem.ExistsFile(devNewClient))
 					{
-						string hashDev=Hash.SHA1.HashFileToSHA1(i);
-						string hashLastClient=Hash.SHA1.HashFileToSHA1(devNewClient);
+						//Weitere Vergleiche
+						long SizeDev=FileSystem.GetFilesize(i);
+						long SizeLastClient=FileSystem.GetFilesize(devNewClient);
 
-						if(hashDev==hashLastClient) continue;
+						if(SizeDev==SizeLastClient)
+						{
+							string hashDev=Hash.SHA1.HashFileToSHA1(i);
+							string hashLastClient=Hash.SHA1.HashFileToSHA1(devNewClient);
+
+							if(hashDev==hashLastClient) continue;
+						}
 					}
-				}
+				//}
 
 				filesNew.Add(i);
 			}
 
 			//Ziel
-			//SCL.Helpers.ListHelpers.WriteListIntofile(filesNew, FolderTarget + "\\changedfiles.txt");
-
 			foreach(string i in filesNew)
 			{
 				string devRelativ2=FileSystem.GetRelativePath(i, FolderDev+'\\');
@@ -184,6 +186,12 @@ namespace Invertika_Editor
 			MessageBox.Show("Vorgang abgeschlossen!", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
 			Close();
+		}
+
+		private void FormCreateClientUpdate_Load(object sender, EventArgs e)
+		{
+			tbUpdateDataLastClient.Text=Globals.Options.GetElementAsString("xml.Options.Paths.CreateClientUpdate.LastClient");
+			tbUpdateTargetfolder.Text=Globals.Options.GetElementAsString("xml.Options.Paths.CreateClientUpdate.TargetFolder");
 		}
 	}
 }

@@ -25,6 +25,7 @@ namespace Invertika_Editor
 			if(folderBrowserDialog.ShowDialog()==DialogResult.OK)
 			{
 				tbTargetPath.Text=folderBrowserDialog.SelectedPath;
+				Globals.Options.WriteElement("xml.Options.Paths.CreateDataFolder.TargetFolder", folderBrowserDialog.SelectedPath);
 			}
 		}
 
@@ -181,6 +182,11 @@ namespace Invertika_Editor
 		private void bgwCreateDataFolders_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			MessageBox.Show("Data Verzeichnisse erstellt!");
+		}
+
+		private void FormCreateDataFolder_Load(object sender, EventArgs e)
+		{
+			tbTargetPath.Text=Globals.Options.GetElementAsString("xml.Options.Paths.CreateDataFolder.TargetFolder");
 		}
 	}
 }

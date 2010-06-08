@@ -109,6 +109,7 @@
 			this.Name="FormCreateDataFolder";
 			this.StartPosition=System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text="Daten Ordner erstellen";
+			this.Load+=new System.EventHandler(this.FormCreateDataFolder_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

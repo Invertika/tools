@@ -127,6 +127,7 @@
 			this.Name="FormCreateClientUpdate";
 			this.StartPosition=System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text="Client Update erstellen";
+			this.Load+=new System.EventHandler(this.FormCreateClientUpdate_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
