@@ -620,5 +620,47 @@ namespace Invertika_Editor
 
 			MessageBox.Show("Alle BOMs wurden entfernt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
+
+		private void itemsxmlBilderToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(folderBrowserDialog.ShowDialog()==DialogResult.OK)
+			{
+				string fnItemsXml=Globals.folder_clientdata+"items.xml";
+
+				List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
+
+				foreach(Item item in items)
+				{
+					if(item.ID<0) continue; //Unötige Items (Hairsets etc) ignorieren
+					string itemImageName=item.Image.Split('|')[0].Trim();
+					string itemfnSrc=Globals.folder_clientdata_graphics_items+itemImageName;
+					string itemfnDst=folderBrowserDialog.SelectedPath+FileSystem.PathDelimiter+"Item-"+item.ID+".png";
+					//File.Copy(itemfnSrc, itemfnDst, true);
+					FileSystem.CopyFile(itemfnSrc, itemfnDst, true);
+				}
+
+				MessageBox.Show("Item Bilder wurden erfolgreich kopiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+		}
+
+		private void monsterxmlBilderToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			//if(folderBrowserDialog.ShowDialog()==DialogResult.OK)
+			//{
+			//    string fnItemsXml=Globals.folder_clientdata+"monster.xml";
+
+			//    List<Monster> items=Monster.GetMonstersFromMonsterXml(fnItemsXml);
+
+			//    foreach(Monster item in items)
+			//    {
+			//        if(item.ID<0) continue; //Unötige Items (Hairsets etc) ignorieren
+			//        string itemfnSrc=Globals.folder_clientdata_graphics_items+item.Image;
+			//        string itemfnDst=folderBrowserDialog.SelectedPath+FileSystem.PathDelimiter+"Monster-"+item.ID+".png";
+			//        FileSystem.CopyFile(itemfnSrc, itemfnDst, true);
+			//    }
+
+			//    MessageBox.Show("Item Bilder wurden erfolgreich kopiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			//}
+		}
 	}
 }

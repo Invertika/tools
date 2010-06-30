@@ -64,6 +64,8 @@
 			this.clientUpdateErstellenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.datenOrdnerErstellenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem6=new System.Windows.Forms.ToolStripSeparator();
+			this.bOMAusSkriptenUndMapsEntfernenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem8=new System.Windows.Forms.ToolStripSeparator();
 			this.weltkartenErzeugenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.hilfeToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.überToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
@@ -72,8 +74,8 @@
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog=new System.Windows.Forms.SaveFileDialog();
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
-			this.toolStripMenuItem8=new System.Windows.Forms.ToolStripSeparator();
-			this.bOMAusSkriptenUndMapsEntfernenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.itemsxmlBilderToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.monsterxmlBilderToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -225,7 +227,9 @@
 			// exportToolStripMenuItem
 			// 
 			this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.itemsxmlBilderToolStripMenuItem,
             this.itemsxmlMediaWikiToolStripMenuItem,
+            this.monsterxmlBilderToolStripMenuItem,
             this.monsterxmlMediaWikiToolStripMenuItem});
 			this.exportToolStripMenuItem.Name="exportToolStripMenuItem";
 			this.exportToolStripMenuItem.Size=new System.Drawing.Size(51, 20);
@@ -346,6 +350,18 @@
 			this.toolStripMenuItem6.Name="toolStripMenuItem6";
 			this.toolStripMenuItem6.Size=new System.Drawing.Size(332, 6);
 			// 
+			// bOMAusSkriptenUndMapsEntfernenToolStripMenuItem
+			// 
+			this.bOMAusSkriptenUndMapsEntfernenToolStripMenuItem.Name="bOMAusSkriptenUndMapsEntfernenToolStripMenuItem";
+			this.bOMAusSkriptenUndMapsEntfernenToolStripMenuItem.Size=new System.Drawing.Size(335, 22);
+			this.bOMAusSkriptenUndMapsEntfernenToolStripMenuItem.Text="BOM aus Skripten, Maps und XML Dateien entfernen";
+			this.bOMAusSkriptenUndMapsEntfernenToolStripMenuItem.Click+=new System.EventHandler(this.bOMAusSkriptenUndMapsEntfernenToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem8
+			// 
+			this.toolStripMenuItem8.Name="toolStripMenuItem8";
+			this.toolStripMenuItem8.Size=new System.Drawing.Size(332, 6);
+			// 
 			// weltkartenErzeugenToolStripMenuItem
 			// 
 			this.weltkartenErzeugenToolStripMenuItem.Name="weltkartenErzeugenToolStripMenuItem";
@@ -364,7 +380,7 @@
 			// überToolStripMenuItem
 			// 
 			this.überToolStripMenuItem.Name="überToolStripMenuItem";
-			this.überToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
+			this.überToolStripMenuItem.Size=new System.Drawing.Size(120, 22);
 			this.überToolStripMenuItem.Text="Ü&ber...";
 			// 
 			// toolStrip
@@ -383,17 +399,20 @@
 			this.statusStrip.TabIndex=2;
 			this.statusStrip.Text="statusStrip1";
 			// 
-			// toolStripMenuItem8
+			// itemsxmlBilderToolStripMenuItem
 			// 
-			this.toolStripMenuItem8.Name="toolStripMenuItem8";
-			this.toolStripMenuItem8.Size=new System.Drawing.Size(332, 6);
+			this.itemsxmlBilderToolStripMenuItem.Name="itemsxmlBilderToolStripMenuItem";
+			this.itemsxmlBilderToolStripMenuItem.Size=new System.Drawing.Size(221, 22);
+			this.itemsxmlBilderToolStripMenuItem.Text="items.xml -> Bilder...";
+			this.itemsxmlBilderToolStripMenuItem.Click+=new System.EventHandler(this.itemsxmlBilderToolStripMenuItem_Click);
 			// 
-			// bOMAusSkriptenUndMapsEntfernenToolStripMenuItem
+			// monsterxmlBilderToolStripMenuItem
 			// 
-			this.bOMAusSkriptenUndMapsEntfernenToolStripMenuItem.Name="bOMAusSkriptenUndMapsEntfernenToolStripMenuItem";
-			this.bOMAusSkriptenUndMapsEntfernenToolStripMenuItem.Size=new System.Drawing.Size(335, 22);
-			this.bOMAusSkriptenUndMapsEntfernenToolStripMenuItem.Text="BOM aus Skripten, Maps und XML Dateien entfernen";
-			this.bOMAusSkriptenUndMapsEntfernenToolStripMenuItem.Click+=new System.EventHandler(this.bOMAusSkriptenUndMapsEntfernenToolStripMenuItem_Click);
+			this.monsterxmlBilderToolStripMenuItem.Name="monsterxmlBilderToolStripMenuItem";
+			this.monsterxmlBilderToolStripMenuItem.Size=new System.Drawing.Size(221, 22);
+			this.monsterxmlBilderToolStripMenuItem.Text="monster.xml -> Bilder...";
+			this.monsterxmlBilderToolStripMenuItem.Visible=false;
+			this.monsterxmlBilderToolStripMenuItem.Click+=new System.EventHandler(this.monsterxmlBilderToolStripMenuItem_Click);
 			// 
 			// FormMain
 			// 
@@ -465,6 +484,8 @@
 		private System.Windows.Forms.ToolStripMenuItem adler32EinerDateiBerechnenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem8;
 		private System.Windows.Forms.ToolStripMenuItem bOMAusSkriptenUndMapsEntfernenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem itemsxmlBilderToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem monsterxmlBilderToolStripMenuItem;
 	}
 }
 
