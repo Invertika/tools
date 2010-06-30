@@ -417,9 +417,54 @@ namespace Invertika_Editor
 			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
 			items.Sort();
 
+			bool weapons=true;
+			bool ruestungen=true;
+			bool powerups=true;
+			bool misc=true;
+
 			foreach(Item item in items)
 			{
 				if(item.ID<0) continue; //Unötige Items (Hairsets etc) ignorieren
+
+				if(item.ID>=10001&&item.ID<=20000)
+				{
+					if(weapons)
+					{
+						ret+="| style=\"background:#efdead;\" colspan=\"8\" align=\"center\"|Waffen\n";
+						ret+="|-\n";
+						weapons=false;
+					}
+				}
+
+				if(item.ID>=20001&&item.ID<=30000)
+				{
+					if(ruestungen)
+					{
+						ret+="| style=\"background:#efdead;\" colspan=\"8\" align=\"center\"|Rüstungen und Kleidung\n";
+						ret+="|-\n";
+						ruestungen=false;
+					}
+				}
+
+				if(item.ID>=30001&&item.ID<=40000)
+				{
+					if(powerups)
+					{
+						ret+="| style=\"background:#efdead;\" colspan=\"8\" align=\"center\"|Power Ups\n";
+						ret+="|-\n";
+						powerups=false;
+					}
+				}
+
+				if(item.ID>=40001&&item.ID<=50000)
+				{
+					if(misc)
+					{
+						ret+="| style=\"background:#efdead;\" colspan=\"8\" align=\"center\"|Sonstiges\n";
+						ret+="|-\n";
+						misc=false;
+					}
+				}
 
 				ret+=String.Format("| align=\"center\" | [[Image:item-{0}.png]]\n", item.ID);
 				ret+=String.Format("| align=\"center\" | {0}\n", item.ID);
