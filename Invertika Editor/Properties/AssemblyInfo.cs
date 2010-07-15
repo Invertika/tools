@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Invertika Editor")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("GTA Geoinformatik GmbH")]
+[assembly: AssemblyCompany("Invertika Development Team")]
 [assembly: AssemblyProduct("Invertika Editor")]
-[assembly: AssemblyCopyright("Copyright © GTA Geoinformatik GmbH 2010")]
+[assembly: AssemblyCopyright("Copyright © Invertika Development Team")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
