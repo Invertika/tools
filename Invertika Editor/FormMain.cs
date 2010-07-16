@@ -41,21 +41,9 @@ namespace Invertika_Editor
 
 			//Optionen
 			bool ExitsConfig=FileSystem.ExistsFile(Globals.OptionsXmlFilename);
+
 			Globals.Options=new XmlData(Globals.OptionsXmlFilename);
-
-			if(ExitsConfig)
-			{
-				//tbMapImagesDataFolder.Text=Globals.Options.GetElementAsString("xml.Options.MapImagesDataFolder");
-
-				//tbUpdateDataDev.Text=Globals.Options.GetElementAsString("xml.Options.UpdateDataDev");
-				//tbUpdateDataLastClient.Text=Globals.Options.GetElementAsString("xml.Options.UpdateDataLastClient");
-				//tbUpdateTargetfolder.Text=Globals.Options.GetElementAsString("xml.Options.UpdateTargetfolder");
-
-				//tbSourcePath.Text=Globals.Options.GetElementAsString("xml.Options.DataSourcePath");
-				//tbTargetPath.Text=Globals.Options.GetElementAsString("xml.Options.DataTargetPath");
-			}
-
-			//RefreshAllowed=true;
+			if(!ExitsConfig) Globals.Options.AddRoot("xml");
 
 			// Setzt die Versionsnummer anhand der Assembly Version
 			Assembly MainAssembly=Assembly.GetExecutingAssembly();
