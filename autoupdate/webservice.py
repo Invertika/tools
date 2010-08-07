@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import string,cgi,time, os
-from os import curdir,sep
-from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
+import string,cgi,time, os 
+from http.server import BaseHTTPRequestHandler,HTTPServer
 
-port = 80
+port = 8080
 path_autoupdate = "/home/manaserv/autoupdate.py"
 password = "geheim"
 
