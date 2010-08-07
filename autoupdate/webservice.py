@@ -20,17 +20,17 @@ class MyHandler(BaseHTTPRequestHandler):
                 os.system("python3 " + path_autoupdate)
 
                 # Rückmeldung
-                self.wfile.write("Autoupdate erzeugt ein neues Update...".encode())
+                self.wfile.write("Autoupdate wurde erzeugt und Server neugestartet.".encode())
                 return
             return
 
 def main():
     try:
         server = HTTPServer(('', port), MyHandler)
-        print("Starte HTTP Server...")
+        print("HTTP Server laeuft...")
         server.serve_forever()
     except KeyboardInterrupt:
-        print("Fahre Server herunter...")
+        print("Beende HTTP Server...")
         server.socket.close()
 
 if __name__ == '__main__':
