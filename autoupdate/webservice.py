@@ -15,10 +15,12 @@ class MyHandler(BaseHTTPRequestHandler):
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
-                self.wfile.write("Autoupdate erzeugt ein neues Update...".encode())
-                
+
                 # Starte Autoupdate
                 os.system("python3 " + path_autoupdate)
+
+                # Rückmeldung
+                self.wfile.write("Autoupdate erzeugt ein neues Update...".encode())
                 return
             return
 
