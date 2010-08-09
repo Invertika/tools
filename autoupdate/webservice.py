@@ -23,7 +23,7 @@ class MyHandler(BaseHTTPRequestHandler):
                 f.close()
                 self.wfile.write(gmslog.encode())
                 return
-            if self.path.endswith("acclog?password="+password):
+            elif self.path.endswith("acclog?password="+password):
                 self.send_response(200)
                 self.send_header('Content-type', 'text')
                 self.end_headers()
@@ -32,7 +32,7 @@ class MyHandler(BaseHTTPRequestHandler):
                 f.close()
                 self.wfile.write(acclog.encode())
                 return
-            if self.path.endswith("autoupdate?password="+password):
+            elif self.path.endswith("autoupdate?password="+password):
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
@@ -43,7 +43,7 @@ class MyHandler(BaseHTTPRequestHandler):
                 # Rückmeldung
                 self.wfile.write("Autoupdate wurde erzeugt und Server neugestartet.".encode())
                 return
-            if self.path.endswith("restart?password="+password):
+            elif self.path.endswith("restart?password="+password):
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
@@ -53,6 +53,15 @@ class MyHandler(BaseHTTPRequestHandler):
 
                 # Rückmeldung
                 self.wfile.write("Server wurde neugestartet.".encode())
+                return
+            else:
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+                f = open("./index.html", "r")
+                index = f.read()
+                f.close()
+                self.wfile.write(index.encode())
                 return
             return
 

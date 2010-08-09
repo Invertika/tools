@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>Invertika Singularity Administration</title>
+</head>
+<script type="text/javascript">
+<!--
+function send() {
+   var action;
+   if (document.daten.whattodo[0].checked == true) {
+    action = "autoupdate";
+   }
+   if (document.daten.whattodo[1].checked == true) {
+    action = "gmslog";
+   }
+   if (document.daten.whattodo[2].checked == true) {
+    action = "acclog";
+   }
+   if (document.daten.whattodo[3].checked == true) {
+    action = "restart";
+   }
+   var url = action + "?password=" + document.daten.password.value;
+   window.location.href = url;
+}
+//-->
+</script>
+<body>
+<form name="daten">
+<input type="password" name="password">
+<p>
+ <input type="radio" name="whattodo" value="autoupdate" checked="checked"> Autoupdate anstarten<br>
+ <input type="radio" name="whattodo" value="gmslog"> Gameserver Log anzeigen<br>
+ <input type="radio" name="whattodo" value="acclog"> Accountserver Log anzeigen<br>
+ <input type="radio" name="whattodo" value="restart"> Server neustarten
+</p>
+<input type="button" value="OK" onclick="send()">
+</form>
+</body>
+</html>
