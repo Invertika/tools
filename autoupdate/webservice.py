@@ -6,12 +6,33 @@ from http.server import BaseHTTPRequestHandler,HTTPServer
 
 port = 8080
 path_autoupdate = "/home/manaserv/autoupdate.py"
+path_gameserverlog = ""
+path_accountserverlog = ""
+path_server_restart_skript = ""
 password = "geheim"
 
 class MyHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
-            if self.path.endswith("restart?password="+password):
+            if self.path.endswith("gmslog?password="+password):
+                self.send_response(200)
+                self.send_header('Content-type', 'text')
+                self.end_headers()
+                f = open(path_gameserverlog, "r")
+                gmslog = f.read()
+                f.close()
+                self.wfile.write(gmslog.encode())
+                return
+            if self.path.endswith("acclog?password="+password):
+                self.send_response(200)
+                self.send_header('Content-type', 'text')
+                self.end_headers()
+                f = open(path_accountserverlog, "r")
+                acclog = f.read()
+                f.close()
+                self.wfile.write(acclog.encode())
+                return
+            if self.path.endswith("autoupdate?password="+password):
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
@@ -21,6 +42,17 @@ class MyHandler(BaseHTTPRequestHandler):
 
                 # Rückmeldung
                 self.wfile.write("Autoupdate wurde erzeugt und Server neugestartet.".encode())
+                return
+            if self.path.endswith("restart?password="+password):
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+
+                # Starte Server neu
+                os.system(path_server_restart_skript)
+
+                # Rückmeldung
+                self.wfile.write("Server wurde neugestartet.".encode())
                 return
             return
 
