@@ -6,15 +6,15 @@ from http.server import BaseHTTPRequestHandler,HTTPServer
 
 port = 8080
 path_autoupdate = "/home/manaserv/autoupdate.py"
-path_gameserverlog = ""
-path_accountserverlog = ""
-path_server_restart_skript = ""
+path_gameserverlog = "/home/manaserv/.manaserv-game.log"
+path_accountserverlog = "/home/manaserv/.manaserv-account.log"
+path_server_restart_skript = "/home/manaserv/restart-server.sh"
 password = "geheim"
 
 class MyHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
-            if self.path.endswith("gmslog?password="+password):
+            if self.path.endswith("gslog?password="+password):
                 self.send_response(200)
                 self.send_header('Content-type', 'text')
                 self.end_headers()
@@ -23,7 +23,7 @@ class MyHandler(BaseHTTPRequestHandler):
                 f.close()
                 self.wfile.write(gmslog.encode())
                 return
-            elif self.path.endswith("acclog?password="+password):
+            elif self.path.endswith("aslog?password="+password):
                 self.send_response(200)
                 self.send_header('Content-type', 'text')
                 self.end_headers()

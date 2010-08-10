@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Invertika Singularity Administration</title>
+<title>Invertika Server Administration</title>
 </head>
 <script type="text/javascript">
 <!--
@@ -10,10 +10,10 @@ function send() {
     action = "autoupdate";
    }
    if (document.daten.whattodo[1].checked == true) {
-    action = "gmslog";
+    action = "gslog";
    }
    if (document.daten.whattodo[2].checked == true) {
-    action = "acclog";
+    action = "aslog";
    }
    if (document.daten.whattodo[3].checked == true) {
     action = "restart";
@@ -23,16 +23,27 @@ function send() {
 }
 //-->
 </script>
-<body>
-<form name="daten">
-<input type="password" name="password">
-<p>
- <input type="radio" name="whattodo" value="autoupdate" checked="checked"> Autoupdate anstarten<br>
- <input type="radio" name="whattodo" value="gmslog"> Gameserver Log anzeigen<br>
- <input type="radio" name="whattodo" value="acclog"> Accountserver Log anzeigen<br>
- <input type="radio" name="whattodo" value="restart"> Server neustarten
-</p>
-<input type="button" value="OK" onclick="send()">
-</form>
+<body style="background-color:#111111;">
+		<table border="1" cellpadding="0" cellspacing="0" width="100%" height="100%" style="background-color:#AAAAAA;">
+			<tr>
+				<td align="center" valign="middle" width="100%">
+				    <form name="daten">
+				    <h3>Invertika Server Administration</h3>
+				    <hr>
+				    <b>Aktion:</b>
+				    <p>
+				    <input type="radio" name="whattodo" value="autoupdate" checked="checked"> Autoupdate anstarten<br>
+				    <input type="radio" name="whattodo" value="aslog"> Accountserver Log anzeigen<br>
+				    <input type="radio" name="whattodo" value="gslog"> Gameserver Log anzeigen<br>  
+				    <input type="radio" name="whattodo" value="restart"> Server neustarten
+				    </p>
+				    <hr>
+				    <b>Passwort:</b>
+				    <input type="password" name="password">
+				    <input type="button" value="OK" onclick="send()">
+				    </form>
+				</td>
+			</tr>
+		</table>
 </body>
 </html>
