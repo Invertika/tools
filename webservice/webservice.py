@@ -54,11 +54,20 @@ class MyHandler(BaseHTTPRequestHandler):
                 # Rückmeldung
                 self.wfile.write("Server wurde neugestartet.".encode())
                 return
-            else:
+            elif self.path.endswith("/"):
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
                 f = open("./webservice.html", "r")
+                index = f.read()
+                f.close()
+                self.wfile.write(index.encode())
+                return
+            else:
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+                f = open("./error.html", "r")
                 index = f.read()
                 f.close()
                 self.wfile.write(index.encode())
