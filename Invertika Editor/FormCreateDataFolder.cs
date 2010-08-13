@@ -57,6 +57,9 @@ namespace Invertika_Editor
 			ExcludesDirs.Add(".svn");
 			ExcludesDirs.Add("maps_templates");
 
+			List<string> ExcludeFiles=new List<string>();
+			ExcludeFiles.Add("CMakeLists.txt");
+
 			if(FileSystem.ExistsDirectory(target))
 			{
 				FileSystem.RemoveDirectory(target, true);
@@ -106,18 +109,18 @@ namespace Invertika_Editor
 			FileSystem.CopyFile(source+"COPYING", clientPath+"COPYING");
 			FileSystem.CopyFile(Globals.folder_client+"Invertika.url", clientPath+"Invertika.url");
 
-			FileSystem.CopyFiles(Globals.folder_client_data, clientPath+"data"+FileSystem.PathDelimiter, "*.*");
+			FileSystem.CopyFiles(Globals.folder_client_data, clientPath+"data"+FileSystem.PathDelimiter, "*.*", ExcludeFiles);
 			FileSystem.CopyFiles(Globals.folder_clientdata, clientPath+"data"+FileSystem.PathDelimiter, "*.xml");
 
 			FileSystem.CopyFiles(Globals.folder_client_data_fonts, clientPath+"data"+FileSystem.PathDelimiter+"fonts"+FileSystem.PathDelimiter, "*.ttf");
-			FileSystem.CopyDirectory(Globals.folder_client_data_graphics, clientPath+"data"+FileSystem.PathDelimiter+"graphics"+FileSystem.PathDelimiter, true, ExcludesDirs, true);
-			FileSystem.CopyDirectory(Globals.folder_clientdata_graphics, clientPath+"data"+FileSystem.PathDelimiter+"graphics"+FileSystem.PathDelimiter, true, ExcludesDirs, true);
+			FileSystem.CopyDirectory(Globals.folder_client_data_graphics, clientPath+"data"+FileSystem.PathDelimiter+"graphics"+FileSystem.PathDelimiter, true, ExcludesDirs, ExcludeFiles, true);
+			FileSystem.CopyDirectory(Globals.folder_clientdata_graphics, clientPath+"data"+FileSystem.PathDelimiter+"graphics"+FileSystem.PathDelimiter, true, ExcludesDirs, ExcludeFiles, true);
 
-			FileSystem.CopyFiles(Globals.folder_client_data_help, clientPath+"data"+FileSystem.PathDelimiter+"help"+FileSystem.PathDelimiter, "*.*");
-			FileSystem.CopyFiles(Globals.folder_client_data_icons, clientPath+"data"+FileSystem.PathDelimiter+"icons"+FileSystem.PathDelimiter, "*.*");
+			FileSystem.CopyFiles(Globals.folder_client_data_help, clientPath+"data"+FileSystem.PathDelimiter+"help"+FileSystem.PathDelimiter, "*.*", ExcludeFiles);
+			FileSystem.CopyFiles(Globals.folder_client_data_icons, clientPath+"data"+FileSystem.PathDelimiter+"icons"+FileSystem.PathDelimiter, "*.*", ExcludeFiles);
 			FileSystem.CopyFiles(Globals.folder_clientdata_maps, clientPath+"data"+FileSystem.PathDelimiter+"maps"+FileSystem.PathDelimiter, "*.tmx");
-			FileSystem.CopyDirectory(Globals.folder_clientdata_music, clientPath+"data"+FileSystem.PathDelimiter+"music"+FileSystem.PathDelimiter, true, ExcludesDirs);
-			FileSystem.CopyDirectory(Globals.folder_clientdata_sfx, clientPath+"data"+FileSystem.PathDelimiter+"sfx"+FileSystem.PathDelimiter, true, ExcludesDirs);
+			FileSystem.CopyDirectory(Globals.folder_clientdata_music, clientPath+"data"+FileSystem.PathDelimiter+"music"+FileSystem.PathDelimiter, true, ExcludesDirs, ExcludeFiles);
+			FileSystem.CopyDirectory(Globals.folder_clientdata_sfx, clientPath+"data"+FileSystem.PathDelimiter+"sfx"+FileSystem.PathDelimiter, true, ExcludesDirs, ExcludeFiles);
 			#endregion
 
 			#region tmwclient-minimal
@@ -126,7 +129,7 @@ namespace Invertika_Editor
 			FileSystem.CreateDirectory(clientPath+"data"+FileSystem.PathDelimiter+"music", true);
 			
 			FileSystem.CreateDirectory(clientPath);
-			FileSystem.CopyDirectory(source+"client"+FileSystem.PathDelimiter+"data"+FileSystem.PathDelimiter, clientPath+"data"+FileSystem.PathDelimiter, true, ExcludesDirs);
+			FileSystem.CopyDirectory(source+"client"+FileSystem.PathDelimiter+"data"+FileSystem.PathDelimiter, clientPath+"data"+FileSystem.PathDelimiter, true, ExcludesDirs, ExcludeFiles);
 			FileSystem.CopyFile(source+"AUTHORS-MANA", clientPath+"AUTHORS-MANA");
 			FileSystem.CopyFile(source+"AUTHORS-INVERTIKA", clientPath+"AUTHORS-INVERTIKA");
 			FileSystem.CopyFile(source+"COPYING", clientPath+"COPYING");
