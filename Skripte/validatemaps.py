@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-import os
+import os,sys,getopt
 import xml.etree.ElementTree as etree
 
 def GetTilesetsOfMap(path):
@@ -37,11 +37,17 @@ def GetMapsInDirectory(path):
                 result += (filename,)
     return(result)
 
-os.chdir('../../client-data/maps/')
+try:
+    global pathwithmaps
+    pathwithmaps = sys.argv[1]
+except IndexError:
+    pathwithmaps = ''
+if pathwithmaps=='':
+    print("Please specify the path with the maps as first argument!")
+    sys.exit(1)
+os.chdir(pathwithmaps)
 files = GetMapsInDirectory("./")
 for filename in files:
     if ValidateTilesets(GetTilesetsOfMap(filename))==False:
         print(filename+": INVALID")
         print(GetInvalidTilesets(filename))
-#    else:
-#        print(filename+": VALID")
