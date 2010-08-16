@@ -149,6 +149,14 @@ namespace Invertika_Editor
 				return folder_clientdata_graphics+"minimaps"+FileSystem.PathDelimiter;
 			}
 		}
+
+		public static string folder_clientdata_graphics_tiles
+		{
+			get
+			{
+				return folder_clientdata_graphics+"tiles"+FileSystem.PathDelimiter;
+			}
+		}
 		#endregion
 
 		#region Methoden

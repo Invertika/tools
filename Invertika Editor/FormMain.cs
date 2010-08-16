@@ -11,6 +11,7 @@ using CSCL.FileFormats.TMX;
 using System.IO;
 using CSCL.Games.Manasource;
 using System.Xml;
+using CSCL.Graphic;
 
 namespace Invertika_Editor
 {
@@ -694,6 +695,26 @@ namespace Invertika_Editor
 
 			//    MessageBox.Show("Item Bilder wurden erfolgreich kopiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			//}
+		}
+
+		private void tilesetsÜberprüfenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			List<string> files=FileSystem.GetFiles(Globals.folder_clientdata_graphics_tiles, false, "*.png");
+
+			string msg="Tilesets welche nicht mit den Richtlinien übereinstimmen:\n";
+			msg+="\n";
+
+			foreach(string i in files)
+			{
+				gtImage tmp=gtImage.FromFile(i);
+
+				if(tmp.Width!=512||tmp.Height!=512)
+				{
+					msg+=String.Format("{0} - Größe entspricht nicht den Richtlinien - X: {1} / Y: {2}\n", FileSystem.GetFilename(i), tmp.Width, tmp.Height);
+				}
+			}
+
+			MessageBox.Show(msg, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 	}
 }
