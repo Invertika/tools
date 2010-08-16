@@ -17,6 +17,7 @@ def GetSprites(path):
     return(result)
 
 def GetImagesFromSprites(path):
+    global sprite_path
     sprites = GetSprites(path)
     existing = GetExistingFiles()
     existingpaths = ()
@@ -24,14 +25,14 @@ def GetImagesFromSprites(path):
         if '.svn' in dirs:
             dirs.remove('.svn');
         for filename in files:
-            existingpaths += (subdir+filename,)
+            existingpaths += (subdir+"/"+filename,)
     result = ()
     for sprite in sprites:
         if sprite in existing:
             for path in existingpaths:
                 if os.path.basename(path)==sprite:
-                    spritepath = path
-            tree = etree.parse(spritepath)
+                    spritefn = path
+            tree = etree.parse(spritefn)
             imagesets = tree.findall('//imageset')
             for imageset in imagesets:
                 if 'src' in imageset.attrib:

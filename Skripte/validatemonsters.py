@@ -15,6 +15,29 @@ def GetSprites(path):
         result += (RemoveColor(sprite.text),)
     return(result)
 
+def GetImagesFromSprites(path):
+    global sprite_path
+    sprites = GetSprites(path)
+    existing = GetExistingFiles()
+    existingpaths = ()
+    for subdir, dirs, files in os.walk(sprite_path):
+        if '.svn' in dirs:
+            dirs.remove('.svn');
+        for filename in files:
+            existingpaths += (subdir+"/"+filename,)
+    result = ()
+    for sprite in sprites:
+        if sprite in existing:
+            for somepath in existingpaths:
+                if os.path.basename(somepath)==sprite:
+                    spritefn = somepath
+            tree = etree.parse(spritefn)
+            imagesets = tree.findall('//imageset')
+            for imageset in imagesets:
+                if 'src' in imageset.attrib:
+                    result += (RemoveColor(imageset.attrib['src']),)
+    return(result)
+
 def GetSounds(path):
     tree = etree.parse(path)
     sounds = tree.findall('//sound')
@@ -26,6 +49,7 @@ def GetSounds(path):
 def GetUsedFiles(path):
     result = ()
     result += GetSprites(path)
+    result += GetImagesFromSprites(path)
     result += GetSounds(path)
     return(result)
 
