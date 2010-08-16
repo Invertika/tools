@@ -105,4 +105,3 @@ if svnroot=='':
     sys.exit(1)
 os.chdir(svnroot)
 GetInvalidFiles('./client-data/items.xml')
-#print(GetImagesFromSprites('./client-data/items.xml'))
