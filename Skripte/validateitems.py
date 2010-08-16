@@ -16,6 +16,29 @@ def GetSprites(path):
         result += (RemoveColor(sprite.text),)
     return(result)
 
+def GetImagesFromSprites(path):
+    sprites = GetSprites(path)
+    existing = GetExistingFiles()
+    existingpaths = ()
+    for subdir, dirs, files in os.walk(sprite_path):
+        if '.svn' in dirs:
+            dirs.remove('.svn');
+        for filename in files:
+            existingpaths += (subdir+filename,)
+    result = ()
+    for sprite in sprites:
+        if sprite in existing:
+            for path in existingpaths:
+                if os.path.basename(path)==sprite:
+                    spritepath = path
+            tree = etree.parse(spritepath)
+            imagesets = tree.findall('//imageset')
+            for imageset in imagesets:
+                if 'src' in imageset.attrib:
+                    result += (RemoveColor(imageset.attrib['src']),)
+    return(result)
+            
+
 def GetSounds(path):
     tree = etree.parse(path)
     sounds = tree.findall('//sound')
@@ -36,13 +59,14 @@ def GetImages(path):
 def GetUsedFiles(path):
     result = ()
     result += GetSprites(path)
+    result += GetImagesFromSprites(path)
     result += GetSounds(path)
     result += GetImages(path)
     return(result)
 
 def RemoveColor(string):
     data = string.split('|')
-    return(data[0])
+    return(os.path.basename(data[0]))
 
 def GetInvalidFiles(path):
     files = GetUsedFiles(path)
@@ -80,3 +104,4 @@ if svnroot=='':
     sys.exit(1)
 os.chdir(svnroot)
 GetInvalidFiles('./client-data/items.xml')
+#print(GetImagesFromSprites('./client-data/items.xml'))
