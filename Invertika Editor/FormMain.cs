@@ -455,9 +455,9 @@ namespace Invertika_Editor
 					}
 				}
 
-				ret+=String.Format("| align=\"center\" | [[Image:item-{0}.png]]\n", item.ID);
+				ret+=String.Format("| align=\"center\" | [[Image:item-{0}.png]] {{{{Anker|{0}}}}}\n", item.ID);
 				ret+=String.Format("| align=\"center\" | {0}\n", item.ID);
-				ret+=String.Format("| {0}\n", item.Name);
+				ret+=String.Format("| [[item-{0}|{1}]]\n", item.ID, item.Name);
 				ret+=String.Format("| align=\"center\" | {0}\n", item.Description);
 				ret+=String.Format("| align=\"center\" | {0}\n", item.HP);
 				ret+=String.Format("| align=\"center\" | {0}\n", item.Weight);
@@ -537,9 +537,9 @@ namespace Invertika_Editor
 					{
 						if(monster.ID>9999) continue; //Experimentelle Monster ignorieren
 
-						ret+=String.Format("| align=\"center\" | [[Image:monster-{0}.png]]\n", monster.ID);
+						ret+=String.Format("| align=\"center\" | [[Image:monster-{0}.png]] {{{{Anker|{0}}}}}\n", monster.ID);
 						ret+=String.Format("| align=\"center\" | {0}\n", monster.ID);
-						ret+=String.Format("| {0}\n", monster.Name);
+						ret+=String.Format("| [[monster-{0}|{1}]]\n", monster.ID, monster.Name);
 						ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.HP);
 
 						if(monster.Behavior!=null)
