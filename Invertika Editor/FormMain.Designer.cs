@@ -82,6 +82,9 @@
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog=new System.Windows.Forms.SaveFileDialog();
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
+			this.toolStripMenuItem10=new System.Windows.Forms.ToolStripSeparator();
+			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.mapsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -195,7 +198,10 @@
             this.höhlengeneratorToolStripMenuItem,
             this.toolStripMenuItem5,
             this.mapsInDieMapsxmlToolStripMenuItem,
-            this.mapsAusEinerBitmapErzeugenToolStripMenuItem});
+            this.mapsAusEinerBitmapErzeugenToolStripMenuItem,
+            this.toolStripMenuItem10,
+            this.mapsÜberprüfenToolStripMenuItem,
+            this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem});
 			this.mappingToolStripMenuItem.Name="mappingToolStripMenuItem";
 			this.mappingToolStripMenuItem.Size=new System.Drawing.Size(59, 20);
 			this.mappingToolStripMenuItem.Text="&Mapping";
@@ -203,32 +209,32 @@
 			// koordinatenrechnerToolStripMenuItem
 			// 
 			this.koordinatenrechnerToolStripMenuItem.Name="koordinatenrechnerToolStripMenuItem";
-			this.koordinatenrechnerToolStripMenuItem.Size=new System.Drawing.Size(252, 22);
+			this.koordinatenrechnerToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
 			this.koordinatenrechnerToolStripMenuItem.Text="Koordinatenrechner...";
 			this.koordinatenrechnerToolStripMenuItem.Click+=new System.EventHandler(this.koordinatenrechnerToolStripMenuItem_Click);
 			// 
 			// höhlengeneratorToolStripMenuItem
 			// 
 			this.höhlengeneratorToolStripMenuItem.Name="höhlengeneratorToolStripMenuItem";
-			this.höhlengeneratorToolStripMenuItem.Size=new System.Drawing.Size(252, 22);
+			this.höhlengeneratorToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
 			this.höhlengeneratorToolStripMenuItem.Text="Höhlengenerator...";
 			// 
 			// toolStripMenuItem5
 			// 
 			this.toolStripMenuItem5.Name="toolStripMenuItem5";
-			this.toolStripMenuItem5.Size=new System.Drawing.Size(249, 6);
+			this.toolStripMenuItem5.Size=new System.Drawing.Size(291, 6);
 			// 
 			// mapsInDieMapsxmlToolStripMenuItem
 			// 
 			this.mapsInDieMapsxmlToolStripMenuItem.Name="mapsInDieMapsxmlToolStripMenuItem";
-			this.mapsInDieMapsxmlToolStripMenuItem.Size=new System.Drawing.Size(252, 22);
+			this.mapsInDieMapsxmlToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
 			this.mapsInDieMapsxmlToolStripMenuItem.Text="Maps in die maps.xml eintragen";
 			this.mapsInDieMapsxmlToolStripMenuItem.Click+=new System.EventHandler(this.mapsInDieMapsxmlToolStripMenuItem_Click);
 			// 
 			// mapsAusEinerBitmapErzeugenToolStripMenuItem
 			// 
 			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Name="mapsAusEinerBitmapErzeugenToolStripMenuItem";
-			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Size=new System.Drawing.Size(252, 22);
+			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
 			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Text="Maps aus einer Bitmap erzeugen...";
 			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Click+=new System.EventHandler(this.mapsAusEinerBitmapErzeugenToolStripMenuItem_Click);
 			// 
@@ -466,6 +472,25 @@
 			this.statusStrip.TabIndex=2;
 			this.statusStrip.Text="statusStrip1";
 			// 
+			// toolStripMenuItem10
+			// 
+			this.toolStripMenuItem10.Name="toolStripMenuItem10";
+			this.toolStripMenuItem10.Size=new System.Drawing.Size(291, 6);
+			// 
+			// vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem
+			// 
+			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Name="vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem";
+			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
+			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Text="Von den Maps benutzte Tilesets ermitteln...";
+			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Click+=new System.EventHandler(this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem_Click);
+			// 
+			// mapsÜberprüfenToolStripMenuItem
+			// 
+			this.mapsÜberprüfenToolStripMenuItem.Name="mapsÜberprüfenToolStripMenuItem";
+			this.mapsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
+			this.mapsÜberprüfenToolStripMenuItem.Text="Maps überprüfen...";
+			this.mapsÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.mapsÜberprüfenToolStripMenuItem_Click);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions=new System.Drawing.SizeF(6F, 13F);
@@ -544,6 +569,9 @@
 		private System.Windows.Forms.ToolStripMenuItem tilesetsZusammenrechnenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem tilesetrechnerToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem10;
+		private System.Windows.Forms.ToolStripMenuItem vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem mapsÜberprüfenToolStripMenuItem;
 	}
 }
 

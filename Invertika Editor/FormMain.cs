@@ -829,5 +829,80 @@ namespace Invertika_Editor
 			FormTilesetCalculator InstFormTilesetCalculator=new FormTilesetCalculator();
 			InstFormTilesetCalculator.Show();
 		}
+
+		private void vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+			List<string> usedTilesets=new List<string>();
+
+			foreach(string fn in maps)
+			{
+				TMX map=new TMX();
+				map.Open(fn, false);
+
+				foreach(CSCL.FileFormats.TMX.TMX.TilesetData fnTileset in map.Tilesets)
+				{
+					string cleanTileset=FileSystem.GetFilename(fnTileset.imgsource);
+					if(usedTilesets.IndexOf(cleanTileset)==-1) usedTilesets.Add(cleanTileset);
+				}
+			}
+
+			string msg="Von den Maps benutzte Tilesets:\n";
+			msg+="\n";
+
+			usedTilesets.Sort();
+
+			foreach(string i in usedTilesets)
+			{
+				msg+=i+"\n";
+			}
+
+			MessageBox.Show(msg, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void mapsÜberprüfenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+			List<string> usedTilesets=new List<string>();
+
+			foreach(string fn in maps)
+			{
+				TMX map=new TMX();
+				map.Open(fn, false);
+
+				foreach(CSCL.FileFormats.TMX.TMX.TilesetData fnTileset in map.Tilesets)
+				{
+					string cleanTileset=Globals.folder_clientdata+fnTileset.imgsource.Replace("../graphics", "graphics");
+					if(usedTilesets.IndexOf(cleanTileset)==-1) usedTilesets.Add(cleanTileset);
+				}
+			}
+
+			string msg="Fehler in den Maps:\n";
+			msg+="\n";
+
+			usedTilesets.Sort();
+
+			foreach(string i in usedTilesets)
+			{
+				if(!FileSystem.ExistsFile(i))
+				{
+					msg+="Tileset existiert nicht: " + i+"\n";
+				}
+			}
+
+			MessageBox.Show(msg, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
 	}
 }
