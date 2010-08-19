@@ -85,6 +85,8 @@
 			this.toolStripMenuItem10=new System.Windows.Forms.ToolStripSeparator();
 			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.mapsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.monsterInMapEinfügenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem11=new System.Windows.Forms.ToolStripSeparator();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -200,6 +202,8 @@
             this.mapsInDieMapsxmlToolStripMenuItem,
             this.mapsAusEinerBitmapErzeugenToolStripMenuItem,
             this.toolStripMenuItem10,
+            this.monsterInMapEinfügenToolStripMenuItem,
+            this.toolStripMenuItem11,
             this.mapsÜberprüfenToolStripMenuItem,
             this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem});
 			this.mappingToolStripMenuItem.Name="mappingToolStripMenuItem";
@@ -491,6 +495,17 @@
 			this.mapsÜberprüfenToolStripMenuItem.Text="Maps überprüfen...";
 			this.mapsÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.mapsÜberprüfenToolStripMenuItem_Click);
 			// 
+			// monsterInMapEinfügenToolStripMenuItem
+			// 
+			this.monsterInMapEinfügenToolStripMenuItem.Name="monsterInMapEinfügenToolStripMenuItem";
+			this.monsterInMapEinfügenToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
+			this.monsterInMapEinfügenToolStripMenuItem.Text="Monster in Map einfügen...";
+			// 
+			// toolStripMenuItem11
+			// 
+			this.toolStripMenuItem11.Name="toolStripMenuItem11";
+			this.toolStripMenuItem11.Size=new System.Drawing.Size(291, 6);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions=new System.Drawing.SizeF(6F, 13F);
@@ -572,6 +587,8 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem10;
 		private System.Windows.Forms.ToolStripMenuItem vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem mapsÜberprüfenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem monsterInMapEinfügenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem11;
 	}
 }
 
