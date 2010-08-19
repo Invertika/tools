@@ -704,17 +704,130 @@ namespace Invertika_Editor
 			string msg="Tilesets welche nicht mit den Richtlinien übereinstimmen:\n";
 			msg+="\n";
 
+			bool found=false;
+			uint conformSize=1024;
+
 			foreach(string i in files)
 			{
 				gtImage tmp=gtImage.FromFile(i);
 
-				if(tmp.Width!=512||tmp.Height!=512)
+				if(tmp.Width!=conformSize||tmp.Height!=conformSize)
 				{
 					msg+=String.Format("{0} - Größe entspricht nicht den Richtlinien - X: {1} / Y: {2}\n", FileSystem.GetFilename(i), tmp.Width, tmp.Height);
+					found=true;
 				}
 			}
 
-			MessageBox.Show(msg, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			found=false; //Programmteil soll im Moment nicht ausgeführt werden
+			if(found)
+			{
+				DialogResult res= MessageBox.Show("Es wurden einige Tilesets gefunden welche nicht Richtlinien konform sind. Sollen diese automatisch korrigiert werden?", "Frage", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+				if(res==DialogResult.Yes)
+				{
+					foreach(string i in files)
+					{
+						gtImage tmp=gtImage.FromFile(i);
+
+						if(tmp.Width!=conformSize||tmp.Height!=conformSize)
+						{
+							uint newWidth, newHeight;
+
+							if(tmp.Width<conformSize) newWidth=conformSize;
+							else newWidth=tmp.Width;
+
+							if(tmp.Height<conformSize) newHeight=conformSize;
+							else newHeight=tmp.Height;
+
+							if(tmp.Width!=newWidth||tmp.Height!=newHeight)
+							{
+								gtImage ImageCorrected=new gtImage(newWidth, newHeight, gtImage.Format.RGBA);
+								ImageCorrected.Draw(0, 0, tmp);
+								ImageCorrected.SaveToFile(i);
+							}
+						}
+					}
+
+					MessageBox.Show("Korrektur wurde vorgenommen. Bitte Prüfung noch einmal vornehmen.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					MessageBox.Show(msg, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+			}
+			else
+			{
+				MessageBox.Show(msg, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+		}
+
+		private void tilesetsZusammenrechnenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Diese Funktion rechtet 4 512x512 Tilesets zu einem 1024x1024 Tileset zusammen. Sie werden nun nach 4 Dateien gefragt und anschließend nach dem Speicherort.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+			openFileDialog.Filter="PNG Dateien (*.png)|*.png";
+			openFileDialog.FileName="";
+
+			string fn1, fn2, fn3, fn4, fnSave;
+
+			if(openFileDialog.ShowDialog()==DialogResult.OK) //file 1
+			{
+				fn1=openFileDialog.FileName;
+
+				if(openFileDialog.ShowDialog()==DialogResult.OK) //file 2
+				{
+					fn2=openFileDialog.FileName;
+
+					if(openFileDialog.ShowDialog()==DialogResult.OK) //file 3
+					{
+						fn3=openFileDialog.FileName;
+
+						if(openFileDialog.ShowDialog()==DialogResult.OK) //file 4
+						{
+							fn4=openFileDialog.FileName;
+
+							saveFileDialog.Filter="PNG Dateien (*.png)|*.png";
+							saveFileDialog.FileName="";
+
+							if(saveFileDialog.ShowDialog()==DialogResult.OK)
+							{
+								fnSave=saveFileDialog.FileName;
+
+								gtImage img1=gtImage.FromFile(fn1);
+								gtImage img2=gtImage.FromFile(fn2);
+								gtImage img3=gtImage.FromFile(fn3);
+								gtImage img4=gtImage.FromFile(fn4);
+
+								if(img1.Width!=512||img1.Height!=512
+									||img2.Width!=512||img2.Height!=512
+									||img3.Width!=512||img3.Height!=512
+									||img3.Width!=512||img3.Height!=512)
+								{
+									//Werte stimmen nicht
+									MessageBox.Show("Eines des Ausgangstilesets ist nicht 512x512 Pixel groß. Prozess wird abgebrochen.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+									return;
+								}
+
+								gtImage imgSave=new gtImage(1024, 1024, gtImage.Format.RGBA);
+								imgSave.Draw(0, 0, img1);
+								imgSave.Draw(512, 0, img2);
+								imgSave.Draw(0, 512, img3);
+								imgSave.Draw(512, 512, img4);
+
+								imgSave.SaveToPNGGDI(fnSave);
+
+								MessageBox.Show("Tileset wurde erfolgreich erzeugt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		private void tilesetrechnerToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			FormTilesetCalculator InstFormTilesetCalculator=new FormTilesetCalculator();
+			InstFormTilesetCalculator.Show();
 		}
 	}
 }

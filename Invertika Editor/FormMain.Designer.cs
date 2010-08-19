@@ -38,6 +38,10 @@
 			this.optionenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1=new System.Windows.Forms.ToolStripSeparator();
 			this.beendenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.grafikToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.tilesetrechnerToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem9=new System.Windows.Forms.ToolStripSeparator();
+			this.tilesetsZusammenrechnenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.mappingToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.koordinatenrechnerToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.höhlengeneratorToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
@@ -57,6 +61,8 @@
 			this.monsterxmlMediaWikiToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.inDateiToolStripMenuItem1=new System.Windows.Forms.ToolStripMenuItem();
 			this.inZwischenablageToolStripMenuItem1=new System.Windows.Forms.ToolStripMenuItem();
+			this.prüfungToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.tilesetsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.testsToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.tMXÖffnenUndRendernToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.adler32EinerDateiBerechnenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
@@ -76,8 +82,6 @@
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog=new System.Windows.Forms.SaveFileDialog();
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
-			this.prüfungToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.tilesetsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -85,6 +89,7 @@
 			// 
 			this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dateiToolStripMenuItem,
+            this.grafikToolStripMenuItem,
             this.mappingToolStripMenuItem,
             this.skriptingToolStripMenuItem,
             this.exportToolStripMenuItem,
@@ -153,6 +158,35 @@
 			this.beendenToolStripMenuItem.Size=new System.Drawing.Size(165, 22);
 			this.beendenToolStripMenuItem.Text="B&eenden";
 			this.beendenToolStripMenuItem.Click+=new System.EventHandler(this.beendenToolStripMenuItem_Click);
+			// 
+			// grafikToolStripMenuItem
+			// 
+			this.grafikToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tilesetrechnerToolStripMenuItem,
+            this.toolStripMenuItem9,
+            this.tilesetsZusammenrechnenToolStripMenuItem});
+			this.grafikToolStripMenuItem.Name="grafikToolStripMenuItem";
+			this.grafikToolStripMenuItem.Size=new System.Drawing.Size(47, 20);
+			this.grafikToolStripMenuItem.Text="Grafik";
+			// 
+			// tilesetrechnerToolStripMenuItem
+			// 
+			this.tilesetrechnerToolStripMenuItem.Name="tilesetrechnerToolStripMenuItem";
+			this.tilesetrechnerToolStripMenuItem.Size=new System.Drawing.Size(225, 22);
+			this.tilesetrechnerToolStripMenuItem.Text="Tilesetrechner...";
+			this.tilesetrechnerToolStripMenuItem.Click+=new System.EventHandler(this.tilesetrechnerToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem9
+			// 
+			this.toolStripMenuItem9.Name="toolStripMenuItem9";
+			this.toolStripMenuItem9.Size=new System.Drawing.Size(222, 6);
+			// 
+			// tilesetsZusammenrechnenToolStripMenuItem
+			// 
+			this.tilesetsZusammenrechnenToolStripMenuItem.Name="tilesetsZusammenrechnenToolStripMenuItem";
+			this.tilesetsZusammenrechnenToolStripMenuItem.Size=new System.Drawing.Size(225, 22);
+			this.tilesetsZusammenrechnenToolStripMenuItem.Text="Tilesets zusammenrechnen...";
+			this.tilesetsZusammenrechnenToolStripMenuItem.Click+=new System.EventHandler(this.tilesetsZusammenrechnenToolStripMenuItem_Click);
 			// 
 			// mappingToolStripMenuItem
 			// 
@@ -299,6 +333,21 @@
 			this.inZwischenablageToolStripMenuItem1.Text="in Zwischenablage";
 			this.inZwischenablageToolStripMenuItem1.Click+=new System.EventHandler(this.inZwischenablageToolStripMenuItem1_Click);
 			// 
+			// prüfungToolStripMenuItem
+			// 
+			this.prüfungToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tilesetsÜberprüfenToolStripMenuItem});
+			this.prüfungToolStripMenuItem.Name="prüfungToolStripMenuItem";
+			this.prüfungToolStripMenuItem.Size=new System.Drawing.Size(57, 20);
+			this.prüfungToolStripMenuItem.Text="&Prüfung";
+			// 
+			// tilesetsÜberprüfenToolStripMenuItem
+			// 
+			this.tilesetsÜberprüfenToolStripMenuItem.Name="tilesetsÜberprüfenToolStripMenuItem";
+			this.tilesetsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(190, 22);
+			this.tilesetsÜberprüfenToolStripMenuItem.Text="Tilesets überprüfen...";
+			this.tilesetsÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.tilesetsÜberprüfenToolStripMenuItem_Click);
+			// 
 			// testsToolStripMenuItem
 			// 
 			this.testsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -398,7 +447,7 @@
 			// überToolStripMenuItem
 			// 
 			this.überToolStripMenuItem.Name="überToolStripMenuItem";
-			this.überToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
+			this.überToolStripMenuItem.Size=new System.Drawing.Size(120, 22);
 			this.überToolStripMenuItem.Text="Ü&ber...";
 			// 
 			// toolStrip
@@ -416,21 +465,6 @@
 			this.statusStrip.Size=new System.Drawing.Size(1006, 22);
 			this.statusStrip.TabIndex=2;
 			this.statusStrip.Text="statusStrip1";
-			// 
-			// prüfungToolStripMenuItem
-			// 
-			this.prüfungToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tilesetsÜberprüfenToolStripMenuItem});
-			this.prüfungToolStripMenuItem.Name="prüfungToolStripMenuItem";
-			this.prüfungToolStripMenuItem.Size=new System.Drawing.Size(57, 20);
-			this.prüfungToolStripMenuItem.Text="&Prüfung";
-			// 
-			// tilesetsÜberprüfenToolStripMenuItem
-			// 
-			this.tilesetsÜberprüfenToolStripMenuItem.Name="tilesetsÜberprüfenToolStripMenuItem";
-			this.tilesetsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(190, 22);
-			this.tilesetsÜberprüfenToolStripMenuItem.Text="Tilesets überprüfen...";
-			this.tilesetsÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.tilesetsÜberprüfenToolStripMenuItem_Click);
 			// 
 			// FormMain
 			// 
@@ -506,6 +540,10 @@
 		private System.Windows.Forms.ToolStripMenuItem monsterxmlBilderToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem prüfungToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem tilesetsÜberprüfenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem grafikToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem tilesetsZusammenrechnenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem tilesetrechnerToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
 	}
 }
 
