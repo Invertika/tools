@@ -1016,7 +1016,7 @@ namespace Invertika_Editor
 					lines.Add("");
 					lines.Add("==Items==");
 					lines.Add("Folgende Items werden von dem Monster gedropt:");
-
+					lines.Add("");
 					lines.Add("{| border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\" align=\"center\"");
 					lines.Add("! style=\"background:#efdead;\" | Item");
 					lines.Add("! style=\"background:#efdead;\" | Drop Wahrscheinlichkeit");
@@ -1051,7 +1051,7 @@ namespace Invertika_Editor
 
 					if(monster.Drops.Count==0)
 					{
-						lines.Add(String.Format("| align=\"center\" | {0}", "keine Drips"));
+						lines.Add(String.Format("| align=\"center\" | {0}", "keine Drops"));
 						lines.Add(String.Format("| align=\"center\" | {0} %", 0));
 						lines.Add("|-");
 					}
