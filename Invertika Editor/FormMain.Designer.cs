@@ -48,6 +48,11 @@
 			this.toolStripMenuItem5=new System.Windows.Forms.ToolStripSeparator();
 			this.mapsInDieMapsxmlToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.mapsAusEinerBitmapErzeugenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem10=new System.Windows.Forms.ToolStripSeparator();
+			this.monsterInMapEinfügenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem11=new System.Windows.Forms.ToolStripSeparator();
+			this.mapsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.skriptingToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.nPCGeneratorToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem7=new System.Windows.Forms.ToolStripSeparator();
@@ -82,11 +87,9 @@
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog=new System.Windows.Forms.SaveFileDialog();
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
-			this.toolStripMenuItem10=new System.Windows.Forms.ToolStripSeparator();
-			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.mapsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.monsterInMapEinfügenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem11=new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripMenuItem12=new System.Windows.Forms.ToolStripSeparator();
+			this.itemsxmlMediawikiInfoboxenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.monsterxmlMediawikiInfoboxenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -242,6 +245,36 @@
 			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Text="Maps aus einer Bitmap erzeugen...";
 			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Click+=new System.EventHandler(this.mapsAusEinerBitmapErzeugenToolStripMenuItem_Click);
 			// 
+			// toolStripMenuItem10
+			// 
+			this.toolStripMenuItem10.Name="toolStripMenuItem10";
+			this.toolStripMenuItem10.Size=new System.Drawing.Size(291, 6);
+			// 
+			// monsterInMapEinfügenToolStripMenuItem
+			// 
+			this.monsterInMapEinfügenToolStripMenuItem.Name="monsterInMapEinfügenToolStripMenuItem";
+			this.monsterInMapEinfügenToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
+			this.monsterInMapEinfügenToolStripMenuItem.Text="Monster in Map einfügen...";
+			// 
+			// toolStripMenuItem11
+			// 
+			this.toolStripMenuItem11.Name="toolStripMenuItem11";
+			this.toolStripMenuItem11.Size=new System.Drawing.Size(291, 6);
+			// 
+			// mapsÜberprüfenToolStripMenuItem
+			// 
+			this.mapsÜberprüfenToolStripMenuItem.Name="mapsÜberprüfenToolStripMenuItem";
+			this.mapsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
+			this.mapsÜberprüfenToolStripMenuItem.Text="Maps überprüfen...";
+			this.mapsÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.mapsÜberprüfenToolStripMenuItem_Click);
+			// 
+			// vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem
+			// 
+			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Name="vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem";
+			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
+			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Text="Von den Maps benutzte Tilesets ermitteln...";
+			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Click+=new System.EventHandler(this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem_Click);
+			// 
 			// skriptingToolStripMenuItem
 			// 
 			this.skriptingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -276,8 +309,11 @@
 			this.exportToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.itemsxmlBilderToolStripMenuItem,
             this.itemsxmlMediaWikiToolStripMenuItem,
+            this.itemsxmlMediawikiInfoboxenToolStripMenuItem,
+            this.toolStripMenuItem12,
             this.monsterxmlBilderToolStripMenuItem,
-            this.monsterxmlMediaWikiToolStripMenuItem});
+            this.monsterxmlMediaWikiToolStripMenuItem,
+            this.monsterxmlMediawikiInfoboxenToolStripMenuItem});
 			this.exportToolStripMenuItem.Name="exportToolStripMenuItem";
 			this.exportToolStripMenuItem.Size=new System.Drawing.Size(51, 20);
 			this.exportToolStripMenuItem.Text="E&xport";
@@ -285,7 +321,7 @@
 			// itemsxmlBilderToolStripMenuItem
 			// 
 			this.itemsxmlBilderToolStripMenuItem.Name="itemsxmlBilderToolStripMenuItem";
-			this.itemsxmlBilderToolStripMenuItem.Size=new System.Drawing.Size(221, 22);
+			this.itemsxmlBilderToolStripMenuItem.Size=new System.Drawing.Size(303, 22);
 			this.itemsxmlBilderToolStripMenuItem.Text="items.xml -> Bilder...";
 			this.itemsxmlBilderToolStripMenuItem.Click+=new System.EventHandler(this.itemsxmlBilderToolStripMenuItem_Click);
 			// 
@@ -295,8 +331,8 @@
             this.inDateiToolStripMenuItem,
             this.inZwischenablageToolStripMenuItem});
 			this.itemsxmlMediaWikiToolStripMenuItem.Name="itemsxmlMediaWikiToolStripMenuItem";
-			this.itemsxmlMediaWikiToolStripMenuItem.Size=new System.Drawing.Size(221, 22);
-			this.itemsxmlMediaWikiToolStripMenuItem.Text="items.xml -> MediaWiki";
+			this.itemsxmlMediaWikiToolStripMenuItem.Size=new System.Drawing.Size(303, 22);
+			this.itemsxmlMediaWikiToolStripMenuItem.Text="items.xml -> Mediawiki";
 			// 
 			// inDateiToolStripMenuItem
 			// 
@@ -315,7 +351,7 @@
 			// monsterxmlBilderToolStripMenuItem
 			// 
 			this.monsterxmlBilderToolStripMenuItem.Name="monsterxmlBilderToolStripMenuItem";
-			this.monsterxmlBilderToolStripMenuItem.Size=new System.Drawing.Size(221, 22);
+			this.monsterxmlBilderToolStripMenuItem.Size=new System.Drawing.Size(303, 22);
 			this.monsterxmlBilderToolStripMenuItem.Text="monster.xml -> Bilder...";
 			this.monsterxmlBilderToolStripMenuItem.Visible=false;
 			this.monsterxmlBilderToolStripMenuItem.Click+=new System.EventHandler(this.monsterxmlBilderToolStripMenuItem_Click);
@@ -326,8 +362,8 @@
             this.inDateiToolStripMenuItem1,
             this.inZwischenablageToolStripMenuItem1});
 			this.monsterxmlMediaWikiToolStripMenuItem.Name="monsterxmlMediaWikiToolStripMenuItem";
-			this.monsterxmlMediaWikiToolStripMenuItem.Size=new System.Drawing.Size(221, 22);
-			this.monsterxmlMediaWikiToolStripMenuItem.Text="monster.xml -> MediaWiki...";
+			this.monsterxmlMediaWikiToolStripMenuItem.Size=new System.Drawing.Size(303, 22);
+			this.monsterxmlMediaWikiToolStripMenuItem.Text="monster.xml -> Mediawiki...";
 			// 
 			// inDateiToolStripMenuItem1
 			// 
@@ -476,35 +512,24 @@
 			this.statusStrip.TabIndex=2;
 			this.statusStrip.Text="statusStrip1";
 			// 
-			// toolStripMenuItem10
+			// toolStripMenuItem12
 			// 
-			this.toolStripMenuItem10.Name="toolStripMenuItem10";
-			this.toolStripMenuItem10.Size=new System.Drawing.Size(291, 6);
+			this.toolStripMenuItem12.Name="toolStripMenuItem12";
+			this.toolStripMenuItem12.Size=new System.Drawing.Size(300, 6);
 			// 
-			// vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem
+			// itemsxmlMediawikiInfoboxenToolStripMenuItem
 			// 
-			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Name="vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem";
-			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
-			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Text="Von den Maps benutzte Tilesets ermitteln...";
-			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Click+=new System.EventHandler(this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem_Click);
+			this.itemsxmlMediawikiInfoboxenToolStripMenuItem.Name="itemsxmlMediawikiInfoboxenToolStripMenuItem";
+			this.itemsxmlMediawikiInfoboxenToolStripMenuItem.Size=new System.Drawing.Size(303, 22);
+			this.itemsxmlMediawikiInfoboxenToolStripMenuItem.Text="items.xml -> Mediawiki Infobox (+Seite)...";
+			this.itemsxmlMediawikiInfoboxenToolStripMenuItem.Click+=new System.EventHandler(this.itemsxmlMediawikiInfoboxenToolStripMenuItem_Click);
 			// 
-			// mapsÜberprüfenToolStripMenuItem
+			// monsterxmlMediawikiInfoboxenToolStripMenuItem
 			// 
-			this.mapsÜberprüfenToolStripMenuItem.Name="mapsÜberprüfenToolStripMenuItem";
-			this.mapsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
-			this.mapsÜberprüfenToolStripMenuItem.Text="Maps überprüfen...";
-			this.mapsÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.mapsÜberprüfenToolStripMenuItem_Click);
-			// 
-			// monsterInMapEinfügenToolStripMenuItem
-			// 
-			this.monsterInMapEinfügenToolStripMenuItem.Name="monsterInMapEinfügenToolStripMenuItem";
-			this.monsterInMapEinfügenToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
-			this.monsterInMapEinfügenToolStripMenuItem.Text="Monster in Map einfügen...";
-			// 
-			// toolStripMenuItem11
-			// 
-			this.toolStripMenuItem11.Name="toolStripMenuItem11";
-			this.toolStripMenuItem11.Size=new System.Drawing.Size(291, 6);
+			this.monsterxmlMediawikiInfoboxenToolStripMenuItem.Name="monsterxmlMediawikiInfoboxenToolStripMenuItem";
+			this.monsterxmlMediawikiInfoboxenToolStripMenuItem.Size=new System.Drawing.Size(303, 22);
+			this.monsterxmlMediawikiInfoboxenToolStripMenuItem.Text="monster.xml -> Mediawiki Infobox (+Seite)...";
+			this.monsterxmlMediawikiInfoboxenToolStripMenuItem.Click+=new System.EventHandler(this.monsterxmlMediawikiInfoboxenToolStripMenuItem_Click);
 			// 
 			// FormMain
 			// 
@@ -589,6 +614,9 @@
 		private System.Windows.Forms.ToolStripMenuItem mapsÜberprüfenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem monsterInMapEinfügenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem11;
+		private System.Windows.Forms.ToolStripMenuItem itemsxmlMediawikiInfoboxenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem12;
+		private System.Windows.Forms.ToolStripMenuItem monsterxmlMediawikiInfoboxenToolStripMenuItem;
 	}
 }
 

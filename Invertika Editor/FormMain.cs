@@ -657,6 +657,12 @@ namespace Invertika_Editor
 
 		private void itemsxmlBilderToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
 			if(folderBrowserDialog.ShowDialog()==DialogResult.OK)
 			{
 				string fnItemsXml=Globals.folder_clientdata+"items.xml";
@@ -903,6 +909,167 @@ namespace Invertika_Editor
 			}
 
 			MessageBox.Show(msg, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void itemsxmlMediawikiInfoboxenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(folderBrowserDialog.ShowDialog()==DialogResult.OK)
+			{
+				string fnItemsXml=Globals.folder_clientdata+"items.xml";
+
+				List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
+
+				foreach(Item item in items)
+				{
+					if(item.ID<0) continue; //Unötige Items (Hairsets etc) ignorieren
+
+					List<string> lines=new List<string>();
+
+					lines.Add(String.Format("{{{{Infobox Item"));
+					lines.Add(String.Format("| image = Item-{0}.png", item.ID));
+					lines.Add(String.Format("| name  = {0}", item.Name));
+					lines.Add(String.Format("| id = {0}", item.ID));
+					lines.Add(String.Format("| description = {0}", item.Description));
+					lines.Add(String.Format("| weight = {0}", item.Weight));
+					lines.Add(String.Format("| effect = {0}", item.Effect));
+					lines.Add(String.Format("| maxperslot = {0}", item.MaxPerSlot));
+					lines.Add(String.Format("}}}}"));
+					lines.Add("");
+					lines.Add("Dieses Item besitzt noch keine Beschreibung.");
+					lines.Add("");
+					lines.Add("==Vorkommen==");
+					lines.Add("===Maps===");
+					lines.Add("Das Item kommt in folgenden Karten vor:");
+					lines.Add("* ");
+					lines.Add("* ");
+					lines.Add("");
+					lines.Add("===Monster===");
+					lines.Add("Folgende Monster droppen das Item:");
+					lines.Add("* ");
+					lines.Add("* ");
+					lines.Add("");
+					lines.Add("[[Kategorie:Item]]");
+
+					string itemfnDst=folderBrowserDialog.SelectedPath+FileSystem.PathDelimiter+"Item-"+item.ID+".txt";
+					File.WriteAllLines(itemfnDst, lines.ToArray());
+				}
+
+				MessageBox.Show("Item Seiten wurden erfolgreich geschrieben.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+		}
+
+		private void monsterxmlMediawikiInfoboxenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(folderBrowserDialog.ShowDialog()==DialogResult.OK)
+			{
+				string fnMonsterXml=Globals.folder_clientdata+"monsters.xml";
+				string fnItemsXml=Globals.folder_clientdata+"items.xml";
+
+				List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonsterXml);
+				List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
+
+				foreach(Monster monster in monsters)
+				{
+					if(monster.ID>9999) continue; //Experimentelle Monster ignorieren
+
+					List<string> lines=new List<string>();
+
+					lines.Add(String.Format("{{{{Infobox Monster"));
+					lines.Add(String.Format("| image = Monster-{0}.png", monster.ID));
+					lines.Add(String.Format("| name  = {0}", monster.Name));
+					lines.Add(String.Format("| id = {0}", monster.ID));
+					lines.Add(String.Format("| exp = {0}", monster.Exp));
+					lines.Add(String.Format("| hp = {0}", monster.Attributes.HP));
+
+					string agressive="nicht definiert";
+
+					if(monster.Behavior!=null)
+					{
+					    if(monster.Behavior.Aggressive) agressive="Ja";
+					    else agressive="Nein";
+					}
+
+					lines.Add(String.Format("| aggressive = {0}", agressive));
+					lines.Add(String.Format("| attack = {0}-{1}", monster.Attributes.AttackMin-monster.Attributes.AttackDelta, monster.Attributes.AttackMin+monster.Attributes.AttackDelta));
+					lines.Add(String.Format("| defense-physical = {0}", monster.Attributes.PhysicalDefence));
+					lines.Add(String.Format("| defense-magical = {0}", monster.Attributes.MagicalDefence));
+					lines.Add(String.Format("}}}}"));
+					lines.Add("");
+					lines.Add("Dieses Monster besitzt noch keine Beschreibung.");
+					lines.Add("");
+					lines.Add("==Vorkommen==");
+					lines.Add("Das Monster kommt auf folgenden Karten vor:");
+					lines.Add("* ");
+					lines.Add("* ");
+					lines.Add("");
+					lines.Add("==Items==");
+					lines.Add("Folgende Items werden von dem Monster gedropt:");
+
+					lines.Add("{| border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\" align=\"center\"");
+					lines.Add("! style=\"background:#efdead;\" | Item");
+					lines.Add("! style=\"background:#efdead;\" | Drop Wahrscheinlichkeit");
+					lines.Add("|-");
+
+					foreach(Drop drop in monster.Drops)
+					{
+						Item dropItem=null;
+
+						foreach(Item si in items)
+						{
+							if(si.ID==drop.Item)
+							{
+								dropItem=si;
+								break;
+							}
+						}
+
+						if(dropItem==null)
+						{
+							lines.Add(String.Format("| align=\"center\" | {0}", "Unbekanntes Item"));
+						}
+						else
+						{
+							lines.Add(String.Format("| align=\"center\" | [[item-{0}|{1}]]", dropItem.ID, dropItem.Name));
+						}
+						
+
+						lines.Add(String.Format("| align=\"center\" | {0} %", drop.Percent));
+						lines.Add("|-");
+					}
+
+					if(monster.Drops.Count==0)
+					{
+						lines.Add(String.Format("| align=\"center\" | {0}", "keine Drips"));
+						lines.Add(String.Format("| align=\"center\" | {0} %", 0));
+						lines.Add("|-");
+					}
+
+					lines.Add("|}");
+					
+					lines.Add("");
+					lines.Add("==Strategie==");
+					lines.Add("Für dieses Monster existiert noch keine Strategie.");
+					lines.Add("");
+					lines.Add("[[Kategorie:Monster]]");
+
+					string itemfnDst=folderBrowserDialog.SelectedPath+FileSystem.PathDelimiter+"Monster-"+monster.ID+".txt";
+					File.WriteAllLines(itemfnDst, lines.ToArray());
+				}
+
+				MessageBox.Show("Monster Seiten wurden erfolgreich geschrieben.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
 		}
 	}
 }
