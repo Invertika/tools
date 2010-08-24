@@ -110,6 +110,14 @@ namespace Invertika_Editor
 			}
 		}
 
+		public static string folder_clientdata_graphics_sprites
+		{
+			get
+			{
+				return folder_clientdata_graphics+"sprites"+FileSystem.PathDelimiter;
+			}
+		}
+
 		public static string folder_clientdata_mapstemplates
 		{
 			get

@@ -685,6 +685,12 @@ namespace Invertika_Editor
 
 		private void monsterxmlBilderToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			//if(Globals.folder_root=="")
+			//{
+			//    MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			//    return;
+			//}
+
 			//if(folderBrowserDialog.ShowDialog()==DialogResult.OK)
 			//{
 			//    string fnItemsXml=Globals.folder_clientdata+"monster.xml";
@@ -711,60 +717,28 @@ namespace Invertika_Editor
 			msg+="\n";
 
 			bool found=false;
-			uint conformSize=1024;
+
+			int conformWidth=1024;
+			int conformHeight=1024;
 
 			foreach(string i in files)
 			{
+				if(i.IndexOf("xold_")!=-1) continue; //xold Tilesets werden nicht geprüft
+
 				gtImage tmp=gtImage.FromFile(i);
 
-				if(tmp.Width!=conformSize||tmp.Height!=conformSize)
+				string[] splited=FileSystem.GetFilenameWithoutExt(i).Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
+				int tileheight=Convert.ToInt32(splited[splited.Length-1]);
+				conformHeight=Helper.GetValidTilesetHeight(tileheight);
+
+				if(tmp.Width!=conformWidth||tmp.Height!=conformHeight)
 				{
-					msg+=String.Format("{0} - Größe entspricht nicht den Richtlinien - X: {1} / Y: {2}\n", FileSystem.GetFilename(i), tmp.Width, tmp.Height);
+					msg+=String.Format("{0} - Größe entspricht nicht den Richtlinien - X: {1} / Y: {2} -> X: {3} / Y: {4}\n", FileSystem.GetFilename(i), tmp.Width, tmp.Height, conformWidth, conformHeight);
 					found=true;
 				}
 			}
 
-			found=false; //Programmteil soll im Moment nicht ausgeführt werden
-			if(found)
-			{
-				DialogResult res= MessageBox.Show("Es wurden einige Tilesets gefunden welche nicht Richtlinien konform sind. Sollen diese automatisch korrigiert werden?", "Frage", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-
-				if(res==DialogResult.Yes)
-				{
-					foreach(string i in files)
-					{
-						gtImage tmp=gtImage.FromFile(i);
-
-						if(tmp.Width!=conformSize||tmp.Height!=conformSize)
-						{
-							uint newWidth, newHeight;
-
-							if(tmp.Width<conformSize) newWidth=conformSize;
-							else newWidth=tmp.Width;
-
-							if(tmp.Height<conformSize) newHeight=conformSize;
-							else newHeight=tmp.Height;
-
-							if(tmp.Width!=newWidth||tmp.Height!=newHeight)
-							{
-								gtImage ImageCorrected=new gtImage(newWidth, newHeight, gtImage.Format.RGBA);
-								ImageCorrected.Draw(0, 0, tmp);
-								ImageCorrected.SaveToFile(i);
-							}
-						}
-					}
-
-					MessageBox.Show("Korrektur wurde vorgenommen. Bitte Prüfung noch einmal vornehmen.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				}
-				else
-				{
-					MessageBox.Show(msg, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				}
-			}
-			else
-			{
-				MessageBox.Show(msg, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-			}
+			MessageBox.Show(msg, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		private void tilesetsZusammenrechnenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1070,6 +1044,107 @@ namespace Invertika_Editor
 
 				MessageBox.Show("Monster Seiten wurden erfolgreich geschrieben.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
+		}
+
+		private void itemsÜberprüfenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			string fnItemsXml=Globals.folder_clientdata+"items.xml";
+			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
+
+			string msg="Fehler in der items.xml:\n";
+			msg+="\n";
+
+			foreach(Item item in items)
+			{
+				if(item.Image!=null)
+				{
+					if(item.Image!="")
+					{
+						string[] splited=item.Image.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+						string imagePath=Globals.folder_clientdata_graphics_items+splited[0];
+
+						if(!FileSystem.Exists(imagePath))
+						{
+							msg+=String.Format("Itembild ({0}) für Item {1} ({2})) existiert nicht.\n", imagePath, item.Name, item.ID);
+						}
+					}
+				}
+
+				if(item.Sprite!=null)
+				{
+					if(item.Sprite!="")
+					{
+						string[] splited=item.Sprite.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+						string spritePath=Globals.folder_clientdata_graphics_sprites+splited[0];
+
+						if(!FileSystem.Exists(spritePath))
+						{
+							msg+=String.Format("Sprite XML Datei ({0}) für Item {1} ({2})) existiert nicht.\n", spritePath, item.Name, item.ID);
+						}
+					}
+				}
+			}
+
+			MessageBox.Show(msg, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void monsterÜberprüfenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			string fnMonstersXml=Globals.folder_clientdata+"monsters.xml";
+			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonstersXml);
+
+			string msg="Fehler in der monsters.xml:\n";
+			msg+="\n";
+
+			foreach(Monster monster in monsters)
+			{
+				foreach(Sound sound in monster.Sounds)
+				{
+					if(sound!=null)
+					{
+						if(sound.Filename!=null)
+						{
+							if(sound.Filename!="")
+							{
+								string imagePath=Globals.folder_clientdata_sfx+sound.Filename;
+
+								if(!FileSystem.Exists(imagePath))
+								{
+									msg+=String.Format("Sound ({0}) für Monster {1} ({2})) existiert nicht.\n", imagePath, monster.Name, monster.ID);
+								}
+							}
+						}
+					}
+				}
+
+				if(monster.Sprite!=null)
+				{
+					if(monster.Sprite!="")
+					{
+						string[] splited=monster.Sprite.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+						string spritePath=Globals.folder_clientdata_graphics_sprites+splited[0];
+
+						if(!FileSystem.Exists(spritePath))
+						{
+							msg+=String.Format("Sprite XML Datei ({0}) für Monster {1} ({2})) existiert nicht.\n", spritePath, monster.Name, monster.ID);
+						}
+					}
+				}
+			}
+
+			MessageBox.Show(msg, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 	}
 }
