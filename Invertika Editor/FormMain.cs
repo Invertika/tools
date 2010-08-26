@@ -1649,5 +1649,21 @@ namespace Invertika_Editor
 
 			MessageBox.Show("Vorkommen für die Monster in der Mediawiki aktualisiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
+
+		private void dropsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+		}
+
+		private void vorkommenToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void dropsToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
 	}
 }

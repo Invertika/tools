@@ -102,6 +102,9 @@
 			this.monstersxmlMediawikiAPIToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.infoboxenToolStripMenuItem1=new System.Windows.Forms.ToolStripMenuItem();
 			this.vorkommenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.dropsToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.vorkommenToolStripMenuItem1=new System.Windows.Forms.ToolStripMenuItem();
+			this.dropsToolStripMenuItem1=new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -601,7 +604,9 @@
 			// itemsxmlMediawikiAPIToolStripMenuItem
 			// 
 			this.itemsxmlMediawikiAPIToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.infoboxenToolStripMenuItem});
+            this.dropsToolStripMenuItem1,
+            this.infoboxenToolStripMenuItem,
+            this.vorkommenToolStripMenuItem1});
 			this.itemsxmlMediawikiAPIToolStripMenuItem.Name="itemsxmlMediawikiAPIToolStripMenuItem";
 			this.itemsxmlMediawikiAPIToolStripMenuItem.Size=new System.Drawing.Size(352, 22);
 			this.itemsxmlMediawikiAPIToolStripMenuItem.Text="items.xml -> Mediawiki API";
@@ -616,6 +621,7 @@
 			// monstersxmlMediawikiAPIToolStripMenuItem
 			// 
 			this.monstersxmlMediawikiAPIToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dropsToolStripMenuItem,
             this.infoboxenToolStripMenuItem1,
             this.vorkommenToolStripMenuItem});
 			this.monstersxmlMediawikiAPIToolStripMenuItem.Name="monstersxmlMediawikiAPIToolStripMenuItem";
@@ -635,6 +641,27 @@
 			this.vorkommenToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
 			this.vorkommenToolStripMenuItem.Text="Vorkommen...";
 			this.vorkommenToolStripMenuItem.Click+=new System.EventHandler(this.vorkommenToolStripMenuItem_Click);
+			// 
+			// dropsToolStripMenuItem
+			// 
+			this.dropsToolStripMenuItem.Name="dropsToolStripMenuItem";
+			this.dropsToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
+			this.dropsToolStripMenuItem.Text="Drops...";
+			this.dropsToolStripMenuItem.Click+=new System.EventHandler(this.dropsToolStripMenuItem_Click);
+			// 
+			// vorkommenToolStripMenuItem1
+			// 
+			this.vorkommenToolStripMenuItem1.Name="vorkommenToolStripMenuItem1";
+			this.vorkommenToolStripMenuItem1.Size=new System.Drawing.Size(152, 22);
+			this.vorkommenToolStripMenuItem1.Text="Vorkommen...";
+			this.vorkommenToolStripMenuItem1.Click+=new System.EventHandler(this.vorkommenToolStripMenuItem1_Click);
+			// 
+			// dropsToolStripMenuItem1
+			// 
+			this.dropsToolStripMenuItem1.Name="dropsToolStripMenuItem1";
+			this.dropsToolStripMenuItem1.Size=new System.Drawing.Size(152, 22);
+			this.dropsToolStripMenuItem1.Text="Drops...";
+			this.dropsToolStripMenuItem1.Click+=new System.EventHandler(this.dropsToolStripMenuItem1_Click);
 			// 
 			// FormMain
 			// 
@@ -734,6 +761,9 @@
 		private System.Windows.Forms.ToolStripMenuItem monstersxmlMediawikiAPIToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem infoboxenToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem vorkommenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem dropsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem vorkommenToolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem dropsToolStripMenuItem1;
 	}
 }
 
