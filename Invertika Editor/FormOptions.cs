@@ -25,6 +25,11 @@ namespace Invertika_Editor
 			tbFTPWorldmapPasswort.Text=Globals.Options.GetElementAsString("xml.Options.FTP.Worldmap.Password");
 			tbFTPWorldmapServer.Text=Globals.Options.GetElementAsString("xml.Options.FTP.Worldmap.Server");
 			tbFTPWorldmapUser.Text=Globals.Options.GetElementAsString("xml.Options.FTP.Worldmap.User");
+
+			//Wiki
+			tbMediawikiURL.Text=Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL");
+			tbMediawikiUsername.Text=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username");
+			tbMediawikiPassword.Text=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort");
 		}
 
 		private void btnCancel_Click(object sender, EventArgs e)
@@ -42,6 +47,11 @@ namespace Invertika_Editor
 			Globals.Options.WriteElement("xml.Options.FTP.Worldmap.Password", tbFTPWorldmapPasswort.Text);
 			Globals.Options.WriteElement("xml.Options.FTP.Worldmap.Server", tbFTPWorldmapServer.Text);
 			Globals.Options.WriteElement("xml.Options.FTP.Worldmap.User", tbFTPWorldmapUser.Text);
+
+			//Wiki
+			Globals.Options.WriteElement("xml.Options.Mediawiki.URL", tbMediawikiURL.Text);
+			Globals.Options.WriteElement("xml.Options.Mediawiki.Username", tbMediawikiUsername.Text);
+			Globals.Options.WriteElement("xml.Options.Mediawiki.Passwort", tbMediawikiPassword.Text);
 
 			//Close
 			Close();

@@ -46,15 +46,24 @@
 			this.btnOK=new System.Windows.Forms.Button();
 			this.btnCancel=new System.Windows.Forms.Button();
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
+			this.tabPage3=new System.Windows.Forms.TabPage();
+			this.tbMediawikiPassword=new System.Windows.Forms.TextBox();
+			this.tbMediawikiURL=new System.Windows.Forms.TextBox();
+			this.tbMediawikiUsername=new System.Windows.Forms.TextBox();
+			this.label2=new System.Windows.Forms.Label();
+			this.label3=new System.Windows.Forms.Label();
+			this.label4=new System.Windows.Forms.Label();
 			this.tabControl1.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.tabPage2.SuspendLayout();
+			this.tabPage3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl1
 			// 
 			this.tabControl1.Controls.Add(this.tabPage1);
 			this.tabControl1.Controls.Add(this.tabPage2);
+			this.tabControl1.Controls.Add(this.tabPage3);
 			this.tabControl1.Dock=System.Windows.Forms.DockStyle.Top;
 			this.tabControl1.Location=new System.Drawing.Point(0, 0);
 			this.tabControl1.Name="tabControl1";
@@ -206,6 +215,71 @@
 			this.btnCancel.UseVisualStyleBackColor=true;
 			this.btnCancel.Click+=new System.EventHandler(this.btnCancel_Click);
 			// 
+			// tabPage3
+			// 
+			this.tabPage3.Controls.Add(this.tbMediawikiPassword);
+			this.tabPage3.Controls.Add(this.tbMediawikiURL);
+			this.tabPage3.Controls.Add(this.tbMediawikiUsername);
+			this.tabPage3.Controls.Add(this.label2);
+			this.tabPage3.Controls.Add(this.label3);
+			this.tabPage3.Controls.Add(this.label4);
+			this.tabPage3.Location=new System.Drawing.Point(4, 22);
+			this.tabPage3.Name="tabPage3";
+			this.tabPage3.Padding=new System.Windows.Forms.Padding(3);
+			this.tabPage3.Size=new System.Drawing.Size(571, 161);
+			this.tabPage3.TabIndex=2;
+			this.tabPage3.Text="Wiki";
+			this.tabPage3.UseVisualStyleBackColor=true;
+			// 
+			// tbMediawikiPassword
+			// 
+			this.tbMediawikiPassword.Location=new System.Drawing.Point(286, 67);
+			this.tbMediawikiPassword.Name="tbMediawikiPassword";
+			this.tbMediawikiPassword.PasswordChar='*';
+			this.tbMediawikiPassword.Size=new System.Drawing.Size(279, 20);
+			this.tbMediawikiPassword.TabIndex=42;
+			// 
+			// tbMediawikiURL
+			// 
+			this.tbMediawikiURL.Location=new System.Drawing.Point(8, 24);
+			this.tbMediawikiURL.Name="tbMediawikiURL";
+			this.tbMediawikiURL.Size=new System.Drawing.Size(270, 20);
+			this.tbMediawikiURL.TabIndex=41;
+			// 
+			// tbMediawikiUsername
+			// 
+			this.tbMediawikiUsername.Location=new System.Drawing.Point(10, 67);
+			this.tbMediawikiUsername.Name="tbMediawikiUsername";
+			this.tbMediawikiUsername.Size=new System.Drawing.Size(270, 20);
+			this.tbMediawikiUsername.TabIndex=40;
+			// 
+			// label2
+			// 
+			this.label2.AutoSize=true;
+			this.label2.Location=new System.Drawing.Point(5, 8);
+			this.label2.Name="label2";
+			this.label2.Size=new System.Drawing.Size(82, 13);
+			this.label2.TabIndex=39;
+			this.label2.Text="Mediawiki URL:";
+			// 
+			// label3
+			// 
+			this.label3.AutoSize=true;
+			this.label3.Location=new System.Drawing.Point(283, 51);
+			this.label3.Name="label3";
+			this.label3.Size=new System.Drawing.Size(53, 13);
+			this.label3.TabIndex=38;
+			this.label3.Text="Passwort:";
+			// 
+			// label4
+			// 
+			this.label4.AutoSize=true;
+			this.label4.Location=new System.Drawing.Point(7, 51);
+			this.label4.Name="label4";
+			this.label4.Size=new System.Drawing.Size(67, 13);
+			this.label4.TabIndex=37;
+			this.label4.Text="Nutzername:";
+			// 
 			// FormOptions
 			// 
 			this.AcceptButton=this.btnOK;
@@ -229,6 +303,8 @@
 			this.tabPage1.PerformLayout();
 			this.tabPage2.ResumeLayout(false);
 			this.tabPage2.PerformLayout();
+			this.tabPage3.ResumeLayout(false);
+			this.tabPage3.PerformLayout();
 			this.ResumeLayout(false);
 
 		}
@@ -252,5 +328,12 @@
 		private System.Windows.Forms.Label label11;
 		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.TabPage tabPage3;
+		private System.Windows.Forms.TextBox tbMediawikiPassword;
+		private System.Windows.Forms.TextBox tbMediawikiURL;
+		private System.Windows.Forms.TextBox tbMediawikiUsername;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label label4;
 	}
 }

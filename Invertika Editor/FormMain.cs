@@ -12,6 +12,8 @@ using System.IO;
 using CSCL.Games.Manasource;
 using System.Xml;
 using CSCL.Graphic;
+using CSCL.Bots.Mediawiki;
+using System.Text.RegularExpressions;
 
 namespace Invertika_Editor
 {
@@ -921,15 +923,7 @@ namespace Invertika_Editor
 
 					List<string> lines=new List<string>();
 
-					lines.Add(String.Format("{{{{Infobox Item"));
-					lines.Add(String.Format("| image = Item-{0}.png", item.ID));
-					lines.Add(String.Format("| name  = {0}", item.Name));
-					lines.Add(String.Format("| id = {0}", item.ID));
-					lines.Add(String.Format("| description = {0}", item.Description));
-					lines.Add(String.Format("| weight = {0}", item.Weight));
-					lines.Add(String.Format("| effect = {0}", item.Effect));
-					lines.Add(String.Format("| maxperslot = {0}", item.MaxPerSlot));
-					lines.Add(String.Format("}}}}"));
+					lines.Add(item.ToMediaWikiInfobox());
 					lines.Add("");
 					lines.Add("Dieses Item besitzt noch keine Beschreibung.");
 					lines.Add("");
@@ -976,26 +970,7 @@ namespace Invertika_Editor
 
 					List<string> lines=new List<string>();
 
-					lines.Add(String.Format("{{{{Infobox Monster"));
-					lines.Add(String.Format("| image = Monster-{0}.png", monster.ID));
-					lines.Add(String.Format("| name  = {0}", monster.Name));
-					lines.Add(String.Format("| id = {0}", monster.ID));
-					lines.Add(String.Format("| exp = {0}", monster.Exp));
-					lines.Add(String.Format("| hp = {0}", monster.Attributes.HP));
-
-					string agressive="nicht definiert";
-
-					if(monster.Behavior!=null)
-					{
-					    if(monster.Behavior.Aggressive) agressive="Ja";
-					    else agressive="Nein";
-					}
-
-					lines.Add(String.Format("| aggressive = {0}", agressive));
-					lines.Add(String.Format("| attack = {0}-{1}", monster.Attributes.AttackMin-monster.Attributes.AttackDelta, monster.Attributes.AttackMin+monster.Attributes.AttackDelta));
-					lines.Add(String.Format("| defense-physical = {0}", monster.Attributes.PhysicalDefence));
-					lines.Add(String.Format("| defense-magical = {0}", monster.Attributes.MagicalDefence));
-					lines.Add(String.Format("}}}}"));
+					lines.Add(monster.ToMediaWikiInfobox());
 					lines.Add("");
 					lines.Add("Dieses Monster besitzt noch keine Beschreibung.");
 					lines.Add("");
@@ -1161,6 +1136,187 @@ namespace Invertika_Editor
 			}
 
 			MessageBox.Show(msg, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void itemsxmlMediawikiInfoboxüberMediawkiAPIToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL")=="")
+			{
+				MessageBox.Show("Bitte geben sie eine Mediawiki URL in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username")=="")
+			{
+				MessageBox.Show("Bitte geben sie einen Mediawiki Nutzernamen in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort")=="")
+			{
+				MessageBox.Show("Bitte geben sie einen Mediawiki Passwort in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			string url=Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL");
+			string username=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username");
+			string password=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort");
+
+			Site wiki=new Site(url, username, password);
+
+			PageList pl=new PageList(wiki);
+			pl.FillAllFromCategory("Item");
+			pl.LoadEx();
+
+			foreach(Page i in pl)
+			{
+				string text=i.text;
+				int idxBeginInfobox=text.IndexOf("{{", 0);
+				int idxEndInfobox=text.IndexOf("}}", 0);
+
+				string infobox=text.Substring(idxBeginInfobox, idxEndInfobox+2);
+				text=text.Replace(infobox, "");
+
+				int itemIndex=-1;
+				string[] splited=infobox.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+				
+				foreach(string entry in splited)
+				{
+					string tmpEntry=entry.Replace(" ", "").ToLower();
+					if(tmpEntry.IndexOf("id=")!=-1)
+					{
+						string[] splited2=tmpEntry.Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+						itemIndex=Convert.ToInt32(splited2[1]);
+						break;
+					}
+				}
+
+				if(itemIndex==-1) continue;
+
+				string fnItemsXml=Globals.folder_clientdata+"items.xml";
+
+				List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
+
+				foreach(Item item in items)
+				{
+					if(item.ID==itemIndex)
+					{
+						text=item.ToMediaWikiInfobox()+text;
+
+						if(i.text!=text)
+						{
+							i.text=text;
+						}
+						break;
+					}
+				}
+			}
+
+			pl.SaveSmoothly(1, "Bot: Infobox Item aktualisiert.", true);
+
+			MessageBox.Show("Infoboxen für die Items in der Mediawiki aktualisiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void monstersxmlMediaWikiInfoboxüberMediawikiAPIToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL")=="")
+			{
+				MessageBox.Show("Bitte geben sie eine Mediawiki URL in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username")=="")
+			{
+				MessageBox.Show("Bitte geben sie einen Mediawiki Nutzernamen in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort")=="")
+			{
+				MessageBox.Show("Bitte geben sie einen Mediawiki Passwort in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			string url=Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL");
+			string username=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username");
+			string password=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort");
+
+			Site wiki=new Site(url, username, password);
+
+			PageList pl=new PageList(wiki);
+			pl.FillAllFromCategory("Monster");
+			pl.LoadEx();
+
+			foreach(Page i in pl)
+			{
+				string text=i.text;
+				int idxBeginInfobox=text.IndexOf("{{", 0);
+				int idxEndInfobox=text.IndexOf("}}", 0);
+
+				string infobox=text.Substring(idxBeginInfobox, idxEndInfobox+2);
+				text=text.Replace(infobox, "");
+
+				int monsterIndex=-1;
+				string[] splited=infobox.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+
+				foreach(string entry in splited)
+				{
+					string tmpEntry=entry.Replace(" ", "").ToLower();
+					if(tmpEntry.IndexOf("id=")!=-1)
+					{
+						string[] splited2=tmpEntry.Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+						monsterIndex=Convert.ToInt32(splited2[1]);
+						break;
+					}
+				}
+
+				if(monsterIndex==-1) continue;
+
+				string fnMonstersXml=Globals.folder_clientdata+"monsters.xml";
+
+				List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonstersXml);
+
+				foreach(Monster monster in monsters)
+				{
+					if(monster.ID==monsterIndex)
+					{
+						text=monster.ToMediaWikiInfobox()+text;
+
+						if(i.text!=text)
+						{
+							i.text=text;
+						}
+						break;
+					}
+				}
+			}
+
+			pl.SaveSmoothly(1, "Bot: Infobox Monster aktualisiert.", true);
+
+			MessageBox.Show("Infoboxen für die Monster in der Mediawiki aktualisiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			//Items
+			itemsxmlMediawikiInfoboxüberMediawkiAPIToolStripMenuItem_Click(null, null);
+
+			//Monster
+			monstersxmlMediaWikiInfoboxüberMediawikiAPIToolStripMenuItem_Click(null, null);
+
+			MessageBox.Show("Alle Mediawiki Exporte durchgeführt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 	}
 }

@@ -63,13 +63,19 @@
 			this.inDateiToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.inZwischenablageToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.itemsxmlMediawikiInfoboxenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.itemsxmlMediawikiInfoboxüberMediawkiAPIToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem12=new System.Windows.Forms.ToolStripSeparator();
 			this.monsterxmlBilderToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.monsterxmlMediaWikiToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.inDateiToolStripMenuItem1=new System.Windows.Forms.ToolStripMenuItem();
 			this.inZwischenablageToolStripMenuItem1=new System.Windows.Forms.ToolStripMenuItem();
 			this.monsterxmlMediawikiInfoboxenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.monstersxmlMediaWikiInfoboxüberMediawikiAPIToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem13=new System.Windows.Forms.ToolStripSeparator();
+			this.alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.prüfungToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.itemsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.monsterÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.tilesetsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.testsToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.tMXÖffnenUndRendernToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
@@ -90,8 +96,6 @@
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog=new System.Windows.Forms.SaveFileDialog();
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
-			this.monsterÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.itemsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -312,10 +316,14 @@
             this.itemsxmlBilderToolStripMenuItem,
             this.itemsxmlMediaWikiToolStripMenuItem,
             this.itemsxmlMediawikiInfoboxenToolStripMenuItem,
+            this.itemsxmlMediawikiInfoboxüberMediawkiAPIToolStripMenuItem,
             this.toolStripMenuItem12,
             this.monsterxmlBilderToolStripMenuItem,
             this.monsterxmlMediaWikiToolStripMenuItem,
-            this.monsterxmlMediawikiInfoboxenToolStripMenuItem});
+            this.monsterxmlMediawikiInfoboxenToolStripMenuItem,
+            this.monstersxmlMediaWikiInfoboxüberMediawikiAPIToolStripMenuItem,
+            this.toolStripMenuItem13,
+            this.alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem});
 			this.exportToolStripMenuItem.Name="exportToolStripMenuItem";
 			this.exportToolStripMenuItem.Size=new System.Drawing.Size(51, 20);
 			this.exportToolStripMenuItem.Text="E&xport";
@@ -323,7 +331,7 @@
 			// itemsxmlBilderToolStripMenuItem
 			// 
 			this.itemsxmlBilderToolStripMenuItem.Name="itemsxmlBilderToolStripMenuItem";
-			this.itemsxmlBilderToolStripMenuItem.Size=new System.Drawing.Size(303, 22);
+			this.itemsxmlBilderToolStripMenuItem.Size=new System.Drawing.Size(356, 22);
 			this.itemsxmlBilderToolStripMenuItem.Text="items.xml -> Bilder...";
 			this.itemsxmlBilderToolStripMenuItem.Click+=new System.EventHandler(this.itemsxmlBilderToolStripMenuItem_Click);
 			// 
@@ -333,7 +341,7 @@
             this.inDateiToolStripMenuItem,
             this.inZwischenablageToolStripMenuItem});
 			this.itemsxmlMediaWikiToolStripMenuItem.Name="itemsxmlMediaWikiToolStripMenuItem";
-			this.itemsxmlMediaWikiToolStripMenuItem.Size=new System.Drawing.Size(303, 22);
+			this.itemsxmlMediaWikiToolStripMenuItem.Size=new System.Drawing.Size(356, 22);
 			this.itemsxmlMediaWikiToolStripMenuItem.Text="items.xml -> Mediawiki";
 			// 
 			// inDateiToolStripMenuItem
@@ -353,19 +361,26 @@
 			// itemsxmlMediawikiInfoboxenToolStripMenuItem
 			// 
 			this.itemsxmlMediawikiInfoboxenToolStripMenuItem.Name="itemsxmlMediawikiInfoboxenToolStripMenuItem";
-			this.itemsxmlMediawikiInfoboxenToolStripMenuItem.Size=new System.Drawing.Size(303, 22);
+			this.itemsxmlMediawikiInfoboxenToolStripMenuItem.Size=new System.Drawing.Size(356, 22);
 			this.itemsxmlMediawikiInfoboxenToolStripMenuItem.Text="items.xml -> Mediawiki Infobox (+Seite)...";
 			this.itemsxmlMediawikiInfoboxenToolStripMenuItem.Click+=new System.EventHandler(this.itemsxmlMediawikiInfoboxenToolStripMenuItem_Click);
+			// 
+			// itemsxmlMediawikiInfoboxüberMediawkiAPIToolStripMenuItem
+			// 
+			this.itemsxmlMediawikiInfoboxüberMediawkiAPIToolStripMenuItem.Name="itemsxmlMediawikiInfoboxüberMediawkiAPIToolStripMenuItem";
+			this.itemsxmlMediawikiInfoboxüberMediawkiAPIToolStripMenuItem.Size=new System.Drawing.Size(356, 22);
+			this.itemsxmlMediawikiInfoboxüberMediawkiAPIToolStripMenuItem.Text="items.xml -> Mediawiki Infobox (über Mediawki API)";
+			this.itemsxmlMediawikiInfoboxüberMediawkiAPIToolStripMenuItem.Click+=new System.EventHandler(this.itemsxmlMediawikiInfoboxüberMediawkiAPIToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem12
 			// 
 			this.toolStripMenuItem12.Name="toolStripMenuItem12";
-			this.toolStripMenuItem12.Size=new System.Drawing.Size(300, 6);
+			this.toolStripMenuItem12.Size=new System.Drawing.Size(353, 6);
 			// 
 			// monsterxmlBilderToolStripMenuItem
 			// 
 			this.monsterxmlBilderToolStripMenuItem.Name="monsterxmlBilderToolStripMenuItem";
-			this.monsterxmlBilderToolStripMenuItem.Size=new System.Drawing.Size(303, 22);
+			this.monsterxmlBilderToolStripMenuItem.Size=new System.Drawing.Size(356, 22);
 			this.monsterxmlBilderToolStripMenuItem.Text="monster.xml -> Bilder...";
 			this.monsterxmlBilderToolStripMenuItem.Click+=new System.EventHandler(this.monsterxmlBilderToolStripMenuItem_Click);
 			// 
@@ -375,7 +390,7 @@
             this.inDateiToolStripMenuItem1,
             this.inZwischenablageToolStripMenuItem1});
 			this.monsterxmlMediaWikiToolStripMenuItem.Name="monsterxmlMediaWikiToolStripMenuItem";
-			this.monsterxmlMediaWikiToolStripMenuItem.Size=new System.Drawing.Size(303, 22);
+			this.monsterxmlMediaWikiToolStripMenuItem.Size=new System.Drawing.Size(356, 22);
 			this.monsterxmlMediaWikiToolStripMenuItem.Text="monster.xml -> Mediawiki...";
 			// 
 			// inDateiToolStripMenuItem1
@@ -395,9 +410,28 @@
 			// monsterxmlMediawikiInfoboxenToolStripMenuItem
 			// 
 			this.monsterxmlMediawikiInfoboxenToolStripMenuItem.Name="monsterxmlMediawikiInfoboxenToolStripMenuItem";
-			this.monsterxmlMediawikiInfoboxenToolStripMenuItem.Size=new System.Drawing.Size(303, 22);
+			this.monsterxmlMediawikiInfoboxenToolStripMenuItem.Size=new System.Drawing.Size(356, 22);
 			this.monsterxmlMediawikiInfoboxenToolStripMenuItem.Text="monster.xml -> Mediawiki Infobox (+Seite)...";
 			this.monsterxmlMediawikiInfoboxenToolStripMenuItem.Click+=new System.EventHandler(this.monsterxmlMediawikiInfoboxenToolStripMenuItem_Click);
+			// 
+			// monstersxmlMediaWikiInfoboxüberMediawikiAPIToolStripMenuItem
+			// 
+			this.monstersxmlMediaWikiInfoboxüberMediawikiAPIToolStripMenuItem.Name="monstersxmlMediaWikiInfoboxüberMediawikiAPIToolStripMenuItem";
+			this.monstersxmlMediaWikiInfoboxüberMediawikiAPIToolStripMenuItem.Size=new System.Drawing.Size(356, 22);
+			this.monstersxmlMediaWikiInfoboxüberMediawikiAPIToolStripMenuItem.Text="monsters.xml -> MediaWiki Infobox (über Mediawiki API)";
+			this.monstersxmlMediaWikiInfoboxüberMediawikiAPIToolStripMenuItem.Click+=new System.EventHandler(this.monstersxmlMediaWikiInfoboxüberMediawikiAPIToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem13
+			// 
+			this.toolStripMenuItem13.Name="toolStripMenuItem13";
+			this.toolStripMenuItem13.Size=new System.Drawing.Size(353, 6);
+			// 
+			// alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem
+			// 
+			this.alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem.Name="alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem";
+			this.alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem.Size=new System.Drawing.Size(356, 22);
+			this.alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem.Text="Alle Mediawki Exporte durchführen (über Mediawiki API)";
+			this.alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem.Click+=new System.EventHandler(this.alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem_Click);
 			// 
 			// prüfungToolStripMenuItem
 			// 
@@ -408,6 +442,20 @@
 			this.prüfungToolStripMenuItem.Name="prüfungToolStripMenuItem";
 			this.prüfungToolStripMenuItem.Size=new System.Drawing.Size(57, 20);
 			this.prüfungToolStripMenuItem.Text="&Prüfung";
+			// 
+			// itemsÜberprüfenToolStripMenuItem
+			// 
+			this.itemsÜberprüfenToolStripMenuItem.Name="itemsÜberprüfenToolStripMenuItem";
+			this.itemsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(193, 22);
+			this.itemsÜberprüfenToolStripMenuItem.Text="Items überprüfen...";
+			this.itemsÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.itemsÜberprüfenToolStripMenuItem_Click);
+			// 
+			// monsterÜberprüfenToolStripMenuItem
+			// 
+			this.monsterÜberprüfenToolStripMenuItem.Name="monsterÜberprüfenToolStripMenuItem";
+			this.monsterÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(193, 22);
+			this.monsterÜberprüfenToolStripMenuItem.Text="Monster überprüfen...";
+			this.monsterÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.monsterÜberprüfenToolStripMenuItem_Click);
 			// 
 			// tilesetsÜberprüfenToolStripMenuItem
 			// 
@@ -515,7 +563,7 @@
 			// überToolStripMenuItem
 			// 
 			this.überToolStripMenuItem.Name="überToolStripMenuItem";
-			this.überToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
+			this.überToolStripMenuItem.Size=new System.Drawing.Size(120, 22);
 			this.überToolStripMenuItem.Text="Ü&ber...";
 			// 
 			// toolStrip
@@ -533,20 +581,6 @@
 			this.statusStrip.Size=new System.Drawing.Size(1006, 22);
 			this.statusStrip.TabIndex=2;
 			this.statusStrip.Text="statusStrip1";
-			// 
-			// monsterÜberprüfenToolStripMenuItem
-			// 
-			this.monsterÜberprüfenToolStripMenuItem.Name="monsterÜberprüfenToolStripMenuItem";
-			this.monsterÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(193, 22);
-			this.monsterÜberprüfenToolStripMenuItem.Text="Monster überprüfen...";
-			this.monsterÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.monsterÜberprüfenToolStripMenuItem_Click);
-			// 
-			// itemsÜberprüfenToolStripMenuItem
-			// 
-			this.itemsÜberprüfenToolStripMenuItem.Name="itemsÜberprüfenToolStripMenuItem";
-			this.itemsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(193, 22);
-			this.itemsÜberprüfenToolStripMenuItem.Text="Items überprüfen...";
-			this.itemsÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.itemsÜberprüfenToolStripMenuItem_Click);
 			// 
 			// FormMain
 			// 
@@ -636,6 +670,10 @@
 		private System.Windows.Forms.ToolStripMenuItem monsterxmlMediawikiInfoboxenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem monsterÜberprüfenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem itemsÜberprüfenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem itemsxmlMediawikiInfoboxüberMediawkiAPIToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem monstersxmlMediaWikiInfoboxüberMediawikiAPIToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem13;
+		private System.Windows.Forms.ToolStripMenuItem alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem;
 	}
 }
 
