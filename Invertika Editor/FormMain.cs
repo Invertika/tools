@@ -1665,5 +1665,10 @@ namespace Invertika_Editor
 		{
 			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
+
+		private void fehlendeMapsInDieWeltkartenDatenbankEintragenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
 	}
 }
