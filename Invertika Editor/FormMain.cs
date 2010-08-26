@@ -1138,32 +1138,8 @@ namespace Invertika_Editor
 			MessageBox.Show(msg, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
-		private void itemsxmlMediawikiInfoboxüberMediawkiAPIToolStripMenuItem_Click(object sender, EventArgs e)
+		private void ExportItemsInfoboxToMediawikiAPI()
 		{
-			if(Globals.folder_root=="")
-			{
-				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				return;
-			}
-
-			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL")=="")
-			{
-				MessageBox.Show("Bitte geben sie eine Mediawiki URL in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				return;
-			}
-
-			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username")=="")
-			{
-				MessageBox.Show("Bitte geben sie einen Mediawiki Nutzernamen in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				return;
-			}
-
-			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort")=="")
-			{
-				MessageBox.Show("Bitte geben sie einen Mediawiki Passwort in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				return;
-			}
-
 			string url=Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL");
 			string username=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username");
 			string password=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort");
@@ -1185,7 +1161,7 @@ namespace Invertika_Editor
 
 				int itemIndex=-1;
 				string[] splited=infobox.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-				
+
 				foreach(string entry in splited)
 				{
 					string tmpEntry=entry.Replace(" ", "").ToLower();
@@ -1219,11 +1195,9 @@ namespace Invertika_Editor
 			}
 
 			pl.SaveSmoothly(1, "Bot: Infobox Item aktualisiert.", true);
-
-			MessageBox.Show("Infoboxen für die Items in der Mediawiki aktualisiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
-		private void monstersxmlMediaWikiInfoboxüberMediawikiAPIToolStripMenuItem_Click(object sender, EventArgs e)
+		private void itemsxmlMediawikiInfoboxüberMediawkiAPIToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if(Globals.folder_root=="")
 			{
@@ -1249,6 +1223,13 @@ namespace Invertika_Editor
 				return;
 			}
 
+			ExportItemsInfoboxToMediawikiAPI();
+
+			MessageBox.Show("Infoboxen für die Items in der Mediawiki aktualisiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void ExportMonstersInfoboxToMediawikiAPI()
+		{
 			string url=Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL");
 			string username=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username");
 			string password=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort");
@@ -1304,17 +1285,70 @@ namespace Invertika_Editor
 			}
 
 			pl.SaveSmoothly(1, "Bot: Infobox Monster aktualisiert.", true);
+	}
+
+		private void monstersxmlMediaWikiInfoboxüberMediawikiAPIToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL")=="")
+			{
+				MessageBox.Show("Bitte geben sie eine Mediawiki URL in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username")=="")
+			{
+				MessageBox.Show("Bitte geben sie einen Mediawiki Nutzernamen in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort")=="")
+			{
+				MessageBox.Show("Bitte geben sie einen Mediawiki Passwort in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			ExportMonstersInfoboxToMediawikiAPI();
 
 			MessageBox.Show("Infoboxen für die Monster in der Mediawiki aktualisiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		private void alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL")=="")
+			{
+				MessageBox.Show("Bitte geben sie eine Mediawiki URL in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username")=="")
+			{
+				MessageBox.Show("Bitte geben sie einen Mediawiki Nutzernamen in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort")=="")
+			{
+				MessageBox.Show("Bitte geben sie einen Mediawiki Passwort in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
 			//Items
-			itemsxmlMediawikiInfoboxüberMediawkiAPIToolStripMenuItem_Click(null, null);
+			ExportItemsInfoboxToMediawikiAPI();
 
 			//Monster
-			monstersxmlMediaWikiInfoboxüberMediawikiAPIToolStripMenuItem_Click(null, null);
+			ExportMonstersInfoboxToMediawikiAPI();
 
 			MessageBox.Show("Alle Mediawiki Exporte durchgeführt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
