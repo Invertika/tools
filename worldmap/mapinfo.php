@@ -18,7 +18,7 @@
 	}
 
   //Beispiel
-  //http://weltkarte.invertika.org/test/mapinfo.php?onlytext=1&fn=ow-o0000-n0001-o0000
+  //http://weltkarte.invertika.org/mapinfo.php?onlytext=1&fn=ow-o0000-n0001-o0000
 	
   //Variablen abfragen
   $x = 0;
