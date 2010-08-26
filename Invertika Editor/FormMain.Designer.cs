@@ -367,7 +367,6 @@
 			this.monsterxmlBilderToolStripMenuItem.Name="monsterxmlBilderToolStripMenuItem";
 			this.monsterxmlBilderToolStripMenuItem.Size=new System.Drawing.Size(303, 22);
 			this.monsterxmlBilderToolStripMenuItem.Text="monster.xml -> Bilder...";
-			this.monsterxmlBilderToolStripMenuItem.Visible=false;
 			this.monsterxmlBilderToolStripMenuItem.Click+=new System.EventHandler(this.monsterxmlBilderToolStripMenuItem_Click);
 			// 
 			// monsterxmlMediaWikiToolStripMenuItem
@@ -516,7 +515,7 @@
 			// überToolStripMenuItem
 			// 
 			this.überToolStripMenuItem.Name="überToolStripMenuItem";
-			this.überToolStripMenuItem.Size=new System.Drawing.Size(120, 22);
+			this.überToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
 			this.überToolStripMenuItem.Text="Ü&ber...";
 			// 
 			// toolStrip

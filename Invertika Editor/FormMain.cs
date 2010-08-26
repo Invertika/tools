@@ -685,28 +685,44 @@ namespace Invertika_Editor
 
 		private void monsterxmlBilderToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			//if(Globals.folder_root=="")
-			//{
-			//    MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-			//    return;
-			//}
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
 
-			//if(folderBrowserDialog.ShowDialog()==DialogResult.OK)
-			//{
-			//    string fnItemsXml=Globals.folder_clientdata+"monster.xml";
+			if(folderBrowserDialog.ShowDialog()==DialogResult.OK)
+			{
+				string fnMonstersXml=Globals.folder_clientdata+"monsters.xml";
+				List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonstersXml);
 
-			//    List<Monster> items=Monster.GetMonstersFromMonsterXml(fnItemsXml);
+				foreach(Monster monster in monsters)
+				{
+					if(monster.ID>9999) continue; //Testmonster ignorieren
 
-			//    foreach(Monster item in items)
-			//    {
-			//        if(item.ID<0) continue; //Unötige Items (Hairsets etc) ignorieren
-			//        string itemfnSrc=Globals.folder_clientdata_graphics_items+item.Image;
-			//        string itemfnDst=folderBrowserDialog.SelectedPath+FileSystem.PathDelimiter+"Monster-"+item.ID+".png";
-			//        FileSystem.CopyFile(itemfnSrc, itemfnDst, true);
-			//    }
+					if(monster.Sprite!=null)
+					{
+						if(monster.Sprite!="")
+						{
+							string[] splited=monster.Sprite.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+							string spritePath=Globals.folder_clientdata_graphics_sprites+splited[0];
 
-			//    MessageBox.Show("Item Bilder wurden erfolgreich kopiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-			//}
+							Sprite tmp=Sprite.GetSpriteFromXml(spritePath);
+
+							Imageset set=tmp.Imagesets[0];
+							string[] splited2=set.Src.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+							string srcname=splited2[0];
+							gtImage setImage=gtImage.FromFile(Globals.folder_clientdata+srcname);
+							gtImage monsterImage=setImage.GetSubImage(0, 0, (uint)set.Width, (uint)set.Height);
+								
+							string monsterDst=folderBrowserDialog.SelectedPath+FileSystem.PathDelimiter+"Monster-"+monster.ID+".png";
+							monsterImage.SaveToPNGGDI(monsterDst);
+						}
+					}
+				}
+
+				MessageBox.Show("Monster Bilder wurden erfolgreich kopiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
 		}
 
 		private void tilesetsÜberprüfenToolStripMenuItem_Click(object sender, EventArgs e)
