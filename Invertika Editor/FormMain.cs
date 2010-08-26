@@ -14,6 +14,7 @@ using System.Xml;
 using CSCL.Graphic;
 using CSCL.Bots.Mediawiki;
 using System.Text.RegularExpressions;
+using Invertika_Editor.Classes;
 
 namespace Invertika_Editor
 {
@@ -281,8 +282,6 @@ namespace Invertika_Editor
 									mapnode=xmlnode;
 								}
 							}
-
-							//mapnodes[0];
 
 							XmlNode objectgroup=mapAsXml.AddElement(mapnode, "objectgroup", "");
 							mapAsXml.AddAttribute(objectgroup, "name", "Object");
@@ -611,7 +610,7 @@ namespace Invertika_Editor
 
 		private void xMLÖffnenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-
+			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		private void adler32EinerDateiBerechnenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1351,6 +1350,129 @@ namespace Invertika_Editor
 			ExportMonstersInfoboxToMediawikiAPI();
 
 			MessageBox.Show("Alle Mediawiki Exporte durchgeführt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void monsterInMapEinfügenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private List<MonsterSpawn> GetMonsterSpawnFromMap(string filename)
+		{
+			List<MonsterSpawn> ret=new List<MonsterSpawn>();
+
+			TMX map=new TMX();
+			map.Open(filename, false);
+
+			foreach(Objectgroup objgroup in map.ObjectLayers)
+			{
+				if(objgroup.Name.ToLower()=="object")
+				{
+					foreach(CSCL.FileFormats.TMX.Object obj in objgroup.Objects)
+					{
+						if(obj.Type!=null)
+						{
+							if(obj.Type.ToLower()=="spawn")
+							{
+								int MAX_BEINGS=-1;
+								int MONSTER_ID=-1;
+								double SPAWN_RATE=-1;
+
+								foreach(Property prop in obj.Properties)
+								{
+									switch(prop.Name.ToLower())
+									{
+										case "monster_id":
+											{
+												MONSTER_ID=Convert.ToInt32(prop.Value);
+												break;
+											}
+										case "max_beings":
+											{
+												MAX_BEINGS=Convert.ToInt32(prop.Value);
+												break;
+											}
+										case "spawn_rate":
+											{
+												SPAWN_RATE=Convert.ToDouble(prop.Value);
+												break;
+											}
+									}
+								}
+
+								ret.Add(new MonsterSpawn(MAX_BEINGS, MONSTER_ID, SPAWN_RATE));
+							}
+						}
+					}
+				}
+			}
+
+			return ret;
+		}
+
+		private void monsterInDenMapsErmittelnToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+
+			Dictionary<int, List<string>> MonsterMapList=new Dictionary<int, List<string>>();
+
+			foreach(string fn in maps)
+			{
+				List<MonsterSpawn> spawns=GetMonsterSpawnFromMap(fn);
+
+				foreach(MonsterSpawn spawn in spawns)
+				{
+					if(MonsterMapList.ContainsKey(spawn.MonsterID))
+					{
+						MonsterMapList[spawn.MonsterID].Add(FileSystem.GetFilenameWithoutExt(fn));
+					}
+					else
+					{
+						List<string> tmpMapList=new List<string>();
+						tmpMapList.Add(FileSystem.GetFilenameWithoutExt(fn));
+						MonsterMapList.Add(spawn.MonsterID, tmpMapList);
+					}
+				}
+			}
+
+			string fnMonstersXml=Globals.folder_clientdata+"monsters.xml";
+			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonstersXml);
+
+			string ret="Monsterverteilung in den Maps\n\n";
+
+			foreach(KeyValuePair<int, List<string>> kvp in MonsterMapList)
+			{
+				foreach(Monster monster in monsters)
+				{
+					if(monster.ID==kvp.Key)
+					{
+						ret+=String.Format("Monster: {0}\n", monster.Name);
+						break;
+					}
+				}
+
+				ret+=String.Format("Monster ID: {0}\n", kvp.Key);
+
+				foreach(string mapname in kvp.Value)
+				{
+					ret+=String.Format("Map: {0}\n", mapname);
+				}
+
+				ret+="\n";
+			}
+
+			MessageBox.Show(ret, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void xMLSpeichernToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 	}
 }

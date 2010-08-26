@@ -96,6 +96,8 @@
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog=new System.Windows.Forms.SaveFileDialog();
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
+			this.monsterInDenMapsErmittelnToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem14=new System.Windows.Forms.ToolStripSeparator();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -148,6 +150,7 @@
 			this.xMLSpeichernToolStripMenuItem.Name="xMLSpeichernToolStripMenuItem";
 			this.xMLSpeichernToolStripMenuItem.Size=new System.Drawing.Size(165, 22);
 			this.xMLSpeichernToolStripMenuItem.Text="XML speichern...";
+			this.xMLSpeichernToolStripMenuItem.Click+=new System.EventHandler(this.xMLSpeichernToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem4
 			// 
@@ -212,9 +215,11 @@
             this.mapsAusEinerBitmapErzeugenToolStripMenuItem,
             this.toolStripMenuItem10,
             this.monsterInMapEinfügenToolStripMenuItem,
+            this.monsterInDenMapsErmittelnToolStripMenuItem,
             this.toolStripMenuItem11,
-            this.mapsÜberprüfenToolStripMenuItem,
-            this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem});
+            this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem,
+            this.toolStripMenuItem14,
+            this.mapsÜberprüfenToolStripMenuItem});
 			this.mappingToolStripMenuItem.Name="mappingToolStripMenuItem";
 			this.mappingToolStripMenuItem.Size=new System.Drawing.Size(59, 20);
 			this.mappingToolStripMenuItem.Text="&Mapping";
@@ -261,6 +266,7 @@
 			this.monsterInMapEinfügenToolStripMenuItem.Name="monsterInMapEinfügenToolStripMenuItem";
 			this.monsterInMapEinfügenToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
 			this.monsterInMapEinfügenToolStripMenuItem.Text="Monster in Map einfügen...";
+			this.monsterInMapEinfügenToolStripMenuItem.Click+=new System.EventHandler(this.monsterInMapEinfügenToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem11
 			// 
@@ -582,6 +588,18 @@
 			this.statusStrip.TabIndex=2;
 			this.statusStrip.Text="statusStrip1";
 			// 
+			// monsterInDenMapsErmittelnToolStripMenuItem
+			// 
+			this.monsterInDenMapsErmittelnToolStripMenuItem.Name="monsterInDenMapsErmittelnToolStripMenuItem";
+			this.monsterInDenMapsErmittelnToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
+			this.monsterInDenMapsErmittelnToolStripMenuItem.Text="Monster in den Maps ermitteln...";
+			this.monsterInDenMapsErmittelnToolStripMenuItem.Click+=new System.EventHandler(this.monsterInDenMapsErmittelnToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem14
+			// 
+			this.toolStripMenuItem14.Name="toolStripMenuItem14";
+			this.toolStripMenuItem14.Size=new System.Drawing.Size(291, 6);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions=new System.Drawing.SizeF(6F, 13F);
@@ -674,6 +692,8 @@
 		private System.Windows.Forms.ToolStripMenuItem monstersxmlMediaWikiInfoboxüberMediawikiAPIToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem13;
 		private System.Windows.Forms.ToolStripMenuItem alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem monsterInDenMapsErmittelnToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem14;
 	}
 }
 
