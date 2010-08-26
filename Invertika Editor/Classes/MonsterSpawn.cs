@@ -13,8 +13,8 @@ namespace Invertika_Editor.Classes
 		public MonsterSpawn(int maxBeings, int monsterID, double spawnRate)
 		{
 			MaxBeings=maxBeings;
-			MonsterID=maxBeings;
-			SpawnRate=maxBeings;
+			MonsterID=monsterID;
+			SpawnRate=spawnRate;
 		}
 	}
 }

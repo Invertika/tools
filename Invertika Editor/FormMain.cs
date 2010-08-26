@@ -15,10 +15,12 @@ using CSCL.Graphic;
 using CSCL.Bots.Mediawiki;
 using System.Text.RegularExpressions;
 using Invertika_Editor.Classes;
+using System.Net;
+using CSCL.Helpers;
 
 namespace Invertika_Editor
 {
-	public partial class FormMain:Form
+	public partial class FormMain : Form
 	{
 		public FormMain()
 		{
@@ -515,55 +517,55 @@ namespace Invertika_Editor
 		{
 			string ret="";
 			//Parameter auswerten
-				string fnMonsterXml=Globals.folder_clientdata+"monsters.xml";
+			string fnMonsterXml=Globals.folder_clientdata+"monsters.xml";
 
 
-					ret+="{| border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\" align=\"center\"\n"
-					+"! style=\"background:#efdead;\" | Bild\n"
-					+"! style=\"background:#efdead;\" | ID\n"
-					+"! style=\"background:#efdead;\" | Name\n"
-					+"! style=\"background:#efdead;\" | HP\n"
-					+"! style=\"background:#efdead;\" | Agressiv\n"
-					+"! style=\"background:#efdead;\" | Angriff\n"
-					+"! style=\"background:#efdead;\" | Verteidigung (physisch)\n"
-					+"! style=\"background:#efdead;\" | Verteidigung (magisch)\n"
-					+"! style=\"background:#efdead;\" | Erfahrung\n"
-					//+"! style=\"background:#efdead;\" | Drops"
-					+"|-\n";
+			ret+="{| border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\" align=\"center\"\n"
+			+"! style=\"background:#efdead;\" | Bild\n"
+			+"! style=\"background:#efdead;\" | ID\n"
+			+"! style=\"background:#efdead;\" | Name\n"
+			+"! style=\"background:#efdead;\" | HP\n"
+			+"! style=\"background:#efdead;\" | Agressiv\n"
+			+"! style=\"background:#efdead;\" | Angriff\n"
+			+"! style=\"background:#efdead;\" | Verteidigung (physisch)\n"
+			+"! style=\"background:#efdead;\" | Verteidigung (magisch)\n"
+			+"! style=\"background:#efdead;\" | Erfahrung\n"
+				//+"! style=\"background:#efdead;\" | Drops"
+			+"|-\n";
 
-					List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonsterXml);
-					monsters.Sort();
+			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonsterXml);
+			monsters.Sort();
 
-					foreach(Monster monster in monsters)
-					{
-						if(monster.ID>9999) continue; //Experimentelle Monster ignorieren
+			foreach(Monster monster in monsters)
+			{
+				if(monster.ID>9999) continue; //Experimentelle Monster ignorieren
 
-						ret+=String.Format("| align=\"center\" | [[Image:monster-{0}.png]] {{{{Anker|{0}}}}}\n", monster.ID);
-						ret+=String.Format("| align=\"center\" | {0}\n", monster.ID);
-						ret+=String.Format("| [[monster-{0}|{1}]]\n", monster.ID, monster.Name);
-						ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.HP);
+				ret+=String.Format("| align=\"center\" | [[Image:monster-{0}.png]] {{{{Anker|{0}}}}}\n", monster.ID);
+				ret+=String.Format("| align=\"center\" | {0}\n", monster.ID);
+				ret+=String.Format("| [[monster-{0}|{1}]]\n", monster.ID, monster.Name);
+				ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.HP);
 
-						if(monster.Behavior!=null)
-						{
-							if(monster.Behavior.Aggressive) ret+=String.Format("| align=\"center\" | Ja\n");
-							else ret+=String.Format("| align=\"center\" | Nein\n");
-						}
-						else
-						{
-							ret+=String.Format("| align=\"center\" | nicht definiert");
-						}
+				if(monster.Behavior!=null)
+				{
+					if(monster.Behavior.Aggressive) ret+=String.Format("| align=\"center\" | Ja\n");
+					else ret+=String.Format("| align=\"center\" | Nein\n");
+				}
+				else
+				{
+					ret+=String.Format("| align=\"center\" | nicht definiert");
+				}
 
-						ret+=String.Format("| align=\"center\" | {0}-{1}\n", monster.Attributes.AttackMin-monster.Attributes.AttackDelta, monster.Attributes.AttackMin+monster.Attributes.AttackDelta);
-						ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.PhysicalDefence);
-						ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.MagicalDefence);
-						ret+=String.Format("| align=\"center\" | {0}\n", monster.Exp);
+				ret+=String.Format("| align=\"center\" | {0}-{1}\n", monster.Attributes.AttackMin-monster.Attributes.AttackDelta, monster.Attributes.AttackMin+monster.Attributes.AttackDelta);
+				ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.PhysicalDefence);
+				ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.MagicalDefence);
+				ret+=String.Format("| align=\"center\" | {0}\n", monster.Exp);
 
-						//String.Format("| Bone (2.1%)<br>Skull (3%)<br>Dark Crystal (10%)<br>Warlord Helmet (0.03%)<br>Warlord Plate (0.02%)<br>Leather Gloves (0.35%)");
-						//String.Format("| ''<span style=\"color:#ad1818\">Aggro</span>''");
-						ret+=String.Format("|-\n");
-					}
+				//String.Format("| Bone (2.1%)<br>Skull (3%)<br>Dark Crystal (10%)<br>Warlord Helmet (0.03%)<br>Warlord Plate (0.02%)<br>Leather Gloves (0.35%)");
+				//String.Format("| ''<span style=\"color:#ad1818\">Aggro</span>''");
+				ret+=String.Format("|-\n");
+			}
 
-					ret+="|}\n";
+			ret+="|}\n";
 
 			return ret;
 		}
@@ -633,7 +635,7 @@ namespace Invertika_Editor
 				adler.Update(textToHash);
 				string adler32=String.Format("{0:x}", adler.Value);
 
-				MessageBox.Show("Der Adler32 lautet: "+adler32, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);  
+				MessageBox.Show("Der Adler32 lautet: "+adler32, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 		}
 
@@ -715,7 +717,7 @@ namespace Invertika_Editor
 							string srcname=splited2[0];
 							gtImage setImage=gtImage.FromFile(Globals.folder_clientdata+srcname);
 							gtImage monsterImage=setImage.GetSubImage(0, 0, (uint)set.Width, (uint)set.Height);
-								
+
 							string monsterDst=folderBrowserDialog.SelectedPath+FileSystem.PathDelimiter+"Monster-"+monster.ID+".png";
 							monsterImage.SaveToPNGGDI(monsterDst);
 						}
@@ -895,7 +897,7 @@ namespace Invertika_Editor
 			{
 				if(!FileSystem.ExistsFile(i))
 				{
-					msg+="Tileset existiert nicht: " + i+"\n";
+					msg+="Tileset existiert nicht: "+i+"\n";
 				}
 			}
 
@@ -947,6 +949,44 @@ namespace Invertika_Editor
 			}
 		}
 
+		private List<string> GetMonsterVorkommen(int id, Dictionary<int, List<string>> monstermaplist)
+		{
+			List<string> ret=new List<string>();
+
+			ret.Add("==Vorkommen==");
+			ret.Add("Das Monster kommt auf folgenden Karten vor:");
+
+			if(monstermaplist.ContainsKey(id))
+			{
+				List<string> maps=monstermaplist[id];
+
+				foreach(string map in maps)
+				{
+					WebClient client=new WebClient();
+					string infourl=String.Format("http://weltkarte.invertika.org/mapinfo.php?onlytext=1&fn={0}", map);
+					byte[] padData=client.DownloadData(new Uri(infourl));
+
+					if(padData.Length!=0)
+					{
+						string infoData=StringHelpers.ByteArrayToString(padData);
+						string[] splited=infoData.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+						ret.Add(String.Format("* [[{0}|{1}]]", map, splited[0]));
+					}
+					else
+					{
+						ret.Add(String.Format("* [[{0}]]", map));
+					}
+				}
+			}
+			else
+			{
+				ret.Add("* keine Vorkommen bekannt");
+			}
+
+			return ret;
+		}
+
 		private void monsterxmlMediawikiInfoboxenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if(Globals.folder_root=="")
@@ -963,6 +1003,8 @@ namespace Invertika_Editor
 				List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonsterXml);
 				List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
 
+				Dictionary<int, List<string>> MonsterMapList=GetAllMonsterSpawnsFromMaps();
+
 				foreach(Monster monster in monsters)
 				{
 					if(monster.ID>9999) continue; //Experimentelle Monster ignorieren
@@ -973,11 +1015,11 @@ namespace Invertika_Editor
 					lines.Add("");
 					lines.Add("Dieses Monster besitzt noch keine Beschreibung.");
 					lines.Add("");
-					lines.Add("==Vorkommen==");
-					lines.Add("Das Monster kommt auf folgenden Karten vor:");
-					lines.Add("* ");
-					lines.Add("* ");
+
+					lines.AddRange(GetMonsterVorkommen(monster.ID, MonsterMapList));
+
 					lines.Add("");
+
 					lines.Add("==Items==");
 					lines.Add("Folgende Items werden von dem Monster gedropt:");
 					lines.Add("");
@@ -1007,7 +1049,7 @@ namespace Invertika_Editor
 						{
 							lines.Add(String.Format("| align=\"center\" | [[item-{0}|{1}]]", dropItem.ID, dropItem.Name));
 						}
-						
+
 
 						lines.Add(String.Format("| align=\"center\" | {0} %", drop.Percent));
 						lines.Add("|-");
@@ -1021,7 +1063,7 @@ namespace Invertika_Editor
 					}
 
 					lines.Add("|}");
-					
+
 					lines.Add("");
 					lines.Add("==Strategie==");
 					lines.Add("Für dieses Monster existiert noch keine Strategie.");
@@ -1155,7 +1197,7 @@ namespace Invertika_Editor
 				int idxBeginInfobox=text.IndexOf("{{", 0);
 				int idxEndInfobox=text.IndexOf("}}", 0);
 
-				string infobox=text.Substring(idxBeginInfobox, idxEndInfobox+2);
+				string infobox=text.Substring(idxBeginInfobox, idxEndInfobox-idxBeginInfobox+2);
 				text=text.Replace(infobox, "");
 
 				int itemIndex=-1;
@@ -1245,7 +1287,7 @@ namespace Invertika_Editor
 				int idxBeginInfobox=text.IndexOf("{{", 0);
 				int idxEndInfobox=text.IndexOf("}}", 0);
 
-				string infobox=text.Substring(idxBeginInfobox, idxEndInfobox+2);
+				string infobox=text.Substring(idxBeginInfobox, idxEndInfobox-idxBeginInfobox+2);
 				text=text.Replace(infobox, "");
 
 				int monsterIndex=-1;
@@ -1284,7 +1326,7 @@ namespace Invertika_Editor
 			}
 
 			pl.SaveSmoothly(1, "Bot: Infobox Monster aktualisiert.", true);
-	}
+		}
 
 		private void monstersxmlMediaWikiInfoboxüberMediawikiAPIToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -1348,6 +1390,7 @@ namespace Invertika_Editor
 
 			//Monster
 			ExportMonstersInfoboxToMediawikiAPI();
+			ExportMonstersVorkommenToMediawikiAPI();
 
 			MessageBox.Show("Alle Mediawiki Exporte durchgeführt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
@@ -1410,6 +1453,34 @@ namespace Invertika_Editor
 			return ret;
 		}
 
+		private Dictionary<int, List<string>> GetAllMonsterSpawnsFromMaps()
+		{
+			Dictionary<int, List<string>> ret=new Dictionary<int, List<string>>();
+
+			List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+
+			foreach(string fn in maps)
+			{
+				List<MonsterSpawn> spawns=GetMonsterSpawnFromMap(fn);
+
+				foreach(MonsterSpawn spawn in spawns)
+				{
+					if(ret.ContainsKey(spawn.MonsterID))
+					{
+						ret[spawn.MonsterID].Add(FileSystem.GetFilenameWithoutExt(fn));
+					}
+					else
+					{
+						List<string> tmpMapList=new List<string>();
+						tmpMapList.Add(FileSystem.GetFilenameWithoutExt(fn));
+						ret.Add(spawn.MonsterID, tmpMapList);
+					}
+				}
+			}
+
+			return ret;
+		}
+
 		private void monsterInDenMapsErmittelnToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if(Globals.folder_root=="")
@@ -1418,28 +1489,7 @@ namespace Invertika_Editor
 				return;
 			}
 
-			List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
-
-			Dictionary<int, List<string>> MonsterMapList=new Dictionary<int, List<string>>();
-
-			foreach(string fn in maps)
-			{
-				List<MonsterSpawn> spawns=GetMonsterSpawnFromMap(fn);
-
-				foreach(MonsterSpawn spawn in spawns)
-				{
-					if(MonsterMapList.ContainsKey(spawn.MonsterID))
-					{
-						MonsterMapList[spawn.MonsterID].Add(FileSystem.GetFilenameWithoutExt(fn));
-					}
-					else
-					{
-						List<string> tmpMapList=new List<string>();
-						tmpMapList.Add(FileSystem.GetFilenameWithoutExt(fn));
-						MonsterMapList.Add(spawn.MonsterID, tmpMapList);
-					}
-				}
-			}
+			Dictionary<int, List<string>> MonsterMapList=GetAllMonsterSpawnsFromMaps();
 
 			string fnMonstersXml=Globals.folder_clientdata+"monsters.xml";
 			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonstersXml);
@@ -1473,6 +1523,131 @@ namespace Invertika_Editor
 		private void xMLSpeichernToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void tilesetsUmbennenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void ExportMonstersVorkommenToMediawikiAPI()
+		{
+			string url=Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL");
+			string username=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username");
+			string password=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort");
+
+			Site wiki=new Site(url, username, password);
+
+			PageList pl=new PageList(wiki);
+			pl.FillAllFromCategory("Monster");
+			pl.LoadEx();
+
+			Dictionary<int, List<string>> MonsterMapList=GetAllMonsterSpawnsFromMaps();
+
+			foreach(Page i in pl)
+			{
+				string text=i.text;
+
+				//Monster ID ermitteln
+				int idxBeginInfobox=text.IndexOf("{{", 0);
+				int idxEndInfobox=text.IndexOf("}}", 0);
+
+				string infobox=text.Substring(idxBeginInfobox, idxEndInfobox-idxBeginInfobox+2);
+
+				int monsterIndex=-1;
+				string[] splited=infobox.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+
+				foreach(string entry in splited)
+				{
+					string tmpEntry=entry.Replace(" ", "").ToLower();
+					if(tmpEntry.IndexOf("id=")!=-1)
+					{
+						string[] splited2=tmpEntry.Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+						monsterIndex=Convert.ToInt32(splited2[1]);
+						break;
+					}
+				}
+
+				//Monster Vorkommen ermitteln
+				idxBeginInfobox=text.IndexOf("==Vorkommen==", 0);
+				idxEndInfobox=text.IndexOf("==Items==", 0);
+
+				string vorkommen=text.Substring(idxBeginInfobox+13, idxEndInfobox-idxBeginInfobox-14);
+				text=text.Replace(vorkommen, "");
+
+				splited=vorkommen.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+
+				foreach(string entry in splited)
+				{
+					string tmpEntry=entry.Replace(" ", "").ToLower();
+					if(tmpEntry.IndexOf("id=")!=-1)
+					{
+						string[] splited2=tmpEntry.Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+						monsterIndex=Convert.ToInt32(splited2[1]);
+						break;
+					}
+				}
+
+				if(monsterIndex==-1) continue;		
+
+				string fnMonstersXml=Globals.folder_clientdata+"monsters.xml";
+				List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonstersXml);
+
+				foreach(Monster monster in monsters)
+				{
+					if(monster.ID==monsterIndex)
+					{
+						List<string> mv=GetMonsterVorkommen(monster.ID, MonsterMapList);
+						string mvRolled="";
+
+						foreach(string mventry in mv)
+						{
+							mvRolled+=mventry+"\n";
+						}
+
+						text=text.Replace("==Vorkommen==", mvRolled);
+
+						if(i.text!=text)
+						{
+							i.text=text;
+						}
+						break;
+					}
+				}
+			}
+
+			pl.SaveSmoothly(1, "Bot: Vorkommen Monster aktualisiert.", true);
+		}
+
+		private void vorkommenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL")=="")
+			{
+				MessageBox.Show("Bitte geben sie eine Mediawiki URL in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username")=="")
+			{
+				MessageBox.Show("Bitte geben sie einen Mediawiki Nutzernamen in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort")=="")
+			{
+				MessageBox.Show("Bitte geben sie einen Mediawiki Passwort in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			ExportMonstersVorkommenToMediawikiAPI();
+
+			MessageBox.Show("Vorkommen für die Monster in der Mediawiki aktualisiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 	}
 }
