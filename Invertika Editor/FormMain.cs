@@ -966,7 +966,7 @@ namespace Invertika_Editor
 
 					if(padData.Length!=0)
 					{
-						string infoData=StringHelpers.ByteArrayToString(padData);
+						string infoData=StringHelpers.ByteArrayToStringUTF8(padData);
 						string[] splited=infoData.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
 						ret.Add(String.Format("* [[{0}|{1}]]", map, splited[0]));
