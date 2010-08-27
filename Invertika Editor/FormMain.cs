@@ -1730,7 +1730,7 @@ namespace Invertika_Editor
 
 						droplines+="{{DropTableEnd}}\n";
 
-						string replaceString="{{Anker|DropTableStart}}"+droplines;
+						string replaceString="{{Anker|AutomaticStartDrops}}"+droplines;
 						text=text.Replace(start, replaceString);
 
 						if(i.text!=text)
@@ -1742,7 +1742,7 @@ namespace Invertika_Editor
 				}
 			}
 
-			pl.SaveSmoothly(1, "Bot: Vorkommen Monster aktualisiert.", true);
+			pl.SaveSmoothly(1, "Bot: Drops Monster aktualisiert.", true);
 		}
 
 		private void dropsToolStripMenuItem_Click(object sender, EventArgs e)
