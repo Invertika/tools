@@ -924,7 +924,7 @@ namespace Invertika_Editor
 
 					List<string> lines=new List<string>();
 
-					lines.Add(item.ToMediaWikiInfobox());
+					lines.Add("{{Automatic}}"+item.ToMediaWikiInfobox());
 					lines.Add("");
 					lines.Add("Dieses Item besitzt noch keine Beschreibung.");
 					lines.Add("");
@@ -935,9 +935,8 @@ namespace Invertika_Editor
 					lines.Add("* ");
 					lines.Add("");
 					lines.Add("===Monster===");
-					lines.Add("Folgende Monster droppen das Item:");
-					lines.Add("* ");
-					lines.Add("* ");
+					lines.Add("{{Anker|AutomaticStartDrops}}");
+					lines.Add("{{Anker|AutomaticEndDrops}}");
 					lines.Add("");
 					lines.Add("[[Kategorie:Item]]");
 
@@ -953,7 +952,6 @@ namespace Invertika_Editor
 		{
 			List<string> ret=new List<string>();
 
-			ret.Add("==Vorkommen==");
 			ret.Add("Das Monster kommt auf folgenden Karten vor:");
 
 			if(monstermaplist.ContainsKey(id))
@@ -1011,60 +1009,23 @@ namespace Invertika_Editor
 
 					List<string> lines=new List<string>();
 
-					lines.Add(monster.ToMediaWikiInfobox());
+					lines.Add("{{Automatic}}{{Anker|AutomaticStartInfobox}}"+monster.ToMediaWikiInfobox()+"{{Anker|AutomaticEndInfobox}}");
 					lines.Add("");
 					lines.Add("Dieses Monster besitzt noch keine Beschreibung.");
 					lines.Add("");
 
-					lines.AddRange(GetMonsterVorkommen(monster.ID, MonsterMapList));
+					lines.Add("==Vorkommen==");
+					lines.Add("{{Anker|AutomaticStartAppearance}}");
+					lines.Add("{{Anker|AutomaticEndAppearance}} ");
 
 					lines.Add("");
 
 					lines.Add("==Items==");
-					lines.Add("Folgende Items werden von dem Monster gedropt:");
-					lines.Add("");
-					lines.Add("{| border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\" align=\"center\"");
-					lines.Add("! style=\"background:#efdead;\" | Item");
-					lines.Add("! style=\"background:#efdead;\" | Drop Wahrscheinlichkeit");
-					lines.Add("|-");
-
-					foreach(Drop drop in monster.Drops)
-					{
-						Item dropItem=null;
-
-						foreach(Item si in items)
-						{
-							if(si.ID==drop.Item)
-							{
-								dropItem=si;
-								break;
-							}
-						}
-
-						if(dropItem==null)
-						{
-							lines.Add(String.Format("| align=\"center\" | {0}", "Unbekanntes Item"));
-						}
-						else
-						{
-							lines.Add(String.Format("| align=\"center\" | [[item-{0}|{1}]]", dropItem.ID, dropItem.Name));
-						}
-
-
-						lines.Add(String.Format("| align=\"center\" | {0} %", drop.Percent));
-						lines.Add("|-");
-					}
-
-					if(monster.Drops.Count==0)
-					{
-						lines.Add(String.Format("| align=\"center\" | {0}", "keine Drops"));
-						lines.Add(String.Format("| align=\"center\" | {0} %", 0));
-						lines.Add("|-");
-					}
-
-					lines.Add("|}");
+					lines.Add("{{Anker|AutomaticStartDrops}}");
+					lines.Add("{{Anker|AutomaticEndDrops}}");
 
 					lines.Add("");
+
 					lines.Add("==Strategie==");
 					lines.Add("Für dieses Monster existiert noch keine Strategie.");
 					lines.Add("");
@@ -1194,11 +1155,18 @@ namespace Invertika_Editor
 			foreach(Page i in pl)
 			{
 				string text=i.text;
-				int idxBeginInfobox=text.IndexOf("{{", 0);
-				int idxEndInfobox=text.IndexOf("}}", 0);
+				string start="{{Anker|AutomaticStartInfobox}}";
+				string end="{Anker|AutomaticEndInfobox}}";
 
-				string infobox=text.Substring(idxBeginInfobox, idxEndInfobox-idxBeginInfobox+2);
-				text=text.Replace(infobox, "");
+				int idxBeginInfobox=text.IndexOf(start, 0);
+				int idxEndInfobox=text.IndexOf(end, 0);
+
+				int lengthOfString=(idxEndInfobox-idxBeginInfobox)-start.Length-1;
+				string infobox=text.Substring(idxBeginInfobox+start.Length, lengthOfString);
+				if(infobox!="\n")
+				{
+					text=text.Replace(infobox, "");
+				}
 
 				int itemIndex=-1;
 				string[] splited=infobox.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
@@ -1224,7 +1192,9 @@ namespace Invertika_Editor
 				{
 					if(item.ID==itemIndex)
 					{
-						text=item.ToMediaWikiInfobox()+text;
+						string replaceString="{{Anker|AutomaticStartInfobox}}"+item.ToMediaWikiInfobox();
+
+						text=text.Replace(start, replaceString);
 
 						if(i.text!=text)
 						{
@@ -1284,11 +1254,15 @@ namespace Invertika_Editor
 			foreach(Page i in pl)
 			{
 				string text=i.text;
-				int idxBeginInfobox=text.IndexOf("{{", 0);
-				int idxEndInfobox=text.IndexOf("}}", 0);
 
-				string infobox=text.Substring(idxBeginInfobox, idxEndInfobox-idxBeginInfobox+2);
-				text=text.Replace(infobox, "");
+				//Monster ID ermitteln
+				string start="{{Anker|AutomaticStartInfobox}}";
+				string end="{Anker|AutomaticEndInfobox}}";
+				int idxBeginInfobox=text.IndexOf(start, 0);
+				int idxEndInfobox=text.IndexOf(end, 0);
+
+				int lengthOfString=(idxEndInfobox-idxBeginInfobox)-start.Length-1;
+				string infobox=text.Substring(idxBeginInfobox+start.Length, lengthOfString);
 
 				int monsterIndex=-1;
 				string[] splited=infobox.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
@@ -1304,8 +1278,14 @@ namespace Invertika_Editor
 					}
 				}
 
+				if(infobox!="\n")
+				{
+					text=text.Replace(infobox, "");
+				}
+
 				if(monsterIndex==-1) continue;
 
+				//Infobox updaten
 				string fnMonstersXml=Globals.folder_clientdata+"monsters.xml";
 
 				List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonstersXml);
@@ -1314,7 +1294,10 @@ namespace Invertika_Editor
 				{
 					if(monster.ID==monsterIndex)
 					{
-						text=monster.ToMediaWikiInfobox()+text;
+						
+						string replaceString="{{Anker|AutomaticStartInfobox}}"+monster.ToMediaWikiInfobox();
+
+						text=text.Replace(start, replaceString);
 
 						if(i.text!=text)
 						{
@@ -1386,9 +1369,11 @@ namespace Invertika_Editor
 			}
 
 			//Items
+			ExportItemMonstersDropsToMediawikiAPI();
 			ExportItemsInfoboxToMediawikiAPI();
 
 			//Monster
+			ExportMonstersDropsToMediawikiAPI();
 			ExportMonstersInfoboxToMediawikiAPI();
 			ExportMonstersVorkommenToMediawikiAPI();
 
@@ -1549,10 +1534,13 @@ namespace Invertika_Editor
 				string text=i.text;
 
 				//Monster ID ermitteln
-				int idxBeginInfobox=text.IndexOf("{{", 0);
-				int idxEndInfobox=text.IndexOf("}}", 0);
+				string start="{{Anker|AutomaticStartInfobox}}";
+				string end="{Anker|AutomaticEndInfobox}}";
+				int idxBeginInfobox=text.IndexOf(start, 0);
+				int idxEndInfobox=text.IndexOf(end, 0);
 
-				string infobox=text.Substring(idxBeginInfobox, idxEndInfobox-idxBeginInfobox+2);
+				int lengthOfString=(idxEndInfobox-idxBeginInfobox)-start.Length-1;
+				string infobox=text.Substring(idxBeginInfobox+start.Length, lengthOfString);
 
 				int monsterIndex=-1;
 				string[] splited=infobox.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
@@ -1569,23 +1557,16 @@ namespace Invertika_Editor
 				}
 
 				//Monster Vorkommen ermitteln
-				idxBeginInfobox=text.IndexOf("==Vorkommen==", 0);
-				idxEndInfobox=text.IndexOf("==Items==", 0);
+				start="{{Anker|AutomaticStartAppearance}}";
+				end="{Anker|AutomaticEndAppearance}}";
+				idxBeginInfobox=text.IndexOf(start, 0);
+				idxEndInfobox=text.IndexOf(end, 0);
 
-				string vorkommen=text.Substring(idxBeginInfobox+13, idxEndInfobox-idxBeginInfobox-14);
-				text=text.Replace(vorkommen, "");
-
-				splited=vorkommen.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-
-				foreach(string entry in splited)
+				lengthOfString=(idxEndInfobox-idxBeginInfobox)-start.Length-1;
+				string vorkommen=text.Substring(idxBeginInfobox+start.Length, lengthOfString);
+				if(vorkommen!="\n")
 				{
-					string tmpEntry=entry.Replace(" ", "").ToLower();
-					if(tmpEntry.IndexOf("id=")!=-1)
-					{
-						string[] splited2=tmpEntry.Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
-						monsterIndex=Convert.ToInt32(splited2[1]);
-						break;
-					}
+					text=text.Replace(vorkommen, "");
 				}
 
 				if(monsterIndex==-1) continue;		
@@ -1598,14 +1579,14 @@ namespace Invertika_Editor
 					if(monster.ID==monsterIndex)
 					{
 						List<string> mv=GetMonsterVorkommen(monster.ID, MonsterMapList);
-						string mvRolled="";
+						string mvRolled="{{Anker|AutomaticStartAppearance}}";
 
 						foreach(string mventry in mv)
 						{
 							mvRolled+=mventry+"\n";
 						}
 
-						text=text.Replace("==Vorkommen==", mvRolled);
+						text=text.Replace(start, mvRolled);
 
 						if(i.text!=text)
 						{
@@ -1650,20 +1631,279 @@ namespace Invertika_Editor
 			MessageBox.Show("Vorkommen für die Monster in der Mediawiki aktualisiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
-		private void dropsToolStripMenuItem_Click(object sender, EventArgs e)
+		private void ExportMonstersDropsToMediawikiAPI()
 		{
-			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			string url=Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL");
+			string username=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username");
+			string password=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort");
 
+			Site wiki=new Site(url, username, password);
+
+			PageList pl=new PageList(wiki);
+			pl.FillAllFromCategory("Monster");
+			pl.LoadEx();
+
+			Dictionary<int, List<string>> MonsterMapList=GetAllMonsterSpawnsFromMaps();
+
+			string fnMonsterXml=Globals.folder_clientdata+"monsters.xml";
+			string fnItemsXml=Globals.folder_clientdata+"items.xml";
+
+			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonsterXml);
+			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
+
+			foreach(Page i in pl)
+			{
+				string text=i.text;
+
+				//Monster ID ermitteln
+				string start="{{Anker|AutomaticStartInfobox}}";
+				string end="{Anker|AutomaticEndInfobox}}";
+				int idxBeginInfobox=text.IndexOf(start, 0);
+				int idxEndInfobox=text.IndexOf(end, 0);
+
+				int lengthOfString=(idxEndInfobox-idxBeginInfobox)-start.Length-1;
+				string infobox=text.Substring(idxBeginInfobox+start.Length, lengthOfString);
+
+				int monsterIndex=-1;
+				string[] splited=infobox.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+
+				foreach(string entry in splited)
+				{
+					string tmpEntry=entry.Replace(" ", "").ToLower();
+					if(tmpEntry.IndexOf("id=")!=-1)
+					{
+						string[] splited2=tmpEntry.Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+						monsterIndex=Convert.ToInt32(splited2[1]);
+						break;
+					}
+				}		
+
+				//Monster Vorkommen ermitteln
+				start="{{Anker|AutomaticStartDrops}}";
+				end="{Anker|AutomaticEndDrops}}";
+				idxBeginInfobox=text.IndexOf(start, 0);
+				idxEndInfobox=text.IndexOf(end, 0);
+
+				lengthOfString=(idxEndInfobox-idxBeginInfobox)-start.Length-1;
+				string vorkommen=text.Substring(idxBeginInfobox+start.Length, lengthOfString);
+				if(vorkommen!="\n")
+				{
+					text=text.Replace(vorkommen, "");
+				}
+
+				if(monsterIndex==-1) continue;
+
+				foreach(Monster monster in monsters)
+				{
+					if(monster.ID==monsterIndex)
+					{
+						string droplines="Folgende Items werden von dem Monster gedropt:\n\n";
+						droplines+="{{DropTableStart}}\n";
+
+						foreach(Drop drop in monster.Drops)
+						{
+							Item dropItem=null;
+
+							foreach(Item si in items)
+							{
+								if(si.ID==drop.Item)
+								{
+									dropItem=si;
+									break;
+								}
+							}
+
+							if(dropItem==null)
+							{
+								droplines+=String.Format("{{{{DropTableRow| {0} | 0 %}}}}\n", "Unbekanntes Item");
+							}
+							else
+							{
+								droplines+=String.Format("{{{{DropTableRow| [[item-{0}|{1}]] | {2} %}}}}\n", dropItem.ID, dropItem.Name, drop.Percent);
+							}
+						}
+
+						if(monster.Drops.Count==0)
+						{
+							droplines+=String.Format("{{{{DropTableRow| {0} | 0 %}}}}\n", "keine Drops vorhanden");
+						}
+
+						droplines+="{{DropTableEnd}}\n";
+
+						string replaceString="{{Anker|DropTableStart}}"+droplines;
+						text=text.Replace(start, replaceString);
+
+						if(i.text!=text)
+						{
+							i.text=text;
+						}
+						break;
+					}
+				}
+			}
+
+			pl.SaveSmoothly(1, "Bot: Vorkommen Monster aktualisiert.", true);
 		}
 
-		private void vorkommenToolStripMenuItem1_Click(object sender, EventArgs e)
+		private void dropsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL")=="")
+			{
+				MessageBox.Show("Bitte geben sie eine Mediawiki URL in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username")=="")
+			{
+				MessageBox.Show("Bitte geben sie einen Mediawiki Nutzernamen in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort")=="")
+			{
+				MessageBox.Show("Bitte geben sie einen Mediawiki Passwort in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			ExportMonstersDropsToMediawikiAPI();
+
+			MessageBox.Show("Drops für die Monster in der Mediawiki aktualisiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void ExportItemMonstersDropsToMediawikiAPI()
+		{
+			string url=Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL");
+			string username=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username");
+			string password=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort");
+
+			Site wiki=new Site(url, username, password);
+
+			PageList pl=new PageList(wiki);
+			pl.FillAllFromCategory("Item");
+			pl.LoadEx();
+
+			Dictionary<int, List<string>> MonsterMapList=GetAllMonsterSpawnsFromMaps();
+
+			string fnMonsterXml=Globals.folder_clientdata+"monsters.xml";
+			string fnItemsXml=Globals.folder_clientdata+"items.xml";
+
+			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonsterXml);
+			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
+
+			foreach(Page i in pl)
+			{
+				string text=i.text;
+
+				//Monster ID ermitteln
+				string start="{{Anker|AutomaticStartInfobox}}";
+				string end="{Anker|AutomaticEndInfobox}}";
+				int idxBeginInfobox=text.IndexOf(start, 0);
+				int idxEndInfobox=text.IndexOf(end, 0);
+
+				int lengthOfString=(idxEndInfobox-idxBeginInfobox)-start.Length-1;
+				string infobox=text.Substring(idxBeginInfobox+start.Length, lengthOfString);
+
+				int itemIndex=-1;
+				string[] splited=infobox.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+
+				foreach(string entry in splited)
+				{
+					string tmpEntry=entry.Replace(" ", "").ToLower();
+					if(tmpEntry.IndexOf("id=")!=-1)
+					{
+						string[] splited2=tmpEntry.Split(new char[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+						itemIndex=Convert.ToInt32(splited2[1]);
+						break;
+					}
+				}
+
+				//Monster Vorkommen ermitteln
+				start="{{Anker|AutomaticStartDrops}}";
+				end="{Anker|AutomaticEndDrops}}";
+				idxBeginInfobox=text.IndexOf(start, 0);
+				idxEndInfobox=text.IndexOf(end, 0);
+
+				lengthOfString=(idxEndInfobox-idxBeginInfobox)-start.Length-1;
+				string monsterdrops=text.Substring(idxBeginInfobox+start.Length, lengthOfString);
+				if(monsterdrops!="\n")
+				{
+					text=text.Replace(monsterdrops, "");
+				}
+
+				if(itemIndex==-1) continue;
+
+				string droplines="Folgende Monster dropen das Item:\n\n";
+				droplines+="{{DropTableStart}}\n";
+
+				bool OneDrop=false;
+
+				foreach(Monster monster in monsters)
+				{
+					foreach(Drop drop in monster.Drops)
+					{
+						if(drop.Item==itemIndex)
+						{
+							OneDrop=true;
+							droplines+=String.Format("{{{{DropTableRow| [[monster-{0}|{1}]] | {2} %}}}}\n", monster.ID, monster.Name, drop.Percent);
+						}
+					}
+				}
+
+				if(OneDrop==false)
+				{
+					droplines+=String.Format("{{{{DropTableRow| {0} | 0 %}}}}\n", "keine Monster dropt dieses Item");
+				}
+
+
+				droplines+="{{DropTableEnd}}\n";
+
+				string replaceString="{{Anker|AutomaticStartDrops}}"+droplines;
+				text=text.Replace(start, replaceString);
+
+				if(i.text!=text)
+				{
+					i.text=text;
+				}
+			}
+
+			pl.SaveSmoothly(1, "Bot: Item Drops aktualisiert.", true);
 		}
 
 		private void dropsToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL")=="")
+			{
+				MessageBox.Show("Bitte geben sie eine Mediawiki URL in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username")=="")
+			{
+				MessageBox.Show("Bitte geben sie einen Mediawiki Nutzernamen in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort")=="")
+			{
+				MessageBox.Show("Bitte geben sie einen Mediawiki Passwort in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			ExportItemMonstersDropsToMediawikiAPI();
+
+			MessageBox.Show("Drops für die Items in der Mediawiki aktualisiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		private void fehlendeMapsInDieWeltkartenDatenbankEintragenToolStripMenuItem_Click(object sender, EventArgs e)
