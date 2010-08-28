@@ -1294,7 +1294,7 @@ namespace Invertika_Editor
 				{
 					if(monster.ID==monsterIndex)
 					{
-						
+
 						string replaceString="{{Anker|AutomaticStartInfobox}}"+monster.ToMediaWikiInfobox();
 
 						text=text.Replace(start, replaceString);
@@ -1569,7 +1569,7 @@ namespace Invertika_Editor
 					text=text.Replace(vorkommen, "");
 				}
 
-				if(monsterIndex==-1) continue;		
+				if(monsterIndex==-1) continue;
 
 				string fnMonstersXml=Globals.folder_clientdata+"monsters.xml";
 				List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonstersXml);
@@ -1676,7 +1676,7 @@ namespace Invertika_Editor
 						monsterIndex=Convert.ToInt32(splited2[1]);
 						break;
 					}
-				}		
+				}
 
 				//Monster Vorkommen ermitteln
 				start="{{Anker|AutomaticStartDrops}}";
@@ -1909,6 +1909,47 @@ namespace Invertika_Editor
 		private void fehlendeMapsInDieWeltkartenDatenbankEintragenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void mapsxmlWeltkartenDBSQLDateiToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			saveFileDialog.Filter="SQL Dateien (*.sql)|*.sql";
+
+			if(saveFileDialog.ShowDialog()==DialogResult.OK)
+			{
+				//Maps laden
+				string fnMapsXml=Globals.folder_serverdata+"maps.xml";
+				List<Map> maps=Map.GetMapsFromMapsXml(fnMapsXml);
+
+				//Ini
+				List<string> sqlFile=new List<string>();
+				sqlFile.Add("INSERT `wmInformation` (`MapID`, `FileName`, `Title`) VALUES");
+
+				//maps
+				foreach(Map i in maps)
+				{
+					WebClient client=new WebClient();
+					string infourl=String.Format("http://weltkarte.invertika.org/mapinfo.php?onlytext=1&fn={0}", i.Name);
+					byte[] padData=client.DownloadData(new Uri(infourl));
+
+					if(padData.Length==0)
+					{
+						sqlFile.Add(String.Format("('{0}', '{1}', '{2}'),", i.ID, i.Name, "kein Name vergeben"));
+					}
+				}
+
+				sqlFile[sqlFile.Count-1]=sqlFile[sqlFile.Count-1].TrimEnd(',')+";";
+
+				File.WriteAllLines(saveFileDialog.FileName, sqlFile.ToArray());
+
+				MessageBox.Show("Weltkarten DB SQL Datei geschrieben.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
 		}
 	}
 }

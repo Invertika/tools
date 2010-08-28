@@ -105,6 +105,8 @@
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog=new System.Windows.Forms.SaveFileDialog();
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
+			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem13=new System.Windows.Forms.ToolStripSeparator();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -359,6 +361,8 @@
             this.itemsxmlMediawikiInfoboxenToolStripMenuItem,
             this.itemsxmlMediawikiAPIToolStripMenuItem,
             this.toolStripMenuItem12,
+            this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem,
+            this.toolStripMenuItem13,
             this.monsterxmlBilderToolStripMenuItem,
             this.monsterxmlMediaWikiToolStripMenuItem,
             this.monsterxmlMediawikiInfoboxenToolStripMenuItem,
@@ -418,14 +422,14 @@
 			// dropsToolStripMenuItem1
 			// 
 			this.dropsToolStripMenuItem1.Name="dropsToolStripMenuItem1";
-			this.dropsToolStripMenuItem1.Size=new System.Drawing.Size(152, 22);
+			this.dropsToolStripMenuItem1.Size=new System.Drawing.Size(147, 22);
 			this.dropsToolStripMenuItem1.Text="Drops...";
 			this.dropsToolStripMenuItem1.Click+=new System.EventHandler(this.dropsToolStripMenuItem1_Click);
 			// 
 			// infoboxenToolStripMenuItem
 			// 
 			this.infoboxenToolStripMenuItem.Name="infoboxenToolStripMenuItem";
-			this.infoboxenToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
+			this.infoboxenToolStripMenuItem.Size=new System.Drawing.Size(147, 22);
 			this.infoboxenToolStripMenuItem.Text="Infoboxen...";
 			this.infoboxenToolStripMenuItem.Click+=new System.EventHandler(this.itemsxmlMediawikiInfoboxüberMediawkiAPIToolStripMenuItem_Click);
 			// 
@@ -663,6 +667,18 @@
 			this.statusStrip.TabIndex=2;
 			this.statusStrip.Text="statusStrip1";
 			// 
+			// mapsxmlWeltkartenDBSQLDateiToolStripMenuItem
+			// 
+			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem.Name="mapsxmlWeltkartenDBSQLDateiToolStripMenuItem";
+			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem.Size=new System.Drawing.Size(364, 22);
+			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem.Text="maps.xml -> Weltkarten DB SQL Datei...";
+			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem.Click+=new System.EventHandler(this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem13
+			// 
+			this.toolStripMenuItem13.Name="toolStripMenuItem13";
+			this.toolStripMenuItem13.Size=new System.Drawing.Size(361, 6);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions=new System.Drawing.SizeF(6F, 13F);
@@ -764,6 +780,8 @@
 		private System.Windows.Forms.ToolStripMenuItem dropsToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem fehlendeMapsInDieWeltkartenDatenbankEintragenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem15;
+		private System.Windows.Forms.ToolStripMenuItem mapsxmlWeltkartenDBSQLDateiToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem13;
 	}
 }
 
