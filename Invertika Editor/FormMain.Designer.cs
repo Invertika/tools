@@ -47,7 +47,6 @@
 			this.höhlengeneratorToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem5=new System.Windows.Forms.ToolStripSeparator();
 			this.mapsInDieMapsxmlToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.fehlendeMapsInDieWeltkartenDatenbankEintragenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.mapsAusEinerBitmapErzeugenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem10=new System.Windows.Forms.ToolStripSeparator();
 			this.monsterInMapEinfügenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
@@ -71,6 +70,8 @@
 			this.dropsToolStripMenuItem1=new System.Windows.Forms.ToolStripMenuItem();
 			this.infoboxenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem12=new System.Windows.Forms.ToolStripSeparator();
+			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem13=new System.Windows.Forms.ToolStripSeparator();
 			this.monsterxmlBilderToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.monsterxmlMediaWikiToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.inDateiToolStripMenuItem1=new System.Windows.Forms.ToolStripMenuItem();
@@ -105,8 +106,9 @@
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog=new System.Windows.Forms.SaveFileDialog();
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
-			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem13=new System.Windows.Forms.ToolStripSeparator();
+			this.tilesetsInAllenMapsTransformierenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.debugToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -121,7 +123,8 @@
             this.prüfungToolStripMenuItem,
             this.testsToolStripMenuItem,
             this.automatismenToolStripMenuItem,
-            this.hilfeToolStripMenuItem});
+            this.hilfeToolStripMenuItem,
+            this.debugToolStripMenuItem});
 			this.menuStrip.Location=new System.Drawing.Point(0, 0);
 			this.menuStrip.Name="menuStrip";
 			this.menuStrip.Size=new System.Drawing.Size(1006, 24);
@@ -221,13 +224,13 @@
             this.höhlengeneratorToolStripMenuItem,
             this.toolStripMenuItem5,
             this.mapsInDieMapsxmlToolStripMenuItem,
-            this.fehlendeMapsInDieWeltkartenDatenbankEintragenToolStripMenuItem,
             this.mapsAusEinerBitmapErzeugenToolStripMenuItem,
             this.toolStripMenuItem10,
             this.monsterInMapEinfügenToolStripMenuItem,
             this.monsterInDenMapsErmittelnToolStripMenuItem,
             this.toolStripMenuItem11,
             this.tilesetsUmbennenToolStripMenuItem,
+            this.tilesetsInAllenMapsTransformierenToolStripMenuItem,
             this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem,
             this.toolStripMenuItem14,
             this.mapsÜberprüfenToolStripMenuItem});
@@ -238,89 +241,82 @@
 			// koordinatenrechnerToolStripMenuItem
 			// 
 			this.koordinatenrechnerToolStripMenuItem.Name="koordinatenrechnerToolStripMenuItem";
-			this.koordinatenrechnerToolStripMenuItem.Size=new System.Drawing.Size(357, 22);
+			this.koordinatenrechnerToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
 			this.koordinatenrechnerToolStripMenuItem.Text="Koordinatenrechner...";
 			this.koordinatenrechnerToolStripMenuItem.Click+=new System.EventHandler(this.koordinatenrechnerToolStripMenuItem_Click);
 			// 
 			// höhlengeneratorToolStripMenuItem
 			// 
 			this.höhlengeneratorToolStripMenuItem.Name="höhlengeneratorToolStripMenuItem";
-			this.höhlengeneratorToolStripMenuItem.Size=new System.Drawing.Size(357, 22);
+			this.höhlengeneratorToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
 			this.höhlengeneratorToolStripMenuItem.Text="Höhlengenerator...";
 			// 
 			// toolStripMenuItem5
 			// 
 			this.toolStripMenuItem5.Name="toolStripMenuItem5";
-			this.toolStripMenuItem5.Size=new System.Drawing.Size(354, 6);
+			this.toolStripMenuItem5.Size=new System.Drawing.Size(291, 6);
 			// 
 			// mapsInDieMapsxmlToolStripMenuItem
 			// 
 			this.mapsInDieMapsxmlToolStripMenuItem.Name="mapsInDieMapsxmlToolStripMenuItem";
-			this.mapsInDieMapsxmlToolStripMenuItem.Size=new System.Drawing.Size(357, 22);
+			this.mapsInDieMapsxmlToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
 			this.mapsInDieMapsxmlToolStripMenuItem.Text="Maps in die maps.xml eintragen";
 			this.mapsInDieMapsxmlToolStripMenuItem.Click+=new System.EventHandler(this.mapsInDieMapsxmlToolStripMenuItem_Click);
-			// 
-			// fehlendeMapsInDieWeltkartenDatenbankEintragenToolStripMenuItem
-			// 
-			this.fehlendeMapsInDieWeltkartenDatenbankEintragenToolStripMenuItem.Name="fehlendeMapsInDieWeltkartenDatenbankEintragenToolStripMenuItem";
-			this.fehlendeMapsInDieWeltkartenDatenbankEintragenToolStripMenuItem.Size=new System.Drawing.Size(357, 22);
-			this.fehlendeMapsInDieWeltkartenDatenbankEintragenToolStripMenuItem.Text="Fehlende Maps in die Weltkarten Datenbank eintragen...";
-			this.fehlendeMapsInDieWeltkartenDatenbankEintragenToolStripMenuItem.Click+=new System.EventHandler(this.fehlendeMapsInDieWeltkartenDatenbankEintragenToolStripMenuItem_Click);
 			// 
 			// mapsAusEinerBitmapErzeugenToolStripMenuItem
 			// 
 			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Name="mapsAusEinerBitmapErzeugenToolStripMenuItem";
-			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Size=new System.Drawing.Size(357, 22);
+			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
 			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Text="Maps aus einer Bitmap erzeugen...";
 			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Click+=new System.EventHandler(this.mapsAusEinerBitmapErzeugenToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem10
 			// 
 			this.toolStripMenuItem10.Name="toolStripMenuItem10";
-			this.toolStripMenuItem10.Size=new System.Drawing.Size(354, 6);
+			this.toolStripMenuItem10.Size=new System.Drawing.Size(291, 6);
 			// 
 			// monsterInMapEinfügenToolStripMenuItem
 			// 
 			this.monsterInMapEinfügenToolStripMenuItem.Name="monsterInMapEinfügenToolStripMenuItem";
-			this.monsterInMapEinfügenToolStripMenuItem.Size=new System.Drawing.Size(357, 22);
+			this.monsterInMapEinfügenToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
 			this.monsterInMapEinfügenToolStripMenuItem.Text="Monster in Map einfügen...";
 			this.monsterInMapEinfügenToolStripMenuItem.Click+=new System.EventHandler(this.monsterInMapEinfügenToolStripMenuItem_Click);
 			// 
 			// monsterInDenMapsErmittelnToolStripMenuItem
 			// 
 			this.monsterInDenMapsErmittelnToolStripMenuItem.Name="monsterInDenMapsErmittelnToolStripMenuItem";
-			this.monsterInDenMapsErmittelnToolStripMenuItem.Size=new System.Drawing.Size(357, 22);
+			this.monsterInDenMapsErmittelnToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
 			this.monsterInDenMapsErmittelnToolStripMenuItem.Text="Monster in den Maps ermitteln...";
 			this.monsterInDenMapsErmittelnToolStripMenuItem.Click+=new System.EventHandler(this.monsterInDenMapsErmittelnToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem11
 			// 
 			this.toolStripMenuItem11.Name="toolStripMenuItem11";
-			this.toolStripMenuItem11.Size=new System.Drawing.Size(354, 6);
+			this.toolStripMenuItem11.Size=new System.Drawing.Size(291, 6);
 			// 
 			// tilesetsUmbennenToolStripMenuItem
 			// 
 			this.tilesetsUmbennenToolStripMenuItem.Name="tilesetsUmbennenToolStripMenuItem";
-			this.tilesetsUmbennenToolStripMenuItem.Size=new System.Drawing.Size(357, 22);
+			this.tilesetsUmbennenToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
 			this.tilesetsUmbennenToolStripMenuItem.Text="Tilesets umbenennen...";
 			this.tilesetsUmbennenToolStripMenuItem.Click+=new System.EventHandler(this.tilesetsUmbennenToolStripMenuItem_Click);
 			// 
 			// vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem
 			// 
 			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Name="vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem";
-			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Size=new System.Drawing.Size(357, 22);
+			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
 			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Text="Von den Maps benutzte Tilesets ermitteln...";
 			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Click+=new System.EventHandler(this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem14
 			// 
 			this.toolStripMenuItem14.Name="toolStripMenuItem14";
-			this.toolStripMenuItem14.Size=new System.Drawing.Size(354, 6);
+			this.toolStripMenuItem14.Size=new System.Drawing.Size(291, 6);
 			// 
 			// mapsÜberprüfenToolStripMenuItem
 			// 
 			this.mapsÜberprüfenToolStripMenuItem.Name="mapsÜberprüfenToolStripMenuItem";
-			this.mapsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(357, 22);
+			this.mapsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
 			this.mapsÜberprüfenToolStripMenuItem.Text="Maps überprüfen...";
 			this.mapsÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.mapsÜberprüfenToolStripMenuItem_Click);
 			// 
@@ -437,6 +433,18 @@
 			// 
 			this.toolStripMenuItem12.Name="toolStripMenuItem12";
 			this.toolStripMenuItem12.Size=new System.Drawing.Size(361, 6);
+			// 
+			// mapsxmlWeltkartenDBSQLDateiToolStripMenuItem
+			// 
+			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem.Name="mapsxmlWeltkartenDBSQLDateiToolStripMenuItem";
+			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem.Size=new System.Drawing.Size(364, 22);
+			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem.Text="maps.xml -> Weltkarten DB SQL Datei...";
+			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem.Click+=new System.EventHandler(this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem13
+			// 
+			this.toolStripMenuItem13.Name="toolStripMenuItem13";
+			this.toolStripMenuItem13.Size=new System.Drawing.Size(361, 6);
 			// 
 			// monsterxmlBilderToolStripMenuItem
 			// 
@@ -648,7 +656,7 @@
 			// überToolStripMenuItem
 			// 
 			this.überToolStripMenuItem.Name="überToolStripMenuItem";
-			this.überToolStripMenuItem.Size=new System.Drawing.Size(120, 22);
+			this.überToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
 			this.überToolStripMenuItem.Text="Ü&ber...";
 			// 
 			// toolStrip
@@ -667,17 +675,28 @@
 			this.statusStrip.TabIndex=2;
 			this.statusStrip.Text="statusStrip1";
 			// 
-			// mapsxmlWeltkartenDBSQLDateiToolStripMenuItem
+			// tilesetsInAllenMapsTransformierenToolStripMenuItem
 			// 
-			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem.Name="mapsxmlWeltkartenDBSQLDateiToolStripMenuItem";
-			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem.Size=new System.Drawing.Size(364, 22);
-			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem.Text="maps.xml -> Weltkarten DB SQL Datei...";
-			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem.Click+=new System.EventHandler(this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem_Click);
+			this.tilesetsInAllenMapsTransformierenToolStripMenuItem.Name="tilesetsInAllenMapsTransformierenToolStripMenuItem";
+			this.tilesetsInAllenMapsTransformierenToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
+			this.tilesetsInAllenMapsTransformierenToolStripMenuItem.Text="Tilesets in allen Maps transformieren...";
+			this.tilesetsInAllenMapsTransformierenToolStripMenuItem.Click+=new System.EventHandler(this.tilesetInAllenMapsTransformierenToolStripMenuItem_Click);
 			// 
-			// toolStripMenuItem13
+			// debugToolStripMenuItem
 			// 
-			this.toolStripMenuItem13.Name="toolStripMenuItem13";
-			this.toolStripMenuItem13.Size=new System.Drawing.Size(361, 6);
+			this.debugToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem});
+			this.debugToolStripMenuItem.Name="debugToolStripMenuItem";
+			this.debugToolStripMenuItem.Size=new System.Drawing.Size(50, 20);
+			this.debugToolStripMenuItem.Text="Debug";
+			this.debugToolStripMenuItem.Visible=false;
+			// 
+			// tTDateiFür5121024LinksObenErzeugenToolStripMenuItem
+			// 
+			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem.Name="tTDateiFür5121024LinksObenErzeugenToolStripMenuItem";
+			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem.Size=new System.Drawing.Size(315, 22);
+			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem.Text="TT Datei für 512 -> 1024 links oben erzeugen...";
+			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem.Click+=new System.EventHandler(this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem_Click);
 			// 
 			// FormMain
 			// 
@@ -778,10 +797,12 @@
 		private System.Windows.Forms.ToolStripMenuItem vorkommenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem dropsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem dropsToolStripMenuItem1;
-		private System.Windows.Forms.ToolStripMenuItem fehlendeMapsInDieWeltkartenDatenbankEintragenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem15;
 		private System.Windows.Forms.ToolStripMenuItem mapsxmlWeltkartenDBSQLDateiToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem13;
+		private System.Windows.Forms.ToolStripMenuItem tilesetsInAllenMapsTransformierenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem debugToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem tTDateiFür5121024LinksObenErzeugenToolStripMenuItem;
 	}
 }
 

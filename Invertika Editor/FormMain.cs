@@ -1906,11 +1906,6 @@ namespace Invertika_Editor
 			MessageBox.Show("Drops für die Items in der Mediawiki aktualisiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
-		private void fehlendeMapsInDieWeltkartenDatenbankEintragenToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		}
-
 		private void mapsxmlWeltkartenDBSQLDateiToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if(Globals.folder_root=="")
@@ -1949,6 +1944,139 @@ namespace Invertika_Editor
 				File.WriteAllLines(saveFileDialog.FileName, sqlFile.ToArray());
 
 				MessageBox.Show("Weltkarten DB SQL Datei geschrieben.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+		}
+
+		private void tilesetInAllenMapsTransformierenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			openFileDialog.Filter="Tileset Transformation Dateien (*.tt)|*.tt";
+
+			//Temp
+			if(openFileDialog.ShowDialog()==DialogResult.OK)
+			{
+				TilesetTransformation tt=new TilesetTransformation(openFileDialog.FileName);
+
+				//Maps laden
+				List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata_maps, true, "*.tmx");
+
+				foreach(string i in mapfiles)
+				{
+					bool changed=false;
+
+					TMX maptmx=new TMX();
+					maptmx.Open(i);
+
+					foreach(TMX.LayerData ld in maptmx.Layers)
+					{
+						for(int y=0; y<ld.height; y++)
+						{
+							for(int x=0; x<ld.width; x++)
+							{
+								int TileNumber=ld.data[x, y];
+
+								TMX.TilesetData ts=maptmx.GetTileset(TileNumber);
+
+								if(ts.imgsource!=null)
+								{
+									if(FileSystem.GetFilename(ts.imgsource)==tt.OldTileset)
+									{
+										changed=true;
+										int tilesetNumber=TileNumber-ts.firstgid;
+										tilesetNumber=tt.TransformationTable[tilesetNumber]+ts.firstgid;
+										ld.data[x, y]=tilesetNumber;
+									}
+								}
+							}
+						}
+					}
+
+					foreach(TMX.TilesetData td in maptmx.Tilesets)
+					{
+						if(td.imgsource!=null)
+						{
+							if(FileSystem.GetFilename(td.imgsource)==tt.OldTileset)
+							{
+								changed=true;
+								td.imgsource.Replace(FileSystem.GetFilename(td.imgsource), tt.OldTileset);
+								break;
+							}
+						}
+					}
+
+					//maptmx.clo
+					if(changed)
+					{
+						maptmx.Save(i);
+					}
+				}
+
+				MessageBox.Show("Tileset wurde mittels der TT Datei transformiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+		}
+
+		private void tTDateiFür5121024LinksObenErzeugenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			//openFileDialog.FileName=Globals.folder_clientdata_graphics_tiles;
+			openFileDialog.Filter="PNG Dateien (*.png)|*.png";
+
+			MessageBox.Show("Bitte altes Tileset auswählen.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+			string tilesetOld="";
+			string tilesetNew="";
+
+			if(openFileDialog.ShowDialog()==DialogResult.OK)
+			{
+				tilesetOld=openFileDialog.FileName;
+
+				MessageBox.Show("Bitte neues Tileset auswählen.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+				if(openFileDialog.ShowDialog()==DialogResult.OK)
+				{
+					tilesetNew=openFileDialog.FileName;
+
+					TilesetInfo ti=Helper.GetTilesetInfo(tilesetOld);
+
+					if(ti.TileWidth!=32||ti.TileHeight!=32)
+					{
+						MessageBox.Show("Zur Zeit werden nur Tilesets mit einer Tilegröße von 32 x 32 Pixel unterstützt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+						return;
+					}
+
+					//Datei schreiben
+					string ttFilename=Globals.folder_clientdata_graphics_tiles+FileSystem.GetFilenameWithoutExt(tilesetOld)+".tt";
+					StreamWriter sw=new StreamWriter(ttFilename);
+
+					sw.WriteLine(FileSystem.GetFilename(tilesetOld));
+					sw.WriteLine(FileSystem.GetFilename(tilesetNew));
+
+					sw.WriteLine(ti.TileWidth);
+					sw.WriteLine(ti.TileHeight);
+
+					double tilesPerRowOld=16.0;
+
+					for(int i=0; i<256; i++)
+					{
+						int oldTileNumber=i;
+						int rowNumber=(int)(oldTileNumber/tilesPerRowOld);
+						int newTileNumber=(rowNumber*16)+oldTileNumber;
+
+						sw.WriteLine("{0}:{1}", oldTileNumber, newTileNumber);
+					}
+
+					sw.Close();
+				}
 			}
 		}
 	}

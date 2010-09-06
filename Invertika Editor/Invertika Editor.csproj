@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\MonsterSpawn.cs" />
+    <Compile Include="Classes\TilesetTransformation.cs" />
     <Compile Include="FormCoordinateCalculator.cs">
       <SubType>Form</SubType>
     </Compile>
