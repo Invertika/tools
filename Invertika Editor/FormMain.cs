@@ -1963,11 +1963,7 @@ namespace Invertika_Editor
 				TilesetTransformation tt=new TilesetTransformation(openFileDialog.FileName);
 
 				//Maps laden
-				//List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
-
-				List<string> mapfiles=new List<string>();
-				mapfiles.Add(Globals.folder_clientdata_maps + "ow-o0000-o0000-o0000.tmx");
-
+				List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
 
 				foreach(string i in mapfiles)
 				{
