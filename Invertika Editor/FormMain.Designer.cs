@@ -53,6 +53,7 @@
 			this.monsterInDenMapsErmittelnToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem11=new System.Windows.Forms.ToolStripSeparator();
 			this.tilesetsUmbennenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.tilesetsInAllenMapsTransformierenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem14=new System.Windows.Forms.ToolStripSeparator();
 			this.mapsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
@@ -101,14 +102,14 @@
 			this.weltkartenErzeugenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.hilfeToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.überToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.debugToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip=new System.Windows.Forms.ToolStrip();
 			this.statusStrip=new System.Windows.Forms.StatusStrip();
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog=new System.Windows.Forms.SaveFileDialog();
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
-			this.tilesetsInAllenMapsTransformierenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.debugToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -300,6 +301,13 @@
 			this.tilesetsUmbennenToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
 			this.tilesetsUmbennenToolStripMenuItem.Text="Tilesets umbenennen...";
 			this.tilesetsUmbennenToolStripMenuItem.Click+=new System.EventHandler(this.tilesetsUmbennenToolStripMenuItem_Click);
+			// 
+			// tilesetsInAllenMapsTransformierenToolStripMenuItem
+			// 
+			this.tilesetsInAllenMapsTransformierenToolStripMenuItem.Name="tilesetsInAllenMapsTransformierenToolStripMenuItem";
+			this.tilesetsInAllenMapsTransformierenToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
+			this.tilesetsInAllenMapsTransformierenToolStripMenuItem.Text="Tileset in allen Maps transformieren...";
+			this.tilesetsInAllenMapsTransformierenToolStripMenuItem.Click+=new System.EventHandler(this.tilesetInAllenMapsTransformierenToolStripMenuItem_Click);
 			// 
 			// vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem
 			// 
@@ -659,6 +667,23 @@
 			this.überToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
 			this.überToolStripMenuItem.Text="Ü&ber...";
 			// 
+			// debugToolStripMenuItem
+			// 
+			this.debugToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem,
+            this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem});
+			this.debugToolStripMenuItem.Name="debugToolStripMenuItem";
+			this.debugToolStripMenuItem.Size=new System.Drawing.Size(50, 20);
+			this.debugToolStripMenuItem.Text="Debug";
+			this.debugToolStripMenuItem.Visible=false;
+			// 
+			// tTDateiFür5121024LinksObenErzeugenToolStripMenuItem
+			// 
+			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem.Name="tTDateiFür5121024LinksObenErzeugenToolStripMenuItem";
+			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem.Size=new System.Drawing.Size(325, 22);
+			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem.Text="TT Datei für 512 -> 1024 links oben erzeugen...";
+			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem.Click+=new System.EventHandler(this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem_Click);
+			// 
 			// toolStrip
 			// 
 			this.toolStrip.Location=new System.Drawing.Point(0, 24);
@@ -675,28 +700,12 @@
 			this.statusStrip.TabIndex=2;
 			this.statusStrip.Text="statusStrip1";
 			// 
-			// tilesetsInAllenMapsTransformierenToolStripMenuItem
+			// tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem
 			// 
-			this.tilesetsInAllenMapsTransformierenToolStripMenuItem.Name="tilesetsInAllenMapsTransformierenToolStripMenuItem";
-			this.tilesetsInAllenMapsTransformierenToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
-			this.tilesetsInAllenMapsTransformierenToolStripMenuItem.Text="Tilesets in allen Maps transformieren...";
-			this.tilesetsInAllenMapsTransformierenToolStripMenuItem.Click+=new System.EventHandler(this.tilesetInAllenMapsTransformierenToolStripMenuItem_Click);
-			// 
-			// debugToolStripMenuItem
-			// 
-			this.debugToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem});
-			this.debugToolStripMenuItem.Name="debugToolStripMenuItem";
-			this.debugToolStripMenuItem.Size=new System.Drawing.Size(50, 20);
-			this.debugToolStripMenuItem.Text="Debug";
-			this.debugToolStripMenuItem.Visible=false;
-			// 
-			// tTDateiFür5121024LinksObenErzeugenToolStripMenuItem
-			// 
-			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem.Name="tTDateiFür5121024LinksObenErzeugenToolStripMenuItem";
-			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem.Size=new System.Drawing.Size(315, 22);
-			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem.Text="TT Datei für 512 -> 1024 links oben erzeugen...";
-			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem.Click+=new System.EventHandler(this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem_Click);
+			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem.Name="tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem";
+			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem.Size=new System.Drawing.Size(325, 22);
+			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem.Text="TT Datei für 512 -> 1024 rechts oben erzeugen...";
+			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem.Click+=new System.EventHandler(this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem_Click);
 			// 
 			// FormMain
 			// 
@@ -803,6 +812,7 @@
 		private System.Windows.Forms.ToolStripMenuItem tilesetsInAllenMapsTransformierenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem debugToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem tTDateiFür5121024LinksObenErzeugenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem;
 	}
 }
 
