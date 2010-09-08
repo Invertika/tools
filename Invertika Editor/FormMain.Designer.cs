@@ -106,6 +106,8 @@
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog=new System.Windows.Forms.SaveFileDialog();
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
+			this.tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -633,14 +635,16 @@
 			// überToolStripMenuItem
 			// 
 			this.überToolStripMenuItem.Name="überToolStripMenuItem";
-			this.überToolStripMenuItem.Size=new System.Drawing.Size(120, 22);
+			this.überToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
 			this.überToolStripMenuItem.Text="Ü&ber...";
 			// 
 			// debugToolStripMenuItem
 			// 
 			this.debugToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem,
-            this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem});
+            this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem,
+            this.tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem,
+            this.tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem});
 			this.debugToolStripMenuItem.Name="debugToolStripMenuItem";
 			this.debugToolStripMenuItem.Size=new System.Drawing.Size(50, 20);
 			this.debugToolStripMenuItem.Text="Debug";
@@ -649,14 +653,14 @@
 			// tTDateiFür5121024LinksObenErzeugenToolStripMenuItem
 			// 
 			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem.Name="tTDateiFür5121024LinksObenErzeugenToolStripMenuItem";
-			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem.Size=new System.Drawing.Size(325, 22);
+			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem.Size=new System.Drawing.Size(329, 22);
 			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem.Text="TT Datei für 512 -> 1024 links oben erzeugen...";
 			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem.Click+=new System.EventHandler(this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem_Click);
 			// 
 			// tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem
 			// 
 			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem.Name="tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem";
-			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem.Size=new System.Drawing.Size(325, 22);
+			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem.Size=new System.Drawing.Size(329, 22);
 			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem.Text="TT Datei für 512 -> 1024 rechts oben erzeugen...";
 			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem.Click+=new System.EventHandler(this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem_Click);
 			// 
@@ -675,6 +679,20 @@
 			this.statusStrip.Size=new System.Drawing.Size(1006, 22);
 			this.statusStrip.TabIndex=2;
 			this.statusStrip.Text="statusStrip1";
+			// 
+			// tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem
+			// 
+			this.tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem.Name="tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem";
+			this.tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem.Size=new System.Drawing.Size(329, 22);
+			this.tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem.Text="TT Datei für 512 -> 1024 links unten erzeugen...";
+			this.tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem.Click+=new System.EventHandler(this.tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem_Click);
+			// 
+			// tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem
+			// 
+			this.tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem.Name="tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem";
+			this.tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem.Size=new System.Drawing.Size(329, 22);
+			this.tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem.Text="TT Datei für 512 -> 1024 rechts unten erzeugen...";
+			this.tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem.Click+=new System.EventHandler(this.tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem_Click);
 			// 
 			// FormMain
 			// 
@@ -778,6 +796,8 @@
 		private System.Windows.Forms.ToolStripMenuItem debugToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem tTDateiFür5121024LinksObenErzeugenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem;
 	}
 }
 
