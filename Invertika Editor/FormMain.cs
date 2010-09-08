@@ -1605,6 +1605,11 @@ namespace Invertika_Editor
 							mvRolled+=mventry+"\n";
 						}
 
+						if(mv.Count==0)
+						{
+							mvRolled+="* das Monster kommt auf keiner Karte vor\n";
+						}
+
 						text=text.Replace(start, mvRolled);
 
 						if(i.text!=text)
@@ -1744,10 +1749,12 @@ namespace Invertika_Editor
 
 						if(monster.Drops.Count==0)
 						{
-							droplines+=String.Format("{{{{DropTableRow| {0} | 0 %}}}}\n", "keine Drops vorhanden");
+							droplines="\n* keine Drops vorhanden\n";
 						}
-
-						droplines+="{{DropTableEnd}}\n";
+						else
+						{
+							droplines+="{{DropTableEnd}}\n";
+						}
 
 						string replaceString="{{Anker|AutomaticStartDrops}}"+droplines;
 						text=text.Replace(start, replaceString);
@@ -1876,11 +1883,12 @@ namespace Invertika_Editor
 
 				if(OneDrop==false)
 				{
-					droplines+=String.Format("{{{{DropTableRow| {0} | 0 %}}}}\n", "keine Monster dropt dieses Item");
+					droplines="\n* kein Monster dropt dieses Item\n";
 				}
-
-
-				droplines+="{{DropTableEnd}}\n";
+				else
+				{
+					droplines+="{{DropTableEnd}}\n";
+				}
 
 				string replaceString="{{Anker|AutomaticStartDrops}}"+droplines;
 				text=text.Replace(start, replaceString);
