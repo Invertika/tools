@@ -610,11 +610,6 @@ namespace Invertika_Editor
 			MessageBox.Show("Wikidatei erfolgreich in Zwischenablage geschreiben.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
-		private void xMLÖffnenToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		}
-
 		private void adler32EinerDateiBerechnenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			openFileDialog.Multiselect=false;
@@ -732,8 +727,7 @@ namespace Invertika_Editor
 		{
 			List<string> files=FileSystem.GetFiles(Globals.folder_clientdata_graphics_tiles, false, "*.png");
 
-			string msg="Tilesets welche nicht mit den Richtlinien übereinstimmen:\n";
-			msg+="\n";
+			string msg="";
 
 			bool found=false;
 
@@ -757,7 +751,12 @@ namespace Invertika_Editor
 				}
 			}
 
-			MessageBox.Show(msg, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			if(found==false)
+			{
+				msg="Es wurden keine Fehler gefunden.";
+			}
+
+			FormOutputBox.ShowOutputBox("Tilesets welche nicht mit den Richtlinien übereinstimmen", msg);
 		}
 
 		private void tilesetsZusammenrechnenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1049,9 +1048,11 @@ namespace Invertika_Editor
 
 			string fnItemsXml=Globals.folder_clientdata+"items.xml";
 			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
+			items.Sort();
 
-			string msg="Fehler in der items.xml:\n";
-			msg+="\n";
+			string msg="";
+
+			bool found=false;
 
 			foreach(Item item in items)
 			{
@@ -1064,6 +1065,7 @@ namespace Invertika_Editor
 
 						if(!FileSystem.Exists(imagePath))
 						{
+							found=true;
 							msg+=String.Format("Itembild ({0}) für Item {1} ({2})) existiert nicht.\n", imagePath, item.Name, item.ID);
 						}
 					}
@@ -1078,13 +1080,19 @@ namespace Invertika_Editor
 
 						if(!FileSystem.Exists(spritePath))
 						{
+							found=true;
 							msg+=String.Format("Sprite XML Datei ({0}) für Item {1} ({2})) existiert nicht.\n", spritePath, item.Name, item.ID);
 						}
 					}
 				}
 			}
 
-			MessageBox.Show(msg, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			if(found==false)
+			{
+				msg="Es wurden keine Fehler gefunden.";
+			}
+
+			FormOutputBox.ShowOutputBox("Fehler in der items.xml", msg);
 		}
 
 		private void monsterÜberprüfenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1097,9 +1105,11 @@ namespace Invertika_Editor
 
 			string fnMonstersXml=Globals.folder_clientdata+"monsters.xml";
 			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonstersXml);
+			monsters.Sort();
 
-			string msg="Fehler in der monsters.xml:\n";
-			msg+="\n";
+			string msg="";
+
+			bool found=false;
 
 			foreach(Monster monster in monsters)
 			{
@@ -1115,6 +1125,7 @@ namespace Invertika_Editor
 
 								if(!FileSystem.Exists(imagePath))
 								{
+									found=true;
 									msg+=String.Format("Sound ({0}) für Monster {1} ({2})) existiert nicht.\n", imagePath, monster.Name, monster.ID);
 								}
 							}
@@ -1131,13 +1142,19 @@ namespace Invertika_Editor
 
 						if(!FileSystem.Exists(spritePath))
 						{
+							found=true;
 							msg+=String.Format("Sprite XML Datei ({0}) für Monster {1} ({2})) existiert nicht.\n", spritePath, monster.Name, monster.ID);
 						}
 					}
 				}
 			}
 
-			MessageBox.Show(msg, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			if(found==false)
+			{
+				msg="Es wurden keine Fehler gefunden.";
+			}
+
+			FormOutputBox.ShowOutputBox("Fehler in der monsters.xml", msg);
 		}
 
 		private void ExportItemsInfoboxToMediawikiAPI()
@@ -1478,8 +1495,9 @@ namespace Invertika_Editor
 
 			string fnMonstersXml=Globals.folder_clientdata+"monsters.xml";
 			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonstersXml);
+			monsters.Sort();
 
-			string ret="Monsterverteilung in den Maps\n\n";
+			string ret="";
 
 			foreach(KeyValuePair<int, List<string>> kvp in MonsterMapList)
 			{
@@ -1502,12 +1520,7 @@ namespace Invertika_Editor
 				ret+="\n";
 			}
 
-			MessageBox.Show(ret, "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		}
-
-		private void xMLSpeichernToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			FormOutputBox.ShowOutputBox("Monsterverteilung in den Maps", ret);
 		}
 
 		private void tilesetsUmbennenToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2174,6 +2187,11 @@ namespace Invertika_Editor
 					sw.Close();
 				}
 			}
+		}
+
+		private void höhlengeneratorToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 	}
 }

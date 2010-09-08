@@ -31,10 +31,6 @@
 			System.ComponentModel.ComponentResourceManager resources=new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
 			this.menuStrip=new System.Windows.Forms.MenuStrip();
 			this.dateiToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.xMLÖffnenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem3=new System.Windows.Forms.ToolStripSeparator();
-			this.xMLSpeichernToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem4=new System.Windows.Forms.ToolStripSeparator();
 			this.optionenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem1=new System.Windows.Forms.ToolStripSeparator();
 			this.beendenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
@@ -104,12 +100,12 @@
 			this.überToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.debugToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip=new System.Windows.Forms.ToolStrip();
 			this.statusStrip=new System.Windows.Forms.StatusStrip();
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog=new System.Windows.Forms.SaveFileDialog();
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
-			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -135,10 +131,6 @@
 			// dateiToolStripMenuItem
 			// 
 			this.dateiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.xMLÖffnenToolStripMenuItem,
-            this.toolStripMenuItem3,
-            this.xMLSpeichernToolStripMenuItem,
-            this.toolStripMenuItem4,
             this.optionenToolStripMenuItem,
             this.toolStripMenuItem1,
             this.beendenToolStripMenuItem});
@@ -146,46 +138,22 @@
 			this.dateiToolStripMenuItem.Size=new System.Drawing.Size(44, 20);
 			this.dateiToolStripMenuItem.Text="&Datei";
 			// 
-			// xMLÖffnenToolStripMenuItem
-			// 
-			this.xMLÖffnenToolStripMenuItem.Name="xMLÖffnenToolStripMenuItem";
-			this.xMLÖffnenToolStripMenuItem.Size=new System.Drawing.Size(165, 22);
-			this.xMLÖffnenToolStripMenuItem.Text="XML öffnen...";
-			this.xMLÖffnenToolStripMenuItem.Click+=new System.EventHandler(this.xMLÖffnenToolStripMenuItem_Click);
-			// 
-			// toolStripMenuItem3
-			// 
-			this.toolStripMenuItem3.Name="toolStripMenuItem3";
-			this.toolStripMenuItem3.Size=new System.Drawing.Size(162, 6);
-			// 
-			// xMLSpeichernToolStripMenuItem
-			// 
-			this.xMLSpeichernToolStripMenuItem.Name="xMLSpeichernToolStripMenuItem";
-			this.xMLSpeichernToolStripMenuItem.Size=new System.Drawing.Size(165, 22);
-			this.xMLSpeichernToolStripMenuItem.Text="XML speichern...";
-			this.xMLSpeichernToolStripMenuItem.Click+=new System.EventHandler(this.xMLSpeichernToolStripMenuItem_Click);
-			// 
-			// toolStripMenuItem4
-			// 
-			this.toolStripMenuItem4.Name="toolStripMenuItem4";
-			this.toolStripMenuItem4.Size=new System.Drawing.Size(162, 6);
-			// 
 			// optionenToolStripMenuItem
 			// 
 			this.optionenToolStripMenuItem.Name="optionenToolStripMenuItem";
-			this.optionenToolStripMenuItem.Size=new System.Drawing.Size(165, 22);
+			this.optionenToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
 			this.optionenToolStripMenuItem.Text="Optionen...";
 			this.optionenToolStripMenuItem.Click+=new System.EventHandler(this.optionenToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem1
 			// 
 			this.toolStripMenuItem1.Name="toolStripMenuItem1";
-			this.toolStripMenuItem1.Size=new System.Drawing.Size(162, 6);
+			this.toolStripMenuItem1.Size=new System.Drawing.Size(149, 6);
 			// 
 			// beendenToolStripMenuItem
 			// 
 			this.beendenToolStripMenuItem.Name="beendenToolStripMenuItem";
-			this.beendenToolStripMenuItem.Size=new System.Drawing.Size(165, 22);
+			this.beendenToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
 			this.beendenToolStripMenuItem.Text="B&eenden";
 			this.beendenToolStripMenuItem.Click+=new System.EventHandler(this.beendenToolStripMenuItem_Click);
 			// 
@@ -251,6 +219,7 @@
 			this.höhlengeneratorToolStripMenuItem.Name="höhlengeneratorToolStripMenuItem";
 			this.höhlengeneratorToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
 			this.höhlengeneratorToolStripMenuItem.Text="Höhlengenerator...";
+			this.höhlengeneratorToolStripMenuItem.Click+=new System.EventHandler(this.höhlengeneratorToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem5
 			// 
@@ -664,7 +633,7 @@
 			// überToolStripMenuItem
 			// 
 			this.überToolStripMenuItem.Name="überToolStripMenuItem";
-			this.überToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
+			this.überToolStripMenuItem.Size=new System.Drawing.Size(120, 22);
 			this.überToolStripMenuItem.Text="Ü&ber...";
 			// 
 			// debugToolStripMenuItem
@@ -684,6 +653,13 @@
 			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem.Text="TT Datei für 512 -> 1024 links oben erzeugen...";
 			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem.Click+=new System.EventHandler(this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem_Click);
 			// 
+			// tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem
+			// 
+			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem.Name="tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem";
+			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem.Size=new System.Drawing.Size(325, 22);
+			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem.Text="TT Datei für 512 -> 1024 rechts oben erzeugen...";
+			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem.Click+=new System.EventHandler(this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem_Click);
+			// 
 			// toolStrip
 			// 
 			this.toolStrip.Location=new System.Drawing.Point(0, 24);
@@ -699,13 +675,6 @@
 			this.statusStrip.Size=new System.Drawing.Size(1006, 22);
 			this.statusStrip.TabIndex=2;
 			this.statusStrip.Text="statusStrip1";
-			// 
-			// tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem
-			// 
-			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem.Name="tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem";
-			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem.Size=new System.Drawing.Size(325, 22);
-			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem.Text="TT Datei für 512 -> 1024 rechts oben erzeugen...";
-			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem.Click+=new System.EventHandler(this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem_Click);
 			// 
 			// FormMain
 			// 
@@ -750,10 +719,6 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
 		private System.Windows.Forms.ToolStripMenuItem clientUpdateErstellenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem datenOrdnerErstellenToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem xMLÖffnenToolStripMenuItem;
-		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
-		private System.Windows.Forms.ToolStripMenuItem xMLSpeichernToolStripMenuItem;
-		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem5;
 		private System.Windows.Forms.ToolStripMenuItem mapsInDieMapsxmlToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;

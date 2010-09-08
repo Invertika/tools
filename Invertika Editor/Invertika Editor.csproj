@@ -89,6 +89,12 @@
     <Compile Include="FormOptions.Designer.cs">
       <DependentUpon>FormOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormOutputBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormOutputBox.Designer.cs">
+      <DependentUpon>FormOutputBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormTilesetCalculator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,6 +127,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormOptions.resx">
       <DependentUpon>FormOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormOutputBox.resx">
+      <DependentUpon>FormOutputBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTilesetCalculator.resx">
       <DependentUpon>FormTilesetCalculator.cs</DependentUpon>
