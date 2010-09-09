@@ -35,5 +35,5 @@ build() {
   mkdir -p $pkgdir/opt/invedit
   mkdir -p $pkgdir/usr/bin
   cp ./bin/Debug/* $pkgdir/opt/invedit/
-  cp ./packaging/Arch/invedit $pkgdir/usr/bin/
+  cp ./packaging/arch/invedit $pkgdir/usr/bin/
 }
