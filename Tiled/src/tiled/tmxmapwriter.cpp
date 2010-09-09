@@ -221,13 +221,20 @@ void TmxMapWriter::writeTileset(QXmlStreamWriter &w, const Tileset *tileset,
         if (transColor.isValid())
             w.writeAttribute(QLatin1String("trans"), transColor.name().mid(1));
 
+        if (tileset->imageWidth() > 0)
+            w.writeAttribute(QLatin1String("width"),
+                             QString::number(tileset->imageWidth()));
+        if (tileset->imageHeight() > 0)
+            w.writeAttribute(QLatin1String("height"),
+                             QString::number(tileset->imageHeight()));
+
         w.writeEndElement();
     }
 
     // Write the properties for those tiles that have them
     for (int i = 0; i < tileset->tileCount(); ++i) {
         const Tile *tile = tileset->tileAt(i);
-        const QMap<QString, QString> properties = tile->properties();
+        const Properties properties = tile->properties();
         if (!properties.isEmpty()) {
             w.writeStartElement(QLatin1String("tile"));
             w.writeAttribute(QLatin1String("id"), QString::number(i));
@@ -406,10 +413,10 @@ void TmxMapWriter::writeObject(QXmlStreamWriter &w, const MapObject *mapObject)
         width = qRound(bounds.width() * tileHeight);
         height = qRound(bounds.height() * tileHeight);
     } else {
-        x = qRound(bounds.x() * tileHeight);
-        y = qRound(bounds.y() * tileWidth);
-        width = qRound(bounds.width() * tileHeight);
-        height = qRound(bounds.height() * tileWidth);
+        x = qRound(bounds.x() * tileWidth);
+        y = qRound(bounds.y() * tileHeight);
+        width = qRound(bounds.width() * tileWidth);
+        height = qRound(bounds.height() * tileHeight);
     }
 
     w.writeAttribute(QLatin1String("x"), QString::number(x));
@@ -424,15 +431,15 @@ void TmxMapWriter::writeObject(QXmlStreamWriter &w, const MapObject *mapObject)
 }
 
 void TmxMapWriter::writeProperties(QXmlStreamWriter &w,
-                                   const QMap<QString, QString> &properties)
+                                   const Properties &properties)
 {
     if (properties.isEmpty())
         return;
 
     w.writeStartElement(QLatin1String("properties"));
 
-    QMap<QString, QString>::const_iterator it = properties.constBegin();
-    QMap<QString, QString>::const_iterator it_end = properties.constEnd();
+    Properties::const_iterator it = properties.constBegin();
+    Properties::const_iterator it_end = properties.constEnd();
     for (; it != it_end; ++it) {
         w.writeStartElement(QLatin1String("property"));
         w.writeAttribute(QLatin1String("name"), it.key());

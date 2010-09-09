@@ -1,6 +1,6 @@
 /*
  * changeproperties.h
- * Copyright 2008-2009, Thorbjørn Lindeijer <thorbjorn@lindeijer.nl>
+ * Copyright 2008-2010, Thorbjørn Lindeijer <thorbjorn@lindeijer.nl>
  *
  * This file is part of Tiled.
  *
@@ -21,7 +21,8 @@
 #ifndef CHANGEPROPERTIES_H
 #define CHANGEPROPERTIES_H
 
-#include <QMap>
+#include "object.h"
+
 #include <QString>
 #include <QUndoCommand>
 
@@ -34,21 +35,21 @@ public:
     /**
      * Constructs a new 'Change Properties' command.
      *
-     * @param kind          the kind of properties (Map, Layer, Object, etc.)
-     * @param properties    the properties instance that should be changed
+     * @param kind         the kind of properties (Map, Layer, Object, etc.)
+     * @param object       the object of which the properties should be changed
      * @param newProperties the new properties that should be applied
      */
     ChangeProperties(const QString &kind,
-                     QMap<QString, QString> *properties,
-                     const QMap<QString, QString> &newProperties);
+                     Object *object,
+                     const Properties &newProperties);
     void undo();
     void redo();
 
 private:
     void swapProperties();
 
-    QMap<QString, QString> *mProperties;
-    QMap<QString, QString> mNewProperties;
+    Object *mObject;
+    Properties mNewProperties;
 };
 
 } // namespace Internal

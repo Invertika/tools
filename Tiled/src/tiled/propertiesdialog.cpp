@@ -36,19 +36,19 @@
 using namespace Tiled::Internal;
 
 PropertiesDialog::PropertiesDialog(const QString &kind,
-                                   QMap<QString, QString> *properties,
+                                   Object *object,
                                    QUndoStack *undoStack,
                                    QWidget *parent):
     QDialog(parent),
     mUndoStack(undoStack),
-    mProperties(properties),
+    mObject(object),
     mKind(kind)
 {
     mUi = new Ui::PropertiesDialog;
     mUi->setupUi(this);
 
     mModel = new PropertiesModel(this);
-    mModel->setProperties(*mProperties);
+    mModel->setProperties(mObject->properties());
     mUi->propertiesView->setModel(mModel);
 
     // Delete selected properties when the delete key is pressed
@@ -68,10 +68,10 @@ PropertiesDialog::~PropertiesDialog()
 
 void PropertiesDialog::accept()
 {
-    const QMap<QString, QString> &properties = mModel->properties();
-    if (mProperties && *mProperties != properties) {
+    const Properties &properties = mModel->properties();
+    if (mObject && mObject->properties() != properties) {
         mUndoStack->push(new ChangeProperties(mKind,
-                                              mProperties,
+                                              mObject,
                                               properties));
     }
     QDialog::accept();
@@ -90,7 +90,7 @@ void PropertiesDialog::showDialogFor(Layer *layer,
                                                  parent);
     } else {
         dialog = new PropertiesDialog(tr("Layer"),
-                                      layer->properties(),
+                                      layer,
                                       mapDocument->undoStack(),
                                       parent);
     }

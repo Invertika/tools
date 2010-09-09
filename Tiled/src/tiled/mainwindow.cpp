@@ -28,6 +28,7 @@
 
 #include "aboutdialog.h"
 #include "addremovetileset.h"
+#include "changeproperties.h"
 #include "clipboardmanager.h"
 #include "eraser.h"
 #include "erasetiles.h"
@@ -52,6 +53,7 @@
 #include "saveasimagedialog.h"
 #include "selectiontool.h"
 #include "stampbrush.h"
+#include "tile.h"
 #include "tilelayer.h"
 #include "tileset.h"
 #include "tilesetdock.h"
@@ -72,6 +74,7 @@
 #include <QUndoGroup>
 #include <QUndoStack>
 #include <QUndoView>
+#include <QImageReader>
 
 using namespace Tiled;
 using namespace Tiled::Internal;
@@ -339,7 +342,21 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *e)
 
 void MainWindow::dropEvent(QDropEvent *e)
 {
-    openFile(e->mimeData()->urls().at(0).toLocalFile());
+    const QString file = e->mimeData()->urls().at(0).toLocalFile();
+    const QString extension = QFileInfo(file).suffix();
+
+    // Treat file as a tileset if it is an image. Use the extension here because
+    // QImageReader::imageFormat() treats tmx files as svg
+    const QList<QByteArray> formats = QImageReader::supportedImageFormats();
+    foreach (const QByteArray &format, formats) {
+        if (extension.compare(QString::fromLatin1(format), Qt::CaseInsensitive) == 0) {
+            newTileset(file);
+            return;
+        }
+    }
+
+    // Treat file as a map otherwise
+    openFile(file);
 }
 
 void MainWindow::newMap()
@@ -413,6 +430,11 @@ void MainWindow::openLastFile()
         const int ver = mSettings.value(QLatin1String("scrollY")).toInt();
         mUi->mapView->horizontalScrollBar()->setSliderPosition(hor);
         mUi->mapView->verticalScrollBar()->setSliderPosition(ver);
+
+        int layer = mSettings.value(QLatin1String("selectedLayer")).toInt();
+        if (layer > 0 && layer < mMapDocument->map()->layerCount())
+            mMapDocument->setCurrentLayer(layer);
+
         mSettings.endGroup();
     }
 }
@@ -639,46 +661,84 @@ void MainWindow::copy()
     mClipboardManager->copySelection(mMapDocument);
 }
 
+static Tileset *findSimilarTileset(Tileset *tileset,
+                                   const QList<Tileset*> tilesets)
+{
+    foreach (Tileset *candidate, tilesets) {
+        if (candidate != tileset
+            && candidate->imageSource() == tileset->imageSource()
+            && candidate->tileWidth() == tileset->tileWidth()
+            && candidate->tileHeight() == tileset->tileHeight()
+            && candidate->tileSpacing() == tileset->tileSpacing()
+            && candidate->margin() == tileset->margin())
+        {
+            return candidate;
+        }
+    }
+
+    return 0;
+}
+
 void MainWindow::paste()
 {
     if (!mMapDocument)
         return;
 
-    if (Map *map = mClipboardManager->map()) {
-        // We can currently only handle maps with a single tile layer
-        if (map->layerCount() == 1) {
-            if (TileLayer *layer = dynamic_cast<TileLayer*>(map->layerAt(0))) {
-                QList<QUndoCommand*> addTilesetCommands;
+    Map *map = mClipboardManager->map();
+    if (!map)
+        return;
 
-                // Add tilesets that are not yet part of this map
-                foreach (Tileset *tileset, map->tilesets()) {
-                    if (!mMapDocument->map()->tilesets().contains(tileset)) {
-                        addTilesetCommands.append(new AddTileset(mMapDocument,
-                                                                 tileset));
-                    }
-                }
-                if (!addTilesetCommands.isEmpty()) {
-                    QUndoStack *undoStack = mMapDocument->undoStack();
-                    undoStack->beginMacro(tr("Add Tilesets"));
-                    foreach (QUndoCommand *command, addTilesetCommands)
-                        mMapDocument->undoStack()->push(command);
-                    undoStack->endMacro();
-                }
-
-                // Reset selection and paste into the stamp brush
-                mActionHandler->selectNone();
-                setStampBrush(layer);
-                ToolManager::instance()->selectTool(mStampBrush);
-
-                delete map;
-                return;
-            }
-        }
-
-        // Need to also clean up the tilesets since they didn't get an owner
+    // We can currently only handle maps with a single tile layer
+    if (!(map->layerCount() == 1 && map->layerAt(0)->asTileLayer())) {
+        // Need to clean up the tilesets since they didn't get an owner
         qDeleteAll(map->tilesets());
         delete map;
+        return;
     }
+
+    TileLayer *layer = map->layerAt(0)->asTileLayer();
+    QList<QUndoCommand*> undoCommands;
+    QList<Tileset*> existingTilesets = mMapDocument->map()->tilesets();
+
+    // Add tilesets that are not yet part of this map
+    foreach (Tileset *tileset, map->tilesets()) {
+        if (existingTilesets.contains(tileset))
+            continue;
+
+        Tileset *replacement = findSimilarTileset(tileset, existingTilesets);
+        if (!replacement) {
+            undoCommands.append(new AddTileset(mMapDocument, tileset));
+            continue;
+        }
+
+        // Merge the tile properties
+        const int sharedTileCount = qMin(tileset->tileCount(),
+                                         replacement->tileCount());
+        for (int i = 0; i < sharedTileCount; ++i) {
+            Tile *replacementTile = replacement->tileAt(i);
+            Properties properties = replacementTile->properties();
+            properties.merge(tileset->tileAt(i)->properties());
+            undoCommands.append(new ChangeProperties(tr("Tile"),
+                                                     replacementTile,
+                                                     properties));
+        }
+        map->replaceTileset(tileset, replacement);
+        delete tileset;
+    }
+    if (!undoCommands.isEmpty()) {
+        QUndoStack *undoStack = mMapDocument->undoStack();
+        undoStack->beginMacro(tr("Paste"));
+        foreach (QUndoCommand *command, undoCommands)
+            mMapDocument->undoStack()->push(command);
+        undoStack->endMacro();
+    }
+
+    // Reset selection and paste into the stamp brush
+    mActionHandler->selectNone();
+    setStampBrush(layer);
+    ToolManager::instance()->selectTool(mStampBrush);
+
+    delete map;
 }
 
 void MainWindow::openPreferences()
@@ -687,14 +747,18 @@ void MainWindow::openPreferences()
     preferencesDialog.exec();
 }
 
-void MainWindow::newTileset()
+void MainWindow::newTileset(const QString &path)
 {
     if (!mMapDocument)
         return;
 
     Map *map = mMapDocument->map();
 
-    NewTilesetDialog newTileset(fileDialogStartLocation(), this);
+    QString startLocation = path.isEmpty()
+                            ? fileDialogStartLocation()
+                            : path;
+
+    NewTilesetDialog newTileset(startLocation, this);
     newTileset.setTileWidth(map->tileWidth());
     newTileset.setTileHeight(map->tileHeight());
 
@@ -766,7 +830,7 @@ void MainWindow::editMapProperties()
     if (!mMapDocument)
         return;
     PropertiesDialog propertiesDialog(tr("Map"),
-                                      mMapDocument->map()->properties(),
+                                      mMapDocument->map(),
                                       mMapDocument->undoStack(),
                                       this);
     propertiesDialog.exec();
@@ -925,6 +989,9 @@ void MainWindow::writeSettings()
                        mUi->mapView->horizontalScrollBar()->sliderPosition());
     mSettings.setValue(QLatin1String("scrollY"),
                        mUi->mapView->verticalScrollBar()->sliderPosition());
+    if (mMapDocument)
+        mSettings.setValue(QLatin1String("selectedLayer"),
+                           mMapDocument->currentLayer());
     mSettings.endGroup();
 }
 
