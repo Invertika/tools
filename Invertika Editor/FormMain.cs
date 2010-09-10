@@ -2210,62 +2210,7 @@ namespace Invertika_Editor
 
 		private void tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if(Globals.folder_root=="")
-			{
-				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				return;
-			}
 
-			openFileDialog.Filter="PNG Dateien (*.png)|*.png";
-
-			MessageBox.Show("Bitte altes Tileset auswählen.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-			string tilesetOld="";
-			string tilesetNew="";
-
-			if(openFileDialog.ShowDialog()==DialogResult.OK)
-			{
-				tilesetOld=openFileDialog.FileName;
-
-				MessageBox.Show("Bitte neues Tileset auswählen.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-				if(openFileDialog.ShowDialog()==DialogResult.OK)
-				{
-					tilesetNew=openFileDialog.FileName;
-
-					TilesetInfo ti=Helper.GetTilesetInfo(tilesetOld);
-
-					if(ti.TileWidth!=32||ti.TileHeight!=32)
-					{
-						MessageBox.Show("Zur Zeit werden nur Tilesets mit einer Tilegröße von 32 x 32 Pixel unterstützt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-						return;
-					}
-
-					//Datei schreiben
-					string ttFilename=Globals.folder_clientdata_graphics_tiles+FileSystem.GetFilenameWithoutExt(tilesetOld)+".tt";
-					StreamWriter sw=new StreamWriter(ttFilename);
-
-					sw.WriteLine(FileSystem.GetFilename(tilesetOld));
-					sw.WriteLine(FileSystem.GetFilename(tilesetNew));
-
-					sw.WriteLine(ti.TileWidth);
-					sw.WriteLine(ti.TileHeight);
-
-					double tilesPerRowOld=16.0;
-
-					for(int i=0; i<256; i++)
-					{
-						int oldTileNumber=i;
-						int rowNumber=(int)(oldTileNumber/tilesPerRowOld);
-						int newTileNumber=(rowNumber*16)+oldTileNumber;
-						newTileNumber+=512; //unten links korrektur
-
-						sw.WriteLine("{0}:{1}", oldTileNumber, newTileNumber);
-					}
-
-					sw.Close();
-				}
-			}
 		}
 
 		private void tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem_Click(object sender, EventArgs e)

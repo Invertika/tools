@@ -38,7 +38,7 @@ namespace Invertika_Editor
 
 		private void bgwCreateMapThumbnailsAndMinimaps_DoWork(object sender, DoWorkEventArgs e)
 		{
-			List<string> files=FileSystem.GetFiles(Globals.folder_clientdata_maps, true, "ow-*.tmx");
+			List<string> files=FileSystem.GetFiles(Globals.folder_clientdata_maps, true, "*.tmx");
 
 			FortschrittMax=files.Count;
 			FortschrittValue=0;
