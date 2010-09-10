@@ -28,33 +28,58 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.richTextBox1=new System.Windows.Forms.RichTextBox();
+			this.rtbOutput=new System.Windows.Forms.RichTextBox();
+			this.statusStrip=new System.Windows.Forms.StatusStrip();
+			this.tssEntry=new System.Windows.Forms.ToolStripStatusLabel();
+			this.statusStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// richTextBox1
+			// rtbOutput
 			// 
-			this.richTextBox1.Dock=System.Windows.Forms.DockStyle.Fill;
-			this.richTextBox1.Location=new System.Drawing.Point(0, 0);
-			this.richTextBox1.Name="richTextBox1";
-			this.richTextBox1.Size=new System.Drawing.Size(740, 373);
-			this.richTextBox1.TabIndex=0;
-			this.richTextBox1.Text="";
+			this.rtbOutput.Dock=System.Windows.Forms.DockStyle.Fill;
+			this.rtbOutput.Location=new System.Drawing.Point(0, 0);
+			this.rtbOutput.Name="rtbOutput";
+			this.rtbOutput.Size=new System.Drawing.Size(864, 391);
+			this.rtbOutput.TabIndex=0;
+			this.rtbOutput.Text="";
+			// 
+			// statusStrip
+			// 
+			this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tssEntry});
+			this.statusStrip.Location=new System.Drawing.Point(0, 369);
+			this.statusStrip.Name="statusStrip";
+			this.statusStrip.Size=new System.Drawing.Size(864, 22);
+			this.statusStrip.TabIndex=1;
+			this.statusStrip.Text="statusStrip1";
+			// 
+			// tssEntry
+			// 
+			this.tssEntry.Name="tssEntry";
+			this.tssEntry.Size=new System.Drawing.Size(60, 17);
+			this.tssEntry.Text="Einträge: 0";
 			// 
 			// FormOutputBox
 			// 
 			this.AutoScaleDimensions=new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode=System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize=new System.Drawing.Size(740, 373);
-			this.Controls.Add(this.richTextBox1);
+			this.ClientSize=new System.Drawing.Size(864, 391);
+			this.Controls.Add(this.statusStrip);
+			this.Controls.Add(this.rtbOutput);
 			this.Name="FormOutputBox";
-			this.StartPosition=System.Windows.Forms.FormStartPosition.CenterParent;
+			this.StartPosition=System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text="Ausgabe:";
+			this.statusStrip.ResumeLayout(false);
+			this.statusStrip.PerformLayout();
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.RichTextBox richTextBox1;
+		private System.Windows.Forms.RichTextBox rtbOutput;
+		private System.Windows.Forms.StatusStrip statusStrip;
+		private System.Windows.Forms.ToolStripStatusLabel tssEntry;
 	}
 }
