@@ -837,7 +837,8 @@ namespace Invertika_Editor
 			}
 
 			List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
-			List<string> usedTilesets=new List<string>();
+			Dictionary<string, int> usedTilesets=new Dictionary<string, int>();
+			//List<string> usedTilesets=new List<string>();
 
 			foreach(string fn in maps)
 			{
@@ -847,18 +848,28 @@ namespace Invertika_Editor
 				foreach(CSCL.FileFormats.TMX.TMX.TilesetData fnTileset in map.Tilesets)
 				{
 					string cleanTileset=FileSystem.GetFilename(fnTileset.imgsource);
-					if(usedTilesets.IndexOf(cleanTileset)==-1) usedTilesets.Add(cleanTileset);
+
+					if(usedTilesets.ContainsKey(cleanTileset)==false)
+					{
+						usedTilesets.Add(cleanTileset, 1);
+					}
+					else
+					{
+						int val=usedTilesets[cleanTileset];
+						val++;
+						usedTilesets[cleanTileset]=val;
+					}
 				}
 			}
 
-			string msg="";
+			List<string> msg=new List<string>();
 
-			usedTilesets.Sort();
-
-			foreach(string i in usedTilesets)
+			foreach(string i in usedTilesets.Keys)
 			{
-				msg+=i+"\n";
+				msg.Add(String.Format("{0} ({1} mal)", i, usedTilesets[i]));
 			}
+
+			msg.Sort();
 
 			FormOutputBox.ShowOutputBox("Von den Maps benutzte Tilesets", msg);
 		}

@@ -28,20 +28,11 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.rtbOutput=new System.Windows.Forms.RichTextBox();
 			this.statusStrip=new System.Windows.Forms.StatusStrip();
 			this.tssEntry=new System.Windows.Forms.ToolStripStatusLabel();
+			this.rtbOutput=new System.Windows.Forms.RichTextBox();
 			this.statusStrip.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// rtbOutput
-			// 
-			this.rtbOutput.Dock=System.Windows.Forms.DockStyle.Fill;
-			this.rtbOutput.Location=new System.Drawing.Point(0, 0);
-			this.rtbOutput.Name="rtbOutput";
-			this.rtbOutput.Size=new System.Drawing.Size(864, 391);
-			this.rtbOutput.TabIndex=0;
-			this.rtbOutput.Text="";
 			// 
 			// statusStrip
 			// 
@@ -59,13 +50,22 @@
 			this.tssEntry.Size=new System.Drawing.Size(60, 17);
 			this.tssEntry.Text="Einträge: 0";
 			// 
+			// rtbOutput
+			// 
+			this.rtbOutput.Dock=System.Windows.Forms.DockStyle.Fill;
+			this.rtbOutput.Location=new System.Drawing.Point(0, 0);
+			this.rtbOutput.Name="rtbOutput";
+			this.rtbOutput.Size=new System.Drawing.Size(864, 369);
+			this.rtbOutput.TabIndex=2;
+			this.rtbOutput.Text="";
+			// 
 			// FormOutputBox
 			// 
 			this.AutoScaleDimensions=new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode=System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize=new System.Drawing.Size(864, 391);
-			this.Controls.Add(this.statusStrip);
 			this.Controls.Add(this.rtbOutput);
+			this.Controls.Add(this.statusStrip);
 			this.Name="FormOutputBox";
 			this.StartPosition=System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text="Ausgabe:";
@@ -78,8 +78,8 @@
 
 		#endregion
 
-		private System.Windows.Forms.RichTextBox rtbOutput;
 		private System.Windows.Forms.StatusStrip statusStrip;
 		private System.Windows.Forms.ToolStripStatusLabel tssEntry;
+		private System.Windows.Forms.RichTextBox rtbOutput;
 	}
 }
