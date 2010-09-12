@@ -2036,7 +2036,14 @@ namespace Invertika_Editor
 									if(FileSystem.GetFilename(ts.imgsource)==tt.OldTileset)
 									{
 										changed=true;
-										ld.data[x, y]=tt.TransformationTable[TileNumber];
+										try
+										{
+											ld.data[x, y]=tt.TransformationTable[TileNumber];
+										}
+										catch
+										{
+											ld.data[x, y]=0;
+										}
 									}
 								}
 							}
