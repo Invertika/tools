@@ -1100,6 +1100,23 @@ namespace Invertika_Editor
 							found=true;
 							msg+=String.Format("Sprite XML Datei ({0}) für Item {1} ({2})) existiert nicht.\n", spritePath, item.Name, item.ID);
 						}
+						else
+						{
+							//Sprite öffnen und testen
+							Sprite tmpSprite=Sprite.GetSpriteFromXml(spritePath);
+
+							foreach(Imageset set in tmpSprite.Imagesets)
+							{
+								string[] splited2=set.Src.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+								string setPath=Globals.folder_clientdata+splited2[0];
+
+								if(!FileSystem.Exists(setPath))
+								{
+									found=true;
+									msg+=String.Format("Sprite PNG Datei ({0}) für Item {1} ({2})) existiert nicht.\n", setPath, item.Name, item.ID);
+								}
+							}
+						}
 					}
 				}
 			}
@@ -1161,6 +1178,23 @@ namespace Invertika_Editor
 						{
 							found=true;
 							msg+=String.Format("Sprite XML Datei ({0}) für Monster {1} ({2})) existiert nicht.\n", spritePath, monster.Name, monster.ID);
+						}
+						else
+						{
+							//Sprite öffnen und testen
+							Sprite tmpSprite=Sprite.GetSpriteFromXml(spritePath);
+
+							foreach(Imageset set in tmpSprite.Imagesets)
+							{
+								string[] splited2=set.Src.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+								string setPath=Globals.folder_clientdata+splited2[0];
+
+								if(!FileSystem.Exists(setPath))
+								{
+									found=true;
+									msg+=String.Format("Sprite PNG Datei ({0}) für Monster {1} ({2})) existiert nicht.\n", setPath, monster.Name, monster.ID);
+								}
+							}
 						}
 					}
 				}
@@ -2353,6 +2387,16 @@ namespace Invertika_Editor
 					sw.Close();
 				}
 			}
+		}
+
+		private void tabelleToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void tabelleToolStripMenuItem1_Click(object sender, EventArgs e)
+		{
+			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 	}
 }
