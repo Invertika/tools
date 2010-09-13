@@ -723,7 +723,7 @@ namespace Invertika_Editor
 			}
 		}
 
-		private void tilesetsÜberprüfenToolStripMenuItem_Click(object sender, EventArgs e)
+		private string CheckTilesets()
 		{
 			List<string> files=FileSystem.GetFiles(Globals.folder_clientdata_graphics_tiles, false, "*.png");
 
@@ -756,6 +756,18 @@ namespace Invertika_Editor
 				msg="Es wurden keine Fehler gefunden.";
 			}
 
+			return msg;
+		}
+
+		private void tilesetsÜberprüfenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			string msg=CheckTilesets();
 			FormOutputBox.ShowOutputBox("Tilesets welche nicht mit den Richtlinien übereinstimmen", msg);
 		}
 
@@ -874,14 +886,8 @@ namespace Invertika_Editor
 			FormOutputBox.ShowOutputBox("Von den Maps benutzte Tilesets", msg);
 		}
 
-		private void mapsÜberprüfenToolStripMenuItem_Click(object sender, EventArgs e)
+		private string CheckMaps()
 		{
-			if(Globals.folder_root=="")
-			{
-				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				return;
-			}
-
 			List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
 			List<string> usedTilesets=new List<string>();
 
@@ -917,6 +923,18 @@ namespace Invertika_Editor
 				msg="Keine Fehler gefunden.";
 			}
 
+			return msg;
+		}
+
+		private void mapsÜberprüfenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			string msg=CheckMaps();
 			FormOutputBox.ShowOutputBox("Fehler in den Maps", msg);
 		}
 
@@ -1055,14 +1073,8 @@ namespace Invertika_Editor
 			}
 		}
 
-		private void itemsÜberprüfenToolStripMenuItem_Click(object sender, EventArgs e)
+		private string CheckItems()
 		{
-			if(Globals.folder_root=="")
-			{
-				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				return;
-			}
-
 			string fnItemsXml=Globals.folder_clientdata+"items.xml";
 			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
 			items.Sort();
@@ -1126,10 +1138,10 @@ namespace Invertika_Editor
 				msg="Es wurden keine Fehler gefunden.";
 			}
 
-			FormOutputBox.ShowOutputBox("Fehler in der items.xml", msg);
+			return msg;
 		}
 
-		private void monsterÜberprüfenToolStripMenuItem_Click(object sender, EventArgs e)
+		private void itemsÜberprüfenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if(Globals.folder_root=="")
 			{
@@ -1137,6 +1149,13 @@ namespace Invertika_Editor
 				return;
 			}
 
+			string msg=CheckItems();
+
+			FormOutputBox.ShowOutputBox("Fehler in der items.xml", msg);
+		}
+
+		private string CheckMonster()
+		{
 			string fnMonstersXml=Globals.folder_clientdata+"monsters.xml";
 			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonstersXml);
 			monsters.Sort();
@@ -1205,6 +1224,18 @@ namespace Invertika_Editor
 				msg="Es wurden keine Fehler gefunden.";
 			}
 
+			return msg;
+		}
+
+		private void monsterÜberprüfenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			string msg=CheckMonster();
 			FormOutputBox.ShowOutputBox("Fehler in der monsters.xml", msg);
 		}
 
@@ -1439,11 +1470,13 @@ namespace Invertika_Editor
 			//Items
 			ExportItemMonstersDropsToMediawikiAPI();
 			ExportItemsInfoboxToMediawikiAPI();
+			ExportItemTableToMediawikiAPI();
 
 			//Monster
 			ExportMonstersDropsToMediawikiAPI();
 			ExportMonstersInfoboxToMediawikiAPI();
 			ExportMonstersVorkommenToMediawikiAPI();
+			ExportMonsterTableToMediawikiAPI();
 
 			MessageBox.Show("Alle Mediawiki Exporte durchgeführt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
@@ -1582,10 +1615,8 @@ namespace Invertika_Editor
 				return;
 			}
 
-			//Liste
-			//Neuername
-
-			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			FormRenameTileset InstFormRenameTileset=new FormRenameTileset();
+			InstFormRenameTileset.Show();
 		}
 
 		private void ExportMonstersVorkommenToMediawikiAPI()
@@ -2389,14 +2420,167 @@ namespace Invertika_Editor
 			}
 		}
 
+		private void ExportItemTableToMediawikiAPI()
+		{
+			string url=Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL");
+			string username=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username");
+			string password=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort");
+
+			Site wiki=new Site(url, username, password);
+
+			Page page=new Page(wiki, "Liste der Items");
+			page.LoadEx();
+
+			string itemlist=GetItemsAsMediaWiki();
+
+			//Monster Vorkommen ermitteln
+			string text=page.text;
+			string start="{{Anker|AutomaticStartItemList}}";
+			string end="{Anker|AutomaticEndItemList}}";
+			int idxBeginInfobox=text.IndexOf(start, 0);
+			int idxEndInfobox=text.IndexOf(end, 0);
+
+			int lengthOfString=(idxEndInfobox-idxBeginInfobox)-start.Length-1;
+
+			string monsterdrops=text.Substring(idxBeginInfobox+start.Length, lengthOfString);
+			if(monsterdrops!="\n")
+			{
+				text=text.Replace(monsterdrops, "");
+			}
+
+			string replaceString="{{Anker|AutomaticStartItemList}}\n"+itemlist;
+			text=text.Replace(start, replaceString);
+
+			if(page.text!=text)
+			{
+				page.text=text;
+			}
+
+			page.Save("Bot: Liste der Items aktualisiert.", true);
+		}
+
 		private void tabelleToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL")=="")
+			{
+				MessageBox.Show("Bitte geben sie eine Mediawiki URL in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username")=="")
+			{
+				MessageBox.Show("Bitte geben sie einen Mediawiki Nutzernamen in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort")=="")
+			{
+				MessageBox.Show("Bitte geben sie einen Mediawiki Passwort in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			ExportItemTableToMediawikiAPI();
+
+			MessageBox.Show("Liste der Items in der Mediawiki aktualisiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void ExportMonsterTableToMediawikiAPI()
+		{
+			string url=Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL");
+			string username=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username");
+			string password=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort");
+
+			Site wiki=new Site(url, username, password);
+
+			Page page=new Page(wiki, "Liste der Monster");
+			page.LoadEx();
+
+			string monsterlist=GetMonstersAsMediaWiki();
+
+			//Monster Vorkommen ermitteln
+			string text=page.text;
+			string start="{{Anker|AutomaticStartMonsterList}}";
+			string end="{Anker|AutomaticEndMonsterList}}";
+			int idxBeginInfobox=text.IndexOf(start, 0);
+			int idxEndInfobox=text.IndexOf(end, 0);
+
+			int lengthOfString=(idxEndInfobox-idxBeginInfobox)-start.Length-1;
+
+			string monsterdrops=text.Substring(idxBeginInfobox+start.Length, lengthOfString);
+			if(monsterdrops!="\n")
+			{
+				text=text.Replace(monsterdrops, "");
+			}
+
+			string replaceString="{{Anker|AutomaticStartMonsterList}}\n"+monsterlist;
+			text=text.Replace(start, replaceString);
+
+			if(page.text!=text)
+			{
+				page.text=text;
+			}
+
+			page.Save("Bot: Liste der Monster aktualisiert.", true);
 		}
 
 		private void tabelleToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL")=="")
+			{
+				MessageBox.Show("Bitte geben sie eine Mediawiki URL in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username")=="")
+			{
+				MessageBox.Show("Bitte geben sie einen Mediawiki Nutzernamen in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort")=="")
+			{
+				MessageBox.Show("Bitte geben sie einen Mediawiki Passwort in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			ExportMonsterTableToMediawikiAPI();
+
+			MessageBox.Show("Liste der Monster in der Mediawiki aktualisiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void kompletteÜberprüfungToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			string msg="Items:\n";
+			msg+=CheckItems();
+			msg+="\n\n";
+			msg+="Maps:\n";
+			msg+=CheckMaps();
+			msg+="\n\n";
+			msg+="Monster:\n";
+			msg+=CheckMonster();
+			msg+="\n\n";
+			msg+="Tilesets:\n";
+			msg+=CheckTilesets();
+
+			FormOutputBox.ShowOutputBox("Komplette Überprüfung", msg);
 		}
 	}
 }

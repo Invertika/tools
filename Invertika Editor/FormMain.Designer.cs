@@ -57,8 +57,6 @@
 			this.toolStripMenuItem3=new System.Windows.Forms.ToolStripSeparator();
 			this.tilesetsUmbennenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem14=new System.Windows.Forms.ToolStripSeparator();
-			this.mapsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.skriptingToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.nPCGeneratorToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem7=new System.Windows.Forms.ToolStripSeparator();
@@ -72,6 +70,7 @@
 			this.itemsxmlMediawikiAPIToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.dropsToolStripMenuItem1=new System.Windows.Forms.ToolStripMenuItem();
 			this.infoboxenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.tabelleToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem12=new System.Windows.Forms.ToolStripSeparator();
 			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem13=new System.Windows.Forms.ToolStripSeparator();
@@ -84,6 +83,7 @@
 			this.dropsToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.infoboxenToolStripMenuItem1=new System.Windows.Forms.ToolStripMenuItem();
 			this.vorkommenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.tabelleToolStripMenuItem1=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem15=new System.Windows.Forms.ToolStripSeparator();
 			this.alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.prüfungToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
@@ -109,8 +109,11 @@
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog=new System.Windows.Forms.SaveFileDialog();
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
-			this.tabelleToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.tabelleToolStripMenuItem1=new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem4=new System.Windows.Forms.ToolStripSeparator();
+			this.kompletteÜberprüfungToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.mapsÜberprüfenToolStripMenuItem1=new System.Windows.Forms.ToolStripMenuItem();
+			this.inhaltToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem14=new System.Windows.Forms.ToolStripSeparator();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -206,9 +209,7 @@
             this.tilesetsInAllenMapsTransformierenToolStripMenuItem,
             this.toolStripMenuItem3,
             this.tilesetsUmbennenToolStripMenuItem,
-            this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem,
-            this.toolStripMenuItem14,
-            this.mapsÜberprüfenToolStripMenuItem});
+            this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem});
 			this.mappingToolStripMenuItem.Name="mappingToolStripMenuItem";
 			this.mappingToolStripMenuItem.Size=new System.Drawing.Size(59, 20);
 			this.mappingToolStripMenuItem.Text="&Mapping";
@@ -236,7 +237,7 @@
 			// 
 			this.mapsInDieMapsxmlToolStripMenuItem.Name="mapsInDieMapsxmlToolStripMenuItem";
 			this.mapsInDieMapsxmlToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
-			this.mapsInDieMapsxmlToolStripMenuItem.Text="Maps in die maps.xml eintragen";
+			this.mapsInDieMapsxmlToolStripMenuItem.Text="Maps in die maps.xml eintragen...";
 			this.mapsInDieMapsxmlToolStripMenuItem.Click+=new System.EventHandler(this.mapsInDieMapsxmlToolStripMenuItem_Click);
 			// 
 			// mapsAusEinerBitmapErzeugenToolStripMenuItem
@@ -334,18 +335,6 @@
 			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
 			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Text="Von den Maps benutzte Tilesets ermitteln...";
 			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Click+=new System.EventHandler(this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem_Click);
-			// 
-			// toolStripMenuItem14
-			// 
-			this.toolStripMenuItem14.Name="toolStripMenuItem14";
-			this.toolStripMenuItem14.Size=new System.Drawing.Size(291, 6);
-			// 
-			// mapsÜberprüfenToolStripMenuItem
-			// 
-			this.mapsÜberprüfenToolStripMenuItem.Name="mapsÜberprüfenToolStripMenuItem";
-			this.mapsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
-			this.mapsÜberprüfenToolStripMenuItem.Text="Maps überprüfen...";
-			this.mapsÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.mapsÜberprüfenToolStripMenuItem_Click);
 			// 
 			// skriptingToolStripMenuItem
 			// 
@@ -446,16 +435,23 @@
 			// dropsToolStripMenuItem1
 			// 
 			this.dropsToolStripMenuItem1.Name="dropsToolStripMenuItem1";
-			this.dropsToolStripMenuItem1.Size=new System.Drawing.Size(152, 22);
+			this.dropsToolStripMenuItem1.Size=new System.Drawing.Size(147, 22);
 			this.dropsToolStripMenuItem1.Text="Drops...";
 			this.dropsToolStripMenuItem1.Click+=new System.EventHandler(this.dropsToolStripMenuItem1_Click);
 			// 
 			// infoboxenToolStripMenuItem
 			// 
 			this.infoboxenToolStripMenuItem.Name="infoboxenToolStripMenuItem";
-			this.infoboxenToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
+			this.infoboxenToolStripMenuItem.Size=new System.Drawing.Size(147, 22);
 			this.infoboxenToolStripMenuItem.Text="Infoboxen...";
 			this.infoboxenToolStripMenuItem.Click+=new System.EventHandler(this.itemsxmlMediawikiInfoboxüberMediawkiAPIToolStripMenuItem_Click);
+			// 
+			// tabelleToolStripMenuItem
+			// 
+			this.tabelleToolStripMenuItem.Name="tabelleToolStripMenuItem";
+			this.tabelleToolStripMenuItem.Size=new System.Drawing.Size(147, 22);
+			this.tabelleToolStripMenuItem.Text="Tabelle...";
+			this.tabelleToolStripMenuItem.Click+=new System.EventHandler(this.tabelleToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem12
 			// 
@@ -543,6 +539,13 @@
 			this.vorkommenToolStripMenuItem.Text="Vorkommen...";
 			this.vorkommenToolStripMenuItem.Click+=new System.EventHandler(this.vorkommenToolStripMenuItem_Click);
 			// 
+			// tabelleToolStripMenuItem1
+			// 
+			this.tabelleToolStripMenuItem1.Name="tabelleToolStripMenuItem1";
+			this.tabelleToolStripMenuItem1.Size=new System.Drawing.Size(152, 22);
+			this.tabelleToolStripMenuItem1.Text="Tabelle...";
+			this.tabelleToolStripMenuItem1.Click+=new System.EventHandler(this.tabelleToolStripMenuItem1_Click);
+			// 
 			// toolStripMenuItem15
 			// 
 			this.toolStripMenuItem15.Name="toolStripMenuItem15";
@@ -559,8 +562,11 @@
 			// 
 			this.prüfungToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.itemsÜberprüfenToolStripMenuItem,
+            this.mapsÜberprüfenToolStripMenuItem1,
             this.monsterÜberprüfenToolStripMenuItem,
-            this.tilesetsÜberprüfenToolStripMenuItem});
+            this.tilesetsÜberprüfenToolStripMenuItem,
+            this.toolStripMenuItem4,
+            this.kompletteÜberprüfungToolStripMenuItem});
 			this.prüfungToolStripMenuItem.Name="prüfungToolStripMenuItem";
 			this.prüfungToolStripMenuItem.Size=new System.Drawing.Size(57, 20);
 			this.prüfungToolStripMenuItem.Text="&Prüfung";
@@ -568,21 +574,21 @@
 			// itemsÜberprüfenToolStripMenuItem
 			// 
 			this.itemsÜberprüfenToolStripMenuItem.Name="itemsÜberprüfenToolStripMenuItem";
-			this.itemsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(193, 22);
+			this.itemsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(209, 22);
 			this.itemsÜberprüfenToolStripMenuItem.Text="Items überprüfen...";
 			this.itemsÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.itemsÜberprüfenToolStripMenuItem_Click);
 			// 
 			// monsterÜberprüfenToolStripMenuItem
 			// 
 			this.monsterÜberprüfenToolStripMenuItem.Name="monsterÜberprüfenToolStripMenuItem";
-			this.monsterÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(193, 22);
+			this.monsterÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(209, 22);
 			this.monsterÜberprüfenToolStripMenuItem.Text="Monster überprüfen...";
 			this.monsterÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.monsterÜberprüfenToolStripMenuItem_Click);
 			// 
 			// tilesetsÜberprüfenToolStripMenuItem
 			// 
 			this.tilesetsÜberprüfenToolStripMenuItem.Name="tilesetsÜberprüfenToolStripMenuItem";
-			this.tilesetsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(193, 22);
+			this.tilesetsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(209, 22);
 			this.tilesetsÜberprüfenToolStripMenuItem.Text="Tilesets überprüfen...";
 			this.tilesetsÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.tilesetsÜberprüfenToolStripMenuItem_Click);
 			// 
@@ -677,6 +683,8 @@
 			// hilfeToolStripMenuItem
 			// 
 			this.hilfeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.inhaltToolStripMenuItem,
+            this.toolStripMenuItem14,
             this.überToolStripMenuItem});
 			this.hilfeToolStripMenuItem.Name="hilfeToolStripMenuItem";
 			this.hilfeToolStripMenuItem.Size=new System.Drawing.Size(40, 20);
@@ -685,7 +693,7 @@
 			// überToolStripMenuItem
 			// 
 			this.überToolStripMenuItem.Name="überToolStripMenuItem";
-			this.überToolStripMenuItem.Size=new System.Drawing.Size(120, 22);
+			this.überToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
 			this.überToolStripMenuItem.Text="Ü&ber...";
 			// 
 			// toolStrip
@@ -704,19 +712,35 @@
 			this.statusStrip.TabIndex=2;
 			this.statusStrip.Text="statusStrip1";
 			// 
-			// tabelleToolStripMenuItem
+			// toolStripMenuItem4
 			// 
-			this.tabelleToolStripMenuItem.Name="tabelleToolStripMenuItem";
-			this.tabelleToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
-			this.tabelleToolStripMenuItem.Text="Tabelle...";
-			this.tabelleToolStripMenuItem.Click+=new System.EventHandler(this.tabelleToolStripMenuItem_Click);
+			this.toolStripMenuItem4.Name="toolStripMenuItem4";
+			this.toolStripMenuItem4.Size=new System.Drawing.Size(206, 6);
 			// 
-			// tabelleToolStripMenuItem1
+			// kompletteÜberprüfungToolStripMenuItem
 			// 
-			this.tabelleToolStripMenuItem1.Name="tabelleToolStripMenuItem1";
-			this.tabelleToolStripMenuItem1.Size=new System.Drawing.Size(152, 22);
-			this.tabelleToolStripMenuItem1.Text="Tabelle...";
-			this.tabelleToolStripMenuItem1.Click+=new System.EventHandler(this.tabelleToolStripMenuItem1_Click);
+			this.kompletteÜberprüfungToolStripMenuItem.Name="kompletteÜberprüfungToolStripMenuItem";
+			this.kompletteÜberprüfungToolStripMenuItem.Size=new System.Drawing.Size(209, 22);
+			this.kompletteÜberprüfungToolStripMenuItem.Text="Komplette Überprüfung...";
+			this.kompletteÜberprüfungToolStripMenuItem.Click+=new System.EventHandler(this.kompletteÜberprüfungToolStripMenuItem_Click);
+			// 
+			// mapsÜberprüfenToolStripMenuItem1
+			// 
+			this.mapsÜberprüfenToolStripMenuItem1.Name="mapsÜberprüfenToolStripMenuItem1";
+			this.mapsÜberprüfenToolStripMenuItem1.Size=new System.Drawing.Size(209, 22);
+			this.mapsÜberprüfenToolStripMenuItem1.Text="Maps überprüfen...";
+			this.mapsÜberprüfenToolStripMenuItem1.Click+=new System.EventHandler(this.mapsÜberprüfenToolStripMenuItem_Click);
+			// 
+			// inhaltToolStripMenuItem
+			// 
+			this.inhaltToolStripMenuItem.Name="inhaltToolStripMenuItem";
+			this.inhaltToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
+			this.inhaltToolStripMenuItem.Text="Inhalt...";
+			// 
+			// toolStripMenuItem14
+			// 
+			this.toolStripMenuItem14.Name="toolStripMenuItem14";
+			this.toolStripMenuItem14.Size=new System.Drawing.Size(149, 6);
 			// 
 			// FormMain
 			// 
@@ -794,7 +818,6 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem10;
 		private System.Windows.Forms.ToolStripMenuItem vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem mapsÜberprüfenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem monsterInMapEinfügenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem11;
 		private System.Windows.Forms.ToolStripMenuItem itemsxmlMediawikiInfoboxenToolStripMenuItem;
@@ -804,7 +827,6 @@
 		private System.Windows.Forms.ToolStripMenuItem itemsÜberprüfenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem monsterInDenMapsErmittelnToolStripMenuItem;
-		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem14;
 		private System.Windows.Forms.ToolStripMenuItem tilesetsUmbennenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem itemsxmlMediawikiAPIToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem infoboxenToolStripMenuItem;
@@ -825,6 +847,11 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
 		private System.Windows.Forms.ToolStripMenuItem tabelleToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem tabelleToolStripMenuItem1;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
+		private System.Windows.Forms.ToolStripMenuItem kompletteÜberprüfungToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem mapsÜberprüfenToolStripMenuItem1;
+		private System.Windows.Forms.ToolStripMenuItem inhaltToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem14;
 	}
 }
 
