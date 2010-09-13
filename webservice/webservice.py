@@ -9,6 +9,7 @@ path_autoupdate = "/home/manaserv/autoupdate.py"
 path_gameserverlog = "/home/manaserv/.manaserv-game.log"
 path_accountserverlog = "/home/manaserv/.manaserv-account.log"
 path_server_restart_skript = "/home/manaserv/restart-server.sh"
+path_logfile = "/home/manaserv/autoupdate.log"
 password = "geheim"
 
 class MyHandler(BaseHTTPRequestHandler):
@@ -38,7 +39,9 @@ class MyHandler(BaseHTTPRequestHandler):
                 self.end_headers()
 
                 # Starte Autoupdate
-                os.system("python3 " + path_autoupdate)
+                log = os.system("python3 " + path_autoupdate)
+                with open(path_logfile, mode='a', encoding='utf-8') as a_file:
+                    a_file.write(log)
 
                 # Rückmeldung
                 self.wfile.write("Autoupdate wurde erzeugt und Server neugestartet.".encode())
