@@ -44,7 +44,7 @@ class MyHandler(BaseHTTPRequestHandler):
                     a_file.write(log)
 
                 # Rückmeldung
-                self.wfile.write("Autoupdate wurde erzeugt und Server neugestartet.".encode())
+                self.wfile.write(log.encode())
                 return
             elif self.path.endswith("restart?password="+password):
                 self.send_response(200)
