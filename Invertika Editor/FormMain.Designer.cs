@@ -88,8 +88,11 @@
 			this.alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.prüfungToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.itemsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.mapsÜberprüfenToolStripMenuItem1=new System.Windows.Forms.ToolStripMenuItem();
 			this.monsterÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.tilesetsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem4=new System.Windows.Forms.ToolStripSeparator();
+			this.kompletteÜberprüfungToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.testsToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.tMXÖffnenUndRendernToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.adler32EinerDateiBerechnenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
@@ -103,17 +106,14 @@
 			this.toolStripMenuItem8=new System.Windows.Forms.ToolStripSeparator();
 			this.weltkartenErzeugenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.hilfeToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.inhaltToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem14=new System.Windows.Forms.ToolStripSeparator();
 			this.überToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip=new System.Windows.Forms.ToolStrip();
 			this.statusStrip=new System.Windows.Forms.StatusStrip();
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog=new System.Windows.Forms.SaveFileDialog();
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
-			this.toolStripMenuItem4=new System.Windows.Forms.ToolStripSeparator();
-			this.kompletteÜberprüfungToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.mapsÜberprüfenToolStripMenuItem1=new System.Windows.Forms.ToolStripMenuItem();
-			this.inhaltToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem14=new System.Windows.Forms.ToolStripSeparator();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -578,6 +578,13 @@
 			this.itemsÜberprüfenToolStripMenuItem.Text="Items überprüfen...";
 			this.itemsÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.itemsÜberprüfenToolStripMenuItem_Click);
 			// 
+			// mapsÜberprüfenToolStripMenuItem1
+			// 
+			this.mapsÜberprüfenToolStripMenuItem1.Name="mapsÜberprüfenToolStripMenuItem1";
+			this.mapsÜberprüfenToolStripMenuItem1.Size=new System.Drawing.Size(209, 22);
+			this.mapsÜberprüfenToolStripMenuItem1.Text="Maps überprüfen...";
+			this.mapsÜberprüfenToolStripMenuItem1.Click+=new System.EventHandler(this.mapsÜberprüfenToolStripMenuItem_Click);
+			// 
 			// monsterÜberprüfenToolStripMenuItem
 			// 
 			this.monsterÜberprüfenToolStripMenuItem.Name="monsterÜberprüfenToolStripMenuItem";
@@ -591,6 +598,18 @@
 			this.tilesetsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(209, 22);
 			this.tilesetsÜberprüfenToolStripMenuItem.Text="Tilesets überprüfen...";
 			this.tilesetsÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.tilesetsÜberprüfenToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem4
+			// 
+			this.toolStripMenuItem4.Name="toolStripMenuItem4";
+			this.toolStripMenuItem4.Size=new System.Drawing.Size(206, 6);
+			// 
+			// kompletteÜberprüfungToolStripMenuItem
+			// 
+			this.kompletteÜberprüfungToolStripMenuItem.Name="kompletteÜberprüfungToolStripMenuItem";
+			this.kompletteÜberprüfungToolStripMenuItem.Size=new System.Drawing.Size(209, 22);
+			this.kompletteÜberprüfungToolStripMenuItem.Text="Komplette Überprüfung...";
+			this.kompletteÜberprüfungToolStripMenuItem.Click+=new System.EventHandler(this.kompletteÜberprüfungToolStripMenuItem_Click);
 			// 
 			// testsToolStripMenuItem
 			// 
@@ -690,10 +709,21 @@
 			this.hilfeToolStripMenuItem.Size=new System.Drawing.Size(40, 20);
 			this.hilfeToolStripMenuItem.Text="&Hilfe";
 			// 
+			// inhaltToolStripMenuItem
+			// 
+			this.inhaltToolStripMenuItem.Name="inhaltToolStripMenuItem";
+			this.inhaltToolStripMenuItem.Size=new System.Drawing.Size(125, 22);
+			this.inhaltToolStripMenuItem.Text="Inhalt...";
+			// 
+			// toolStripMenuItem14
+			// 
+			this.toolStripMenuItem14.Name="toolStripMenuItem14";
+			this.toolStripMenuItem14.Size=new System.Drawing.Size(122, 6);
+			// 
 			// überToolStripMenuItem
 			// 
 			this.überToolStripMenuItem.Name="überToolStripMenuItem";
-			this.überToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
+			this.überToolStripMenuItem.Size=new System.Drawing.Size(125, 22);
 			this.überToolStripMenuItem.Text="Ü&ber...";
 			// 
 			// toolStrip
@@ -711,36 +741,6 @@
 			this.statusStrip.Size=new System.Drawing.Size(1006, 22);
 			this.statusStrip.TabIndex=2;
 			this.statusStrip.Text="statusStrip1";
-			// 
-			// toolStripMenuItem4
-			// 
-			this.toolStripMenuItem4.Name="toolStripMenuItem4";
-			this.toolStripMenuItem4.Size=new System.Drawing.Size(206, 6);
-			// 
-			// kompletteÜberprüfungToolStripMenuItem
-			// 
-			this.kompletteÜberprüfungToolStripMenuItem.Name="kompletteÜberprüfungToolStripMenuItem";
-			this.kompletteÜberprüfungToolStripMenuItem.Size=new System.Drawing.Size(209, 22);
-			this.kompletteÜberprüfungToolStripMenuItem.Text="Komplette Überprüfung...";
-			this.kompletteÜberprüfungToolStripMenuItem.Click+=new System.EventHandler(this.kompletteÜberprüfungToolStripMenuItem_Click);
-			// 
-			// mapsÜberprüfenToolStripMenuItem1
-			// 
-			this.mapsÜberprüfenToolStripMenuItem1.Name="mapsÜberprüfenToolStripMenuItem1";
-			this.mapsÜberprüfenToolStripMenuItem1.Size=new System.Drawing.Size(209, 22);
-			this.mapsÜberprüfenToolStripMenuItem1.Text="Maps überprüfen...";
-			this.mapsÜberprüfenToolStripMenuItem1.Click+=new System.EventHandler(this.mapsÜberprüfenToolStripMenuItem_Click);
-			// 
-			// inhaltToolStripMenuItem
-			// 
-			this.inhaltToolStripMenuItem.Name="inhaltToolStripMenuItem";
-			this.inhaltToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
-			this.inhaltToolStripMenuItem.Text="Inhalt...";
-			// 
-			// toolStripMenuItem14
-			// 
-			this.toolStripMenuItem14.Name="toolStripMenuItem14";
-			this.toolStripMenuItem14.Size=new System.Drawing.Size(149, 6);
 			// 
 			// FormMain
 			// 
