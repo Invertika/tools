@@ -285,29 +285,29 @@
 			// tTDateiFür5121024LinksObenErzeugenToolStripMenuItem1
 			// 
 			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem1.Name="tTDateiFür5121024LinksObenErzeugenToolStripMenuItem1";
-			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem1.Size=new System.Drawing.Size(329, 22);
-			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem1.Text="TT Datei für 512 -> 1024 links oben erzeugen...";
+			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem1.Size=new System.Drawing.Size(286, 22);
+			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem1.Text="für 512 -> 1024 links oben erzeugen...";
 			this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem1.Click+=new System.EventHandler(this.tTDateiFür5121024LinksObenErzeugenToolStripMenuItem_Click);
 			// 
 			// tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem1
 			// 
 			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem1.Name="tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem1";
-			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem1.Size=new System.Drawing.Size(329, 22);
-			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem1.Text="TT Datei für 512 -> 1024 rechts oben erzeugen...";
+			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem1.Size=new System.Drawing.Size(286, 22);
+			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem1.Text="für 512 -> 1024 rechts oben erzeugen...";
 			this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem1.Click+=new System.EventHandler(this.tTDateiFür5121024RechtsObenErzeugenToolStripMenuItem_Click);
 			// 
 			// tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem1
 			// 
 			this.tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem1.Name="tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem1";
-			this.tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem1.Size=new System.Drawing.Size(329, 22);
-			this.tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem1.Text="TT Datei für 512 -> 1024 links unten erzeugen...";
+			this.tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem1.Size=new System.Drawing.Size(286, 22);
+			this.tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem1.Text="für 512 -> 1024 links unten erzeugen...";
 			this.tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem1.Click+=new System.EventHandler(this.tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem1_Click);
 			// 
 			// tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem1
 			// 
 			this.tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem1.Name="tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem1";
-			this.tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem1.Size=new System.Drawing.Size(329, 22);
-			this.tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem1.Text="TT Datei für 512 -> 1024 rechts unten erzeugen...";
+			this.tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem1.Size=new System.Drawing.Size(286, 22);
+			this.tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem1.Text="für 512 -> 1024 rechts unten erzeugen...";
 			this.tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem1.Click+=new System.EventHandler(this.tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem_Click);
 			// 
 			// tilesetsInAllenMapsTransformierenToolStripMenuItem

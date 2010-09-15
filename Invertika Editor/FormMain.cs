@@ -888,11 +888,16 @@ namespace Invertika_Editor
 
 		private string CheckMaps()
 		{
+			string msg="";
+			bool found=false;
+
 			List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
 			List<string> usedTilesets=new List<string>();
 
 			foreach(string fn in maps)
 			{
+				bool ground=false, fringe=false, over=false, collision=false, @object=false;
+
 				TMX map=new TMX();
 				map.Open(fn, false);
 
@@ -901,13 +906,62 @@ namespace Invertika_Editor
 					string cleanTileset=Globals.folder_clientdata+fnTileset.imgsource.Replace("../graphics", "graphics");
 					if(usedTilesets.IndexOf(cleanTileset)==-1) usedTilesets.Add(cleanTileset);
 				}
+
+				foreach(TMX.LayerData ld in map.Layers)
+				{
+					switch(ld.name)
+					{
+						case "Ground":
+							{
+								ground=true;
+								break;
+							}
+						case "Fringe":
+							{
+								fringe=true;
+								break;
+							}
+						case "Over":
+							{
+								over=true;
+								break;
+							}
+						case "Collision":
+							{
+								collision=true;
+								break;
+							}
+						default:
+							{
+								found=true;
+								msg+=String.Format("Unbekannter Layer ({0}) in Map {1} vorhanden.", ld.name, fn);
+								break;
+							}
+					}
+				}
+
+				if(!ground) { found=true; msg+=String.Format("Ground Layer in Map {1} nicht vorhanden.", fn); }
+				if(!fringe) { found=true; msg+=String.Format("Fringe Layer in Map {1} nicht vorhanden.", fn); }
+				if(!over) { found=true; msg+=String.Format("Over Layer in Map {1} nicht vorhanden.", fn); }
+				if(!collision) { found=true; msg+=String.Format("Collision Layer in Map {1} nicht vorhanden.", fn); }
+
+				foreach(Objectgroup og in map.ObjectLayers)
+				{
+					if(og.Name=="Object")
+					{
+						@object=true;
+					}
+					else
+					{
+						found=true;
+						msg+=String.Format("Unbekannter Objektlayer ({0}) in Map {1} vorhanden.", og.Name, fn);
+					}
+				}
+
+				if(!@object) { found=true; msg+=String.Format("Object Layer in Map {1} vorhanden.", fn); }
 			}
 
-			string msg="";
-
 			usedTilesets.Sort();
-
-			bool found=false;
 
 			foreach(string i in usedTilesets)
 			{
