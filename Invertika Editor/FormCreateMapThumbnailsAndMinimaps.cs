@@ -181,6 +181,8 @@ namespace Invertika_Editor
 
 			Client.Close();
 			#endregion
+
+			Globals.Options.Save();
 		}
 
 		private void bgwCreateMapThumbnailsAndMinimaps_ProgressChanged(object sender, ProgressChangedEventArgs e)

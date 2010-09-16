@@ -2265,9 +2265,9 @@ namespace Invertika_Editor
 
 			TilesetInfo ti=Helper.GetTilesetInfo(tilesetOld);
 
-			if(ti.TileWidth!=32||(ti.TileHeight!=32&&ti.TileHeight!=64))
+			if(ti.TileWidth!=32))
 			{
-				MessageBox.Show("Zur Zeit werden nur Tilesets mit einer Tilegröße von 32x32 Pixel und 32x64 Pixel unterstützt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("Zur Zeit werden nur Tilesets mit einer Tilebreite von 32 Pixel unterstützt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
 			}
 
@@ -2283,8 +2283,8 @@ namespace Invertika_Editor
 
 			double tilesPerRowOld=16.0;
 
-			int tilesCount=256; //Höhe 32
-			if(ti.TileHeight==64) tilesCount=128; //Höhe 64
+			int tilesCount=256; //Höhe 32 //Kann eigentlich ruhig zu viel sein - wird dann bei der Transformation nicht bentutzt
+			//if(ti.TileHeight==64) tilesCount=128; //Höhe 64
 
 			for(int i=0; i<tilesCount; i++)
 			{
