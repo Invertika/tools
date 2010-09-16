@@ -2265,7 +2265,7 @@ namespace Invertika_Editor
 
 			TilesetInfo ti=Helper.GetTilesetInfo(tilesetOld);
 
-			if(ti.TileWidth!=32))
+			if(ti.TileWidth!=32)
 			{
 				MessageBox.Show("Zur Zeit werden nur Tilesets mit einer Tilebreite von 32 Pixel unterstützt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
