@@ -2226,7 +2226,7 @@ namespace Invertika_Editor
 					}
 				}
 
-				MessageBox.Show("Tileset wurde mittels der TT Datei ("+FileSystem.GetFilename(openFileDialog.FileName)+")transformiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				MessageBox.Show("Tileset wurde mittels der TT Datei ("+FileSystem.GetFilename(openFileDialog.FileName)+") transformiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 		}
 
