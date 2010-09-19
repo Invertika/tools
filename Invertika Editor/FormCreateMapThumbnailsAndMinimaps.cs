@@ -85,6 +85,8 @@ namespace Invertika_Editor
 					xmlHash="";
 				}
 
+				//xmlHash=""; //DEBUG
+
 				if(xmlHash=="")
 				{
 					Globals.Options.WriteElement("xml.CalcMapImages."+FileSystem.GetFilenameWithoutExt(i), textHash);
