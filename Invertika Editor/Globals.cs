@@ -86,6 +86,14 @@ namespace Invertika_Editor
 			}
 		}
 
+		public static string folder_serverdata_scripts_maps
+		{
+			get
+			{
+				return folder_serverdata_scripts+"maps"+FileSystem.PathDelimiter;
+			}
+		}
+
 		public static string folder_clientdata
 		{
 			get

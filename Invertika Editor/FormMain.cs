@@ -239,147 +239,144 @@ namespace Invertika_Editor
 
 		private void mapskripteErzeugenUndEintragenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			if(folderBrowserDialog.ShowDialog()==DialogResult.OK)
+			string fnMapsXml=Globals.folder_serverdata+"maps.xml";
+			string pathMaps=Globals.folder_clientdata_maps;
+			string pathOutput=Globals.folder_serverdata_scripts_maps;
+
+			//Maps laden
+			List<Map> maps=Map.GetMapsFromMapsXml(fnMapsXml);
+
+			foreach(Map i in maps)
 			{
-				string fnMapsXml=Globals.folder_serverdata+"maps.xml";
-				string pathMaps=Globals.folder_clientdata_maps;
-				string pathOutput=FileSystem.GetPathWithPathDelimiter(folderBrowserDialog.SelectedPath);
+				string fnMap=String.Format("{0}{1}.tmx", pathMaps, i.Name);
 
-				//Maps laden
-				List<Map> maps=Map.GetMapsFromMapsXml(fnMapsXml);
+				bool ExistDef=false;
 
-				foreach(Map i in maps)
+				if(FileSystem.Exists(fnMap))
 				{
-					string fnMap=String.Format("{0}{1}.tmx", pathMaps, i.Name);
+					XmlData mapAsXml=new XmlData(fnMap);
 
-					bool ExistDef=false;
+					List<XmlNode> nodes=mapAsXml.GetElements("map.objectgroup.object");
 
-					if(FileSystem.Exists(fnMap))
+					foreach(XmlNode node in nodes)
 					{
-						XmlData mapAsXml=new XmlData(fnMap);
+						string name=mapAsXml.GetAttributeAsString(node, "name");
 
-						List<XmlNode> nodes=mapAsXml.GetElements("map.objectgroup.object");
-
-						foreach(XmlNode node in nodes)
+						if(name.ToLower()=="external map events")
 						{
-							string name=mapAsXml.GetAttributeAsString(node, "name");
+							ExistDef=true;
+							break;
+						}
+					}
 
-							if(name.ToLower()=="external map events")
+					if(ExistDef==false)
+					{
+						//Definition eintragen
+						List<XmlNode> mapnodes=mapAsXml.GetElements("map");
+						XmlNode mapnode=null;
+
+						foreach(XmlNode xmlnode in mapnodes)
+						{
+							if(xmlnode.Name.ToLower()=="map")
 							{
-								ExistDef=true;
+								mapnode=xmlnode;
+							}
+						}
+
+						XmlNode objectgroup=mapAsXml.AddElement(mapnode, "objectgroup", "");
+						mapAsXml.AddAttribute(objectgroup, "name", "Object");
+						mapAsXml.AddAttribute(objectgroup, "width", 70);
+						mapAsXml.AddAttribute(objectgroup, "height", 70);
+						mapAsXml.AddAttribute(objectgroup, "x", 70);
+						mapAsXml.AddAttribute(objectgroup, "y", 70);
+
+						XmlNode @object=mapAsXml.AddElement(objectgroup, "object", "");
+						mapAsXml.AddAttribute(@object, "name", "External Map Events");
+						mapAsXml.AddAttribute(@object, "type", "SCRIPT");
+						mapAsXml.AddAttribute(@object, "x", 0);
+						mapAsXml.AddAttribute(@object, "y", 0);
+
+						XmlNode properties=mapAsXml.AddElement(@object, "properties", "");
+						XmlNode property=mapAsXml.AddElement(properties, "property", "");
+						mapAsXml.AddAttribute(property, "name", "FILENAME");
+
+						string fnLuaScript=String.Format("scripts/maps/{0}.lua", i.Name);
+						mapAsXml.AddAttribute(property, "value", fnLuaScript);
+
+						mapAsXml.Save();
+					}
+
+					//Lua Script schreiben
+					string fnLuaOutput=String.Format("{0}{1}.lua", pathOutput, i.Name);
+
+					switch(i.MapType.ToLower())
+					{
+						case "ow":
+							{
+								Map tmpMap;
+
+								string tmpName=Map.IncreaseArcofMap(i.Name, XYZ.Y);
+								int MapUp=0;
+								try
+								{
+									tmpMap=Map.GetMapFromName(maps, tmpName);
+									MapUp=tmpMap.ID;
+								}
+								catch
+								{
+								}
+
+								tmpName=Map.IncreaseArcofMap(i.Name, XYZ.X);
+								int MapRight=0;
+								try
+								{
+									tmpMap=Map.GetMapFromName(maps, tmpName);
+									MapRight=tmpMap.ID;
+								}
+								catch
+								{
+								}
+
+								tmpName=Map.DecreaseArcofMap(i.Name, XYZ.Y);
+								int MapDown=0;
+								try
+								{
+									tmpMap=Map.GetMapFromName(maps, tmpName);
+									MapDown=tmpMap.ID;
+								}
+								catch
+								{
+								}
+
+								tmpName=Map.DecreaseArcofMap(i.Name, XYZ.X);
+								int MapLeft=0;
+								try
+								{
+									tmpMap=Map.GetMapFromName(maps, tmpName);
+									MapLeft=tmpMap.ID;
+								}
+								catch
+								{
+								}
+
+								Globals.CreateMapScriptFile(fnLuaOutput, MapUp, MapRight, MapDown, MapLeft, true);
 								break;
 							}
-						}
-
-						if(ExistDef==false)
-						{
-							//Definition eintragen
-							List<XmlNode> mapnodes=mapAsXml.GetElements("map");
-							XmlNode mapnode=null;
-
-							foreach(XmlNode xmlnode in mapnodes)
+						case "uw":
 							{
-								if(xmlnode.Name.ToLower()=="map")
-								{
-									mapnode=xmlnode;
-								}
+								Globals.CreateMapScriptFile(fnLuaOutput, i.ID, i.ID, i.ID, i.ID, true);
+								break;
 							}
-
-							XmlNode objectgroup=mapAsXml.AddElement(mapnode, "objectgroup", "");
-							mapAsXml.AddAttribute(objectgroup, "name", "Object");
-							mapAsXml.AddAttribute(objectgroup, "width", 70);
-							mapAsXml.AddAttribute(objectgroup, "height", 70);
-							mapAsXml.AddAttribute(objectgroup, "x", 70);
-							mapAsXml.AddAttribute(objectgroup, "y", 70);
-
-							XmlNode @object=mapAsXml.AddElement(objectgroup, "object", "");
-							mapAsXml.AddAttribute(@object, "name", "External Map Events");
-							mapAsXml.AddAttribute(@object, "type", "SCRIPT");
-							mapAsXml.AddAttribute(@object, "x", 0);
-							mapAsXml.AddAttribute(@object, "y", 0);
-
-							XmlNode properties=mapAsXml.AddElement(@object, "properties", "");
-							XmlNode property=mapAsXml.AddElement(properties, "property", "");
-							mapAsXml.AddAttribute(property, "name", "FILENAME");
-
-							string fnLuaScript=String.Format("scripts/maps/{0}.lua", i.Name);
-							mapAsXml.AddAttribute(property, "value", fnLuaScript);
-
-							mapAsXml.Save();
-						}
-
-						//Lua Script schreiben
-						string fnLuaOutput=String.Format("{0}{1}.lua", pathOutput, i.Name);
-
-						switch(i.MapType.ToLower())
-						{
-							case "ow":
-								{
-									Map tmpMap;
-
-									string tmpName=Map.IncreaseArcofMap(i.Name, XYZ.Y);
-									int MapUp=0;
-									try
-									{
-										tmpMap=Map.GetMapFromName(maps, tmpName);
-										MapUp=tmpMap.ID;
-									}
-									catch
-									{
-									}
-
-									tmpName=Map.IncreaseArcofMap(i.Name, XYZ.X);
-									int MapRight=0;
-									try
-									{
-										tmpMap=Map.GetMapFromName(maps, tmpName);
-										MapRight=tmpMap.ID;
-									}
-									catch
-									{
-									}
-
-									tmpName=Map.DecreaseArcofMap(i.Name, XYZ.Y);
-									int MapDown=0;
-									try
-									{
-										tmpMap=Map.GetMapFromName(maps, tmpName);
-										MapDown=tmpMap.ID;
-									}
-									catch
-									{
-									}
-
-									tmpName=Map.DecreaseArcofMap(i.Name, XYZ.X);
-									int MapLeft=0;
-									try
-									{
-										tmpMap=Map.GetMapFromName(maps, tmpName);
-										MapLeft=tmpMap.ID;
-									}
-									catch
-									{
-									}
-
-									Globals.CreateMapScriptFile(fnLuaOutput, MapUp, MapRight, MapDown, MapLeft, true);
-									break;
-								}
-							case "uw":
-								{
-									Globals.CreateMapScriptFile(fnLuaOutput, i.ID, i.ID, i.ID, i.ID, true);
-									break;
-								}
-							case "iw":
-								{
-									Globals.CreateMapScriptFile(fnLuaOutput);
-									break;
-								}
-						}
+						case "iw":
+							{
+								Globals.CreateMapScriptFile(fnLuaOutput);
+								break;
+							}
 					}
-					else
-					{
-						Console.WriteLine("Datei {0} existiert nicht!", fnMap);
-					}
+				}
+				else
+				{
+					Console.WriteLine("Datei {0} existiert nicht!", fnMap);
 				}
 			}
 		}
