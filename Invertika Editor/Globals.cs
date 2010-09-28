@@ -319,7 +319,7 @@ namespace Invertika_Editor
 			sw.WriteLine("-- anderer Dinge.                                                               --");
 			sw.WriteLine("--                                                                              --");
 			sw.WriteLine("----------------------------------------------------------------------------------");
-			sw.WriteLine("--  Copyright 2010 The Invertika Development Team                               --");
+			sw.WriteLine("--  Copyright 2008-2010 The Invertika Development Team                          --");
 			sw.WriteLine("--                                                                              --");
 			sw.WriteLine("--  This file is part of Invertika.                                             --");
 			sw.WriteLine("--                                                                              --");
@@ -328,7 +328,7 @@ namespace Invertika_Editor
 			sw.WriteLine("--  Software Foundation; either version 2 of the License, or any later version. --");
 			sw.WriteLine("----------------------------------------------------------------------------------");
 			sw.WriteLine("\n");
-			sw.WriteLine("require \"data/scripts/libs/npclib\"");
+			sw.WriteLine("require \"scripts/lua/npclib\"");
 			sw.WriteLine("\n");
 
 			if(usewarp)

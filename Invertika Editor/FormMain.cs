@@ -254,23 +254,24 @@ namespace Invertika_Editor
 
 				if(FileSystem.Exists(fnMap))
 				{
-					XmlData mapAsXml=new XmlData(fnMap);
+					TMX tmx=new TMX();
+					tmx.Open(fnMap);
 
-					List<XmlNode> nodes=mapAsXml.GetElements("map.objectgroup.object");
-
-					foreach(XmlNode node in nodes)
+					foreach(Objectgroup og in tmx.ObjectLayers)
 					{
-						string name=mapAsXml.GetAttributeAsString(node, "name");
-
-						if(name.ToLower()=="external map events")
+						foreach(CSCL.FileFormats.TMX.Object objk in og.Objects)
 						{
-							ExistDef=true;
-							break;
+							if(objk.Name.ToLower()=="external map events")
+							{
+								ExistDef=true;
+								break;
+							}
 						}
 					}
 
 					if(ExistDef==false)
 					{
+						XmlData mapAsXml=new XmlData(fnMap);
 						//Definition eintragen
 						List<XmlNode> mapnodes=mapAsXml.GetElements("map");
 						XmlNode mapnode=null;
@@ -304,74 +305,75 @@ namespace Invertika_Editor
 						mapAsXml.AddAttribute(property, "value", fnLuaScript);
 
 						mapAsXml.Save();
-					}
 
-					//Lua Script schreiben
-					string fnLuaOutput=String.Format("{0}{1}.lua", pathOutput, i.Name);
 
-					switch(i.MapType.ToLower())
-					{
-						case "ow":
-							{
-								Map tmpMap;
+						//Lua Script schreiben
+						string fnLuaOutput=String.Format("{0}{1}.lua", pathOutput, i.Name);
 
-								string tmpName=Map.IncreaseArcofMap(i.Name, XYZ.Y);
-								int MapUp=0;
-								try
+						switch(i.MapType.ToLower())
+						{
+							case "ow":
 								{
-									tmpMap=Map.GetMapFromName(maps, tmpName);
-									MapUp=tmpMap.ID;
-								}
-								catch
-								{
-								}
+									Map tmpMap;
 
-								tmpName=Map.IncreaseArcofMap(i.Name, XYZ.X);
-								int MapRight=0;
-								try
-								{
-									tmpMap=Map.GetMapFromName(maps, tmpName);
-									MapRight=tmpMap.ID;
-								}
-								catch
-								{
-								}
+									string tmpName=Map.IncreaseArcofMap(i.Name, XYZ.Y);
+									int MapUp=0;
+									try
+									{
+										tmpMap=Map.GetMapFromName(maps, tmpName);
+										MapUp=tmpMap.ID;
+									}
+									catch
+									{
+									}
 
-								tmpName=Map.DecreaseArcofMap(i.Name, XYZ.Y);
-								int MapDown=0;
-								try
-								{
-									tmpMap=Map.GetMapFromName(maps, tmpName);
-									MapDown=tmpMap.ID;
-								}
-								catch
-								{
-								}
+									tmpName=Map.IncreaseArcofMap(i.Name, XYZ.X);
+									int MapRight=0;
+									try
+									{
+										tmpMap=Map.GetMapFromName(maps, tmpName);
+										MapRight=tmpMap.ID;
+									}
+									catch
+									{
+									}
 
-								tmpName=Map.DecreaseArcofMap(i.Name, XYZ.X);
-								int MapLeft=0;
-								try
-								{
-									tmpMap=Map.GetMapFromName(maps, tmpName);
-									MapLeft=tmpMap.ID;
-								}
-								catch
-								{
-								}
+									tmpName=Map.DecreaseArcofMap(i.Name, XYZ.Y);
+									int MapDown=0;
+									try
+									{
+										tmpMap=Map.GetMapFromName(maps, tmpName);
+										MapDown=tmpMap.ID;
+									}
+									catch
+									{
+									}
 
-								Globals.CreateMapScriptFile(fnLuaOutput, MapUp, MapRight, MapDown, MapLeft, true);
-								break;
-							}
-						case "uw":
-							{
-								Globals.CreateMapScriptFile(fnLuaOutput, i.ID, i.ID, i.ID, i.ID, true);
-								break;
-							}
-						case "iw":
-							{
-								Globals.CreateMapScriptFile(fnLuaOutput);
-								break;
-							}
+									tmpName=Map.DecreaseArcofMap(i.Name, XYZ.X);
+									int MapLeft=0;
+									try
+									{
+										tmpMap=Map.GetMapFromName(maps, tmpName);
+										MapLeft=tmpMap.ID;
+									}
+									catch
+									{
+									}
+
+									Globals.CreateMapScriptFile(fnLuaOutput, MapUp, MapRight, MapDown, MapLeft, true);
+									break;
+								}
+							case "uw":
+								{
+									Globals.CreateMapScriptFile(fnLuaOutput, i.ID, i.ID, i.ID, i.ID, true);
+									break;
+								}
+							case "iw":
+								{
+									Globals.CreateMapScriptFile(fnLuaOutput);
+									break;
+								}
+						}
 					}
 				}
 				else
@@ -379,6 +381,8 @@ namespace Invertika_Editor
 					Console.WriteLine("Datei {0} existiert nicht!", fnMap);
 				}
 			}
+
+			MessageBox.Show("Vorgang abgeschlossen!", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 		private void mapsAusEinerBitmapErzeugenToolStripMenuItem_Click(object sender, EventArgs e)
