@@ -36,13 +36,9 @@ $url="http://".$_SERVER['HTTP_HOST'].
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html><head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<title>Whiteboard Example Site</title>
+<title>whiteboard.invertika.org</title>
 </head>
 <body>
-<h1>Whiteboard Example Site</h1>
-
-This is an example site for the whiteboard.
-
 <table border=1 align="center">
 <tr>
 <th>&nbsp;</th>
@@ -68,19 +64,5 @@ This is an example site for the whiteboard.
 </td></tr>
 </table>
 <p></p>
-<table border=1 align="center">
-<tr><th>Import/Export</th></tr>
-<tr><td>
-<a href="<?=$url?>&amp;export=1">Export</a>
-</td></tr>
-<?php if ($readonly != "true") { ?>
-<tr><td>
-<form action="<?=$url?>" method="post" enctype="multipart/form-data">
-<input type="hidden" name="importto" value="index.php?id=<?=$id?>&amp;readonly=0">
-Import: <input type="file" name="file"> <input type="submit">
-</form>
-</td></tr>
-<?php } ?>
-</table>
 </body>
 </html>
