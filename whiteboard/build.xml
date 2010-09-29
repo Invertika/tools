@@ -1,0 +1,101 @@
+<!-- ====================================================================== -->
+<!-- Ant build files for the Whiteboard applet                              -->
+<!-- Please download and install ant from http://ant.apache.org/            -->
+<!-- ====================================================================== -->
+
+<project name="Whiteboard" default="jar">
+
+  <!-- Replace this with classic/modern/jikes as you like -->
+  <property name="build.compiler" value="modern"/>
+
+  <property name="src"     value="source"/>
+  <property name="build"   value="build"/>
+  <property name="ebuild"   value="ebuild"/>
+  <property name="dist"    value="dist"/>
+  <property name="docs"    value="docs/api"/>
+
+<!-- ====================================================================== -->
+
+  <target name="init">
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+    <mkdir dir="${ebuild}"/>
+    <mkdir dir="${dist}"/>
+  </target>
+
+<!-- ====================================================================== -->
+
+  <target name="compile" depends="init">
+    <!-- Compile the java code from ${src} into ${build} -->
+    <depend srcdir="${src}" destdir="${build}" closure="yes"/>
+    <javac srcdir="${src}" destdir="${build}" debug="on" target="1.1" />
+    <javac srcdir="extra" destdir="${ebuild}" classpath="${build}" debug="on" target="1.1" />
+  </target>
+
+<!-- ====================================================================== -->
+
+  <target name="jar" depends="compile">
+    <jar jarfile="whiteboard.jar" basedir="${build}" />
+    <jar jarfile="whiteboard-full.jar">
+      <fileset dir="${build}" />
+      <fileset dir="${ebuild}" />
+    </jar>
+  </target>
+
+<!-- ====================================================================== -->
+
+ <target name="dist" depends="jar"> 
+   <mkdir dir="${dist}/src"/>
+   <copy todir="${dist}/src">
+     <fileset dir="." includes="build.xml,*.html,*.txt"/>
+   </copy>
+   <copy todir="${dist}/src/${src}">
+     <fileset dir="${src}"/>
+   </copy>
+   <copy todir="${dist}/src/extra">
+     <fileset dir="extra"/>
+   </copy>
+   <mkdir dir="${dist}/bin"/>
+   <copy todir="${dist}/bin">
+     <fileset dir="." 
+	      includes="*.jar,*.txt,*.html"/>
+   </copy>
+   <copy todir="${dist}/bin/example">
+     <fileset dir="example"/>
+   </copy>
+  </target>
+
+<!-- ====================================================================== -->
+
+  <target name="clean">
+    <delete dir="${build}"/>
+    <delete dir="${ebuild}"/>
+    <delete dir="${dist}"/>
+    <delete dir="${docs}"/>
+  </target>
+
+<!-- ====================================================================== -->
+<!--
+  <target name="javadoc" depends="init">
+    <javadoc packagenames="***.*"
+             sourcepath="${src}"
+             destdir="${docs}"
+             windowtitle="Whiteboard Documentation"/>
+  </target>
+-->
+<!-- ====================================================================== -->
+
+  <target name="cleancompile" depends="clean,compile"/>
+  <target name="cleanjar" depends="clean,jar"/>
+  <target name="cleandist" depends="clean,dist"/>
+</project>
+
+
+
+
+
+
+
+
+
