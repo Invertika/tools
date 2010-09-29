@@ -430,7 +430,7 @@ if ($_GET['seite'] == 'upload')
 {
 ?>
     <div id="upload">
-    <h2 class="headline center">Image Hosting - Upload</h2>
+    <h2 class="headline center">Upload</h2>
     <p class="center navlinks"><span class="aktiv">Upload</span> &nbsp;&bull;&nbsp; <a href="<?php echo $_SERVER['PHP_SELF']; ?>?seite=uebersicht">Übersicht</a></p>
     <hr />
     <?php
@@ -489,7 +489,7 @@ else if ($_GET['seite'] == 'uebersicht')
 {
 ?>
     <div id="uebersicht">
-    <h2 class="headline center">Image Hosting - Übersicht</h2>
+    <h2 class="headline center">Übersicht</h2>
     <p class="center navlinks"><a href="<?php echo $_SERVER['PHP_SELF']; ?>?seite=upload">Upload</a> &nbsp;&bull;&nbsp; <span class="aktiv">Übersicht</span></p>
     <hr />
 <?php
