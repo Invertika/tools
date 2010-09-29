@@ -1,0 +1,8 @@
+.divboxes { 
+ background-color:#DDDDDD;
+ color:#000000;
+ padding: 5px;
+ outline-color:#000000;
+ outline:1px solid;
+ font-size:12px;
+}
