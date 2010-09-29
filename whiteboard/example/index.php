@@ -64,5 +64,19 @@ $url="http://".$_SERVER['HTTP_HOST'].
 </td></tr>
 </table>
 <p></p>
+<table border=1 align="center">
+<tr><th colspan="2">Import/Export</th></tr>
+<tr><td>
+<a href="<?=$url?>&amp;export=1">Export</a>
+</td>
+<?php if ($readonly != "true") { ?>
+<td>
+<form action="<?=$url?>" method="post" enctype="multipart/form-data">
+<input type="hidden" name="importto" value="index.php?id=<?=$id?>&amp;readonly=0">
+Import: <input type="file" name="file"> <input type="submit">
+</form>
+</td></tr>
+<?php } ?>
+</table>
 </body>
 </html>
