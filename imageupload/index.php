@@ -7,7 +7,8 @@ ob_start();
 // Passwort fuer den Upload und die Uebersicht
 $passwort = "123456";
 // Adresse zum Bilderordner MIT dem abschliessenden Slash
-$ImageURL = "http://image.invertika.org/data/";
+$ImageURL = "http://image.invertika.org/";
+$ImageURLRelative = "data/";
 // Automatisches Login mit Cookie (0 = ohne Cookie | 1 = Cookie benutzen)
 // HINWEIS: sollte nicht verwendet werden, wenn fremde Personen Zugang zum PC haben!!
 $CookieLogin = 0;
@@ -29,7 +30,6 @@ $DateiListe = $DateiName = "";
 // Erlaubte Dateiendungen und Sonderzeichen-Array
 $Dateiendung_Whitelist = array( "jpg", "jpeg", "gif", "png" );
 $ersetzen = array( 'ä' => 'ae', 'ö' => 'oe', 'ü' => 'ue', 'ß' => 'ss', ' ' => '_', '\\' => '-', '/' => '-' );
-
 
 // Cookie pruefen
 if ($CookieLogin == 1)
@@ -146,7 +146,8 @@ if (isset( $_POST['submit'] ) &&
 			substr( strtolower( $_FILES['upload']['name'] ), -4 ) == '.png' )
 		{
 			$umaskold = umask( 0 );
-			$DateiName = strtr( strtolower( $_FILES['upload']['name'] ), $ersetzen );
+			$DateiName = $ImageURLRelative.strtr( strtolower( $_FILES['upload']['name'] ), $ersetzen );
+			
 			// Falls Datei bereits existiert
 			if (file_exists( $DateiName ))
 			{
@@ -281,7 +282,7 @@ if ($_SESSION['approved'] == 1 &&
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>phpBuddy.eu - Image Hosting Script</title>
+<title>image.invertika.org</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 <!--
@@ -495,7 +496,7 @@ else if ($_GET['seite'] == 'uebersicht')
 if ($_GET['seite'] == 'uebersicht' &&
 	$_SESSION['approved'] == 1)
 {
-	$DateiListe = glob( "{*.jpg,*.gif,*.png}", GLOB_BRACE );
+	$DateiListe = glob( "{".$ImageURLRelative."*.jpg,".$ImageURLRelative."*.gif,".$ImageURLRelative."*.png}", GLOB_BRACE );
 	sort( $DateiListe );
 	$bid = 1;
 	foreach ( $DateiListe as $DateiName)
