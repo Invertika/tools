@@ -2329,11 +2329,6 @@ namespace Invertika_Editor
 			}
 		}
 
-		private void höhlengeneratorToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		}
-
 		private void tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if(Globals.folder_root=="")

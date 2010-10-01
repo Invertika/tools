@@ -40,7 +40,6 @@
 			this.tilesetsZusammenrechnenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.mappingToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.koordinatenrechnerToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.höhlengeneratorToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem5=new System.Windows.Forms.ToolStripSeparator();
 			this.mapsInDieMapsxmlToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.mapsAusEinerBitmapErzeugenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
@@ -197,7 +196,6 @@
 			// 
 			this.mappingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.koordinatenrechnerToolStripMenuItem,
-            this.höhlengeneratorToolStripMenuItem,
             this.toolStripMenuItem5,
             this.mapsInDieMapsxmlToolStripMenuItem,
             this.mapsAusEinerBitmapErzeugenToolStripMenuItem,
@@ -220,13 +218,6 @@
 			this.koordinatenrechnerToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
 			this.koordinatenrechnerToolStripMenuItem.Text="Koordinatenrechner...";
 			this.koordinatenrechnerToolStripMenuItem.Click+=new System.EventHandler(this.koordinatenrechnerToolStripMenuItem_Click);
-			// 
-			// höhlengeneratorToolStripMenuItem
-			// 
-			this.höhlengeneratorToolStripMenuItem.Name="höhlengeneratorToolStripMenuItem";
-			this.höhlengeneratorToolStripMenuItem.Size=new System.Drawing.Size(294, 22);
-			this.höhlengeneratorToolStripMenuItem.Text="Höhlengenerator...";
-			this.höhlengeneratorToolStripMenuItem.Click+=new System.EventHandler(this.höhlengeneratorToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem5
 			// 
@@ -775,7 +766,6 @@
 		private System.Windows.Forms.StatusStrip statusStrip;
 		private System.Windows.Forms.ToolStripMenuItem beendenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem mappingToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem höhlengeneratorToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem automatismenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem optionenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
