@@ -35,7 +35,7 @@ class MyHandler(BaseHTTPRequestHandler):
                 return
             elif self.path.endswith("autoupdate?password="+password):
                 self.send_response(200)
-                self.send_header('Content-type', 'text/html')
+                self.send_header('Content-type', 'text')
                 self.end_headers()
 
                 # Starte Autoupdate
