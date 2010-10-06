@@ -39,7 +39,8 @@ class MyHandler(BaseHTTPRequestHandler):
                 self.end_headers()
 
                 # Starte Autoupdate
-                log = os.system("python3 " + path_autoupdate)
+                logstream = os.popen("python3 " + path_autoupdate)
+                log = logstream.read()
                 with open(path_logfile, mode='a', encoding='utf-8') as a_file:
                     a_file.write(log)
 
