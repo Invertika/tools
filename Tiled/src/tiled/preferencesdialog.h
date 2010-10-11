@@ -21,7 +21,7 @@
 #ifndef PREFERENCESDIALOG_H
 #define PREFERENCESDIALOG_H
 
-#include "tmxmapwriter.h"
+#include "mapwriter.h"
 
 #include <QDialog>
 
@@ -49,12 +49,13 @@ protected:
 
 private slots:
     void languageSelected(int index);
+    void useOpenGLToggled(bool useOpenGL);
 
 private:
     void fromPreferences();
     void toPreferences();
 
-    TmxMapWriter::LayerDataFormat layerDataFormat() const;
+    MapWriter::LayerDataFormat layerDataFormat() const;
 
     Ui::PreferencesDialog *mUi;
     QStringList mLanguages;

@@ -27,6 +27,7 @@
 #include "ui_mainwindow.h"
 
 #include "aboutdialog.h"
+#include "automap.h"
 #include "addremovetileset.h"
 #include "changeproperties.h"
 #include "clipboardmanager.h"
@@ -135,21 +136,25 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
     statusBar()->addPermanentWidget(mZoomLabel);
 
-    mUi->actionNew->setShortcut(QKeySequence::New);
-    mUi->actionOpen->setShortcut(QKeySequence::Open);
-    mUi->actionSave->setShortcut(QKeySequence::Save);
-    mUi->actionSaveAs->setShortcut(QKeySequence::SaveAs);
-    mUi->actionClose->setShortcut(QKeySequence::Close);
+    mUi->actionNew->setShortcuts(QKeySequence::New);
+    mUi->actionOpen->setShortcuts(QKeySequence::Open);
+    mUi->actionSave->setShortcuts(QKeySequence::Save);
+    mUi->actionSaveAs->setShortcuts(QKeySequence::SaveAs);
+    mUi->actionClose->setShortcuts(QKeySequence::Close);
 #if QT_VERSION >= 0x040600
-    mUi->actionQuit->setShortcut(QKeySequence::Quit);
+    mUi->actionQuit->setShortcuts(QKeySequence::Quit);
 #endif
-    mUi->actionCut->setShortcut(QKeySequence::Cut);
-    mUi->actionCopy->setShortcut(QKeySequence::Copy);
-    mUi->actionPaste->setShortcut(QKeySequence::Paste);
-    undoAction->setShortcut(QKeySequence::Undo);
-    redoAction->setShortcut(QKeySequence::Redo);
-    mUi->actionZoomIn->setShortcut(QKeySequence::ZoomIn);
-    mUi->actionZoomOut->setShortcut(QKeySequence::ZoomOut);
+    mUi->actionCut->setShortcuts(QKeySequence::Cut);
+    mUi->actionCopy->setShortcuts(QKeySequence::Copy);
+    mUi->actionPaste->setShortcuts(QKeySequence::Paste);
+    undoAction->setShortcuts(QKeySequence::Undo);
+    redoAction->setShortcuts(QKeySequence::Redo);
+
+    // Make sure Ctrl+= also works for zooming in
+    QList<QKeySequence> keys = QKeySequence::keyBindings(QKeySequence::ZoomIn);
+    keys += QKeySequence(tr("Ctrl+="));
+    mUi->actionZoomIn->setShortcuts(keys);
+    mUi->actionZoomOut->setShortcuts(QKeySequence::ZoomOut);
 
     mUi->menuEdit->insertAction(mUi->actionCut, undoAction);
     mUi->menuEdit->insertAction(mUi->actionCut, redoAction);
@@ -164,7 +169,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
     mLayerMenu = new QMenu(tr("&Layer"), this);
     mLayerMenu->addAction(mActionHandler->actionAddTileLayer());
-    mLayerMenu->addAction(mActionHandler->actionAddObjectLayer());
+    mLayerMenu->addAction(mActionHandler->actionAddObjectGroup());
     mLayerMenu->addAction(mActionHandler->actionDuplicateLayer());
     mLayerMenu->addAction(mActionHandler->actionRemoveLayer());
     mLayerMenu->addSeparator();
@@ -191,6 +196,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     connect(mUi->actionPaste, SIGNAL(triggered()), SLOT(paste()));
     connect(mUi->actionPreferences, SIGNAL(triggered()),
             SLOT(openPreferences()));
+    connect(mUi->actionAutoMap, SIGNAL(triggered()), SLOT(autoMap()));
 
     connect(mUi->actionZoomIn, SIGNAL(triggered()),
             mUi->mapView->zoomable(), SLOT(zoomIn()));
@@ -479,11 +485,7 @@ bool MainWindow::saveFile(const QString &fileName)
     if (!mMapDocument)
         return false;
 
-    Preferences *prefs = Preferences::instance();
-
     TmxMapWriter mapWriter;
-    mapWriter.setLayerDataFormat(prefs->layerDataFormat());
-    mapWriter.setDtdEnabled(prefs->dtdEnabled());
 
     if (!mapWriter.write(mMapDocument->map(), fileName)) {
         QMessageBox::critical(this, tr("Error Saving Map"),
@@ -499,7 +501,7 @@ bool MainWindow::saveFile(const QString &fileName)
 
 bool MainWindow::saveFile()
 {
-    if (mCurrentFileName.endsWith(QLatin1String(".tmx")))
+    if (mCurrentFileName.endsWith(QLatin1String(".tmx"), Qt::CaseInsensitive))
         return saveFile(mCurrentFileName);
     else
         return saveFileAs();
@@ -599,7 +601,8 @@ void MainWindow::exportAs()
 
     // Also support exporting to the TMX map format when requested
     TmxMapWriter tmxMapWriter;
-    if (!chosenWriter && fileName.endsWith(QLatin1String(".tmx")))
+    if (!chosenWriter && fileName.endsWith(QLatin1String(".tmx"),
+                                           Qt::CaseInsensitive))
         chosenWriter = &tmxMapWriter;
 
     if (!chosenWriter) {
@@ -661,8 +664,8 @@ void MainWindow::copy()
     mClipboardManager->copySelection(mMapDocument);
 }
 
-static Tileset *findSimilarTileset(Tileset *tileset,
-                                   const QList<Tileset*> tilesets)
+static Tileset *findSimilarTileset(const Tileset *tileset,
+                                   const QList<Tileset*> &tilesets)
 {
     foreach (Tileset *candidate, tilesets) {
         if (candidate != tileset
@@ -729,7 +732,7 @@ void MainWindow::paste()
         QUndoStack *undoStack = mMapDocument->undoStack();
         undoStack->beginMacro(tr("Paste"));
         foreach (QUndoCommand *command, undoCommands)
-            mMapDocument->undoStack()->push(command);
+            undoStack->push(command);
         undoStack->endMacro();
     }
 
@@ -836,6 +839,60 @@ void MainWindow::editMapProperties()
     propertiesDialog.exec();
 }
 
+void MainWindow::autoMap()
+{
+    if (!mMapDocument)
+        return;
+
+    const QString mapPath = QFileInfo(mMapDocument->fileName()).path();
+    const QString rulesFileName = mapPath + QLatin1String("/rules.txt");
+    QFile rulesFile(rulesFileName);
+
+    if (!rulesFile.exists()) {
+        QMessageBox::critical(
+                    this, tr("AutoMap Error"),
+                    tr("No rules file found at:\n%1").arg(rulesFileName));
+        return;
+    }
+    if (!rulesFile.open(QIODevice::ReadOnly)) {
+        QMessageBox::critical(
+                    this, tr("AutoMap Error"),
+                    tr("Error opening rules file:\n%1").arg(rulesFileName));
+        return;
+    }
+
+    QTextStream in(&rulesFile);
+    QString line = in.readLine();
+
+    for (; !line.isNull(); line = in.readLine()) {
+        QString rulePath = line.trimmed();
+        if (rulePath.isEmpty()
+                || rulePath.startsWith(QLatin1Char('#'))
+                || rulePath.startsWith(QLatin1String("//")))
+            continue;
+
+        if (QFileInfo(rulePath).isRelative())
+            rulePath = mapPath + QLatin1Char('/') + rulePath;
+
+        if (!QFileInfo(rulePath).exists()) {
+            QMessageBox::warning(
+                        this, tr("AutoMap Warning"),
+                        tr("Rules map not found:\n%1").arg(rulePath));
+            continue;
+        }
+
+        TmxMapReader mapReader;
+        Map *rules = mapReader.read(rulePath);
+
+        QUndoStack *undoStack = mMapDocument->undoStack();
+        undoStack->beginMacro(tr("AutoMap: apply ruleset: ") + rulePath);
+        undoStack->push(new AutomaticMapping(mMapDocument, rules));
+        undoStack->endMacro();
+
+        delete rules;
+    }
+}
+
 void MainWindow::updateModified()
 {
     setWindowModified(!mUndoGroup->isClean());
@@ -934,6 +991,7 @@ void MainWindow::updateActions()
     mUi->actionResizeMap->setEnabled(map);
     mUi->actionOffsetMap->setEnabled(map);
     mUi->actionMapProperties->setEnabled(map);
+    mUi->actionAutoMap->setEnabled(map);
 }
 
 void MainWindow::updateZoomLabel(qreal scale)

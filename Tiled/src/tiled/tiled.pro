@@ -10,6 +10,7 @@ win32 {
 } else {
     DESTDIR = ../../bin
 }
+contains(QT_CONFIG, opengl): QT += opengl
 
 DEFINES += QT_NO_CAST_FROM_ASCII \
     QT_NO_CAST_TO_ASCII
@@ -35,6 +36,7 @@ RCC_DIR = .rcc
 OBJECTS_DIR = .obj
 
 SOURCES += aboutdialog.cpp \
+    automap.cpp \
     brushitem.cpp \
     languagemanager.cpp \
     layerdock.cpp \
@@ -104,6 +106,7 @@ SOURCES += aboutdialog.cpp \
     addremovetileset.cpp \
     movetileset.cpp
 HEADERS += aboutdialog.h \
+    automap.h \
     brushitem.h \
     languagemanager.h \
     layerdock.h \

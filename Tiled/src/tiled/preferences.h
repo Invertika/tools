@@ -21,9 +21,9 @@
 #ifndef PREFERENCES_H
 #define PREFERENCES_H
 
-#include <QString>
+#include <QObject>
 
-#include "tmxmapwriter.h"
+#include "mapwriter.h"
 
 class QSettings;
 
@@ -34,14 +34,16 @@ namespace Internal {
  * This class holds user preferences and provides a convenient interface to
  * access them.
  */
-class Preferences
+class Preferences : public QObject
 {
+    Q_OBJECT
+
 public:
     static Preferences *instance();
     static void deleteInstance();
 
-    TmxMapWriter::LayerDataFormat layerDataFormat() const;
-    void setLayerDataFormat(TmxMapWriter::LayerDataFormat layerDataFormat);
+    MapWriter::LayerDataFormat layerDataFormat() const;
+    void setLayerDataFormat(MapWriter::LayerDataFormat layerDataFormat);
 
     bool dtdEnabled() const;
     void setDtdEnabled(bool enabled);
@@ -52,21 +54,28 @@ public:
     bool reloadTilesetsOnChange() const;
     void setReloadTilesetsOnChanged(bool value);
 
+    bool useOpenGL() const { return mUseOpenGL; }
+    void setUseOpenGL(bool useOpenGL);
+
     /**
      * Provides access to the QSettings instance to allow storing/retrieving
      * arbitrary values. The naming style for groups and keys is CamelCase.
      */
     QSettings *settings() const { return mSettings; }
 
+signals:
+    void useOpenGLChanged(bool useOpenGL);
+
 private:
     Preferences();
     ~Preferences();
 
     QSettings *mSettings;
-    TmxMapWriter::LayerDataFormat mLayerDataFormat;
+    MapWriter::LayerDataFormat mLayerDataFormat;
     bool mDtdEnabled;
     QString mLanguage;
     bool mReloadTilesetsOnChange;
+    bool mUseOpenGL;
 
     static Preferences *mInstance;
 };

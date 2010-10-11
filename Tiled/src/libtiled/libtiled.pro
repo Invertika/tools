@@ -7,13 +7,13 @@ INSTALLS += target
 macx {
     DESTDIR = ../../bin/Tiled.app/Contents/Frameworks
     QMAKE_LFLAGS_SONAME = -Wl,-install_name,@executable_path/../Frameworks/
-    LIBS += -lz
 } else {
     DESTDIR = ../../lib
 }
 DLLDESTDIR = ../..
 
 win32:INCLUDEPATH += $$(QTDIR)/src/3rdparty/zlib
+else:LIBS += -lz
 
 DEFINES += QT_NO_CAST_FROM_ASCII \
     QT_NO_CAST_TO_ASCII
@@ -28,6 +28,7 @@ SOURCES += compression.cpp \
     tilelayer.cpp \
     tileset.cpp \
     mapreader.cpp \
+    mapwriter.cpp \
     properties.cpp
 HEADERS += compression.h \
     layer.h \
@@ -39,6 +40,7 @@ HEADERS += compression.h \
     tilelayer.h \
     tileset.h \
     mapreader.h \
+    mapwriter.h \
     properties.h \
     object.h
 mac {
