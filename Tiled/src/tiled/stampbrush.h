@@ -41,10 +41,6 @@ public:
     StampBrush(QObject *parent = 0);
     ~StampBrush();
 
-    void enable(MapScene *scene);
-
-    void tilePositionChanged(const QPoint &tilePos);
-
     void mousePressed(const QPointF &pos, Qt::MouseButton button,
                       Qt::KeyboardModifiers modifiers);
     void mouseReleased(const QPointF &pos, Qt::MouseButton button);
@@ -52,16 +48,12 @@ public:
     void languageChanged();
 
     /**
-     * Sets the map document on which this brush operates. The correct map
-     * document needs to be set before calling setStamp().
-     */
-    void setMapDocument(MapDocument *mapDocument);
-
-    /**
      * Sets the stamp that is drawn when painting. The StampBrush takes
      * ownership over the stamp layer.
      */
     void setStamp(TileLayer *stamp);
+
+    TileLayer *stamp() const { return mStamp; }
 
 signals:
     /**
@@ -70,6 +62,12 @@ signals:
      * also gets the new stamp.
      */
     void currentTilesChanged(const TileLayer *tiles);
+
+protected:
+    void tilePositionChanged(const QPoint &tilePos);
+
+    void mapDocumentChanged(MapDocument *oldDocument,
+                            MapDocument *newDocument);
 
 private:
     void beginPaint();
@@ -82,7 +80,6 @@ private:
 
     void updatePosition();
 
-    MapDocument *mMapDocument;
     TileLayer *mStamp;
     bool mPainting;
     bool mCapturing;

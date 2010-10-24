@@ -123,6 +123,9 @@ private slots:
     void setStampBrush(const TileLayer *tiles);
     void updateStatusInfoLabel(const QString &statusInfo);
 
+    void selectQuickStamp(int index);
+    void saveQuickStamp(int index);
+
 private:
     /**
       * Asks the user whether the map should be saved when necessary.
@@ -180,6 +183,11 @@ private:
     QAction *mRecentFiles[MaxRecentFiles];
 
     QMenu *mLayerMenu;
+
+    QVector<Map*> mQuickStamps;
+    void setupQuickStamps();
+    void cleanQuickStamps();
+    void eraseQuickStamp(int index);
 };
 
 } // namespace Internal

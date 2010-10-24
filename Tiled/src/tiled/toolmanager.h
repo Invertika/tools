@@ -67,6 +67,11 @@ public:
     void selectTool(AbstractTool *tool);
 
     /**
+     * Returns the selected tool.
+     */
+    AbstractTool *selectedTool() const { return mSelectedTool; }
+
+    /**
      * Returns a tool bar with all tools added to it.
      */
     QToolBar *toolBar() const { return mToolBar; }
@@ -83,6 +88,8 @@ signals:
 private slots:
     void actionTriggered(QAction *action);
     void languageChanged();
+    void toolEnabledChanged(bool enabled);
+    void selectEnabledTool();
 
 private:
     Q_DISABLE_COPY(ToolManager)
@@ -90,6 +97,7 @@ private:
     ToolManager();
     ~ToolManager();
 
+    AbstractTool *firstEnabledTool() const;
     void setSelectedTool(AbstractTool *tool);
 
     static ToolManager *mInstance;
@@ -97,6 +105,7 @@ private:
     QToolBar *mToolBar;
     QActionGroup *mActionGroup;
     AbstractTool *mSelectedTool;
+    AbstractTool *mPreviouslyDisabledTool;
 };
 
 } // namespace Internal
