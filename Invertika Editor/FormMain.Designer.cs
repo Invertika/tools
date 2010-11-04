@@ -113,6 +113,8 @@
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog=new System.Windows.Forms.SaveFileDialog();
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
+			this.spritesAufDateiebendePrüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem16=new System.Windows.Forms.ToolStripSeparator();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -557,6 +559,8 @@
             this.monsterÜberprüfenToolStripMenuItem,
             this.tilesetsÜberprüfenToolStripMenuItem,
             this.toolStripMenuItem4,
+            this.spritesAufDateiebendePrüfenToolStripMenuItem,
+            this.toolStripMenuItem16,
             this.kompletteÜberprüfungToolStripMenuItem});
 			this.prüfungToolStripMenuItem.Name="prüfungToolStripMenuItem";
 			this.prüfungToolStripMenuItem.Size=new System.Drawing.Size(57, 20);
@@ -565,40 +569,40 @@
 			// itemsÜberprüfenToolStripMenuItem
 			// 
 			this.itemsÜberprüfenToolStripMenuItem.Name="itemsÜberprüfenToolStripMenuItem";
-			this.itemsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(209, 22);
+			this.itemsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(242, 22);
 			this.itemsÜberprüfenToolStripMenuItem.Text="Items überprüfen...";
 			this.itemsÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.itemsÜberprüfenToolStripMenuItem_Click);
 			// 
 			// mapsÜberprüfenToolStripMenuItem1
 			// 
 			this.mapsÜberprüfenToolStripMenuItem1.Name="mapsÜberprüfenToolStripMenuItem1";
-			this.mapsÜberprüfenToolStripMenuItem1.Size=new System.Drawing.Size(209, 22);
+			this.mapsÜberprüfenToolStripMenuItem1.Size=new System.Drawing.Size(242, 22);
 			this.mapsÜberprüfenToolStripMenuItem1.Text="Maps überprüfen...";
 			this.mapsÜberprüfenToolStripMenuItem1.Click+=new System.EventHandler(this.mapsÜberprüfenToolStripMenuItem_Click);
 			// 
 			// monsterÜberprüfenToolStripMenuItem
 			// 
 			this.monsterÜberprüfenToolStripMenuItem.Name="monsterÜberprüfenToolStripMenuItem";
-			this.monsterÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(209, 22);
+			this.monsterÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(242, 22);
 			this.monsterÜberprüfenToolStripMenuItem.Text="Monster überprüfen...";
 			this.monsterÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.monsterÜberprüfenToolStripMenuItem_Click);
 			// 
 			// tilesetsÜberprüfenToolStripMenuItem
 			// 
 			this.tilesetsÜberprüfenToolStripMenuItem.Name="tilesetsÜberprüfenToolStripMenuItem";
-			this.tilesetsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(209, 22);
+			this.tilesetsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(242, 22);
 			this.tilesetsÜberprüfenToolStripMenuItem.Text="Tilesets überprüfen...";
 			this.tilesetsÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.tilesetsÜberprüfenToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem4
 			// 
 			this.toolStripMenuItem4.Name="toolStripMenuItem4";
-			this.toolStripMenuItem4.Size=new System.Drawing.Size(206, 6);
+			this.toolStripMenuItem4.Size=new System.Drawing.Size(239, 6);
 			// 
 			// kompletteÜberprüfungToolStripMenuItem
 			// 
 			this.kompletteÜberprüfungToolStripMenuItem.Name="kompletteÜberprüfungToolStripMenuItem";
-			this.kompletteÜberprüfungToolStripMenuItem.Size=new System.Drawing.Size(209, 22);
+			this.kompletteÜberprüfungToolStripMenuItem.Size=new System.Drawing.Size(242, 22);
 			this.kompletteÜberprüfungToolStripMenuItem.Text="Komplette Überprüfung...";
 			this.kompletteÜberprüfungToolStripMenuItem.Click+=new System.EventHandler(this.kompletteÜberprüfungToolStripMenuItem_Click);
 			// 
@@ -703,18 +707,18 @@
 			// inhaltToolStripMenuItem
 			// 
 			this.inhaltToolStripMenuItem.Name="inhaltToolStripMenuItem";
-			this.inhaltToolStripMenuItem.Size=new System.Drawing.Size(125, 22);
+			this.inhaltToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
 			this.inhaltToolStripMenuItem.Text="Inhalt...";
 			// 
 			// toolStripMenuItem14
 			// 
 			this.toolStripMenuItem14.Name="toolStripMenuItem14";
-			this.toolStripMenuItem14.Size=new System.Drawing.Size(122, 6);
+			this.toolStripMenuItem14.Size=new System.Drawing.Size(149, 6);
 			// 
 			// überToolStripMenuItem
 			// 
 			this.überToolStripMenuItem.Name="überToolStripMenuItem";
-			this.überToolStripMenuItem.Size=new System.Drawing.Size(125, 22);
+			this.überToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
 			this.überToolStripMenuItem.Text="Ü&ber...";
 			// 
 			// toolStrip
@@ -732,6 +736,18 @@
 			this.statusStrip.Size=new System.Drawing.Size(1006, 22);
 			this.statusStrip.TabIndex=2;
 			this.statusStrip.Text="statusStrip1";
+			// 
+			// spritesAufDateiebendePrüfenToolStripMenuItem
+			// 
+			this.spritesAufDateiebendePrüfenToolStripMenuItem.Name="spritesAufDateiebendePrüfenToolStripMenuItem";
+			this.spritesAufDateiebendePrüfenToolStripMenuItem.Size=new System.Drawing.Size(242, 22);
+			this.spritesAufDateiebendePrüfenToolStripMenuItem.Text="Sprites auf Dateiebene prüfen...";
+			this.spritesAufDateiebendePrüfenToolStripMenuItem.Click+=new System.EventHandler(this.spritesAufDateiebenePrüfenToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem16
+			// 
+			this.toolStripMenuItem16.Name="toolStripMenuItem16";
+			this.toolStripMenuItem16.Size=new System.Drawing.Size(239, 6);
 			// 
 			// FormMain
 			// 
@@ -842,6 +858,8 @@
 		private System.Windows.Forms.ToolStripMenuItem mapsÜberprüfenToolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem inhaltToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem14;
+		private System.Windows.Forms.ToolStripMenuItem spritesAufDateiebendePrüfenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem16;
 	}
 }
 

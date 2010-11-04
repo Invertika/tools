@@ -935,16 +935,18 @@ namespace Invertika_Editor
 						default:
 							{
 								found=true;
-								msg+=String.Format("Unbekannter Layer ({0}) in Map {1} vorhanden.", ld.name, fn);
+								msg+=String.Format("Unbekannter Layer ({0}) in Map {1} vorhanden.\n", ld.name, fn);
 								break;
 							}
 					}
 				}
 
-				if(!ground) { found=true; msg+=String.Format("Ground Layer in Map {1} nicht vorhanden.", fn); }
-				if(!fringe) { found=true; msg+=String.Format("Fringe Layer in Map {1} nicht vorhanden.", fn); }
-				if(!over) { found=true; msg+=String.Format("Over Layer in Map {1} nicht vorhanden.", fn); }
-				if(!collision) { found=true; msg+=String.Format("Collision Layer in Map {1} nicht vorhanden.", fn); }
+				bool newEntry=false;
+
+				if(!ground) { found=true; newEntry=true; msg+=String.Format("Ground Layer in Map {0} nicht vorhanden.\n", fn); }
+				if(!fringe) { found=true; newEntry=true; msg+=String.Format("Fringe Layer in Map {0} nicht vorhanden.\n", fn); }
+				if(!over) { found=true; newEntry=true; msg+=String.Format("Over Layer in Map {0} nicht vorhanden.\n", fn); }
+				if(!collision) { found=true; newEntry=true; msg+=String.Format("Collision Layer in Map {0} nicht vorhanden.\n", fn); }
 
 				foreach(Objectgroup og in map.ObjectLayers)
 				{
@@ -955,12 +957,16 @@ namespace Invertika_Editor
 					else
 					{
 						found=true;
-						msg+=String.Format("Unbekannter Objektlayer ({0}) in Map {1} vorhanden.", og.Name, fn);
+						newEntry=true;
+						msg+=String.Format("Unbekannter Objektlayer ({0}) in Map {1} vorhanden.\n", og.Name, fn);
 					}
 				}
 
-				if(!@object) { found=true; msg+=String.Format("Object Layer in Map {1} vorhanden.", fn); }
+				if(!@object) { found=true; msg+=String.Format("Object Layer in Map {0} vorhanden.\n", fn); }
+
+				if(newEntry) msg+="\n";
 			}
+			msg=msg.TrimEnd('\n');
 
 			usedTilesets.Sort();
 
@@ -975,7 +981,7 @@ namespace Invertika_Editor
 
 			if(found==false)
 			{
-				msg="Keine Fehler gefunden.";
+				msg="Keine Fehler gefunden.\n";
 			}
 
 			return msg;
@@ -2546,6 +2552,9 @@ namespace Invertika_Editor
 			msg+="\n\n";
 			msg+="Tilesets:\n";
 			msg+=CheckTilesets();
+			msg+="\n\n";
+			msg+="Spriteüberprüfung auf Dateiebene:\n";
+			msg+=CheckSpritesOnFileLayer();
 
 			FormOutputBox.ShowOutputBox("Komplette Überprüfung", msg);
 		}
@@ -2607,6 +2616,71 @@ namespace Invertika_Editor
 					sw.Close();
 				}
 			}
+		}
+
+		private string CheckSpritesOnFileLayer()
+		{
+			List<string> Files=FileSystem.GetFiles(Globals.folder_clientdata_graphics_sprites, true, "*.png");
+			Files.AddRange(FileSystem.GetFiles(Globals.folder_clientdata_graphics_sprites, true, "*.xml"));
+
+			Dictionary<string, int> fileCount=new Dictionary<string, int>();
+
+			foreach(string i in Files)
+			{
+				string path=FileSystem.GetRelativePath(FileSystem.GetPath(i), Globals.folder_clientdata_graphics_sprites);
+				string fn=FileSystem.GetFilenameWithoutExt(i);
+				string key=path+fn;
+
+				if(fileCount.ContainsKey(key))
+				{
+					fileCount[key]++;
+				}
+				else
+				{
+					fileCount.Add(key, 1);
+				}
+			}
+
+			List<string> tmpList=new List<string>();
+
+
+			foreach(string key in fileCount.Keys)
+			{
+				int val=fileCount[key];
+				if(val!=2)
+				{
+					tmpList.Add(String.Format("Datei {0} existiert {1} mal.", key, val));
+				}
+			}
+
+			tmpList.Sort();
+
+			string msg="";
+
+			if(tmpList.Count>0)
+			{
+				foreach(string i in tmpList)
+				{
+					msg+=i+"\n";
+				}
+			}
+			else
+			{
+				msg="Keine Fehler gefunden.\n";
+			}
+
+			return msg;
+		}
+
+		private void spritesAufDateiebenePrüfenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			FormOutputBox.ShowOutputBox("Spriteüberprüfung auf Dateiebene", CheckSpritesOnFileLayer());
 		}
 	}
 }
