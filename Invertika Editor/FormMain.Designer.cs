@@ -91,6 +91,8 @@
 			this.monsterÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.tilesetsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem4=new System.Windows.Forms.ToolStripSeparator();
+			this.spritesAufDateiebendePrüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem16=new System.Windows.Forms.ToolStripSeparator();
 			this.kompletteÜberprüfungToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.testsToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.tMXÖffnenUndRendernToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
@@ -113,8 +115,7 @@
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog=new System.Windows.Forms.SaveFileDialog();
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
-			this.spritesAufDateiebendePrüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem16=new System.Windows.Forms.ToolStripSeparator();
+			this.spritesÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -557,6 +558,7 @@
             this.itemsÜberprüfenToolStripMenuItem,
             this.mapsÜberprüfenToolStripMenuItem1,
             this.monsterÜberprüfenToolStripMenuItem,
+            this.spritesÜberprüfenToolStripMenuItem,
             this.tilesetsÜberprüfenToolStripMenuItem,
             this.toolStripMenuItem4,
             this.spritesAufDateiebendePrüfenToolStripMenuItem,
@@ -598,6 +600,18 @@
 			// 
 			this.toolStripMenuItem4.Name="toolStripMenuItem4";
 			this.toolStripMenuItem4.Size=new System.Drawing.Size(239, 6);
+			// 
+			// spritesAufDateiebendePrüfenToolStripMenuItem
+			// 
+			this.spritesAufDateiebendePrüfenToolStripMenuItem.Name="spritesAufDateiebendePrüfenToolStripMenuItem";
+			this.spritesAufDateiebendePrüfenToolStripMenuItem.Size=new System.Drawing.Size(242, 22);
+			this.spritesAufDateiebendePrüfenToolStripMenuItem.Text="Sprites auf Dateiebene prüfen...";
+			this.spritesAufDateiebendePrüfenToolStripMenuItem.Click+=new System.EventHandler(this.spritesAufDateiebenePrüfenToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem16
+			// 
+			this.toolStripMenuItem16.Name="toolStripMenuItem16";
+			this.toolStripMenuItem16.Size=new System.Drawing.Size(239, 6);
 			// 
 			// kompletteÜberprüfungToolStripMenuItem
 			// 
@@ -707,18 +721,18 @@
 			// inhaltToolStripMenuItem
 			// 
 			this.inhaltToolStripMenuItem.Name="inhaltToolStripMenuItem";
-			this.inhaltToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
+			this.inhaltToolStripMenuItem.Size=new System.Drawing.Size(125, 22);
 			this.inhaltToolStripMenuItem.Text="Inhalt...";
 			// 
 			// toolStripMenuItem14
 			// 
 			this.toolStripMenuItem14.Name="toolStripMenuItem14";
-			this.toolStripMenuItem14.Size=new System.Drawing.Size(149, 6);
+			this.toolStripMenuItem14.Size=new System.Drawing.Size(122, 6);
 			// 
 			// überToolStripMenuItem
 			// 
 			this.überToolStripMenuItem.Name="überToolStripMenuItem";
-			this.überToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
+			this.überToolStripMenuItem.Size=new System.Drawing.Size(125, 22);
 			this.überToolStripMenuItem.Text="Ü&ber...";
 			// 
 			// toolStrip
@@ -737,17 +751,12 @@
 			this.statusStrip.TabIndex=2;
 			this.statusStrip.Text="statusStrip1";
 			// 
-			// spritesAufDateiebendePrüfenToolStripMenuItem
+			// spritesÜberprüfenToolStripMenuItem
 			// 
-			this.spritesAufDateiebendePrüfenToolStripMenuItem.Name="spritesAufDateiebendePrüfenToolStripMenuItem";
-			this.spritesAufDateiebendePrüfenToolStripMenuItem.Size=new System.Drawing.Size(242, 22);
-			this.spritesAufDateiebendePrüfenToolStripMenuItem.Text="Sprites auf Dateiebene prüfen...";
-			this.spritesAufDateiebendePrüfenToolStripMenuItem.Click+=new System.EventHandler(this.spritesAufDateiebenePrüfenToolStripMenuItem_Click);
-			// 
-			// toolStripMenuItem16
-			// 
-			this.toolStripMenuItem16.Name="toolStripMenuItem16";
-			this.toolStripMenuItem16.Size=new System.Drawing.Size(239, 6);
+			this.spritesÜberprüfenToolStripMenuItem.Name="spritesÜberprüfenToolStripMenuItem";
+			this.spritesÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(242, 22);
+			this.spritesÜberprüfenToolStripMenuItem.Text="Sprites überprüfen...";
+			this.spritesÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.spritesÜberprüfenToolStripMenuItem_Click);
 			// 
 			// FormMain
 			// 
@@ -860,6 +869,7 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem14;
 		private System.Windows.Forms.ToolStripMenuItem spritesAufDateiebendePrüfenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem16;
+		private System.Windows.Forms.ToolStripMenuItem spritesÜberprüfenToolStripMenuItem;
 	}
 }
 

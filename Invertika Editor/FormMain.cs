@@ -895,12 +895,13 @@ namespace Invertika_Editor
 			List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
 			List<string> usedTilesets=new List<string>();
 
-			foreach(string fn in maps)
+			foreach(string fnCurrent in maps)
 			{
 				bool ground=false, fringe=false, over=false, collision=false, @object=false;
 
 				TMX map=new TMX();
-				map.Open(fn, false);
+				map.Open(fnCurrent, false);
+				string fn=FileSystem.GetRelativePath(fnCurrent, Globals.folder_clientdata);
 
 				foreach(CSCL.FileFormats.TMX.TMX.TilesetData fnTileset in map.Tilesets)
 				{
@@ -2550,6 +2551,9 @@ namespace Invertika_Editor
 			msg+="Monster:\n";
 			msg+=CheckMonster();
 			msg+="\n\n";
+			msg+="Sprites:\n";
+			msg+=CheckSprites();
+			msg+="\n\n";
 			msg+="Tilesets:\n";
 			msg+=CheckTilesets();
 			msg+="\n\n";
@@ -2681,6 +2685,55 @@ namespace Invertika_Editor
 			}
 
 			FormOutputBox.ShowOutputBox("Spriteüberprüfung auf Dateiebene", CheckSpritesOnFileLayer());
+		}
+
+		private string CheckSprites()
+		{
+			bool found=false;
+			string msg="";
+
+			List<string> spriteFiles=FileSystem.GetFiles(Globals.folder_clientdata_graphics_sprites, true, "*.xml");
+
+			//Sprite öffnen und testen
+			foreach(string i in spriteFiles)
+			{
+				Sprite tmpSprite=Sprite.GetSpriteFromXml(i);
+
+				foreach(Imageset set in tmpSprite.Imagesets)
+				{
+					string[] splited2=set.Src.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+					string setPath=Globals.folder_clientdata+splited2[0];
+
+					if(!FileSystem.Exists(setPath))
+					{
+						found=true;
+
+						string relpathPNG=FileSystem.GetRelativePath(setPath, Globals.folder_clientdata);
+						string relpathXML=FileSystem.GetRelativePath(i, Globals.folder_clientdata);
+
+						msg+=String.Format("Sprite PNG Datei ({0}) für XML Datei {1} existiert nicht.\n", relpathPNG, relpathXML);
+					}
+				}
+			}
+
+			if(found==false)
+			{
+				msg="Es wurden keine Fehler gefunden.";
+			}
+
+			return msg;
+		}
+
+		private void spritesÜberprüfenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			string msg=CheckSprites();
+			FormOutputBox.ShowOutputBox("Fehler in den Spritedateien", msg);
 		}
 	}
 }
