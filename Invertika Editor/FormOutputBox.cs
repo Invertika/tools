@@ -17,6 +17,8 @@ namespace Invertika_Editor
 			InstFormOutputBox.Text=title;
 			InstFormOutputBox.rtbOutput.Lines=message;
 
+			InstFormOutputBox.rtbOutput.Text=InstFormOutputBox.rtbOutput.Lines.ToString().TrimEnd();
+
 			InstFormOutputBox.tssEntry.Text="Einträge: "+InstFormOutputBox.rtbOutput.Lines.Length.ToString();
 
 			InstFormOutputBox.Show();
@@ -28,6 +30,7 @@ namespace Invertika_Editor
 
 			InstFormOutputBox.Text=title;
 			InstFormOutputBox.rtbOutput.Lines=message.ToArray();
+			InstFormOutputBox.rtbOutput.Text=InstFormOutputBox.rtbOutput.Lines.ToString().TrimEnd();
 
 			InstFormOutputBox.tssEntry.Text="Einträge: "+InstFormOutputBox.rtbOutput.Lines.Length.ToString();
 
@@ -39,7 +42,7 @@ namespace Invertika_Editor
 			FormOutputBox InstFormOutputBox=new FormOutputBox();
 
 			InstFormOutputBox.Text=title;
-			InstFormOutputBox.rtbOutput.Text=message;
+			InstFormOutputBox.rtbOutput.Text=message.TrimEnd();
 
 			InstFormOutputBox.tssEntry.Text="Einträge: "+InstFormOutputBox.rtbOutput.Lines.Length.ToString();
 
@@ -49,6 +52,11 @@ namespace Invertika_Editor
 		public FormOutputBox()
 		{
 			InitializeComponent();
+		}
+
+		private void rtbOutput_TextChanged(object sender, EventArgs e)
+		{
+			tssEntry.Text="Einträge: "+rtbOutput.Lines.Length.ToString();
 		}
 	}
 }

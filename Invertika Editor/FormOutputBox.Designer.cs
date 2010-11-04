@@ -58,6 +58,7 @@
 			this.rtbOutput.Size=new System.Drawing.Size(864, 369);
 			this.rtbOutput.TabIndex=2;
 			this.rtbOutput.Text="";
+			this.rtbOutput.TextChanged+=new System.EventHandler(this.rtbOutput_TextChanged);
 			// 
 			// FormOutputBox
 			// 
