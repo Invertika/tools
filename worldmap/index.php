@@ -10,6 +10,7 @@
 		//Reagieren auf resizen der Viewarea (Fenster größer etc)
 		//Problem mit dem Copy & Paste im Infofenster beheben -> gelöst
 		//Sauberer Zoom (nicht an andere Stelle springen)
+		//Positionierung der Infobox (nicht ganz oben rechts)
 		//Code Bereinigung und Refactoring
 	?>
 	
