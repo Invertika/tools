@@ -65,7 +65,7 @@
   else
   {
     while ($row = mysql_fetch_array($result)) {
-        echo "<b>" . $row['Title'] . ":</b><br/>";
+        echo "<b>" . $row['Title'] . "</b><br/>";
         echo "Map ID: " . $row['MapID'] . "<br/>";
 	    echo "Dateiname: " . $row['FileName'] . ".tmx<br/><br/>";
 	    echo "- <a href=\"" . $wikilink . "\" target=\"_blank\">Wiki</a><br/>";

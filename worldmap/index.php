@@ -6,15 +6,16 @@
 		
 		//TODO
 		//MouseWheel
-		//Drag & Drop mit Constrain
-		//Reagieren auf resizen der Viewarea (Fenster größer etc)
-		//Problem mit dem Copy & Paste im Infofenster beheben -> gelöst
+		//Drag & Drop mit Constrain -> oder Hintergrundbild
 		//Sauberer Zoom (nicht an andere Stelle springen)
 		//Positionierung der Infobox (nicht ganz oben rechts)
 		//keine Scrollbalken nach rechts und unten
 		//Abhängikeit von den Yahoo APis entfernen (das laden von yahoo apis.com
 		//Anzeige von Informationen ob auf der Karte Musik vorhganden ist und welche
 		//Code Bereinigung und Refactoring
+
+		//Reagieren auf resizen der Viewarea (Fenster größer etc) -> gelöst
+		//Problem mit dem Copy & Paste im Infofenster beheben -> gelöst
 	?>
 	
 	<link rel="stylesheet" type="text/css" href="index.css">
@@ -24,13 +25,11 @@
 </head>
 <body>
 
-<div align="center">
-  <div id="map_container" style="position: relative; border: 1px solid black; width: 99%; height: 10px; overflow: hidden;">
-    <div id="map_images">
-      <table border="0" cellspacing="0" cellpadding="0" id="map_table">
-      </table>
-    </div>
-  </div>
+<div id="map_root" style="position: relative; border: 1px solid black; width: 100%; height: 99%; overflow: hidden;">		
+        <div id="map_images" style="padding: 0; margin: 0; cursor: move; white-space: nowrap; position: relative; width: 100%; height: 100%;">
+            <table border="0" cellspacing="0" cellpadding="0" id="map_table">
+            </table>
+        </div>
 </div>
 
 <div id="form_container">
@@ -41,11 +40,12 @@
 			Mit der Maus kann die Karte bewegt werden. Doppelklick auf eine Kachel um detaillierte Informationen anzuzeigen.<br/>
 			<br/>
 			<div id="infotext">
-			  <b>Information:</b><br/>
+			  <b>Information</b><br/>
 			  keine Karte ausgewählt
 			</div>
 			
             <label for="zoom_value">Zoom:</label>
+	    <div id="zoomlevel">Aktueller Zoom: 0</div>
             <input type="text" size="3" id="zoom_value">
         </fieldset>
         <input type="submit">
@@ -70,7 +70,7 @@ var topEdge = el.parentNode.clientHeight - el.clientHeight;
 var TileCountXJS = 0;
 var TileCountYJS = 0;
 
-YUI().use("stylesheet", "overlay", "slider", "dd-plugin", function (Y) {
+YUI().use("stylesheet", "overlay", "slider", "dd-plugin", "dd-constrain", function (Y) {
     var myStyleSheet = new Y.StyleSheet(),
         overlayContent = Y.one('#form_container'),
         overlay, slider, slider_container, fontSizeInput,
@@ -88,8 +88,8 @@ YUI().use("stylesheet", "overlay", "slider", "dd-plugin", function (Y) {
 				points: [30, 30]
             },
             plugins: [Y.Plugin.Drag]
-        }).render();
-		
+        }).render();	
+
 		overlay.dd.addHandle('h2'); //Nur das H2 Element beachten
 
     // Slider needs a parent element to have the sam skin class for UI skinning
@@ -126,7 +126,7 @@ YUI().use("stylesheet", "overlay", "slider", "dd-plugin", function (Y) {
     // Set up an event subscriber during construction to update the replaced
     // input field's value and apply the change to the StyleSheet
     var slider = new Y.Slider({
-        length: '135px',
+        length: '125px',
         min: 10,
         max: 800,
         value: initZoom,
@@ -136,6 +136,7 @@ YUI().use("stylesheet", "overlay", "slider", "dd-plugin", function (Y) {
                     table = document.getElementById('map_table');
                     table.innerHTML = "";
                     zoom = RoundToNextTileSize(e.newVal);
+                    document.getElementById('zoomlevel').innerHTML="Aktueller Zoom: " + zoom;
                     init();
                 }
             }
@@ -196,10 +197,6 @@ function complete(id, o, args) {
 };
 
 function init() {
-    YUI().use('dom', function (Y) {
-        document.getElementById("map_container").style.height = Y.DOM.winHeight() - 20 + "px";
-    })
-	
     TileCountXJS = Math.ceil(el.clientWidth / zoom);
     TileCountYJS = Math.ceil(el.clientHeight / zoom);
 
