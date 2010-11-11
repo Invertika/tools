@@ -12,6 +12,8 @@
 		//Sauberer Zoom (nicht an andere Stelle springen)
 		//Positionierung der Infobox (nicht ganz oben rechts)
 		//keine Scrollbalken nach rechts und unten
+		//Abhängikeit von den Yahoo APis entfernen (das laden von yahoo apis.com
+		//Anzeige von Informationen ob auf der Karte Musik vorhganden ist und welche
 		//Code Bereinigung und Refactoring
 	?>
 	
