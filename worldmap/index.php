@@ -11,6 +11,7 @@
 		//Problem mit dem Copy & Paste im Infofenster beheben -> gelöst
 		//Sauberer Zoom (nicht an andere Stelle springen)
 		//Positionierung der Infobox (nicht ganz oben rechts)
+		//keine Scrollbalken nach rechts und unten
 		//Code Bereinigung und Refactoring
 	?>
 	
