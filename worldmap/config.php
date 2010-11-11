@@ -1,8 +1,11 @@
 <?php 
+  //Titel der Webseite
   $title="Invertika Weltkarte";
 
+  //Pfad zu den Grafiken
   $mappath="http://data.invertika.org/worldmap/";
   
+  //Mapskoordinaten welche geladen werden sollen
   $map_x_min=-7;
   $map_x_max=7;
   $map_y_min=-7;

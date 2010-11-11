@@ -1,10 +1,9 @@
 .yui3-overlay {
-    background: rgba(128,128,128,0.3);
+    background: rgba(128,128,128,0.5);
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
     border-radius: 10px;
     padding: 7px;
-    cursor: move;
 }
 .yui3-overlay-content {
     background: rgba(205,205,205,0.3);
@@ -14,7 +13,7 @@
     padding: 1px;
 } 
 .yui3-overlay form {
-    background: #f2fbff url(gradient-promo.png) repeat-x scroll 0 0;
+    background: #f2f2f2;
     border: 2px solid #fff;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
@@ -49,4 +48,16 @@
 }
 .yui3-overlay .yui3-slider:hover {
     cursor: default;
+}
+
+#dragpoint h2 {
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 110%;
+    color: black;
+    font-weight: bold;
+    cursor: move;
 }

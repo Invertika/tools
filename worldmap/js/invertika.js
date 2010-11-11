@@ -13,13 +13,6 @@ function GetOuterWorldMapFilename(internalX, internalY, zoomLevel) {
     return ret;
 }
 
-function ChangeZoomLevelOfMapName(filename, zoomLevel) {
-    var mySplitResult = filename.split("-");
-    mySplitResult[4] = zoomLevel + ".png";
-
-    return mySplitResult[0] + mySplitResult[1] + mySplitResult[2] + mySplitResult[3] + mySplitResult[4];
-}
-
 function RoundToNextTileSize(size) {
     if (size <= 15) return 10;
     if (size <= 25) return 20;
