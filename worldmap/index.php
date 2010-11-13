@@ -5,17 +5,17 @@
 		echo "<title>" . $title . "</title>";
 		
 		//TODO
-		//MouseWheel
 		//Drag & Drop mit Constrain -> oder Hintergrundbild
-		//Sauberer Zoom (nicht an andere Stelle springen)
-		//Positionierung der Infobox (nicht ganz oben rechts)
-		//keine Scrollbalken nach rechts und unten
-		//Abhängikeit von den Yahoo APis entfernen (das laden von yahoo apis.com
+		//Abhängikeit von den Yahoo APis entfernen (das laden von yahooapis.com -> über http://developer.yahoo.com/yui/3/configurator/
 		//Anzeige von Informationen ob auf der Karte Musik vorhganden ist und welche
 		//Code Bereinigung und Refactoring
 
 		//Reagieren auf resizen der Viewarea (Fenster größer etc) -> gelöst
 		//Problem mit dem Copy & Paste im Infofenster beheben -> gelöst
+		//keine Scrollbalken nach rechts und unten -> gelöst
+		//Positionierung der Infobox (nicht ganz oben rechts) -> gelöst
+		//Sauberer Zoom (nicht an andere Stelle springen) -> gelöst (Zoomt jetzt basierend auf linker oberer Ecke)
+		//MouseWheel -> gelöst
 	?>
 	
 	<link rel="stylesheet" type="text/css" href="index.css">
@@ -25,13 +25,11 @@
 </head>
 <body>
 
-<div id="map_root" style="position: relative; border: 1px solid black; width: 100%; height: 99%; overflow: hidden;">		
+<div id="map_root" style="position: relative; border: 1px solid black; width: 100%; height: 99%; overflow: hidden; background: #d2d2d2;">		
         <div id="map_images" style="padding: 0; margin: 0; cursor: move; white-space: nowrap; position: relative; width: 100%; height: 100%;">
             <table border="0" cellspacing="0" cellpadding="0" id="map_table">
             </table>
         </div>
-</div>
-
 <div id="form_container">
    <div id="dragpoint"><h2>O</h2></div>
     <form class="yui3-widget-bd" id="theme_form" action="#" method="get">
@@ -50,6 +48,7 @@
         </fieldset>
         <input type="submit">
     </form>
+</div>
 </div>
 
 <script>
@@ -70,38 +69,35 @@ var topEdge = el.parentNode.clientHeight - el.clientHeight;
 var TileCountXJS = 0;
 var TileCountYJS = 0;
 
-YUI().use("stylesheet", "overlay", "slider", "dd-plugin", "dd-constrain", function (Y) {
+YUI().use("stylesheet", "overlay", "slider", "dd-plugin", "node", function (Y) {
     var myStyleSheet = new Y.StyleSheet(),
         overlayContent = Y.one('#form_container'),
-        overlay, slider, slider_container, fontSizeInput,
+        overlay, slider, slider_container, zoomLevelInput,
 
-        // Create the Overlay, using the form container as the contentBox.
-        // The form is assigned a class yui-widget-bd that will be automatically
-        // discovered by Overlay to populate the Overlay's body section.
-        // The overlay is positioned in the top right corner, but made draggable
-        // using Y.Plugin.Drag, provided by the dd-plugin module.
-        overlay = new Y.Overlay({
-            srcNode: overlayContent,
-            width: '225px',
-            align: {
-                //points: [Y.WidgetPositionAlign.TR, Y.WidgetPositionAlign.TR]
-				points: [30, 30]
-            },
-            plugins: [Y.Plugin.Drag]
-        }).render();	
-
-		overlay.dd.addHandle('h2'); //Nur das H2 Element beachten
+    // Create the Overlay, using the form container as the contentBox.
+    // The form is assigned a class yui-widget-bd that will be automatically
+    // discovered by Overlay to populate the Overlay's body section.
+    // The overlay is positioned in the top right corner, but made draggable
+    // using Y.Plugin.Drag, provided by the dd-plugin module.
+    overlay = new Y.Overlay({
+        srcNode: overlayContent,
+        width: '225px',
+		xy: [15,15],
+        plugins: [Y.Plugin.Drag]
+    }).render();	
+		
+	overlay.dd.addHandle('h2'); //Nur das H2 Element beachten
 
     // Slider needs a parent element to have the sam skin class for UI skinning
     overlayContent.addClass('yui3-skin-sam');
 
-    // Progressively enhance the font-size input with a Slider
-    fontSizeInput = Y.one('#zoom_value');
-    fontSizeInput.set('type', 'hidden');
-    fontSizeInput.get('parentNode').insertBefore(
-    Y.Node.create('10 <span></span> 800'), fontSizeInput);
+    // Progressively enhance the zoom level input with a Slider
+    zoomLevelInput = Y.one('#zoom_value');
+    zoomLevelInput.set('type', 'hidden');
+    zoomLevelInput.get('parentNode').insertBefore(
+    Y.Node.create('10 <span></span> 800'), zoomLevelInput);
 
-    slider_container = fontSizeInput.previous("span");
+    slider_container = zoomLevelInput.previous("span");
 
 	//Berechne Initial Zoomstufe
 	var initZoom=100;
@@ -121,10 +117,7 @@ YUI().use("stylesheet", "overlay", "slider", "dd-plugin", "dd-constrain", functi
 		else if((xDimension*800)>viewWidth) initZoom=800;
     })
 	
-    // Create a Slider to contain font size between 6px and 36px, using the
-    // page's current font size as the initial value.
-    // Set up an event subscriber during construction to update the replaced
-    // input field's value and apply the change to the StyleSheet
+    // Create a Slider to contain zoom level between 10 and 800
     var slider = new Y.Slider({
         length: '125px',
         min: 10,
@@ -135,13 +128,40 @@ YUI().use("stylesheet", "overlay", "slider", "dd-plugin", "dd-constrain", functi
                 if (RoundToNextTileSize(e.newVal) != zoom) {
                     table = document.getElementById('map_table');
                     table.innerHTML = "";
-                    zoom = RoundToNextTileSize(e.newVal);
+
+					newZoom=RoundToNextTileSize(e.newVal);
+					
+					posNewX=(Y.one("#map_images").getX()/zoom)*newZoom;
+					posNewY=(Y.one("#map_images").getY()/zoom)*newZoom;					
+				
+					zoom = newZoom;
                     document.getElementById('zoomlevel').innerHTML="Aktueller Zoom: " + zoom;
                     init();
+					
+					Y.one("#map_images").setX(posNewX);
+					Y.one("#map_images").setY(posNewY);
                 }
             }
+
         }
     }).render(slider_container);
+	
+	document.getElementById('zoomlevel').innerHTML="Aktueller Zoom: " + zoom;
+
+    //Mouse Wheel Events abfangen
+    YUI().use('node', 'event', function(Y) {
+       Y.on('mousewheel', function(e) {
+         if(e.wheelDelta > 0) //Up
+         {
+           slider.setValue(GetNextHigherZoomlevel(slider.getValue()));
+         }
+         else //Down
+         {
+           slider.setValue(GetNextLowerZoomlevel(slider.getValue()));
+         }
+         e.halt();
+         });
+    });
 	
     // The link hover affects the background color of links when they are
     // hovered.  There is no way other than via stylesheet modification to

@@ -13,7 +13,7 @@
   
   //Datenbank
   $host = 'localhost'; // Datenbank Server - meistens "localhost" kann aber auch eine IP sein
-  $name = 'dbname'; // Datenbank Name
+  $name = 'nutzer'; // Datenbank Name
   $user = 'nutzer'; // Datenbank Benutzer
   $password = 'geheim'; // Datenbank Passwort
 ?>
