@@ -1057,7 +1057,7 @@ namespace Invertika_Editor
 				foreach(string map in maps)
 				{
 					WebClient client=new WebClient();
-					string infourl=String.Format("http://weltkarte.invertika.org/mapinfo.php?onlytext=1&fn={0}", map);
+					string infourl=String.Format("http://weltkarte.invertika.org/info.php?onlytext=1&fn={0}", map);
 					byte[] padData=client.DownloadData(new Uri(infourl));
 
 					if(padData.Length!=0)
@@ -2104,7 +2104,7 @@ namespace Invertika_Editor
 				foreach(Map i in maps)
 				{
 					WebClient client=new WebClient();
-					string infourl=String.Format("http://weltkarte.invertika.org/mapinfo.php?onlytext=1&fn={0}", i.Name);
+					string infourl=String.Format("http://weltkarte.invertika.org/info.php?onlytext=1&fn={0}", i.Name);
 					byte[] padData=client.DownloadData(new Uri(infourl));
 
 					if(padData.Length==0)
