@@ -60,6 +60,7 @@
 	    echo $row['FileName'] . "\n";
 	    echo $wikilink . "\n";
 	    echo $row['FileName'] . "-800.png\n";
+		echo $row['Music'] . "\n";
     }
   }
   else
@@ -67,7 +68,8 @@
     while ($row = mysql_fetch_array($result)) {
         echo "<b>" . $row['Title'] . "</b><br/>";
         echo "Map ID: " . $row['MapID'] . "<br/>";
-	    echo "Dateiname: " . $row['FileName'] . ".tmx<br/><br/>";
+	    echo "Dateiname: " . $row['FileName'] . ".tmx<br/>";
+		echo "Musik: " . $row['Music'] . "<br/><br/>";
 	    echo "- <a href=\"" . $wikilink . "\" target=\"_blank\">Wiki</a><br/>";
 	    echo "- <a href=\"" . $mappath . $row['FileName'] . "-800.png\" target=\"_blank\">Großansicht</a>";
     }
