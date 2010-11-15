@@ -967,7 +967,6 @@ namespace Invertika_Editor
 
 				if(newEntry) msg+="\n";
 			}
-			msg=msg.TrimEnd('\n');
 
 			usedTilesets.Sort();
 
@@ -980,6 +979,25 @@ namespace Invertika_Editor
 				}
 			}
 
+			//Maps XML checken
+			string fnMapsXml=Globals.folder_serverdata+"maps.xml";
+			List<Map> mapsXml=Map.GetMapsFromMapsXml(fnMapsXml);
+
+			foreach(Map i in mapsXml)
+			{
+				string fnMap=Globals.folder_clientdata_maps+i.Name+".tmx";
+
+				if(!FileSystem.Exists(fnMap))
+				{
+					found=true;
+					
+					msg+="Map (in maps.xml) existiert nicht: "+i.Name+"\n";
+				}
+			}
+
+			msg=msg.TrimEnd('\n');
+
+			//nichts gefunden
 			if(found==false)
 			{
 				msg="Keine Fehler gefunden.\n";
@@ -2098,7 +2116,7 @@ namespace Invertika_Editor
 
 				//Ini
 				List<string> sqlFile=new List<string>();
-				sqlFile.Add("INSERT `wmInformation` (`MapID`, `FileName`, `Title`) VALUES");
+				sqlFile.Add("INSERT `wmInformation` (`MapID`, `FileName`, `Title`, `Music`) VALUES");
 
 				//maps
 				foreach(Map i in maps)
@@ -2109,7 +2127,7 @@ namespace Invertika_Editor
 
 					if(padData.Length==0)
 					{
-						sqlFile.Add(String.Format("('{0}', '{1}', '{2}'),", i.ID, i.Name, "kein Name vergeben"));
+						sqlFile.Add(String.Format("('{0}', '{1}', '{2}', '{3}'),", i.ID, i.Name, "kein Name vergeben", "keine Musikdatei angegeben"));
 					}
 				}
 
@@ -2734,6 +2752,49 @@ namespace Invertika_Editor
 
 			string msg=CheckSprites();
 			FormOutputBox.ShowOutputBox("Fehler in den Spritedateien", msg);
+		}
+
+		private void mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			saveFileDialog.Filter="SQL Dateien (*.sql)|*.sql";
+
+			if(saveFileDialog.ShowDialog()==DialogResult.OK)
+			{
+				//Maps laden
+				string fnMapsXml=Globals.folder_serverdata+"maps.xml";
+				List<Map> maps=Map.GetMapsFromMapsXml(fnMapsXml);
+
+				//Ini
+				List<string> sqlFile=new List<string>();
+
+				//maps
+				foreach(Map i in maps)
+				{
+					string fnMap=Globals.folder_clientdata_maps+i.Name+".tmx";
+					TMX tmx=new TMX();
+					tmx.Open(fnMap, false);
+
+					Property p=tmx.GetProperty("music");
+					if(p==null)
+					{
+						sqlFile.Add(String.Format("UPDATE wmInformation SET Music = '{0}' WHERE FileName LIKE \"%{1}%\";", "keine Musikdatei angegeben", i.Name));
+					}
+					else
+					{
+						sqlFile.Add(String.Format("UPDATE wmInformation SET Music = '{0}' WHERE FileName LIKE \"%{1}%\";", p.Value, i.Name));
+					}
+				}
+
+				File.WriteAllLines(saveFileDialog.FileName, sqlFile.ToArray());
+
+				MessageBox.Show("Weltkarten DB SQL Datei geschrieben.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
 		}
 	}
 }

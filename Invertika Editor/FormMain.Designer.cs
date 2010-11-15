@@ -89,6 +89,7 @@
 			this.itemsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.mapsÜberprüfenToolStripMenuItem1=new System.Windows.Forms.ToolStripMenuItem();
 			this.monsterÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.spritesÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.tilesetsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem4=new System.Windows.Forms.ToolStripSeparator();
 			this.spritesAufDateiebendePrüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
@@ -115,7 +116,7 @@
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog=new System.Windows.Forms.SaveFileDialog();
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
-			this.spritesÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -368,6 +369,7 @@
             this.itemsxmlMediawikiAPIToolStripMenuItem,
             this.toolStripMenuItem12,
             this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem,
+            this.mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem,
             this.toolStripMenuItem13,
             this.monsterxmlBilderToolStripMenuItem,
             this.monsterxmlMediaWikiToolStripMenuItem,
@@ -382,7 +384,7 @@
 			// itemsxmlBilderToolStripMenuItem
 			// 
 			this.itemsxmlBilderToolStripMenuItem.Name="itemsxmlBilderToolStripMenuItem";
-			this.itemsxmlBilderToolStripMenuItem.Size=new System.Drawing.Size(364, 22);
+			this.itemsxmlBilderToolStripMenuItem.Size=new System.Drawing.Size(449, 22);
 			this.itemsxmlBilderToolStripMenuItem.Text="items.xml -> Bilder...";
 			this.itemsxmlBilderToolStripMenuItem.Click+=new System.EventHandler(this.itemsxmlBilderToolStripMenuItem_Click);
 			// 
@@ -392,7 +394,7 @@
             this.inDateiToolStripMenuItem,
             this.inZwischenablageToolStripMenuItem});
 			this.itemsxmlMediaWikiToolStripMenuItem.Name="itemsxmlMediaWikiToolStripMenuItem";
-			this.itemsxmlMediaWikiToolStripMenuItem.Size=new System.Drawing.Size(364, 22);
+			this.itemsxmlMediaWikiToolStripMenuItem.Size=new System.Drawing.Size(449, 22);
 			this.itemsxmlMediaWikiToolStripMenuItem.Text="items.xml -> Mediawiki Tabelle";
 			// 
 			// inDateiToolStripMenuItem
@@ -412,7 +414,7 @@
 			// itemsxmlMediawikiInfoboxenToolStripMenuItem
 			// 
 			this.itemsxmlMediawikiInfoboxenToolStripMenuItem.Name="itemsxmlMediawikiInfoboxenToolStripMenuItem";
-			this.itemsxmlMediawikiInfoboxenToolStripMenuItem.Size=new System.Drawing.Size(364, 22);
+			this.itemsxmlMediawikiInfoboxenToolStripMenuItem.Size=new System.Drawing.Size(449, 22);
 			this.itemsxmlMediawikiInfoboxenToolStripMenuItem.Text="items.xml -> Mediawiki Templates...";
 			this.itemsxmlMediawikiInfoboxenToolStripMenuItem.Click+=new System.EventHandler(this.itemsxmlMediawikiInfoboxenToolStripMenuItem_Click);
 			// 
@@ -423,7 +425,7 @@
             this.infoboxenToolStripMenuItem,
             this.tabelleToolStripMenuItem});
 			this.itemsxmlMediawikiAPIToolStripMenuItem.Name="itemsxmlMediawikiAPIToolStripMenuItem";
-			this.itemsxmlMediawikiAPIToolStripMenuItem.Size=new System.Drawing.Size(364, 22);
+			this.itemsxmlMediawikiAPIToolStripMenuItem.Size=new System.Drawing.Size(449, 22);
 			this.itemsxmlMediawikiAPIToolStripMenuItem.Text="items.xml -> Mediawiki API";
 			// 
 			// dropsToolStripMenuItem1
@@ -450,24 +452,24 @@
 			// toolStripMenuItem12
 			// 
 			this.toolStripMenuItem12.Name="toolStripMenuItem12";
-			this.toolStripMenuItem12.Size=new System.Drawing.Size(361, 6);
+			this.toolStripMenuItem12.Size=new System.Drawing.Size(446, 6);
 			// 
 			// mapsxmlWeltkartenDBSQLDateiToolStripMenuItem
 			// 
 			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem.Name="mapsxmlWeltkartenDBSQLDateiToolStripMenuItem";
-			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem.Size=new System.Drawing.Size(364, 22);
-			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem.Text="maps.xml -> Weltkarten DB SQL Datei...";
+			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem.Size=new System.Drawing.Size(449, 22);
+			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem.Text="maps.xml -> Weltkarten DB SQL Datei (für neue Einträge)...";
 			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem.Click+=new System.EventHandler(this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem13
 			// 
 			this.toolStripMenuItem13.Name="toolStripMenuItem13";
-			this.toolStripMenuItem13.Size=new System.Drawing.Size(361, 6);
+			this.toolStripMenuItem13.Size=new System.Drawing.Size(446, 6);
 			// 
 			// monsterxmlBilderToolStripMenuItem
 			// 
 			this.monsterxmlBilderToolStripMenuItem.Name="monsterxmlBilderToolStripMenuItem";
-			this.monsterxmlBilderToolStripMenuItem.Size=new System.Drawing.Size(364, 22);
+			this.monsterxmlBilderToolStripMenuItem.Size=new System.Drawing.Size(449, 22);
 			this.monsterxmlBilderToolStripMenuItem.Text="monsters.xml -> Bilder...";
 			this.monsterxmlBilderToolStripMenuItem.Click+=new System.EventHandler(this.monsterxmlBilderToolStripMenuItem_Click);
 			// 
@@ -477,7 +479,7 @@
             this.inDateiToolStripMenuItem1,
             this.inZwischenablageToolStripMenuItem1});
 			this.monsterxmlMediaWikiToolStripMenuItem.Name="monsterxmlMediaWikiToolStripMenuItem";
-			this.monsterxmlMediaWikiToolStripMenuItem.Size=new System.Drawing.Size(364, 22);
+			this.monsterxmlMediaWikiToolStripMenuItem.Size=new System.Drawing.Size(449, 22);
 			this.monsterxmlMediaWikiToolStripMenuItem.Text="monsters.xml -> Mediawiki Tabelle";
 			// 
 			// inDateiToolStripMenuItem1
@@ -497,7 +499,7 @@
 			// monsterxmlMediawikiInfoboxenToolStripMenuItem
 			// 
 			this.monsterxmlMediawikiInfoboxenToolStripMenuItem.Name="monsterxmlMediawikiInfoboxenToolStripMenuItem";
-			this.monsterxmlMediawikiInfoboxenToolStripMenuItem.Size=new System.Drawing.Size(364, 22);
+			this.monsterxmlMediawikiInfoboxenToolStripMenuItem.Size=new System.Drawing.Size(449, 22);
 			this.monsterxmlMediawikiInfoboxenToolStripMenuItem.Text="monsters.xml -> Mediawiki Templates...";
 			this.monsterxmlMediawikiInfoboxenToolStripMenuItem.Click+=new System.EventHandler(this.monsterxmlMediawikiInfoboxenToolStripMenuItem_Click);
 			// 
@@ -509,7 +511,7 @@
             this.vorkommenToolStripMenuItem,
             this.tabelleToolStripMenuItem1});
 			this.monstersxmlMediawikiAPIToolStripMenuItem.Name="monstersxmlMediawikiAPIToolStripMenuItem";
-			this.monstersxmlMediawikiAPIToolStripMenuItem.Size=new System.Drawing.Size(364, 22);
+			this.monstersxmlMediawikiAPIToolStripMenuItem.Size=new System.Drawing.Size(449, 22);
 			this.monstersxmlMediawikiAPIToolStripMenuItem.Text="monsters.xml -> Mediawiki API";
 			// 
 			// dropsToolStripMenuItem
@@ -543,12 +545,12 @@
 			// toolStripMenuItem15
 			// 
 			this.toolStripMenuItem15.Name="toolStripMenuItem15";
-			this.toolStripMenuItem15.Size=new System.Drawing.Size(361, 6);
+			this.toolStripMenuItem15.Size=new System.Drawing.Size(446, 6);
 			// 
 			// alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem
 			// 
 			this.alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem.Name="alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem";
-			this.alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem.Size=new System.Drawing.Size(364, 22);
+			this.alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem.Size=new System.Drawing.Size(449, 22);
 			this.alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem.Text="Alle Mediawki Exporte durchführen (über Mediawiki API)...";
 			this.alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem.Click+=new System.EventHandler(this.alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem_Click);
 			// 
@@ -588,6 +590,13 @@
 			this.monsterÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(242, 22);
 			this.monsterÜberprüfenToolStripMenuItem.Text="Monster überprüfen...";
 			this.monsterÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.monsterÜberprüfenToolStripMenuItem_Click);
+			// 
+			// spritesÜberprüfenToolStripMenuItem
+			// 
+			this.spritesÜberprüfenToolStripMenuItem.Name="spritesÜberprüfenToolStripMenuItem";
+			this.spritesÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(242, 22);
+			this.spritesÜberprüfenToolStripMenuItem.Text="Sprites überprüfen...";
+			this.spritesÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.spritesÜberprüfenToolStripMenuItem_Click);
 			// 
 			// tilesetsÜberprüfenToolStripMenuItem
 			// 
@@ -751,12 +760,12 @@
 			this.statusStrip.TabIndex=2;
 			this.statusStrip.Text="statusStrip1";
 			// 
-			// spritesÜberprüfenToolStripMenuItem
+			// mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem
 			// 
-			this.spritesÜberprüfenToolStripMenuItem.Name="spritesÜberprüfenToolStripMenuItem";
-			this.spritesÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(242, 22);
-			this.spritesÜberprüfenToolStripMenuItem.Text="Sprites überprüfen...";
-			this.spritesÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.spritesÜberprüfenToolStripMenuItem_Click);
+			this.mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem.Name="mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem";
+			this.mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem.Size=new System.Drawing.Size(449, 22);
+			this.mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem.Text="maps.xml -> Weltkarten DB SQL Datei (für Update bestehender Einträge)...";
+			this.mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem.Click+=new System.EventHandler(this.mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem_Click);
 			// 
 			// FormMain
 			// 
@@ -870,6 +879,7 @@
 		private System.Windows.Forms.ToolStripMenuItem spritesAufDateiebendePrüfenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem16;
 		private System.Windows.Forms.ToolStripMenuItem spritesÜberprüfenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem;
 	}
 }
 
