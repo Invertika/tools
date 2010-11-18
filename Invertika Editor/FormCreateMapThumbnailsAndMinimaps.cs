@@ -127,7 +127,7 @@ namespace Invertika_Editor
 			bgwCreateMapThumbnailsAndMinimaps.ReportProgress(0);
 
 			string temp=FileSystem.TempPath + "Invertika Editor\\";
-			string tempFmMonsterSpreading=FileSystem.TempPath+"Invertika Editor\\fm-monsterspreading\\";
+			string tempFmMonsterSpreading=FileSystem.TempPath+"Invertika Editor\\fm-monster-spreading\\";
 
 			#region Bilderordner löschen und neu anlegen
 			FileSystem.RemoveDirectory(temp, true);
@@ -244,7 +244,7 @@ namespace Invertika_Editor
 			FortschrittValue=0;
 
 			//Ordner für die Feature Maps
-			Client.CreateDirectory("fm-monsterspreading");
+			Client.CreateDirectory("fm-monster-spreading");
 
 			foreach(string i in filesToUpload)
 			{
