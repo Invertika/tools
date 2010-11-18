@@ -7,7 +7,6 @@
 		//TODO
 		//Drag & Drop mit Constrain -> oder Hintergrundbild
 		//Abhängikeit von den Yahoo APis entfernen (das laden von yahooapis.com -> über http://developer.yahoo.com/yui/3/configurator/
-		//Anzeige von Informationen ob auf der Karte Musik vorhganden ist und welche
 		//Code Bereinigung und Refactoring
 
 		//Reagieren auf resizen der Viewarea (Fenster größer etc) -> gelöst
@@ -16,6 +15,7 @@
 		//Positionierung der Infobox (nicht ganz oben rechts) -> gelöst
 		//Sauberer Zoom (nicht an andere Stelle springen) -> gelöst (Zoomt jetzt basierend auf linker oberer Ecke)
 		//MouseWheel -> gelöst
+		//Anzeige von Informationen ob auf der Karte Musik vorhganden ist und welche -> gelöst
 	?>
 	
 	<link rel="stylesheet" type="text/css" href="index.css">
@@ -40,6 +40,11 @@
 			<div id="infotext">
 			  <b>Information</b><br/>
 			  keine Karte ausgewählt
+			</div>
+			<br/>
+			<div id="featuremaps">
+			  <b>Kartenmodus</b><br/>
+			  -
 			</div>
 			
             <label for="zoom_value">Zoom:</label>
@@ -68,6 +73,8 @@ var topEdge = el.parentNode.clientHeight - el.clientHeight;
 
 var TileCountXJS = 0;
 var TileCountYJS = 0;
+
+var currentMapPath = '';
 
 YUI().use("stylesheet", "overlay", "slider", "dd-plugin", "node", function (Y) {
     var myStyleSheet = new Y.StyleSheet(),
@@ -192,11 +199,42 @@ YUI().use("stylesheet", "overlay", "slider", "dd-plugin", "node", function (Y) {
     });
 });
 
+function ReInitMap(modi) {
+	currentMapPath=modi;
+
+	YUI().use("node", function (Y) {
+      table = document.getElementById('map_table');
+      table.innerHTML = "";
+				
+      posNewX=Y.one("#map_images").getX();
+      posNewY=Y.one("#map_images").getY();					
+				
+      document.getElementById('zoomlevel').innerHTML="Aktueller Zoom: " + zoom;
+      init();
+					
+      Y.one("#map_images").setX(posNewX);
+      Y.one("#map_images").setY(posNewY);
+	});
+}
+
 function GetImgTag(internalX, internalY, zoomLevel) {
     var fn = GetOuterWorldMapFilename(internalX, internalY, zoomLevel);
-    fn = '<?php echo $mappath; ?>' + fn;
+    fn = '<?php echo $mappath; ?>' + currentMapPath + fn;
     return '<img src="' + fn + '" name="mapimg" style="margin:0;padding:0;border:0 none;" ondblclick="showLayer(' + internalX + ' , ' + internalY + ')" />';
 }
+
+function FillMapModi() {
+    YUI().use('io', function(Y) {
+		Y.on('io:complete', completeFillMapModi, Y); //Verknüpfe mit complete Event
+		Y.io("fm.php");
+    });
+}
+
+// Define a function to handle the response data.
+function completeFillMapModi(id, o, args) {
+	var data = o.responseText; // Response data.
+	document.getElementById("featuremaps").innerHTML = data;
+};
 
 function showLayer(x, y) {
     var url = "info.php";
@@ -205,13 +243,13 @@ function showLayer(x, y) {
 	
 	// Create new YUI instance, and populate it with the required modules
     YUI().use('io', function(Y) {
-		Y.on('io:complete', complete, Y); //Verknüpfe mit complete Event
+		Y.on('io:complete', completeShowLayer, Y); //Verknüpfe mit complete Event
 		Y.io(url );
     });
 }
 
 // Define a function to handle the response data.
-function complete(id, o, args) {
+function completeShowLayer(id, o, args) {
 	var data = o.responseText; // Response data.
 	document.getElementById("infotext").innerHTML = data;
 };
@@ -288,6 +326,7 @@ function reload() {
     window.setTimeout('reload()', 150);
 }
 
+FillMapModi();
 init();
 reload();
 </script>
