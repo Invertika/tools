@@ -11,6 +11,8 @@ using CSCL.Crypto;
 using CSCL.FileFormats.TMX;
 using CSCL.Graphic;
 using CSCL.Network.Ftp;
+using CSCL.Games.Manasource;
+using Invertika_Editor.Classes;
 
 namespace Invertika_Editor
 {
@@ -36,6 +38,85 @@ namespace Invertika_Editor
 			}
 		}
 
+		private void SaveMonsterSpreading(string filename, gtImage img, TMX map)
+		{
+			//Farben
+			Color green=Color.FromArgb(64, 0, 0, 255);
+			Color yellow=Color.FromArgb(64, 255, 255, 0);
+			Color red=Color.FromArgb(64, 255, 0, 0);
+			Color blue=Color.FromArgb(64, 0, 0, 255);
+
+			//Images
+			gtImage tmpImage=img.GetImage();
+			gtImage tmpDraw=new gtImage(tmpImage.Width, tmpImage.Height, tmpImage.ChannelFormat);
+
+			//Ermittlung der Durchschnittswerte
+			string fnMonsterXml=Globals.folder_clientdata+"monsters.xml";
+			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonsterXml);
+			monsters.Sort();
+
+			int minFightingStrength=999999;
+			int maxFightingStrength=-999999;
+
+			int medianFightingStrength=0;
+
+			Dictionary<int, int> MonsterIDsAndFightingStrength=new Dictionary<int, int>();
+
+			foreach(Monster monster in monsters)
+			{
+				if(monster.ID==1) continue; //Killermade ignorieren
+				if(monster.ID>9999) continue; //Experimentelle Monster ignorieren
+				int fightingStrength=monster.FightingStrength;
+
+				if(fightingStrength<minFightingStrength) minFightingStrength=fightingStrength;
+				if(fightingStrength>maxFightingStrength) maxFightingStrength=fightingStrength;
+
+				MonsterIDsAndFightingStrength.Add(monster.ID, fightingStrength);
+			}
+
+			medianFightingStrength=(maxFightingStrength+minFightingStrength)/2;
+
+			//Monster der Karte ermitteln
+			List<MonsterSpawn> mSpawns=Globals.GetMonsterSpawnFromMap(map);
+
+			if(mSpawns.Count>0)
+			{
+				int fss=0;
+
+				foreach(MonsterSpawn spawn in mSpawns)
+				{
+					fss+=MonsterIDsAndFightingStrength[spawn.MonsterID];
+				}
+
+				fss=fss/mSpawns.Count;
+
+				//Einfärben je nach Stärke
+				int vSmarterGreen=(medianFightingStrength+minFightingStrength)/2;
+				int vSmarterYellow=(maxFightingStrength+medianFightingStrength)/2;
+
+				if(fss<vSmarterGreen)
+				{
+					tmpDraw.Fill(green);
+				}
+				else if(fss<vSmarterYellow)
+				{
+					tmpDraw.Fill(yellow);
+				}
+				else
+				{
+					tmpDraw.Fill(red);
+				}
+			}
+			else //Keine Monster auf der Karte vorhanden
+			{
+				tmpDraw.Fill(blue);
+			}
+
+			//Drawen
+			tmpImage.Draw(0, 0, tmpDraw, true);
+			tmpImage.SaveToFile(filename);
+		}
+
 		private void bgwCreateMapThumbnailsAndMinimaps_DoWork(object sender, DoWorkEventArgs e)
 		{
 			List<string> files=FileSystem.GetFiles(Globals.folder_clientdata_maps, true, "*.tmx");
@@ -45,21 +126,13 @@ namespace Invertika_Editor
 
 			bgwCreateMapThumbnailsAndMinimaps.ReportProgress(0);
 
-			string temp=FileSystem.TempPath;
+			string temp=FileSystem.TempPath + "Invertika Editor\\";
+			string tempFmMonsterSpreading=FileSystem.TempPath+"Invertika Editor\\fm-monsterspreading\\";
 
-			#region Bilderordner löschen
-			List<string> filesToClear=new List<string>();
-			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-800*"));
-			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-400*"));
-			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-200*"));
-			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-100*"));
-			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-50*"));
-			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-40*"));
-			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-30*"));
-			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-20*"));
-			filesToClear.AddRange(FileSystem.GetFiles(temp, false, "*-10*"));
-
-			FileSystem.RemoveFiles(filesToClear);
+			#region Bilderordner löschen und neu anlegen
+			FileSystem.RemoveDirectory(temp, true);
+			FileSystem.CreateDirectory(temp, true);
+			FileSystem.CreateDirectory(tempFmMonsterSpreading, true);
 			#endregion
 
 			#region Bilder berechnen
@@ -119,6 +192,10 @@ namespace Invertika_Editor
 					string fnNumeric=temp+fn+"-"+imageSize+".png";
 					pic.SaveToFile(fnNumeric);
 
+					//Featuremap Monster Spreading
+					string fnMonsterSpreading=tempFmMonsterSpreading+fn+"-"+imageSize+".png";
+					SaveMonsterSpreading(fnMonsterSpreading, pic, file);
+
 					switch(imageSize)
 					{
 						case 100:
@@ -145,15 +222,7 @@ namespace Invertika_Editor
 
 			#region Bilder per FTP hochladen
 			List<string> filesToUpload=new List<string>();
-			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-800*"));
-			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-400*"));
-			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-200*"));
-			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-100*"));
-			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-50*"));
-			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-40*"));
-			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-30*"));
-			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-20*"));
-			filesToUpload.AddRange(FileSystem.GetFiles(temp, false, "*-10*"));
+			filesToUpload.AddRange(FileSystem.GetFiles(temp, true, "*.png"));
 
 			FTPConnection Client=new FTPConnection();
 
@@ -174,9 +243,14 @@ namespace Invertika_Editor
 			FortschrittMax=filesToUpload.Count;
 			FortschrittValue=0;
 
+			//Ordner für die Feature Maps
+			Client.CreateDirectory("fm-monsterspreading");
+
 			foreach(string i in filesToUpload)
 			{
-				Client.UploadFile(i, FileSystem.GetFilename(i));
+				string uploadf=FileSystem.GetRelativePath(i, temp);
+				uploadf=uploadf.Replace('\\', '/');
+				Client.UploadFile(i, uploadf);
 				FortschrittValue++;
 				bgwCreateMapThumbnailsAndMinimaps.ReportProgress(0);
 			}

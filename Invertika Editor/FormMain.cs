@@ -1566,59 +1566,6 @@ namespace Invertika_Editor
 			MessageBox.Show("Diese Funktion ist noch nicht implementiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
-		private List<MonsterSpawn> GetMonsterSpawnFromMap(string filename)
-		{
-			List<MonsterSpawn> ret=new List<MonsterSpawn>();
-
-			TMX map=new TMX();
-			map.Open(filename, false);
-
-			foreach(Objectgroup objgroup in map.ObjectLayers)
-			{
-				if(objgroup.Name.ToLower()=="object")
-				{
-					foreach(CSCL.FileFormats.TMX.Object obj in objgroup.Objects)
-					{
-						if(obj.Type!=null)
-						{
-							if(obj.Type.ToLower()=="spawn")
-							{
-								int MAX_BEINGS=-1;
-								int MONSTER_ID=-1;
-								double SPAWN_RATE=-1;
-
-								foreach(Property prop in obj.Properties)
-								{
-									switch(prop.Name.ToLower())
-									{
-										case "monster_id":
-											{
-												MONSTER_ID=Convert.ToInt32(prop.Value);
-												break;
-											}
-										case "max_beings":
-											{
-												MAX_BEINGS=Convert.ToInt32(prop.Value);
-												break;
-											}
-										case "spawn_rate":
-											{
-												SPAWN_RATE=Convert.ToDouble(prop.Value);
-												break;
-											}
-									}
-								}
-
-								ret.Add(new MonsterSpawn(MAX_BEINGS, MONSTER_ID, SPAWN_RATE));
-							}
-						}
-					}
-				}
-			}
-
-			return ret;
-		}
-
 		private Dictionary<int, List<string>> GetAllMonsterSpawnsFromMaps()
 		{
 			Dictionary<int, List<string>> ret=new Dictionary<int, List<string>>();
@@ -1627,7 +1574,7 @@ namespace Invertika_Editor
 
 			foreach(string fn in maps)
 			{
-				List<MonsterSpawn> spawns=GetMonsterSpawnFromMap(fn);
+				List<MonsterSpawn> spawns=Globals.GetMonsterSpawnFromMap(fn);
 
 				foreach(MonsterSpawn spawn in spawns)
 				{
