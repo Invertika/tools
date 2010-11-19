@@ -41,10 +41,15 @@ namespace Invertika_Editor
 		private void SaveMonsterSpreading(string filename, gtImage img, TMX map)
 		{
 			//Farben
-			Color green=Color.FromArgb(64, 0, 0, 255);
-			Color yellow=Color.FromArgb(64, 255, 255, 0);
-			Color red=Color.FromArgb(64, 255, 0, 0);
-			Color blue=Color.FromArgb(64, 0, 0, 255);
+			//Color green=Color.FromArgb(64, 0, 0, 255);
+			//Color yellow=Color.FromArgb(64, 255, 255, 0);
+			//Color red=Color.FromArgb(64, 255, 0, 0);
+			//Color blue=Color.FromArgb(64, 0, 0, 255);
+
+			Color green=Color.FromArgb(128, 0, 255, 0);
+			Color yellow=Color.FromArgb(128, 255, 255, 0);
+			Color red=Color.FromArgb(128, 255, 0, 0);
+			Color blue=Color.FromArgb(128, 0, 0, 255);
 
 			//Images
 			gtImage tmpImage=img.GetImage();
