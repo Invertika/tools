@@ -249,7 +249,10 @@ namespace Invertika_Editor
 			FortschrittValue=0;
 
 			//Ordner für die Feature Maps
-			Client.CreateDirectory("fm-monster-spreading");
+			if(!Client.Exists("fm-monster-spreading/ow-o0000-o0000-o0000-800.png"))
+			{
+				Client.CreateDirectory("fm-monster-spreading");
+			}
 
 			foreach(string i in filesToUpload)
 			{
