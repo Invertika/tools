@@ -27,7 +27,8 @@ def get_gslog():
 
 def do_update():
     logstream = os.popen(path_python3 + " " + path_autoupdate)
-    log = logstream.read()
+    #log = logstream.read()
+    log = "Keine Ausgabe wird übermittelt, um Freeze zu verhindern"
     #with open(path_logfile, mode='a', encoding='utf-8') as a_file:
     #a_file.write(log)
     return log
