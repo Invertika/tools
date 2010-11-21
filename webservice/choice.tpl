@@ -1,0 +1,1 @@
+<a href="/choice/update">Autoupdate ausf&uuml;hren</a> - <a href="/choice/aslog">Accountserver-Log anzeigen</a> - <a href="/choice/gslog">Gameserver-Log anzeigen</a> - <a href="/choice/restart">Server neustarten</a> - <a href="/choice/changepw">Passwort &auml;ndern</a> - <a href="/logout">Logout</a>
