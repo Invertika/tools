@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xml>
+  <path>
+    <temp>/home/manaserv/temp/</temp>
+	<repository>
+	  <trunk>/home/manaserv/invertika/trunk/</trunk>
+	</repository>
+	<server>
+	  <root>/home/manaserv/</root>
+	</server>
+  </path>
+  <ftp>
+    <data>
+      <server>invertika.org</server>
+      <user>nutzer</user>
+	  <password>geheim</password>
+    </data>
+    <update>
+      <server>invertika.org</server>
+      <user>nutzer</user>
+	  <password>geheim</password>
+    </update>
+  </ftp>
+</xml>
