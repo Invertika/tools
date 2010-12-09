@@ -2762,7 +2762,44 @@ namespace Invertika_Editor
 
 		private void toolStripButton4_Click(object sender, EventArgs e)
 		{
-			questEditorPanel.ExportToLuaFile(@"test.lua");
+			//questEditorPanel.ExportToLuaFile(@"D:\test.lua");
+		}
+
+		private void nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+			int removedTilesets=0;
+
+			foreach(string fnCurrent in maps)
+			{
+
+				TMX map=new TMX();
+				map.Open(fnCurrent, false);
+				string fn=FileSystem.GetRelativePath(fnCurrent, Globals.folder_clientdata);
+
+				for(int i=0; i<map.Tilesets.Count; i++)
+				{
+					CSCL.FileFormats.TMX.TMX.TilesetData fnTileset=map.Tilesets[i];
+
+					string cleanTileset=Globals.folder_clientdata+fnTileset.imgsource.Replace("../graphics", "graphics");
+
+					if(!FileSystem.ExistsFile(cleanTileset))
+					{
+						map.Tilesets.Remove(fnTileset);
+						removedTilesets++;
+					}
+				}
+
+				map.Save(fnCurrent);
+			}
+
+			MessageBox.Show("Es wurden "+removedTilesets+" fehlerhafte Tilesets korrigiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 	}
 }

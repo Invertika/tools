@@ -13,7 +13,7 @@ namespace Invertika_Editor.Controls
 {
 	public partial class QuestEditorPanel : Panel
 	{
-		Timer timer;
+		//Timer timer;
 
 		ShapeControl SelectedShapeControl=null;
 
@@ -32,21 +32,21 @@ namespace Invertika_Editor.Controls
 			private set;
 		}
 
-		private void TimerEventProcessor(Object myObject, EventArgs myEventArgs)
-		{
-			Invalidate();
-		}
+		//private void TimerEventProcessor(Object myObject, EventArgs myEventArgs)
+		//{
+		//    Invalidate();
+		//}
 
 		public QuestEditorPanel()
 		{
 			InitializeComponent();
 			Connections=new List<Pair<ShapeControl>>();
 
-			timer=new Timer();
-			timer.Tick+=new EventHandler(TimerEventProcessor);
+			//timer=new Timer();
+			//timer.Tick+=new EventHandler(TimerEventProcessor);
 
-			timer.Interval=100;
-			timer.Start();
+			//timer.Interval=100;
+			//timer.Start();
 
 			ShapeControl sc=CreateNewElement(ElementType.Start, null);
 			//shapeControl_Click(sc, null);
@@ -227,6 +227,8 @@ namespace Invertika_Editor.Controls
 
 			this.Controls.Add(shapeControl);
 			shapeControl_Click(shapeControl, null);
+
+			Invalidate();
 
 			return shapeControl;
 		}
