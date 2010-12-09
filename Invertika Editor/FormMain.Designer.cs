@@ -72,6 +72,7 @@
 			this.tabelleToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem12=new System.Windows.Forms.ToolStripSeparator();
 			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem13=new System.Windows.Forms.ToolStripSeparator();
 			this.monsterxmlBilderToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.monsterxmlMediaWikiToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
@@ -111,13 +112,24 @@
 			this.inhaltToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem14=new System.Windows.Forms.ToolStripSeparator();
 			this.überToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStrip=new System.Windows.Forms.ToolStrip();
 			this.statusStrip=new System.Windows.Forms.StatusStrip();
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog=new System.Windows.Forms.SaveFileDialog();
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
-			this.mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.tabControl=new System.Windows.Forms.TabControl();
+			this.tabPage1=new System.Windows.Forms.TabPage();
+			this.questEditorPanel=new Invertika_Editor.Controls.QuestEditorPanel();
+			this.toolStrip1=new System.Windows.Forms.ToolStrip();
+			this.toolStripButton1=new System.Windows.Forms.ToolStripButton();
+			this.toolStripButton2=new System.Windows.Forms.ToolStripButton();
+			this.toolStripButton3=new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator1=new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripButton4=new System.Windows.Forms.ToolStripButton();
+			this.tabPage2=new System.Windows.Forms.TabPage();
 			this.menuStrip.SuspendLayout();
+			this.tabControl.SuspendLayout();
+			this.tabPage1.SuspendLayout();
+			this.toolStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuStrip
@@ -461,6 +473,13 @@
 			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem.Text="maps.xml -> Weltkarten DB SQL Datei (für neue Einträge)...";
 			this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem.Click+=new System.EventHandler(this.mapsxmlWeltkartenDBSQLDateiToolStripMenuItem_Click);
 			// 
+			// mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem
+			// 
+			this.mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem.Name="mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem";
+			this.mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem.Size=new System.Drawing.Size(449, 22);
+			this.mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem.Text="maps.xml -> Weltkarten DB SQL Datei (für Update bestehender Einträge)...";
+			this.mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem.Click+=new System.EventHandler(this.mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem_Click);
+			// 
 			// toolStripMenuItem13
 			// 
 			this.toolStripMenuItem13.Name="toolStripMenuItem13";
@@ -744,14 +763,6 @@
 			this.überToolStripMenuItem.Size=new System.Drawing.Size(125, 22);
 			this.überToolStripMenuItem.Text="Ü&ber...";
 			// 
-			// toolStrip
-			// 
-			this.toolStrip.Location=new System.Drawing.Point(0, 24);
-			this.toolStrip.Name="toolStrip";
-			this.toolStrip.Size=new System.Drawing.Size(1006, 25);
-			this.toolStrip.TabIndex=1;
-			this.toolStrip.Text="toolStrip1";
-			// 
 			// statusStrip
 			// 
 			this.statusStrip.Location=new System.Drawing.Point(0, 451);
@@ -760,20 +771,114 @@
 			this.statusStrip.TabIndex=2;
 			this.statusStrip.Text="statusStrip1";
 			// 
-			// mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem
+			// tabControl
 			// 
-			this.mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem.Name="mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem";
-			this.mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem.Size=new System.Drawing.Size(449, 22);
-			this.mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem.Text="maps.xml -> Weltkarten DB SQL Datei (für Update bestehender Einträge)...";
-			this.mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem.Click+=new System.EventHandler(this.mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem_Click);
+			this.tabControl.Controls.Add(this.tabPage1);
+			this.tabControl.Controls.Add(this.tabPage2);
+			this.tabControl.Dock=System.Windows.Forms.DockStyle.Fill;
+			this.tabControl.Location=new System.Drawing.Point(0, 24);
+			this.tabControl.Name="tabControl";
+			this.tabControl.SelectedIndex=0;
+			this.tabControl.Size=new System.Drawing.Size(1006, 427);
+			this.tabControl.TabIndex=3;
+			// 
+			// tabPage1
+			// 
+			this.tabPage1.Controls.Add(this.questEditorPanel);
+			this.tabPage1.Controls.Add(this.toolStrip1);
+			this.tabPage1.Location=new System.Drawing.Point(4, 22);
+			this.tabPage1.Name="tabPage1";
+			this.tabPage1.Padding=new System.Windows.Forms.Padding(3);
+			this.tabPage1.Size=new System.Drawing.Size(998, 401);
+			this.tabPage1.TabIndex=0;
+			this.tabPage1.Text="Questeditor";
+			this.tabPage1.UseVisualStyleBackColor=true;
+			// 
+			// questEditorPanel
+			// 
+			this.questEditorPanel.AutoScroll=true;
+			this.questEditorPanel.Dock=System.Windows.Forms.DockStyle.Fill;
+			this.questEditorPanel.Location=new System.Drawing.Point(3, 28);
+			this.questEditorPanel.Name="questEditorPanel";
+			this.questEditorPanel.Size=new System.Drawing.Size(992, 370);
+			this.questEditorPanel.TabIndex=3;
+			// 
+			// toolStrip1
+			// 
+			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton1,
+            this.toolStripButton2,
+            this.toolStripButton3,
+            this.toolStripSeparator1,
+            this.toolStripButton4});
+			this.toolStrip1.Location=new System.Drawing.Point(3, 3);
+			this.toolStrip1.Name="toolStrip1";
+			this.toolStrip1.Size=new System.Drawing.Size(992, 25);
+			this.toolStrip1.TabIndex=2;
+			this.toolStrip1.Text="toolStrip1";
+			// 
+			// toolStripButton1
+			// 
+			this.toolStripButton1.DisplayStyle=System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButton1.Image=((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+			this.toolStripButton1.ImageTransparentColor=System.Drawing.Color.Magenta;
+			this.toolStripButton1.Name="toolStripButton1";
+			this.toolStripButton1.Size=new System.Drawing.Size(23, 22);
+			this.toolStripButton1.Text="Nachricht";
+			this.toolStripButton1.Click+=new System.EventHandler(this.toolStripButton1_Click);
+			// 
+			// toolStripButton2
+			// 
+			this.toolStripButton2.DisplayStyle=System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButton2.Image=((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+			this.toolStripButton2.ImageTransparentColor=System.Drawing.Color.Magenta;
+			this.toolStripButton2.Name="toolStripButton2";
+			this.toolStripButton2.Size=new System.Drawing.Size(23, 22);
+			this.toolStripButton2.Text="If";
+			this.toolStripButton2.Click+=new System.EventHandler(this.toolStripButton2_Click);
+			// 
+			// toolStripButton3
+			// 
+			this.toolStripButton3.DisplayStyle=System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButton3.Image=((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+			this.toolStripButton3.ImageTransparentColor=System.Drawing.Color.Magenta;
+			this.toolStripButton3.Name="toolStripButton3";
+			this.toolStripButton3.Size=new System.Drawing.Size(23, 22);
+			this.toolStripButton3.Text="Auswahl";
+			this.toolStripButton3.Click+=new System.EventHandler(this.toolStripButton3_Click);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name="toolStripSeparator1";
+			this.toolStripSeparator1.Size=new System.Drawing.Size(6, 25);
+			// 
+			// toolStripButton4
+			// 
+			this.toolStripButton4.DisplayStyle=System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButton4.Image=((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
+			this.toolStripButton4.ImageTransparentColor=System.Drawing.Color.Magenta;
+			this.toolStripButton4.Name="toolStripButton4";
+			this.toolStripButton4.Size=new System.Drawing.Size(23, 22);
+			this.toolStripButton4.Text="Export";
+			this.toolStripButton4.Click+=new System.EventHandler(this.toolStripButton4_Click);
+			// 
+			// tabPage2
+			// 
+			this.tabPage2.Location=new System.Drawing.Point(4, 22);
+			this.tabPage2.Name="tabPage2";
+			this.tabPage2.Padding=new System.Windows.Forms.Padding(3);
+			this.tabPage2.Size=new System.Drawing.Size(998, 401);
+			this.tabPage2.TabIndex=1;
+			this.tabPage2.Text="tabPage2";
+			this.tabPage2.UseVisualStyleBackColor=true;
 			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions=new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode=System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize=new System.Drawing.Size(1006, 473);
+			this.Controls.Add(this.tabControl);
 			this.Controls.Add(this.statusStrip);
-			this.Controls.Add(this.toolStrip);
 			this.Controls.Add(this.menuStrip);
 			this.Icon=((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip=this.menuStrip;
@@ -781,10 +886,15 @@
 			this.StartPosition=System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text="Invertika Editor";
 			this.WindowState=System.Windows.Forms.FormWindowState.Maximized;
-			this.Load+=new System.EventHandler(this.FormMain_Load);
 			this.FormClosing+=new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
+			this.Load+=new System.EventHandler(this.FormMain_Load);
 			this.menuStrip.ResumeLayout(false);
 			this.menuStrip.PerformLayout();
+			this.tabControl.ResumeLayout(false);
+			this.tabPage1.ResumeLayout(false);
+			this.tabPage1.PerformLayout();
+			this.toolStrip1.ResumeLayout(false);
+			this.toolStrip1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -796,7 +906,6 @@
 		private System.Windows.Forms.ToolStripMenuItem dateiToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem hilfeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem überToolStripMenuItem;
-		private System.Windows.Forms.ToolStrip toolStrip;
 		private System.Windows.Forms.StatusStrip statusStrip;
 		private System.Windows.Forms.ToolStripMenuItem beendenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem mappingToolStripMenuItem;
@@ -880,6 +989,16 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem16;
 		private System.Windows.Forms.ToolStripMenuItem spritesÜberprüfenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem;
+		private System.Windows.Forms.TabControl tabControl;
+		private System.Windows.Forms.TabPage tabPage1;
+		private System.Windows.Forms.TabPage tabPage2;
+		private Invertika_Editor.Controls.QuestEditorPanel questEditorPanel;
+		private System.Windows.Forms.ToolStrip toolStrip1;
+		private System.Windows.Forms.ToolStripButton toolStripButton1;
+		private System.Windows.Forms.ToolStripButton toolStripButton2;
+		private System.Windows.Forms.ToolStripButton toolStripButton3;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripButton toolStripButton4;
 	}
 }
 

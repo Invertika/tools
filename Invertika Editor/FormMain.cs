@@ -17,6 +17,7 @@ using System.Text.RegularExpressions;
 using Invertika_Editor.Classes;
 using System.Net;
 using CSCL.Helpers;
+using Invertika_Editor.Controls;
 
 namespace Invertika_Editor
 {
@@ -2742,6 +2743,26 @@ namespace Invertika_Editor
 
 				MessageBox.Show("Weltkarten DB SQL Datei geschrieben.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
+		}
+
+		private void toolStripButton1_Click(object sender, EventArgs e)
+		{
+			questEditorPanel.AddElementToSelected(QuestEditorPanel.ElementType.Message);
+		}
+
+		private void toolStripButton2_Click(object sender, EventArgs e)
+		{
+			questEditorPanel.AddElementToSelected(QuestEditorPanel.ElementType.If);
+		}
+
+		private void toolStripButton3_Click(object sender, EventArgs e)
+		{
+			questEditorPanel.AddElementToSelected(QuestEditorPanel.ElementType.Choice);
+		}
+
+		private void toolStripButton4_Click(object sender, EventArgs e)
+		{
+			questEditorPanel.ExportToLuaFile(@"test.lua");
 		}
 	}
 }

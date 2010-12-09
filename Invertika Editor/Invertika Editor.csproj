@@ -45,6 +45,18 @@
   <ItemGroup>
     <Compile Include="Classes\MonsterSpawn.cs" />
     <Compile Include="Classes\TilesetTransformation.cs" />
+    <Compile Include="Controls\QuestEditorMessageEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\QuestEditorMessageEditor.Designer.cs">
+      <DependentUpon>QuestEditorMessageEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\QuestEditorPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\QuestEditorPanel.Designer.cs">
+      <DependentUpon>QuestEditorPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormCoordinateCalculator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,6 +126,9 @@
     <Compile Include="Globals.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\QuestEditorMessageEditor.resx">
+      <DependentUpon>QuestEditorMessageEditor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormCoordinateCalculator.resx">
       <DependentUpon>FormCoordinateCalculator.cs</DependentUpon>
     </EmbeddedResource>
