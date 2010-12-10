@@ -33,6 +33,7 @@
 			this.pbCreateMapImages=new System.Windows.Forms.ProgressBar();
 			this.btnStartCreateMapThumbnailsAndMinimaps=new System.Windows.Forms.Button();
 			this.bgwCreateMapThumbnailsAndMinimaps=new System.ComponentModel.BackgroundWorker();
+			this.cbOnlyVisibleMaps=new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// cbClearCache
@@ -69,14 +70,25 @@
 			// 
 			this.bgwCreateMapThumbnailsAndMinimaps.WorkerReportsProgress=true;
 			this.bgwCreateMapThumbnailsAndMinimaps.DoWork+=new System.ComponentModel.DoWorkEventHandler(this.bgwCreateMapThumbnailsAndMinimaps_DoWork);
-			this.bgwCreateMapThumbnailsAndMinimaps.RunWorkerCompleted+=new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwCreateMapThumbnailsAndMinimaps_RunWorkerCompleted);
 			this.bgwCreateMapThumbnailsAndMinimaps.ProgressChanged+=new System.ComponentModel.ProgressChangedEventHandler(this.bgwCreateMapThumbnailsAndMinimaps_ProgressChanged);
+			this.bgwCreateMapThumbnailsAndMinimaps.RunWorkerCompleted+=new System.ComponentModel.RunWorkerCompletedEventHandler(this.bgwCreateMapThumbnailsAndMinimaps_RunWorkerCompleted);
+			// 
+			// cbOnlyVisibleMaps
+			// 
+			this.cbOnlyVisibleMaps.AutoSize=true;
+			this.cbOnlyVisibleMaps.Location=new System.Drawing.Point(12, 63);
+			this.cbOnlyVisibleMaps.Name="cbOnlyVisibleMaps";
+			this.cbOnlyVisibleMaps.Size=new System.Drawing.Size(177, 17);
+			this.cbOnlyVisibleMaps.TabIndex=25;
+			this.cbOnlyVisibleMaps.Text="Nur sichtbare Weltkarte rendern";
+			this.cbOnlyVisibleMaps.UseVisualStyleBackColor=true;
 			// 
 			// FormCreateMapThumbnailsAndMinimaps
 			// 
 			this.AutoScaleDimensions=new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode=System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize=new System.Drawing.Size(611, 63);
+			this.ClientSize=new System.Drawing.Size(611, 92);
+			this.Controls.Add(this.cbOnlyVisibleMaps);
 			this.Controls.Add(this.cbClearCache);
 			this.Controls.Add(this.pbCreateMapImages);
 			this.Controls.Add(this.btnStartCreateMapThumbnailsAndMinimaps);
@@ -96,5 +108,6 @@
 		private System.Windows.Forms.ProgressBar pbCreateMapImages;
 		private System.Windows.Forms.Button btnStartCreateMapThumbnailsAndMinimaps;
 		private System.ComponentModel.BackgroundWorker bgwCreateMapThumbnailsAndMinimaps;
+		private System.Windows.Forms.CheckBox cbOnlyVisibleMaps;
 	}
 }

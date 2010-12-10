@@ -179,6 +179,23 @@ namespace Invertika_Editor
 					if(textHash==xmlHash) continue;
 				}
 
+				//
+				if(cbOnlyVisibleMaps.Checked)
+				{
+					Map map=new Map(0, FileSystem.GetFilenameWithoutExt(i));
+
+					if(map.MapType=="iw") continue;
+
+					if(map.X>=-7&&map.X<=7&&map.Y>=-7&&map.Y<=7)
+					{
+						//nichts tun (sprich rendern)
+					}
+					else
+					{
+						continue;
+					}
+				}
+
 				//Karte berechnen
 				TMX file=new TMX();
 				file.Open(i);
