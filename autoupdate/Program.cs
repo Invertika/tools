@@ -116,7 +116,6 @@ namespace autoupdate
 
 			#region Clientdaten Update erzeugen und hochladen
 			Console.WriteLine("Erstelle Zip Datei für Update...");
-			//Dev Verzeichnis
 			clientPath=clientPath+"data"+FileSystem.PathDelimiter;
 			List<string> filesNew=FileSystem.GetFiles(clientPath, true);
 
