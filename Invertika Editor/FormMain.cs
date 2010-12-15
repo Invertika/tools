@@ -2745,26 +2745,6 @@ namespace Invertika_Editor
 			}
 		}
 
-		private void toolStripButton1_Click(object sender, EventArgs e)
-		{
-			questEditorPanel.AddElementToSelected(QuestEditorPanel.ElementType.Message);
-		}
-
-		private void toolStripButton2_Click(object sender, EventArgs e)
-		{
-			questEditorPanel.AddElementToSelected(QuestEditorPanel.ElementType.If);
-		}
-
-		private void toolStripButton3_Click(object sender, EventArgs e)
-		{
-			questEditorPanel.AddElementToSelected(QuestEditorPanel.ElementType.Choice);
-		}
-
-		private void toolStripButton4_Click(object sender, EventArgs e)
-		{
-			//questEditorPanel.ExportToLuaFile(@"D:\test.lua");
-		}
-
 		private void nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if(Globals.folder_root=="")

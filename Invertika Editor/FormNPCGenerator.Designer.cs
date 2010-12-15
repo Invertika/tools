@@ -34,17 +34,17 @@
 			this.label21=new System.Windows.Forms.Label();
 			this.rtbSentences=new System.Windows.Forms.RichTextBox();
 			this.label20=new System.Windows.Forms.Label();
-			this.nudNPCID=new System.Windows.Forms.NumericUpDown();
-			this.label19=new System.Windows.Forms.Label();
-			this.nudPosY=new System.Windows.Forms.NumericUpDown();
-			this.label18=new System.Windows.Forms.Label();
-			this.nudPosX=new System.Windows.Forms.NumericUpDown();
-			this.label17=new System.Windows.Forms.Label();
-			this.label16=new System.Windows.Forms.Label();
 			this.tbNPCName=new System.Windows.Forms.TextBox();
-			((System.ComponentModel.ISupportInitialize)(this.nudNPCID)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.nudPosY)).BeginInit();
+			this.label16=new System.Windows.Forms.Label();
+			this.label17=new System.Windows.Forms.Label();
+			this.nudPosX=new System.Windows.Forms.NumericUpDown();
+			this.label18=new System.Windows.Forms.Label();
+			this.nudPosY=new System.Windows.Forms.NumericUpDown();
+			this.label19=new System.Windows.Forms.Label();
+			this.nudNPCID=new System.Windows.Forms.NumericUpDown();
 			((System.ComponentModel.ISupportInitialize)(this.nudPosX)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudPosY)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudNPCID)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// label23
@@ -99,63 +99,34 @@
 			this.label20.TabIndex=21;
 			this.label20.Text="Zu sagende Sätze (Mit einem Enter trennen):";
 			// 
-			// nudNPCID
+			// tbNPCName
 			// 
-			this.nudNPCID.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
-			this.nudNPCID.Location=new System.Drawing.Point(868, 22);
-			this.nudNPCID.Maximum=new decimal(new int[] {
-            200,
-            0,
-            0,
-            0});
-			this.nudNPCID.Name="nudNPCID";
-			this.nudNPCID.Size=new System.Drawing.Size(125, 20);
-			this.nudNPCID.TabIndex=20;
-			this.nudNPCID.Value=new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-			this.nudNPCID.ValueChanged+=new System.EventHandler(this.nudNPCID_ValueChanged);
+			this.tbNPCName.Anchor=((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)
+						|System.Windows.Forms.AnchorStyles.Right)));
+			this.tbNPCName.Location=new System.Drawing.Point(3, 22);
+			this.tbNPCName.Name="tbNPCName";
+			this.tbNPCName.Size=new System.Drawing.Size(859, 20);
+			this.tbNPCName.TabIndex=13;
+			this.tbNPCName.TextChanged+=new System.EventHandler(this.tbNPCName_TextChanged);
 			// 
-			// label19
+			// label16
 			// 
-			this.label19.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
-			this.label19.AutoSize=true;
-			this.label19.Location=new System.Drawing.Point(866, 5);
-			this.label19.Name="label19";
-			this.label19.Size=new System.Drawing.Size(46, 13);
-			this.label19.TabIndex=19;
-			this.label19.Text="NPC ID:";
+			this.label16.AutoSize=true;
+			this.label16.Location=new System.Drawing.Point(0, 6);
+			this.label16.Name="label16";
+			this.label16.Size=new System.Drawing.Size(38, 13);
+			this.label16.TabIndex=14;
+			this.label16.Text="Name:";
 			// 
-			// nudPosY
+			// label17
 			// 
-			this.nudPosY.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
-			this.nudPosY.Location=new System.Drawing.Point(1130, 22);
-			this.nudPosY.Maximum=new decimal(new int[] {
-            200,
-            0,
-            0,
-            0});
-			this.nudPosY.Name="nudPosY";
-			this.nudPosY.Size=new System.Drawing.Size(125, 20);
-			this.nudPosY.TabIndex=18;
-			this.nudPosY.Value=new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-			this.nudPosY.ValueChanged+=new System.EventHandler(this.nudPosY_ValueChanged);
-			// 
-			// label18
-			// 
-			this.label18.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
-			this.label18.AutoSize=true;
-			this.label18.Location=new System.Drawing.Point(1128, 5);
-			this.label18.Name="label18";
-			this.label18.Size=new System.Drawing.Size(127, 13);
-			this.label18.TabIndex=17;
-			this.label18.Text="Position Y (in Tilegrößen):";
+			this.label17.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
+			this.label17.AutoSize=true;
+			this.label17.Location=new System.Drawing.Point(997, 5);
+			this.label17.Name="label17";
+			this.label17.Size=new System.Drawing.Size(127, 13);
+			this.label17.TabIndex=15;
+			this.label17.Text="Position X (in Tilegrößen):";
 			// 
 			// nudPosX
 			// 
@@ -176,34 +147,63 @@
             0});
 			this.nudPosX.ValueChanged+=new System.EventHandler(this.nudPosX_ValueChanged);
 			// 
-			// label17
+			// label18
 			// 
-			this.label17.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
-			this.label17.AutoSize=true;
-			this.label17.Location=new System.Drawing.Point(997, 5);
-			this.label17.Name="label17";
-			this.label17.Size=new System.Drawing.Size(127, 13);
-			this.label17.TabIndex=15;
-			this.label17.Text="Position X (in Tilegrößen):";
+			this.label18.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
+			this.label18.AutoSize=true;
+			this.label18.Location=new System.Drawing.Point(1128, 5);
+			this.label18.Name="label18";
+			this.label18.Size=new System.Drawing.Size(127, 13);
+			this.label18.TabIndex=17;
+			this.label18.Text="Position Y (in Tilegrößen):";
 			// 
-			// label16
+			// nudPosY
 			// 
-			this.label16.AutoSize=true;
-			this.label16.Location=new System.Drawing.Point(0, 6);
-			this.label16.Name="label16";
-			this.label16.Size=new System.Drawing.Size(38, 13);
-			this.label16.TabIndex=14;
-			this.label16.Text="Name:";
+			this.nudPosY.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
+			this.nudPosY.Location=new System.Drawing.Point(1130, 22);
+			this.nudPosY.Maximum=new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+			this.nudPosY.Name="nudPosY";
+			this.nudPosY.Size=new System.Drawing.Size(125, 20);
+			this.nudPosY.TabIndex=18;
+			this.nudPosY.Value=new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+			this.nudPosY.ValueChanged+=new System.EventHandler(this.nudPosY_ValueChanged);
 			// 
-			// tbNPCName
+			// label19
 			// 
-			this.tbNPCName.Anchor=((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)
-						|System.Windows.Forms.AnchorStyles.Right)));
-			this.tbNPCName.Location=new System.Drawing.Point(3, 22);
-			this.tbNPCName.Name="tbNPCName";
-			this.tbNPCName.Size=new System.Drawing.Size(859, 20);
-			this.tbNPCName.TabIndex=13;
-			this.tbNPCName.TextChanged+=new System.EventHandler(this.tbNPCName_TextChanged);
+			this.label19.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
+			this.label19.AutoSize=true;
+			this.label19.Location=new System.Drawing.Point(866, 5);
+			this.label19.Name="label19";
+			this.label19.Size=new System.Drawing.Size(46, 13);
+			this.label19.TabIndex=19;
+			this.label19.Text="NPC ID:";
+			// 
+			// nudNPCID
+			// 
+			this.nudNPCID.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
+			this.nudNPCID.Location=new System.Drawing.Point(868, 22);
+			this.nudNPCID.Maximum=new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+			this.nudNPCID.Name="nudNPCID";
+			this.nudNPCID.Size=new System.Drawing.Size(125, 20);
+			this.nudNPCID.TabIndex=20;
+			this.nudNPCID.Value=new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+			this.nudNPCID.ValueChanged+=new System.EventHandler(this.nudNPCID_ValueChanged);
 			// 
 			// FormNPCGenerator
 			// 
@@ -228,9 +228,9 @@
 			this.Name="FormNPCGenerator";
 			this.StartPosition=System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text="NPC Generator";
-			((System.ComponentModel.ISupportInitialize)(this.nudNPCID)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.nudPosY)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudPosX)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudPosY)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudNPCID)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -243,14 +243,14 @@
 		private System.Windows.Forms.Label label21;
 		private System.Windows.Forms.RichTextBox rtbSentences;
 		private System.Windows.Forms.Label label20;
-		private System.Windows.Forms.NumericUpDown nudNPCID;
-		private System.Windows.Forms.Label label19;
-		private System.Windows.Forms.NumericUpDown nudPosY;
-		private System.Windows.Forms.Label label18;
-		private System.Windows.Forms.NumericUpDown nudPosX;
-		private System.Windows.Forms.Label label17;
-		private System.Windows.Forms.Label label16;
 		private System.Windows.Forms.TextBox tbNPCName;
+		private System.Windows.Forms.Label label16;
+		private System.Windows.Forms.Label label17;
+		private System.Windows.Forms.NumericUpDown nudPosX;
+		private System.Windows.Forms.Label label18;
+		private System.Windows.Forms.NumericUpDown nudPosY;
+		private System.Windows.Forms.Label label19;
+		private System.Windows.Forms.NumericUpDown nudNPCID;
 
 	}
 }

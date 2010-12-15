@@ -56,6 +56,7 @@
 			this.toolStripMenuItem3=new System.Windows.Forms.ToolStripSeparator();
 			this.tilesetsUmbennenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.skriptingToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.nPCGeneratorToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem7=new System.Windows.Forms.ToolStripSeparator();
@@ -118,19 +119,54 @@
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
 			this.tabControl=new System.Windows.Forms.TabControl();
 			this.tabPage1=new System.Windows.Forms.TabPage();
-			this.toolStrip1=new System.Windows.Forms.ToolStrip();
-			this.toolStripButton1=new System.Windows.Forms.ToolStripButton();
-			this.toolStripButton2=new System.Windows.Forms.ToolStripButton();
-			this.toolStripButton3=new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator1=new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripButton4=new System.Windows.Forms.ToolStripButton();
 			this.tabPage2=new System.Windows.Forms.TabPage();
-			this.questEditorPanel=new Invertika_Editor.Controls.QuestEditorPanel();
-			this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStrip=new System.Windows.Forms.ToolStrip();
+			this.toolStripButton1=new System.Windows.Forms.ToolStripButton();
+			this.nudNPCID=new System.Windows.Forms.NumericUpDown();
+			this.label19=new System.Windows.Forms.Label();
+			this.nudPosY=new System.Windows.Forms.NumericUpDown();
+			this.label18=new System.Windows.Forms.Label();
+			this.nudPosX=new System.Windows.Forms.NumericUpDown();
+			this.label17=new System.Windows.Forms.Label();
+			this.label16=new System.Windows.Forms.Label();
+			this.tbNPCName=new System.Windows.Forms.TextBox();
+			this.toolStripSeparator1=new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripComboBox1=new System.Windows.Forms.ToolStripComboBox();
+			this.toolStripButton2=new System.Windows.Forms.ToolStripButton();
+			this.toolStripLabel1=new System.Windows.Forms.ToolStripLabel();
+			this.label1=new System.Windows.Forms.Label();
+			this.label2=new System.Windows.Forms.Label();
+			this.lbEvents=new System.Windows.Forms.ListBox();
+			this.groupBox1=new System.Windows.Forms.GroupBox();
+			this.button1=new System.Windows.Forms.Button();
+			this.button2=new System.Windows.Forms.Button();
+			this.button3=new System.Windows.Forms.Button();
+			this.groupBox2=new System.Windows.Forms.GroupBox();
+			this.button4=new System.Windows.Forms.Button();
+			this.button5=new System.Windows.Forms.Button();
+			this.button6=new System.Windows.Forms.Button();
+			this.button7=new System.Windows.Forms.Button();
+			this.button8=new System.Windows.Forms.Button();
+			this.button9=new System.Windows.Forms.Button();
+			this.button10=new System.Windows.Forms.Button();
+			this.groupBox3=new System.Windows.Forms.GroupBox();
+			this.button13=new System.Windows.Forms.Button();
+			this.groupBox4=new System.Windows.Forms.GroupBox();
+			this.button11=new System.Windows.Forms.Button();
+			this.groupBox5=new System.Windows.Forms.GroupBox();
+			this.button12=new System.Windows.Forms.Button();
 			this.menuStrip.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabPage1.SuspendLayout();
-			this.toolStrip1.SuspendLayout();
+			this.toolStrip.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.nudNPCID)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudPosY)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudPosX)).BeginInit();
+			this.groupBox1.SuspendLayout();
+			this.groupBox2.SuspendLayout();
+			this.groupBox3.SuspendLayout();
+			this.groupBox4.SuspendLayout();
+			this.groupBox5.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuStrip
@@ -164,19 +200,19 @@
 			// optionenToolStripMenuItem
 			// 
 			this.optionenToolStripMenuItem.Name="optionenToolStripMenuItem";
-			this.optionenToolStripMenuItem.Size=new System.Drawing.Size(141, 22);
+			this.optionenToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
 			this.optionenToolStripMenuItem.Text="Optionen...";
 			this.optionenToolStripMenuItem.Click+=new System.EventHandler(this.optionenToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem1
 			// 
 			this.toolStripMenuItem1.Name="toolStripMenuItem1";
-			this.toolStripMenuItem1.Size=new System.Drawing.Size(138, 6);
+			this.toolStripMenuItem1.Size=new System.Drawing.Size(149, 6);
 			// 
 			// beendenToolStripMenuItem
 			// 
 			this.beendenToolStripMenuItem.Name="beendenToolStripMenuItem";
-			this.beendenToolStripMenuItem.Size=new System.Drawing.Size(141, 22);
+			this.beendenToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
 			this.beendenToolStripMenuItem.Text="B&eenden";
 			this.beendenToolStripMenuItem.Click+=new System.EventHandler(this.beendenToolStripMenuItem_Click);
 			// 
@@ -344,6 +380,13 @@
 			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Size=new System.Drawing.Size(320, 22);
 			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Text="Von den Maps benutzte Tilesets ermitteln...";
 			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Click+=new System.EventHandler(this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem_Click);
+			// 
+			// nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem
+			// 
+			this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem.Name="nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem";
+			this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem.Size=new System.Drawing.Size(320, 22);
+			this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem.Text="Nicht vorhandene Tilesets aus Maps entfernen...";
+			this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem.Click+=new System.EventHandler(this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem_Click);
 			// 
 			// skriptingToolStripMenuItem
 			// 
@@ -786,29 +829,54 @@
 			// 
 			// tabPage1
 			// 
-			this.tabPage1.Controls.Add(this.questEditorPanel);
-			this.tabPage1.Controls.Add(this.toolStrip1);
+			this.tabPage1.Controls.Add(this.groupBox5);
+			this.tabPage1.Controls.Add(this.groupBox4);
+			this.tabPage1.Controls.Add(this.groupBox3);
+			this.tabPage1.Controls.Add(this.groupBox2);
+			this.tabPage1.Controls.Add(this.groupBox1);
+			this.tabPage1.Controls.Add(this.lbEvents);
+			this.tabPage1.Controls.Add(this.label2);
+			this.tabPage1.Controls.Add(this.label1);
+			this.tabPage1.Controls.Add(this.nudNPCID);
+			this.tabPage1.Controls.Add(this.label19);
+			this.tabPage1.Controls.Add(this.nudPosY);
+			this.tabPage1.Controls.Add(this.label18);
+			this.tabPage1.Controls.Add(this.nudPosX);
+			this.tabPage1.Controls.Add(this.label17);
+			this.tabPage1.Controls.Add(this.label16);
+			this.tabPage1.Controls.Add(this.tbNPCName);
+			this.tabPage1.Controls.Add(this.toolStrip);
 			this.tabPage1.Location=new System.Drawing.Point(4, 22);
 			this.tabPage1.Name="tabPage1";
 			this.tabPage1.Padding=new System.Windows.Forms.Padding(3);
 			this.tabPage1.Size=new System.Drawing.Size(998, 401);
 			this.tabPage1.TabIndex=0;
-			this.tabPage1.Text="Questeditor";
+			this.tabPage1.Text="NPC-/Questeditor";
 			this.tabPage1.UseVisualStyleBackColor=true;
 			// 
-			// toolStrip1
+			// tabPage2
 			// 
-			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.tabPage2.Location=new System.Drawing.Point(4, 22);
+			this.tabPage2.Name="tabPage2";
+			this.tabPage2.Padding=new System.Windows.Forms.Padding(3);
+			this.tabPage2.Size=new System.Drawing.Size(1320, 435);
+			this.tabPage2.TabIndex=1;
+			this.tabPage2.Text="tabPage2";
+			this.tabPage2.UseVisualStyleBackColor=true;
+			// 
+			// toolStrip
+			// 
+			this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton1,
-            this.toolStripButton2,
-            this.toolStripButton3,
             this.toolStripSeparator1,
-            this.toolStripButton4});
-			this.toolStrip1.Location=new System.Drawing.Point(3, 3);
-			this.toolStrip1.Name="toolStrip1";
-			this.toolStrip1.Size=new System.Drawing.Size(992, 25);
-			this.toolStrip1.TabIndex=2;
-			this.toolStrip1.Text="toolStrip1";
+            this.toolStripButton2,
+            this.toolStripComboBox1,
+            this.toolStripLabel1});
+			this.toolStrip.Location=new System.Drawing.Point(3, 3);
+			this.toolStrip.Name="toolStrip";
+			this.toolStrip.Size=new System.Drawing.Size(992, 25);
+			this.toolStrip.TabIndex=0;
+			this.toolStrip.Text="toolStrip1";
 			// 
 			// toolStripButton1
 			// 
@@ -817,69 +885,345 @@
 			this.toolStripButton1.ImageTransparentColor=System.Drawing.Color.Magenta;
 			this.toolStripButton1.Name="toolStripButton1";
 			this.toolStripButton1.Size=new System.Drawing.Size(23, 22);
-			this.toolStripButton1.Text="Nachricht";
-			this.toolStripButton1.Click+=new System.EventHandler(this.toolStripButton1_Click);
+			this.toolStripButton1.Text="toolStripButton1";
 			// 
-			// toolStripButton2
+			// nudNPCID
 			// 
-			this.toolStripButton2.DisplayStyle=System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripButton2.Image=((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-			this.toolStripButton2.ImageTransparentColor=System.Drawing.Color.Magenta;
-			this.toolStripButton2.Name="toolStripButton2";
-			this.toolStripButton2.Size=new System.Drawing.Size(23, 22);
-			this.toolStripButton2.Text="If";
-			this.toolStripButton2.Click+=new System.EventHandler(this.toolStripButton2_Click);
+			this.nudNPCID.Anchor=((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)
+						|System.Windows.Forms.AnchorStyles.Right)));
+			this.nudNPCID.Location=new System.Drawing.Point(616, 53);
+			this.nudNPCID.Maximum=new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+			this.nudNPCID.Name="nudNPCID";
+			this.nudNPCID.Size=new System.Drawing.Size(114, 20);
+			this.nudNPCID.TabIndex=28;
+			this.nudNPCID.Value=new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
 			// 
-			// toolStripButton3
+			// label19
 			// 
-			this.toolStripButton3.DisplayStyle=System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripButton3.Image=((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
-			this.toolStripButton3.ImageTransparentColor=System.Drawing.Color.Magenta;
-			this.toolStripButton3.Name="toolStripButton3";
-			this.toolStripButton3.Size=new System.Drawing.Size(23, 22);
-			this.toolStripButton3.Text="Auswahl";
-			this.toolStripButton3.Click+=new System.EventHandler(this.toolStripButton3_Click);
+			this.label19.Anchor=((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)
+						|System.Windows.Forms.AnchorStyles.Right)));
+			this.label19.AutoSize=true;
+			this.label19.Location=new System.Drawing.Point(614, 36);
+			this.label19.Name="label19";
+			this.label19.Size=new System.Drawing.Size(46, 13);
+			this.label19.TabIndex=27;
+			this.label19.Text="NPC ID:";
+			// 
+			// nudPosY
+			// 
+			this.nudPosY.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
+			this.nudPosY.Location=new System.Drawing.Point(867, 53);
+			this.nudPosY.Maximum=new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+			this.nudPosY.Name="nudPosY";
+			this.nudPosY.Size=new System.Drawing.Size(125, 20);
+			this.nudPosY.TabIndex=26;
+			this.nudPosY.Value=new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+			// 
+			// label18
+			// 
+			this.label18.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
+			this.label18.AutoSize=true;
+			this.label18.Location=new System.Drawing.Point(863, 36);
+			this.label18.Name="label18";
+			this.label18.Size=new System.Drawing.Size(127, 13);
+			this.label18.TabIndex=25;
+			this.label18.Text="Position Y (in Tilegrößen):";
+			// 
+			// nudPosX
+			// 
+			this.nudPosX.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
+			this.nudPosX.Location=new System.Drawing.Point(736, 53);
+			this.nudPosX.Maximum=new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+			this.nudPosX.Name="nudPosX";
+			this.nudPosX.Size=new System.Drawing.Size(125, 20);
+			this.nudPosX.TabIndex=24;
+			this.nudPosX.Value=new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+			// 
+			// label17
+			// 
+			this.label17.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
+			this.label17.AutoSize=true;
+			this.label17.Location=new System.Drawing.Point(730, 36);
+			this.label17.Name="label17";
+			this.label17.Size=new System.Drawing.Size(127, 13);
+			this.label17.TabIndex=23;
+			this.label17.Text="Position X (in Tilegrößen):";
+			// 
+			// label16
+			// 
+			this.label16.AutoSize=true;
+			this.label16.Location=new System.Drawing.Point(8, 37);
+			this.label16.Name="label16";
+			this.label16.Size=new System.Drawing.Size(38, 13);
+			this.label16.TabIndex=22;
+			this.label16.Text="Name:";
+			// 
+			// tbNPCName
+			// 
+			this.tbNPCName.Location=new System.Drawing.Point(11, 53);
+			this.tbNPCName.Name="tbNPCName";
+			this.tbNPCName.Size=new System.Drawing.Size(589, 20);
+			this.tbNPCName.TabIndex=21;
 			// 
 			// toolStripSeparator1
 			// 
 			this.toolStripSeparator1.Name="toolStripSeparator1";
 			this.toolStripSeparator1.Size=new System.Drawing.Size(6, 25);
 			// 
-			// toolStripButton4
+			// toolStripComboBox1
 			// 
-			this.toolStripButton4.DisplayStyle=System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.toolStripButton4.Image=((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
-			this.toolStripButton4.ImageTransparentColor=System.Drawing.Color.Magenta;
-			this.toolStripButton4.Name="toolStripButton4";
-			this.toolStripButton4.Size=new System.Drawing.Size(23, 22);
-			this.toolStripButton4.Text="Export";
-			this.toolStripButton4.Click+=new System.EventHandler(this.toolStripButton4_Click);
+			this.toolStripComboBox1.Alignment=System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.toolStripComboBox1.Items.AddRange(new object[] {
+            "Schatztruhe"});
+			this.toolStripComboBox1.Name="toolStripComboBox1";
+			this.toolStripComboBox1.Size=new System.Drawing.Size(121, 25);
 			// 
-			// tabPage2
+			// toolStripButton2
 			// 
-			this.tabPage2.Location=new System.Drawing.Point(4, 22);
-			this.tabPage2.Name="tabPage2";
-			this.tabPage2.Padding=new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size=new System.Drawing.Size(998, 401);
-			this.tabPage2.TabIndex=1;
-			this.tabPage2.Text="tabPage2";
-			this.tabPage2.UseVisualStyleBackColor=true;
+			this.toolStripButton2.Alignment=System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.toolStripButton2.DisplayStyle=System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripButton2.Image=((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+			this.toolStripButton2.ImageTransparentColor=System.Drawing.Color.Magenta;
+			this.toolStripButton2.Name="toolStripButton2";
+			this.toolStripButton2.Size=new System.Drawing.Size(23, 22);
+			this.toolStripButton2.Text="toolStripButton2";
 			// 
-			// questEditorPanel
+			// toolStripLabel1
 			// 
-			this.questEditorPanel.AutoScroll=true;
-			this.questEditorPanel.Dock=System.Windows.Forms.DockStyle.Fill;
-			this.questEditorPanel.Location=new System.Drawing.Point(3, 28);
-			this.questEditorPanel.Name="questEditorPanel";
-			this.questEditorPanel.Size=new System.Drawing.Size(992, 370);
-			this.questEditorPanel.TabIndex=3;
+			this.toolStripLabel1.Alignment=System.Windows.Forms.ToolStripItemAlignment.Right;
+			this.toolStripLabel1.Name="toolStripLabel1";
+			this.toolStripLabel1.Size=new System.Drawing.Size(56, 22);
+			this.toolStripLabel1.Text="Templates";
 			// 
-			// nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem
+			// label1
 			// 
-			this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem.Name="nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem";
-			this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem.Size=new System.Drawing.Size(320, 22);
-			this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem.Text="Nicht vorhandene Tilesets aus Maps entfernen...";
-			this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem.Click+=new System.EventHandler(this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem_Click);
+			this.label1.Anchor=((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)
+						|System.Windows.Forms.AnchorStyles.Right)));
+			this.label1.AutoSize=true;
+			this.label1.Location=new System.Drawing.Point(614, 85);
+			this.label1.Name="label1";
+			this.label1.Size=new System.Drawing.Size(56, 13);
+			this.label1.TabIndex=29;
+			this.label1.Text="Eventliste:";
+			// 
+			// label2
+			// 
+			this.label2.AutoSize=true;
+			this.label2.Location=new System.Drawing.Point(11, 85);
+			this.label2.Name="label2";
+			this.label2.Size=new System.Drawing.Size(68, 13);
+			this.label2.TabIndex=30;
+			this.label2.Text="Kommandos:";
+			// 
+			// lbEvents
+			// 
+			this.lbEvents.Anchor=((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Bottom)
+						|System.Windows.Forms.AnchorStyles.Left)
+						|System.Windows.Forms.AnchorStyles.Right)));
+			this.lbEvents.FormattingEnabled=true;
+			this.lbEvents.Location=new System.Drawing.Point(617, 101);
+			this.lbEvents.Name="lbEvents";
+			this.lbEvents.Size=new System.Drawing.Size(375, 290);
+			this.lbEvents.TabIndex=31;
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this.button3);
+			this.groupBox1.Controls.Add(this.button2);
+			this.groupBox1.Controls.Add(this.button1);
+			this.groupBox1.Location=new System.Drawing.Point(11, 101);
+			this.groupBox1.Name="groupBox1";
+			this.groupBox1.Size=new System.Drawing.Size(187, 110);
+			this.groupBox1.TabIndex=32;
+			this.groupBox1.TabStop=false;
+			this.groupBox1.Text="Nachrichten";
+			// 
+			// button1
+			// 
+			this.button1.Location=new System.Drawing.Point(6, 19);
+			this.button1.Name="button1";
+			this.button1.Size=new System.Drawing.Size(175, 23);
+			this.button1.TabIndex=0;
+			this.button1.Text="Zeige Text...";
+			this.button1.UseVisualStyleBackColor=true;
+			// 
+			// button2
+			// 
+			this.button2.Location=new System.Drawing.Point(6, 48);
+			this.button2.Name="button2";
+			this.button2.Size=new System.Drawing.Size(175, 23);
+			this.button2.TabIndex=1;
+			this.button2.Text="Zeige Auswahl...";
+			this.button2.UseVisualStyleBackColor=true;
+			// 
+			// button3
+			// 
+			this.button3.Location=new System.Drawing.Point(6, 77);
+			this.button3.Name="button3";
+			this.button3.Size=new System.Drawing.Size(175, 23);
+			this.button3.TabIndex=2;
+			this.button3.Text="Eingabe (Text, Zahl)...";
+			this.button3.UseVisualStyleBackColor=true;
+			// 
+			// groupBox2
+			// 
+			this.groupBox2.Controls.Add(this.button10);
+			this.groupBox2.Controls.Add(this.button9);
+			this.groupBox2.Controls.Add(this.button8);
+			this.groupBox2.Controls.Add(this.button7);
+			this.groupBox2.Controls.Add(this.button4);
+			this.groupBox2.Controls.Add(this.button5);
+			this.groupBox2.Controls.Add(this.button6);
+			this.groupBox2.Location=new System.Drawing.Point(204, 101);
+			this.groupBox2.Name="groupBox2";
+			this.groupBox2.Size=new System.Drawing.Size(187, 227);
+			this.groupBox2.TabIndex=33;
+			this.groupBox2.TabStop=false;
+			this.groupBox2.Text="Charakter";
+			// 
+			// button4
+			// 
+			this.button4.Location=new System.Drawing.Point(6, 77);
+			this.button4.Name="button4";
+			this.button4.Size=new System.Drawing.Size(175, 23);
+			this.button4.TabIndex=2;
+			this.button4.Text="Ändere Skills...";
+			this.button4.UseVisualStyleBackColor=true;
+			// 
+			// button5
+			// 
+			this.button5.Location=new System.Drawing.Point(6, 48);
+			this.button5.Name="button5";
+			this.button5.Size=new System.Drawing.Size(175, 23);
+			this.button5.TabIndex=1;
+			this.button5.Text="Ändere Erfahrung...";
+			this.button5.UseVisualStyleBackColor=true;
+			// 
+			// button6
+			// 
+			this.button6.Location=new System.Drawing.Point(6, 19);
+			this.button6.Name="button6";
+			this.button6.Size=new System.Drawing.Size(175, 23);
+			this.button6.TabIndex=0;
+			this.button6.Text="Ändere HP...";
+			this.button6.UseVisualStyleBackColor=true;
+			// 
+			// button7
+			// 
+			this.button7.Location=new System.Drawing.Point(6, 106);
+			this.button7.Name="button7";
+			this.button7.Size=new System.Drawing.Size(175, 23);
+			this.button7.TabIndex=3;
+			this.button7.Text="Ändere Name...";
+			this.button7.UseVisualStyleBackColor=true;
+			// 
+			// button8
+			// 
+			this.button8.Location=new System.Drawing.Point(6, 135);
+			this.button8.Name="button8";
+			this.button8.Size=new System.Drawing.Size(175, 23);
+			this.button8.TabIndex=4;
+			this.button8.Text="Ändere  Geschlecht...";
+			this.button8.UseVisualStyleBackColor=true;
+			// 
+			// button9
+			// 
+			this.button9.Location=new System.Drawing.Point(6, 164);
+			this.button9.Name="button9";
+			this.button9.Size=new System.Drawing.Size(175, 23);
+			this.button9.TabIndex=5;
+			this.button9.Text="Ändere Haarfarbe...";
+			this.button9.UseVisualStyleBackColor=true;
+			// 
+			// button10
+			// 
+			this.button10.Location=new System.Drawing.Point(6, 193);
+			this.button10.Name="button10";
+			this.button10.Size=new System.Drawing.Size(175, 23);
+			this.button10.TabIndex=6;
+			this.button10.Text="Ändere Frisur...";
+			this.button10.UseVisualStyleBackColor=true;
+			// 
+			// groupBox3
+			// 
+			this.groupBox3.Controls.Add(this.button13);
+			this.groupBox3.Location=new System.Drawing.Point(11, 217);
+			this.groupBox3.Name="groupBox3";
+			this.groupBox3.Size=new System.Drawing.Size(187, 110);
+			this.groupBox3.TabIndex=33;
+			this.groupBox3.TabStop=false;
+			this.groupBox3.Text="Flusskontrolle";
+			// 
+			// button13
+			// 
+			this.button13.Location=new System.Drawing.Point(6, 19);
+			this.button13.Name="button13";
+			this.button13.Size=new System.Drawing.Size(175, 23);
+			this.button13.TabIndex=0;
+			this.button13.Text="Loop";
+			this.button13.UseVisualStyleBackColor=true;
+			// 
+			// groupBox4
+			// 
+			this.groupBox4.Controls.Add(this.button11);
+			this.groupBox4.Location=new System.Drawing.Point(397, 101);
+			this.groupBox4.Name="groupBox4";
+			this.groupBox4.Size=new System.Drawing.Size(187, 71);
+			this.groupBox4.TabIndex=34;
+			this.groupBox4.TabStop=false;
+			this.groupBox4.Text="Bewegung";
+			// 
+			// button11
+			// 
+			this.button11.Location=new System.Drawing.Point(6, 19);
+			this.button11.Name="button11";
+			this.button11.Size=new System.Drawing.Size(175, 23);
+			this.button11.TabIndex=0;
+			this.button11.Text="Transferiere Spieler...";
+			this.button11.UseVisualStyleBackColor=true;
+			// 
+			// groupBox5
+			// 
+			this.groupBox5.Controls.Add(this.button12);
+			this.groupBox5.Location=new System.Drawing.Point(397, 188);
+			this.groupBox5.Name="groupBox5";
+			this.groupBox5.Size=new System.Drawing.Size(187, 71);
+			this.groupBox5.TabIndex=35;
+			this.groupBox5.TabStop=false;
+			this.groupBox5.Text="Musik und Sound";
+			// 
+			// button12
+			// 
+			this.button12.Location=new System.Drawing.Point(6, 19);
+			this.button12.Name="button12";
+			this.button12.Size=new System.Drawing.Size(175, 23);
+			this.button12.TabIndex=0;
+			this.button12.Text="Spiele Sound...";
+			this.button12.UseVisualStyleBackColor=true;
 			// 
 			// FormMain
 			// 
@@ -902,8 +1246,16 @@
 			this.tabControl.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage1.PerformLayout();
-			this.toolStrip1.ResumeLayout(false);
-			this.toolStrip1.PerformLayout();
+			this.toolStrip.ResumeLayout(false);
+			this.toolStrip.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.nudNPCID)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudPosY)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudPosX)).EndInit();
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox3.ResumeLayout(false);
+			this.groupBox4.ResumeLayout(false);
+			this.groupBox5.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1001,14 +1353,42 @@
 		private System.Windows.Forms.TabControl tabControl;
 		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.TabPage tabPage2;
-		private Invertika_Editor.Controls.QuestEditorPanel questEditorPanel;
-		private System.Windows.Forms.ToolStrip toolStrip1;
-		private System.Windows.Forms.ToolStripButton toolStripButton1;
-		private System.Windows.Forms.ToolStripButton toolStripButton2;
-		private System.Windows.Forms.ToolStripButton toolStripButton3;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-		private System.Windows.Forms.ToolStripButton toolStripButton4;
 		private System.Windows.Forms.ToolStripMenuItem nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem;
+		private System.Windows.Forms.ToolStrip toolStrip;
+		private System.Windows.Forms.ToolStripButton toolStripButton1;
+		private System.Windows.Forms.NumericUpDown nudNPCID;
+		private System.Windows.Forms.Label label19;
+		private System.Windows.Forms.NumericUpDown nudPosY;
+		private System.Windows.Forms.Label label18;
+		private System.Windows.Forms.NumericUpDown nudPosX;
+		private System.Windows.Forms.Label label17;
+		private System.Windows.Forms.Label label16;
+		private System.Windows.Forms.TextBox tbNPCName;
+		private System.Windows.Forms.ListBox lbEvents;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripButton toolStripButton2;
+		private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
+		private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+		private System.Windows.Forms.GroupBox groupBox5;
+		private System.Windows.Forms.Button button12;
+		private System.Windows.Forms.GroupBox groupBox4;
+		private System.Windows.Forms.Button button11;
+		private System.Windows.Forms.GroupBox groupBox3;
+		private System.Windows.Forms.Button button13;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.Button button10;
+		private System.Windows.Forms.Button button9;
+		private System.Windows.Forms.Button button8;
+		private System.Windows.Forms.Button button7;
+		private System.Windows.Forms.Button button4;
+		private System.Windows.Forms.Button button5;
+		private System.Windows.Forms.Button button6;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.Button button3;
+		private System.Windows.Forms.Button button2;
+		private System.Windows.Forms.Button button1;
 	}
 }
 
