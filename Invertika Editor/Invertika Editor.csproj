@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\MonsterSpawn.cs" />
+    <Compile Include="Classes\QuestEditorEngine.cs" />
     <Compile Include="Classes\TilesetTransformation.cs" />
     <Compile Include="Controls\QuestEditorMessageEditor.cs">
       <SubType>Form</SubType>
