@@ -155,6 +155,7 @@
 			this.toolStripLabel1=new System.Windows.Forms.ToolStripLabel();
 			this.tabPage2=new System.Windows.Forms.TabPage();
 			this.lvEvents=new System.Windows.Forms.ListView();
+			this.tsbExport=new System.Windows.Forms.ToolStripButton();
 			this.menuStrip.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -1159,7 +1160,8 @@
             this.toolStripSeparator1,
             this.toolStripButton2,
             this.toolStripComboBox1,
-            this.toolStripLabel1});
+            this.toolStripLabel1,
+            this.tsbExport});
 			this.toolStrip.Location=new System.Drawing.Point(3, 3);
 			this.toolStrip.Name="toolStrip";
 			this.toolStrip.Size=new System.Drawing.Size(992, 25);
@@ -1229,6 +1231,17 @@
 			this.lvEvents.TabIndex=36;
 			this.lvEvents.UseCompatibleStateImageBehavior=false;
 			this.lvEvents.View=System.Windows.Forms.View.List;
+			this.lvEvents.MouseDoubleClick+=new System.Windows.Forms.MouseEventHandler(this.lvEvents_MouseDoubleClick);
+			// 
+			// tsbExport
+			// 
+			this.tsbExport.DisplayStyle=System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.tsbExport.Image=((System.Drawing.Image)(resources.GetObject("tsbExport.Image")));
+			this.tsbExport.ImageTransparentColor=System.Drawing.Color.Magenta;
+			this.tsbExport.Name="tsbExport";
+			this.tsbExport.Size=new System.Drawing.Size(23, 22);
+			this.tsbExport.Text="Export nach Lua";
+			this.tsbExport.Click+=new System.EventHandler(this.tsbExport_Click);
 			// 
 			// FormMain
 			// 
@@ -1394,6 +1407,7 @@
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.Button btnShowText;
 		private System.Windows.Forms.ListView lvEvents;
+		private System.Windows.Forms.ToolStripButton tsbExport;
 	}
 }
 

@@ -2811,7 +2811,6 @@ namespace Invertika_Editor
 		{
 			if(lvEvents.SelectedItems.Count==0)
 			{
-				MessageBox.Show("Es ist kein Eintrag selektiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information); 
 				return false;
 			}
 
@@ -2820,7 +2819,11 @@ namespace Invertika_Editor
 
 		private void btnShowText_Click(object sender, EventArgs e)
 		{
-			if(!CheckIfEntrySelected()) return;
+			if(!CheckIfEntrySelected())
+			{
+				MessageBox.Show("Es ist kein Eintrag selektiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information); 
+				return;
+			}
 
 			FormQuestDataMessage InstFormQuestDataMessage=new FormQuestDataMessage();
 
@@ -2833,6 +2836,49 @@ namespace Invertika_Editor
 
 				lvEvents.Items.Clear();
 				BuildListBox(qee.QuestRoot, 0);
+			}
+		}
+
+		private void tsbExport_Click(object sender, EventArgs e)
+		{
+			List<string> lua=qee.ExportToLua(tbNPCName.Text, (int)nudNPCID.Value, (int)nudPosX.Value, (int)nudPosY.Value);
+			FormOutputBox.ShowOutputBox("Lua Export - QuestEditor", lua);
+		}
+
+		private void lvEvents_MouseDoubleClick(object sender, MouseEventArgs e)
+		{
+			if(CheckIfEntrySelected())
+			{
+				ListViewItem selected=lvEvents.SelectedItems[0];
+				Treenode<KeyValuePair<string, IQuestDataClass>> node=(Treenode<KeyValuePair<string, IQuestDataClass>>)selected.Tag;
+
+				switch(node.Value.Key)
+				{
+					case "@message":
+						{
+							QDMessage message=(QDMessage)node.Value.Value;
+
+							FormQuestDataMessage InstFormQuestDataMessage=new FormQuestDataMessage();
+							InstFormQuestDataMessage.Messages=message.Messages;
+							
+							if(InstFormQuestDataMessage.ShowDialog()==DialogResult.OK)
+							{
+								lvEvents.Items.Clear();
+								BuildListBox(qee.QuestRoot, 0);
+							}
+
+							break;
+						}
+					case "@root":
+						{
+							//Tags welche beim export ignoriert werden
+							break;
+						}
+					default:
+						{
+							throw new NotImplementedException();
+						}
+				}
 			}
 		}
 	}

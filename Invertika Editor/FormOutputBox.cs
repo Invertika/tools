@@ -30,7 +30,7 @@ namespace Invertika_Editor
 
 			InstFormOutputBox.Text=title;
 			InstFormOutputBox.rtbOutput.Lines=message.ToArray();
-			InstFormOutputBox.rtbOutput.Text=InstFormOutputBox.rtbOutput.Lines.ToString().TrimEnd();
+			InstFormOutputBox.rtbOutput.Text=InstFormOutputBox.rtbOutput.Text.TrimEnd();
 
 			InstFormOutputBox.tssEntry.Text="Einträge: "+InstFormOutputBox.rtbOutput.Lines.Length.ToString();
 

@@ -20,16 +20,15 @@ namespace Invertika_Editor
 
 		private void btnSave_Click(object sender, EventArgs e)
 		{
-			if(rbOnlyOneMessage.Checked)
-			{
-				Messages.Add(tbNachricht.Text);
-			}
-			else if(rbRandomMessage.Checked)
-			{
-				Messages.AddRange(rtbMessages.Lines);
-			}
+			Messages.Clear();
+			Messages.AddRange(rtbMessages.Lines);
 
 			DialogResult=System.Windows.Forms.DialogResult.OK;
+		}
+
+		private void FormQuestDataMessage_Load(object sender, EventArgs e)
+		{
+			rtbMessages.Lines=Messages.ToArray();
 		}
 	}
 }
