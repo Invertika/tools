@@ -156,6 +156,7 @@
 			this.tabPage2=new System.Windows.Forms.TabPage();
 			this.lvEvents=new System.Windows.Forms.ListView();
 			this.tsbExport=new System.Windows.Forms.ToolStripButton();
+			this.button1=new System.Windows.Forms.Button();
 			this.menuStrip.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -895,6 +896,7 @@
 			// 
 			// groupBox3
 			// 
+			this.groupBox3.Controls.Add(this.button1);
 			this.groupBox3.Controls.Add(this.button13);
 			this.groupBox3.Location=new System.Drawing.Point(11, 217);
 			this.groupBox3.Name="groupBox3";
@@ -905,11 +907,11 @@
 			// 
 			// button13
 			// 
-			this.button13.Location=new System.Drawing.Point(6, 19);
+			this.button13.Location=new System.Drawing.Point(6, 48);
 			this.button13.Name="button13";
 			this.button13.Size=new System.Drawing.Size(175, 23);
 			this.button13.TabIndex=0;
-			this.button13.Text="Loop";
+			this.button13.Text="Schleife";
 			this.button13.UseVisualStyleBackColor=true;
 			// 
 			// groupBox2
@@ -1243,6 +1245,15 @@
 			this.tsbExport.Text="Export nach Lua";
 			this.tsbExport.Click+=new System.EventHandler(this.tsbExport_Click);
 			// 
+			// button1
+			// 
+			this.button1.Location=new System.Drawing.Point(6, 19);
+			this.button1.Name="button1";
+			this.button1.Size=new System.Drawing.Size(175, 23);
+			this.button1.TabIndex=1;
+			this.button1.Text="If";
+			this.button1.UseVisualStyleBackColor=true;
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions=new System.Drawing.SizeF(6F, 13F);
@@ -1408,6 +1419,7 @@
 		private System.Windows.Forms.Button btnShowText;
 		private System.Windows.Forms.ListView lvEvents;
 		private System.Windows.Forms.ToolStripButton tsbExport;
+		private System.Windows.Forms.Button button1;
 	}
 }
 
