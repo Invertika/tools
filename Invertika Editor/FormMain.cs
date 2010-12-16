@@ -17,7 +17,7 @@ using System.Text.RegularExpressions;
 using Invertika_Editor.Classes;
 using System.Net;
 using CSCL.Helpers;
-using Invertika_Editor.Controls;
+using Invertika_Editor.Classes.QuestEditor;
 
 namespace Invertika_Editor
 {
@@ -55,6 +55,8 @@ namespace Invertika_Editor
 			// Setzt die Versionsnummer anhand der Assembly Version
 			Assembly MainAssembly=Assembly.GetExecutingAssembly();
 			Text+=" "+MainAssembly.GetName().Version.ToString();
+
+			tsbNewQuest_Click(null, null);
 		}
 
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -2780,6 +2782,58 @@ namespace Invertika_Editor
 			}
 
 			MessageBox.Show("Es wurden "+removedTilesets+" fehlerhafte Tilesets korrigiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+		private void BuildListBox(Treenode<KeyValuePair<string, IQuestDataClass>> node, int spacing)
+		{
+			string padLeft="";
+			padLeft=padLeft.PadLeft(spacing, ' ');
+			ListViewItem lvitem=lvEvents.Items.Add(padLeft+node.Value.Key);
+			lvitem.Tag=node;
+
+			foreach(Treenode<KeyValuePair<string, IQuestDataClass>> child in node.Childs)
+			{
+				BuildListBox(child, spacing+2);
+			}
+		}
+
+		QuestEditorEngine qee;
+
+		private void tsbNewQuest_Click(object sender, EventArgs e)
+		{
+			qee=new QuestEditorEngine();
+
+			lvEvents.Items.Clear();
+			BuildListBox(qee.QuestRoot, 0);
+		}
+
+		private bool CheckIfEntrySelected()
+		{
+			if(lvEvents.SelectedItems.Count==0)
+			{
+				MessageBox.Show("Es ist kein Eintrag selektiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information); 
+				return false;
+			}
+
+			return true;
+		}
+
+		private void btnShowText_Click(object sender, EventArgs e)
+		{
+			if(!CheckIfEntrySelected()) return;
+
+			FormQuestDataMessage InstFormQuestDataMessage=new FormQuestDataMessage();
+
+			if(InstFormQuestDataMessage.ShowDialog()==DialogResult.OK)
+			{
+				ListViewItem selected=lvEvents.SelectedItems[0];
+				Treenode<KeyValuePair<string, IQuestDataClass>> node=(Treenode<KeyValuePair<string, IQuestDataClass>>)selected.Tag;
+
+				qee.AddMessage(InstFormQuestDataMessage.Messages, node);
+
+				lvEvents.Items.Clear();
+				BuildListBox(qee.QuestRoot, 0);
+			}
 		}
 	}
 }
