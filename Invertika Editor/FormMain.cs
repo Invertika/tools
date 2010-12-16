@@ -2881,5 +2881,27 @@ namespace Invertika_Editor
 				}
 			}
 		}
+
+		private void btnIf_Click(object sender, EventArgs e)
+		{
+			if(!CheckIfEntrySelected())
+			{
+				MessageBox.Show("Es ist kein Eintrag selektiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			FormQuestDataIf InstFormQuestDataIf=new FormQuestDataIf();
+
+			if(InstFormQuestDataIf.ShowDialog()==DialogResult.OK)
+			{
+				ListViewItem selected=lvEvents.SelectedItems[0];
+				Treenode<KeyValuePair<string, IQuestDataClass>> node=(Treenode<KeyValuePair<string, IQuestDataClass>>)selected.Tag;
+
+				//qee.AddMessage(InstFormQuestDataIf.Messages, node);
+
+				lvEvents.Items.Clear();
+				BuildListBox(qee.QuestRoot, 0);
+			}
+		}
 	}
 }

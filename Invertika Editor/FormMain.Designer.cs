@@ -156,7 +156,7 @@
 			this.tabPage2=new System.Windows.Forms.TabPage();
 			this.lvEvents=new System.Windows.Forms.ListView();
 			this.tsbExport=new System.Windows.Forms.ToolStripButton();
-			this.button1=new System.Windows.Forms.Button();
+			this.btnIf=new System.Windows.Forms.Button();
 			this.menuStrip.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -896,7 +896,7 @@
 			// 
 			// groupBox3
 			// 
-			this.groupBox3.Controls.Add(this.button1);
+			this.groupBox3.Controls.Add(this.btnIf);
 			this.groupBox3.Controls.Add(this.button13);
 			this.groupBox3.Location=new System.Drawing.Point(11, 217);
 			this.groupBox3.Name="groupBox3";
@@ -1245,14 +1245,15 @@
 			this.tsbExport.Text="Export nach Lua";
 			this.tsbExport.Click+=new System.EventHandler(this.tsbExport_Click);
 			// 
-			// button1
+			// btnIf
 			// 
-			this.button1.Location=new System.Drawing.Point(6, 19);
-			this.button1.Name="button1";
-			this.button1.Size=new System.Drawing.Size(175, 23);
-			this.button1.TabIndex=1;
-			this.button1.Text="If";
-			this.button1.UseVisualStyleBackColor=true;
+			this.btnIf.Location=new System.Drawing.Point(6, 19);
+			this.btnIf.Name="btnIf";
+			this.btnIf.Size=new System.Drawing.Size(175, 23);
+			this.btnIf.TabIndex=1;
+			this.btnIf.Text="If";
+			this.btnIf.UseVisualStyleBackColor=true;
+			this.btnIf.Click+=new System.EventHandler(this.btnIf_Click);
 			// 
 			// FormMain
 			// 
@@ -1419,7 +1420,7 @@
 		private System.Windows.Forms.Button btnShowText;
 		private System.Windows.Forms.ListView lvEvents;
 		private System.Windows.Forms.ToolStripButton tsbExport;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button btnIf;
 	}
 }
 

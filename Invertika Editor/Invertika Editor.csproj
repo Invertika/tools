@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Classes\QuestEditor\IQuestDataClass.cs" />
     <Compile Include="Classes\MonsterSpawn.cs" />
+    <Compile Include="Classes\QuestEditor\QDIf.cs" />
     <Compile Include="Classes\QuestEditor\QDMessage.cs" />
     <Compile Include="Classes\QuestEditor\QuestEditorEngine.cs" />
     <Compile Include="Classes\TilesetTransformation.cs" />
