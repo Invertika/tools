@@ -26,8 +26,7 @@
 
 #include <QGraphicsScene>
 #include <QMap>
-
-class QModelIndex;
+#include <QSet>
 
 namespace Tiled {
 
@@ -40,6 +39,7 @@ namespace Internal {
 class AbstractTool;
 class MapDocument;
 class MapObjectItem;
+class MapScene;
 class ObjectGroupItem;
 
 /**
@@ -82,6 +82,29 @@ public:
     ObjectGroupItem *selectedObjectGroupItem() const
     { return mSelectedObjectGroupItem; }
 
+    /**
+     * Returns the set of selected map object items.
+     */
+    const QSet<MapObjectItem*> &selectedObjectItems() const
+    { return mSelectedObjectItems; }
+
+    /**
+     * Sets the set of selected map object items.
+     */
+    void setSelectedObjectItems(const QSet<MapObjectItem*> &items);
+
+    /**
+     * Enables the selected tool at this map scene.
+     * Therefore it tells that tool, that this is the active map scene.
+     */
+    void enableSelectedTool();
+    void disableSelectedTool();
+
+    /**
+     * Sets the currently selected tool.
+     */
+    void setSelectedTool(AbstractTool *tool);
+
 public slots:
     /**
      * Sets whether the tile grid is visible.
@@ -106,11 +129,6 @@ protected:
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
 
 private slots:
-    /**
-     * Sets the currently selected tool.
-     */
-    void setSelectedTool(AbstractTool *tool);
-
     /**
      * Refreshes the map scene.
      */
@@ -139,9 +157,6 @@ private:
 
     void updateInteractionMode();
 
-    void enableSelectedTool();
-    void disableSelectedTool();
-
     bool eventFilter(QObject *object, QEvent *event);
 
     MapDocument *mMapDocument;
@@ -156,6 +171,7 @@ private:
 
     typedef QMap<MapObject*, MapObjectItem*> ObjectItems;
     ObjectItems mObjectItems;
+    QSet<MapObjectItem*> mSelectedObjectItems;
 };
 
 } // namespace Internal

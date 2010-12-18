@@ -40,6 +40,7 @@ OBJECTS_DIR = .obj
 SOURCES += aboutdialog.cpp \
     automap.cpp \
     brushitem.cpp \
+    documentmanager.cpp \
     languagemanager.cpp \
     layerdock.cpp \
     layermodel.cpp \
@@ -105,10 +106,12 @@ SOURCES += aboutdialog.cpp \
     zoomable.cpp \
     addremovetileset.cpp \
     movetileset.cpp \
-    createobjecttool.cpp
+    createobjecttool.cpp \
+    objectselectiontool.cpp
 HEADERS += aboutdialog.h \
     automap.h \
     brushitem.h \
+    documentmanager.h \
     languagemanager.h \
     layerdock.h \
     layermodel.h \
@@ -176,7 +179,8 @@ HEADERS += aboutdialog.h \
     zoomable.h \
     addremovetileset.h \
     movetileset.h \
-    createobjecttool.h
+    createobjecttool.h \
+    objectselectiontool.h
 FORMS += aboutdialog.ui \
     mainwindow.ui \
     resizedialog.ui \

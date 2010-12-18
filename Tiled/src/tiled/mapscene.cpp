@@ -59,10 +59,6 @@ MapScene::MapScene(QObject *parent):
 {
     setBackgroundBrush(Qt::darkGray);
 
-    ToolManager *toolManager = ToolManager::instance();
-    connect(toolManager, SIGNAL(selectedToolChanged(AbstractTool*)),
-            this, SLOT(setSelectedTool(AbstractTool*)));
-
     TilesetManager *tilesetManager = TilesetManager::instance();
     connect(tilesetManager, SIGNAL(tilesetChanged(Tileset*)),
             this, SLOT(tilesetChanged(Tileset*)));
@@ -81,8 +77,6 @@ void MapScene::setMapDocument(MapDocument *mapDocument)
 {
     if (mMapDocument) {
         mMapDocument->disconnect(this);
-
-        disableSelectedTool();
     }
 
     mMapDocument = mapDocument;
@@ -108,9 +102,18 @@ void MapScene::setMapDocument(MapDocument *mapDocument)
                 this, SLOT(objectsRemoved(QList<MapObject*>)));
         connect(mMapDocument, SIGNAL(objectsChanged(QList<MapObject*>)),
                 this, SLOT(objectsChanged(QList<MapObject*>)));
-
-        enableSelectedTool();
     }
+}
+
+void MapScene::setSelectedObjectItems(const QSet<MapObjectItem *> &items)
+{
+    // Update the editable state of the items
+    foreach (MapObjectItem *item, mSelectedObjectItems - items)
+        item->setEditable(false);
+    foreach (MapObjectItem *item, items - mSelectedObjectItems)
+        item->setEditable(true);
+
+    mSelectedObjectItems = items;
 }
 
 void MapScene::setSelectedTool(AbstractTool *tool)
@@ -118,9 +121,7 @@ void MapScene::setSelectedTool(AbstractTool *tool)
     if (mSelectedTool == tool)
         return;
 
-    disableSelectedTool();
     mSelectedTool = tool;
-    enableSelectedTool();
 }
 
 void MapScene::refreshScene()
@@ -205,14 +206,6 @@ void MapScene::updateInteractionMode()
 
     if (mSelectedObjectGroupItem == ogItem)
         return;
-
-    // This object group is no longer selected
-    if (mSelectedObjectGroupItem)
-        mSelectedObjectGroupItem->setEditable(false);
-
-    // This is the newly selected object group
-    if (ogItem)
-        ogItem->setEditable(true);
 
     mSelectedObjectGroupItem = ogItem;
 }
@@ -347,6 +340,7 @@ void MapScene::objectsRemoved(const QList<MapObject*> &objects)
         ObjectItems::iterator i = mObjectItems.find(o);
         Q_ASSERT(i != mObjectItems.end());
 
+        mSelectedObjectItems.remove(i.value());
         delete i.value();
         mObjectItems.erase(i);
     }
@@ -427,9 +421,8 @@ void MapScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
         return;
 
     if (mActiveTool) {
-        mActiveTool->mousePressed(mouseEvent->scenePos(), mouseEvent->button(),
-                                  mouseEvent->modifiers());
         mouseEvent->accept();
+        mActiveTool->mousePressed(mouseEvent);
     }
 }
 
@@ -440,8 +433,8 @@ void MapScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
         return;
 
     if (mActiveTool) {
-        mActiveTool->mouseReleased(mouseEvent->scenePos(), mouseEvent->button());
         mouseEvent->accept();
+        mActiveTool->mouseReleased(mouseEvent);
     }
 }
 

@@ -61,9 +61,10 @@ QRectF OrthogonalRenderer::boundingRect(const MapObject *object) const
                       img.width(),
                       img.height()).adjusted(-1, -1, 1, 1);
     } else if (rect.isNull()) {
-        return rect.adjusted(-15 - 2, -25 - 2, 10 + 3, 10 + 3);
+        return rect.adjusted(-10 - 2, -10 - 2, 10 + 3, 10 + 3);
     } else {
-        return rect.adjusted(-2, -15 - 2, 3, 3);
+        const int nameHeight = object->name().isEmpty() ? 0 : 15;
+        return rect.adjusted(-2, -nameHeight - 2, 3, 3);
     }
 }
 
@@ -89,8 +90,8 @@ void OrthogonalRenderer::drawGrid(QPainter *painter, const QRectF &rect) const
     const int tileWidth = map()->tileWidth();
     const int tileHeight = map()->tileHeight();
 
-    const int startX = (int) (rect.x() / tileWidth) * tileWidth;
-    const int startY = (int) (rect.y() / tileHeight) * tileHeight;
+    const int startX = qMax(0, (int) (rect.x() / tileWidth) * tileWidth);
+    const int startY = qMax(0, (int) (rect.y() / tileHeight) * tileHeight);
     const int endX = qMin((int) std::ceil(rect.right()),
                           map()->width() * tileWidth + 1);
     const int endY = qMin((int) std::ceil(rect.bottom()),
@@ -102,18 +103,18 @@ void OrthogonalRenderer::drawGrid(QPainter *painter, const QRectF &rect) const
     QPen gridPen(gridColor);
     gridPen.setDashPattern(QVector<qreal>() << 2 << 2);
 
-    if ((int) rect.top() < endY) {
-        gridPen.setDashOffset(rect.top());
+    if (startY < endY) {
+        gridPen.setDashOffset(startY);
         painter->setPen(gridPen);
         for (int x = startX; x < endX; x += tileWidth)
-            painter->drawLine(x, (int) rect.top(), x, endY - 1);
+            painter->drawLine(x, startY, x, endY - 1);
     }
 
-    if ((int) rect.left() < endX) {
-        gridPen.setDashOffset(rect.left());
+    if (startX < endX) {
+        gridPen.setDashOffset(startX);
         painter->setPen(gridPen);
         for (int y = startY; y < endY; y += tileHeight)
-            painter->drawLine((int) rect.left(), y, endX - 1, y);
+            painter->drawLine(startX, y, endX - 1, y);
     }
 }
 
@@ -216,7 +217,8 @@ void OrthogonalRenderer::drawMapObject(QPainter *painter,
         QPen pen(Qt::black, 2);
         painter->setPen(pen);
         painter->drawRect(rect.translated(QPointF(1, 1)));
-        painter->drawText(QPoint(1, -5 + 1), name);
+        if (!name.isEmpty())
+            painter->drawText(QPoint(1, -5 + 1), name);
 
         QColor brushColor = color;
         brushColor.setAlpha(50);
@@ -226,7 +228,8 @@ void OrthogonalRenderer::drawMapObject(QPainter *painter,
         painter->setPen(pen);
         painter->setBrush(brush);
         painter->drawRect(rect);
-        painter->drawText(QPoint(0, -5), name);
+        if (!name.isEmpty())
+            painter->drawText(QPoint(0, -5), name);
     }
 
     painter->restore();

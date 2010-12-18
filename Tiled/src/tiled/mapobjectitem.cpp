@@ -22,26 +22,19 @@
 
 #include "mapobjectitem.h"
 
-#include "addremovemapobject.h"
-#include "map.h"
 #include "mapdocument.h"
 #include "mapobject.h"
 #include "maprenderer.h"
 #include "mapscene.h"
-#include "movemapobject.h"
-#include "movemapobjecttogroup.h"
 #include "objectgroup.h"
 #include "objectgroupitem.h"
-#include "objectpropertiesdialog.h"
 #include "resizemapobject.h"
-#include "utils.h"
 
 #include <QApplication>
 #include <QGraphicsSceneMouseEvent>
-#include <QMenu>
 #include <QPainter>
+#include <QPalette>
 #include <QStyleOptionGraphicsItem>
-#include <QUndoStack>
 
 using namespace Tiled;
 using namespace Tiled::Internal;
@@ -171,27 +164,20 @@ MapObjectItem::MapObjectItem(MapObject *object, MapDocument *mapDocument,
 {
     syncWithMapObject();
     mResizeHandle->setVisible(false);
-#if QT_VERSION >= 0x040600
-    setFlag(QGraphicsItem::ItemSendsGeometryChanges);
-#endif
-
-    if (parent)
-        setEditable(parent->isEditable());
 }
 
 void MapObjectItem::syncWithMapObject()
 {
-    // Update the whole object when the name or type has changed
-    if (mObject->name() != mName || mObject->type() != mType) {
+    // Update the whole object when the name has changed
+    if (mObject->name() != mName) {
         mName = mObject->name();
-        mType = mObject->type();
         update();
-        mResizeHandle->update();
     }
 
     QString toolTip = mName;
-    if (!mType.isEmpty())
-        toolTip += QLatin1String(" (") + mType + QLatin1String(")");
+    const QString &type = mObject->type();
+    if (!type.isEmpty())
+        toolTip += QLatin1String(" (") + type + QLatin1String(")");
     setToolTip(toolTip);
 
     MapRenderer *renderer = mMapDocument->renderer();
@@ -199,7 +185,6 @@ void MapObjectItem::syncWithMapObject()
     QRectF bounds = renderer->boundingRect(mObject);
     bounds.translate(-pixelPos);
 
-    mSyncing = true;
     setPos(pixelPos);
     setZValue(pixelPos.y());
 
@@ -209,9 +194,10 @@ void MapObjectItem::syncWithMapObject()
         mBoundingRect = bounds;
         const QPointF bottomRight = mObject->bounds().bottomRight();
         const QPointF handlePos = renderer->tileToPixelCoords(bottomRight);
+        mSyncing = true;
         mResizeHandle->setPos(handlePos - pixelPos);
+        mSyncing = false;
     }
-    mSyncing = false;
 }
 
 void MapObjectItem::setEditable(bool editable)
@@ -221,12 +207,13 @@ void MapObjectItem::setEditable(bool editable)
 
     mIsEditable = editable;
 
-    setFlag(QGraphicsItem::ItemIsMovable, mIsEditable);
     mResizeHandle->setVisible(mIsEditable && !mObject->tile());
     if (mIsEditable)
         setCursor(Qt::SizeAllCursor);
     else
         unsetCursor();
+
+    update();
 }
 
 QRectF MapObjectItem::boundingRect() const
@@ -257,133 +244,22 @@ void MapObjectItem::paint(QPainter *painter,
     painter->translate(-pos());
     const QColor color = MapObjectItem::color();
     mMapDocument->renderer()->drawMapObject(painter, mObject, color);
-}
 
-/**
- * Shows the context menu for map objects. The menu allows you to duplicate and
- * remove the map object, or do edit its properties.
- */
-void MapObjectItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
-{
-    if (!mIsEditable)
-        return;
+    if (mIsEditable) {
+        painter->translate(pos());
 
-    QMenu menu;
-    QIcon dupIcon(QLatin1String(":images/16x16/stock-duplicate-16.png"));
-    QIcon delIcon(QLatin1String(":images/16x16/edit-delete.png"));
-    QIcon propIcon(QLatin1String(":images/16x16/document-properties.png"));
-    QAction *dupAction = menu.addAction(dupIcon, tr("&Duplicate Object"));
-    QAction *removeAction = menu.addAction(delIcon, tr("&Remove Object"));
-    menu.addSeparator();
-    QMenu *moveToLayerMenu = menu.addMenu(tr("&Move To Layer"));
-    menu.addSeparator();
-    QAction *propertiesAction = menu.addAction(propIcon,
-                                               tr("Object &Properties..."));
-
-    // Fill out moveToLayerMenu
-    typedef QMap<QAction*, ObjectGroup*> MoveToLayerActionMap;
-    MoveToLayerActionMap moveToLayerActions;
-    foreach (Layer *layer, mMapDocument->map()->layers()) {
-        ObjectGroup *objectGroup = layer->asObjectGroup();
-        if (!objectGroup || objectGroup == mObject->objectGroup())
-            continue;
-
-        QAction *action = moveToLayerMenu->addAction(objectGroup->name());
-        moveToLayerActions.insert(action, objectGroup);
+        QPen dashPen(Qt::DashLine);
+        dashPen.setDashOffset(qMax(qreal(0), x()));
+        painter->setPen(dashPen);
+        painter->drawLine(mBoundingRect.topLeft(), mBoundingRect.topRight());
+        painter->drawLine(mBoundingRect.bottomLeft(),
+                          mBoundingRect.bottomRight());
+        dashPen.setDashOffset(qMax(qreal(0), y()));
+        painter->setPen(dashPen);
+        painter->drawLine(mBoundingRect.topLeft(), mBoundingRect.bottomLeft());
+        painter->drawLine(mBoundingRect.topRight(),
+                          mBoundingRect.bottomRight());
     }
-
-    if (moveToLayerMenu->isEmpty()) {
-        QAction *action =
-                moveToLayerMenu->addAction(tr("No other object layers"));
-        action->setEnabled(false);
-    }
-
-    Utils::setThemeIcon(removeAction, "edit-delete");
-    Utils::setThemeIcon(propertiesAction, "document-properties");
-
-    QAction *selectedAction = menu.exec(event->screenPos());
-
-    if (selectedAction == dupAction) {
-        MapDocument *doc = mMapDocument;
-        doc->undoStack()->push(new AddMapObject(doc,
-                                                mObject->objectGroup(),
-                                                mObject->clone()));
-    }
-    else if (selectedAction == removeAction) {
-        MapDocument *doc = mMapDocument;
-        doc->undoStack()->push(new RemoveMapObject(doc, mObject));
-    }
-    else if (selectedAction == propertiesAction) {
-        ObjectPropertiesDialog propertiesDialog(mMapDocument, mObject,
-                                                event->widget());
-        propertiesDialog.exec();
-    }
-
-    MoveToLayerActionMap::const_iterator i =
-            moveToLayerActions.find(selectedAction);
-
-    if (i != moveToLayerActions.end()) {
-        MapDocument *doc = mMapDocument;
-        doc->undoStack()->push(new MoveMapObjectToGroup(doc,
-                                                        mObject,
-                                                        i.value()));
-    }
-}
-
-void MapObjectItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    // Remember the old position since we may get moved
-    if (event->button() == Qt::LeftButton) {
-        mOldObjectPos = mObject->position();
-        mOldItemPos = pos();
-    }
-
-    QGraphicsItem::mousePressEvent(event);
-}
-
-void MapObjectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-    QGraphicsItem::mouseReleaseEvent(event);
-
-    // If we got moved, create an undo command
-    if (event->button() == Qt::LeftButton
-        && mOldObjectPos != mObject->position()) {
-
-        MapDocument *document = mMapDocument;
-        QUndoCommand *cmd = new MoveMapObject(document, mObject, mOldObjectPos);
-        document->undoStack()->push(cmd);
-    }
-}
-
-QVariant MapObjectItem::itemChange(GraphicsItemChange change,
-                                   const QVariant &value)
-{
-    if (!mSyncing) {
-        MapRenderer *renderer = mMapDocument->renderer();
-
-        if (change == ItemPositionChange
-            && (QApplication::keyboardModifiers() & Qt::ControlModifier))
-        {
-            const QPointF pixelDiff = value.toPointF() - mOldItemPos;
-            const QPointF newPixelPos =
-                    renderer->tileToPixelCoords(mOldObjectPos) + pixelDiff;
-            // Snap the position to the grid
-            const QPointF newTileCoords =
-                    renderer->pixelToTileCoords(newPixelPos).toPoint();
-
-            return renderer->tileToPixelCoords(newTileCoords);
-        }
-        else if (change == ItemPositionHasChanged) {
-            // Update the position of the map object
-            const QPointF pixelDiff = value.toPointF() - mOldItemPos;
-            const QPointF newPixelPos =
-                    renderer->tileToPixelCoords(mOldObjectPos) + pixelDiff;
-            mObject->setPosition(renderer->pixelToTileCoords(newPixelPos));
-            setZValue(newPixelPos.y());
-        }
-    }
-
-    return QGraphicsItem::itemChange(change, value);
 }
 
 void MapObjectItem::resize(const QSizeF &size)
