@@ -45,6 +45,9 @@ namespace autoupdate
 			string ftp_update_user=config.GetElementAsString("xml.ftp.update.user");
 			string ftp_update_password=config.GetElementAsString("xml.ftp.update.password");
 
+			bool activate_data=Convert.ToBoolean(config.GetElementAsString("xml.activate.data"));
+			bool activate_update=Convert.ToBoolean(config.GetElementAsString("xml.activate.update"));
+
 			string path_temp_folder=FileSystem.GetPathWithPathDelimiter(config.GetElementAsString("xml.path.temp"));
 
 			string path_repostiory_trunk=FileSystem.GetPathWithPathDelimiter(config.GetElementAsString("xml.path.repository.trunk"));
@@ -112,138 +115,145 @@ namespace autoupdate
 			FileSystem.CreateDirectory(clientPath, true);
 			FileSystem.CreateDirectory(clientPath+"data"+FileSystem.PathDelimiter, true);
 			FileSystem.CopyDirectory(path_repostiory_clientdata, clientPath+"data"+FileSystem.PathDelimiter, true, ExcludesDirs);
+
+			List<string> clientDataFiles=FileSystem.GetFiles(clientPath, true);
 			#endregion
 
 			#region Clientdaten Update erzeugen und hochladen
-			Console.WriteLine("Erstelle Zip Datei für Update...");
-			clientPath=clientPath+"data"+FileSystem.PathDelimiter;
-			List<string> filesNew=FileSystem.GetFiles(clientPath, true);
-
-			//Zip erstellen
-			string zipFilename=path_temp_folder+"update-"+Various.GetTimeID()+".zip";
-			ZipFile z=ZipFile.Create(zipFilename);
-
-			z.BeginUpdate();
-
-			int fivePercent=filesNew.Count/20;
-			int countZipFiles=0;
-
-			foreach(string i in filesNew)
+			if(activate_update)
 			{
-				countZipFiles++;
+				Console.WriteLine("Erstelle Zip Datei für Update...");
+				clientPath=clientPath+"data"+FileSystem.PathDelimiter;
 
-				if(FileSystem.GetExtension(i).ToLower()=="ogg")
+				//Zip erstellen
+				string zipFilename=path_temp_folder+"update-"+Various.GetTimeID()+".zip";
+				ZipFile z=ZipFile.Create(zipFilename);
+
+				z.BeginUpdate();
+
+				int fivePercent=clientDataFiles.Count/20;
+				int countZipFiles=0;
+
+				foreach(string i in clientDataFiles)
 				{
-					Console.WriteLine("Datei {0} aus dem Update ausgeschlossen.", FileSystem.GetFilename(i));
-					continue;
-				}
+					countZipFiles++;
 
-				string rel=FileSystem.GetRelativePath(i, clientPath, true);
-				z.Add(i, rel);
-
-				if(countZipFiles%fivePercent==0)
-				{
-					Console.Write(".");
-				}
-			}
-
-			z.CommitUpdate();
-			z.Close();
-
-			//adler 32
-			ICSharpCode.SharpZipLib.Checksums.Adler32 adler=new ICSharpCode.SharpZipLib.Checksums.Adler32();
-
-			FileStream fs=new FileStream(zipFilename, FileMode.Open, FileAccess.Read);
-			BinaryReader br=new BinaryReader(fs);
-
-			byte[] textToHash=br.ReadBytes((int)fs.Length);
-
-			adler.Reset();
-			adler.Update(textToHash);
-			string adler32=String.Format("{0:x}", adler.Value);
-
-			string resFile=path_temp_folder+FileSystem.PathDelimiter+"resources2.txt";
-			StreamWriter sw=new StreamWriter(resFile);
-			sw.WriteLine("{0} {1}", FileSystem.GetFilename(zipFilename), adler32);
-			sw.Close();
-
-			//Upload
-			Console.WriteLine("Beginne FTP Upload der Update Dateien...");
-			FTPConnection Client=new FTPConnection();
-
-			Client.ServerAddress=ftp_update_server;
-			Client.UserName=ftp_update_user;
-			Client.Password=ftp_update_password;
-
-			Console.WriteLine("Verbinde mich mit FTP {0} mittels des Nutzers {1}.", ftp_update_server, ftp_update_user);
-
-			Client.Connect();
-
-			string[] currentFTPFiles=Client.GetFiles("");
-
-			Console.WriteLine("Lösche bestehende Updatedateien auf dem FTP Server...");
-			foreach(string i in currentFTPFiles)
-			{
-				if(i.IndexOf("update")!=-1)
-				{
-					Client.DeleteFile(i);
-				}
-			}
-
-			Console.WriteLine("Lade Updatedatei hoch...");
-			Client.UploadFile(zipFilename, FileSystem.GetFilename(zipFilename));
-			Client.UploadFile(resFile, FileSystem.GetFilename(resFile));
-
-			Client.Close();
-			#endregion
-
-			#region Clientdaten Data erzeugen und hochladen
-			//Upload
-			Console.WriteLine("Beginne FTP Upload der Data Dateien...");
-			FTPConnection ClientData=new FTPConnection();
-
-			ClientData.ServerAddress=ftp_data_server;
-			ClientData.UserName=ftp_data_user;
-			ClientData.Password=ftp_data_password;
-
-			Console.WriteLine("Verbinde mich mit FTP {0} mittels des Nutzers {1}.", ftp_data_server, ftp_data_user);
-
-			ClientData.Connect();
-
-			Console.WriteLine("Lade Data Dateien hoch...");
-
-			foreach(string ftpfile in filesNew)
-			{
-				string relativeName=FileSystem.GetRelativePath(ftpfile, clientPath);
-				string dirToCreate=FileSystem.GetPath(relativeName, true);
-				
-				if(dirToCreate!="")
-				{
-					string[] folders=dirToCreate.Split(FileSystem.PathDelimiter);
-					string dirTemp="";
-
-					foreach(string i in folders)
+					if(FileSystem.GetExtension(i).ToLower()=="ogg")
 					{
-						if(i.Trim()=="") continue;
-						if(i=="/") continue;
+						Console.WriteLine("Datei {0} aus dem Update ausgeschlossen.", FileSystem.GetFilename(i));
+						continue;
+					}
 
-						dirTemp+=i+FileSystem.PathDelimiter;
+					string rel=FileSystem.GetRelativePath(i, clientPath, true);
+					z.Add(i, rel);
 
-						try
-						{
-							ClientData.CreateDirectory(dirTemp);
-						}
-						catch
-						{
-						}
+					if(countZipFiles%fivePercent==0)
+					{
+						Console.Write(".");
 					}
 				}
 
-				Console.WriteLine("Datei {0} wird hochgeladen...", relativeName);
-				ClientData.UploadFile(ftpfile, relativeName);
-			}
+				z.CommitUpdate();
+				z.Close();
 
-			ClientData.Close();
+				//adler 32
+				ICSharpCode.SharpZipLib.Checksums.Adler32 adler=new ICSharpCode.SharpZipLib.Checksums.Adler32();
+
+				FileStream fs=new FileStream(zipFilename, FileMode.Open, FileAccess.Read);
+				BinaryReader br=new BinaryReader(fs);
+
+				byte[] textToHash=br.ReadBytes((int)fs.Length);
+
+				adler.Reset();
+				adler.Update(textToHash);
+				string adler32=String.Format("{0:x}", adler.Value);
+
+				string resFile=path_temp_folder+FileSystem.PathDelimiter+"resources2.txt";
+				StreamWriter sw=new StreamWriter(resFile);
+				sw.WriteLine("{0} {1}", FileSystem.GetFilename(zipFilename), adler32);
+				sw.Close();
+
+				//Upload
+				Console.WriteLine("Beginne FTP Upload der Update Dateien...");
+				FTPConnection Client=new FTPConnection();
+
+				Client.ServerAddress=ftp_update_server;
+				Client.UserName=ftp_update_user;
+				Client.Password=ftp_update_password;
+
+				Console.WriteLine("Verbinde mich mit FTP {0} mittels des Nutzers {1}.", ftp_update_server, ftp_update_user);
+
+				Client.Connect();
+
+				string[] currentFTPFiles=Client.GetFiles("");
+
+				Console.WriteLine("Lösche bestehende Updatedateien auf dem FTP Server...");
+				foreach(string i in currentFTPFiles)
+				{
+					if(i.IndexOf("update")!=-1)
+					{
+						Client.DeleteFile(i);
+					}
+				}
+
+				Console.WriteLine("Lade Updatedatei hoch...");
+				Client.UploadFile(zipFilename, FileSystem.GetFilename(zipFilename));
+				Client.UploadFile(resFile, FileSystem.GetFilename(resFile));
+
+				Client.Close();
+			}
+			#endregion
+
+			#region Clientdaten Data erzeugen und hochladen
+			if(activate_data)
+			{
+				//Upload
+				Console.WriteLine("Beginne FTP Upload der Data Dateien...");
+				FTPConnection ClientData=new FTPConnection();
+
+				ClientData.ServerAddress=ftp_data_server;
+				ClientData.UserName=ftp_data_user;
+				ClientData.Password=ftp_data_password;
+
+				Console.WriteLine("Verbinde mich mit FTP {0} mittels des Nutzers {1}.", ftp_data_server, ftp_data_user);
+
+				ClientData.Connect();
+
+				Console.WriteLine("Lade Data Dateien hoch...");
+
+				foreach(string ftpfile in clientDataFiles)
+				{
+					string relativeName=FileSystem.GetRelativePath(ftpfile, clientPath);
+					string dirToCreate=FileSystem.GetPath(relativeName, true);
+
+					if(dirToCreate!="")
+					{
+						string[] folders=dirToCreate.Split(FileSystem.PathDelimiter);
+						string dirTemp="";
+
+						foreach(string i in folders)
+						{
+							if(i.Trim()=="") continue;
+							if(i=="/") continue;
+
+							dirTemp+=i+FileSystem.PathDelimiter;
+
+							try
+							{
+								ClientData.CreateDirectory(dirTemp);
+							}
+							catch
+							{
+							}
+						}
+					}
+
+					Console.WriteLine("Datei {0} wird hochgeladen...", relativeName);
+					ClientData.UploadFile(ftpfile, relativeName);
+				}
+
+				ClientData.Close();
+			}
 			#endregion
 
 			#region Server wieder starten
