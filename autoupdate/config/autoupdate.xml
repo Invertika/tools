@@ -21,4 +21,8 @@
 	  <password>geheim</password>
     </update>
   </ftp>
+  <activate>
+    <data>false</data>
+	<update>true</update>
+  </activate>
 </xml>
