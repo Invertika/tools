@@ -89,7 +89,7 @@ namespace autoupdate
 				FileSystem.RemoveDirectory(path_server_data, true, true);
 			}
 
-			Console.WriteLine("Lösche temproäres Verzeichnis...");
+			Console.WriteLine("Lösche temporäres Verzeichnis...");
 			if(FileSystem.ExistsDirectory(path_temp_folder))
 			{
 				FileSystem.RemoveDirectory(path_temp_folder, true, true);
