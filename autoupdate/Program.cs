@@ -204,6 +204,12 @@ namespace autoupdate
 			}
 			#endregion
 
+			#region Server wieder starten
+			Console.WriteLine("Starte Server neu...");
+			Directory.SetCurrentDirectory(path_server_root);
+			ProcessHelpers.StartProcess(path_server_start_script, "", false);
+			#endregion
+
 			#region Clientdaten Data erzeugen und hochladen
 			if(activate_data)
 			{
@@ -254,12 +260,6 @@ namespace autoupdate
 
 				ClientData.Close();
 			}
-			#endregion
-
-			#region Server wieder starten
-			Console.WriteLine("Starte Server neu...");
-			Directory.SetCurrentDirectory(path_server_root);
-			ProcessHelpers.StartProcess(path_server_start_script, "", false);
 			#endregion
 
 			#region Ende
