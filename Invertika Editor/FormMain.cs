@@ -399,7 +399,7 @@ namespace Invertika_Editor
 			string ret="";
 			string fnItemsXml=Globals.folder_clientdata+"items.xml";
 
-			ret+="{| border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\" align=\"center\"\n"
+			ret+="{| border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\" align=\"center\" class=\"wikitable sortable\"\n"
 			+"! style=\"background:#efdead;\" | Bild\n"
 			+"! style=\"background:#efdead;\" | ID\n"
 			+"! style=\"background:#efdead;\" | Name\n"
@@ -524,7 +524,7 @@ namespace Invertika_Editor
 			string fnMonsterXml=Globals.folder_clientdata+"monsters.xml";
 
 
-			ret+="{| border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\" align=\"center\"\n"
+			ret+="{| border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\" align=\"center\" class=\"wikitable sortable\"\n"
 			+"! style=\"background:#efdead;\" | Bild\n"
 			+"! style=\"background:#efdead;\" | ID\n"
 			+"! style=\"background:#efdead;\" | Name\n"
