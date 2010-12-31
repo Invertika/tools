@@ -88,12 +88,6 @@ namespace Invertika_Editor
 			InstFormCoordinateCalculator.Show();
 		}
 
-		private void nPCGeneratorToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			FormNPCGenerator InstFormNPCGenerator=new FormNPCGenerator();
-			InstFormNPCGenerator.Show();
-		}
-
 		private void tMXÖffnenUndRendernToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			openFileDialog.Multiselect=false;

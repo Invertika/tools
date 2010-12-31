@@ -85,12 +85,6 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormNPCGenerator.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormNPCGenerator.Designer.cs">
-      <DependentUpon>FormNPCGenerator.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormOptions.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -147,9 +141,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormNPCGenerator.resx">
-      <DependentUpon>FormNPCGenerator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormOptions.resx">
       <DependentUpon>FormOptions.cs</DependentUpon>

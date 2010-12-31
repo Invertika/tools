@@ -58,8 +58,6 @@
 			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.skriptingToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.nPCGeneratorToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem7=new System.Windows.Forms.ToolStripSeparator();
 			this.mapskripteErzeugenUndEintragenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.exportToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.itemsxmlBilderToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
@@ -119,11 +117,13 @@
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
 			this.tabControl=new System.Windows.Forms.TabControl();
 			this.tabPage1=new System.Windows.Forms.TabPage();
+			this.lvEvents=new System.Windows.Forms.ListView();
 			this.groupBox5=new System.Windows.Forms.GroupBox();
 			this.button12=new System.Windows.Forms.Button();
 			this.groupBox4=new System.Windows.Forms.GroupBox();
 			this.button11=new System.Windows.Forms.Button();
 			this.groupBox3=new System.Windows.Forms.GroupBox();
+			this.btnIf=new System.Windows.Forms.Button();
 			this.button13=new System.Windows.Forms.Button();
 			this.groupBox2=new System.Windows.Forms.GroupBox();
 			this.button10=new System.Windows.Forms.Button();
@@ -153,10 +153,8 @@
 			this.toolStripButton2=new System.Windows.Forms.ToolStripButton();
 			this.toolStripComboBox1=new System.Windows.Forms.ToolStripComboBox();
 			this.toolStripLabel1=new System.Windows.Forms.ToolStripLabel();
-			this.tabPage2=new System.Windows.Forms.TabPage();
-			this.lvEvents=new System.Windows.Forms.ListView();
 			this.tsbExport=new System.Windows.Forms.ToolStripButton();
-			this.btnIf=new System.Windows.Forms.Button();
+			this.tabPage2=new System.Windows.Forms.TabPage();
 			this.menuStrip.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.tabPage1.SuspendLayout();
@@ -393,24 +391,10 @@
 			// skriptingToolStripMenuItem
 			// 
 			this.skriptingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.nPCGeneratorToolStripMenuItem,
-            this.toolStripMenuItem7,
             this.mapskripteErzeugenUndEintragenToolStripMenuItem});
 			this.skriptingToolStripMenuItem.Name="skriptingToolStripMenuItem";
 			this.skriptingToolStripMenuItem.Size=new System.Drawing.Size(60, 20);
 			this.skriptingToolStripMenuItem.Text="&Skripting";
-			// 
-			// nPCGeneratorToolStripMenuItem
-			// 
-			this.nPCGeneratorToolStripMenuItem.Name="nPCGeneratorToolStripMenuItem";
-			this.nPCGeneratorToolStripMenuItem.Size=new System.Drawing.Size(267, 22);
-			this.nPCGeneratorToolStripMenuItem.Text="NPC Generator...";
-			this.nPCGeneratorToolStripMenuItem.Click+=new System.EventHandler(this.nPCGeneratorToolStripMenuItem_Click);
-			// 
-			// toolStripMenuItem7
-			// 
-			this.toolStripMenuItem7.Name="toolStripMenuItem7";
-			this.toolStripMenuItem7.Size=new System.Drawing.Size(264, 6);
 			// 
 			// mapskripteErzeugenUndEintragenToolStripMenuItem
 			// 
@@ -856,6 +840,21 @@
 			this.tabPage1.Text="NPC-/Questeditor";
 			this.tabPage1.UseVisualStyleBackColor=true;
 			// 
+			// lvEvents
+			// 
+			this.lvEvents.Anchor=((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Bottom)
+						|System.Windows.Forms.AnchorStyles.Left)
+						|System.Windows.Forms.AnchorStyles.Right)));
+			this.lvEvents.FullRowSelect=true;
+			this.lvEvents.HideSelection=false;
+			this.lvEvents.Location=new System.Drawing.Point(617, 101);
+			this.lvEvents.Name="lvEvents";
+			this.lvEvents.Size=new System.Drawing.Size(375, 294);
+			this.lvEvents.TabIndex=36;
+			this.lvEvents.UseCompatibleStateImageBehavior=false;
+			this.lvEvents.View=System.Windows.Forms.View.List;
+			this.lvEvents.MouseDoubleClick+=new System.Windows.Forms.MouseEventHandler(this.lvEvents_MouseDoubleClick);
+			// 
 			// groupBox5
 			// 
 			this.groupBox5.Controls.Add(this.button12);
@@ -904,6 +903,16 @@
 			this.groupBox3.TabIndex=33;
 			this.groupBox3.TabStop=false;
 			this.groupBox3.Text="Flusskontrolle";
+			// 
+			// btnIf
+			// 
+			this.btnIf.Location=new System.Drawing.Point(6, 19);
+			this.btnIf.Name="btnIf";
+			this.btnIf.Size=new System.Drawing.Size(175, 23);
+			this.btnIf.TabIndex=1;
+			this.btnIf.Text="If";
+			this.btnIf.UseVisualStyleBackColor=true;
+			this.btnIf.Click+=new System.EventHandler(this.btnIf_Click);
 			// 
 			// button13
 			// 
@@ -1210,31 +1219,6 @@
 			this.toolStripLabel1.Size=new System.Drawing.Size(56, 22);
 			this.toolStripLabel1.Text="Templates";
 			// 
-			// tabPage2
-			// 
-			this.tabPage2.Location=new System.Drawing.Point(4, 22);
-			this.tabPage2.Name="tabPage2";
-			this.tabPage2.Padding=new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size=new System.Drawing.Size(998, 401);
-			this.tabPage2.TabIndex=1;
-			this.tabPage2.Text="tabPage2";
-			this.tabPage2.UseVisualStyleBackColor=true;
-			// 
-			// lvEvents
-			// 
-			this.lvEvents.Anchor=((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Bottom)
-						|System.Windows.Forms.AnchorStyles.Left)
-						|System.Windows.Forms.AnchorStyles.Right)));
-			this.lvEvents.FullRowSelect=true;
-			this.lvEvents.HideSelection=false;
-			this.lvEvents.Location=new System.Drawing.Point(617, 101);
-			this.lvEvents.Name="lvEvents";
-			this.lvEvents.Size=new System.Drawing.Size(375, 294);
-			this.lvEvents.TabIndex=36;
-			this.lvEvents.UseCompatibleStateImageBehavior=false;
-			this.lvEvents.View=System.Windows.Forms.View.List;
-			this.lvEvents.MouseDoubleClick+=new System.Windows.Forms.MouseEventHandler(this.lvEvents_MouseDoubleClick);
-			// 
 			// tsbExport
 			// 
 			this.tsbExport.DisplayStyle=System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -1245,15 +1229,15 @@
 			this.tsbExport.Text="Export nach Lua";
 			this.tsbExport.Click+=new System.EventHandler(this.tsbExport_Click);
 			// 
-			// btnIf
+			// tabPage2
 			// 
-			this.btnIf.Location=new System.Drawing.Point(6, 19);
-			this.btnIf.Name="btnIf";
-			this.btnIf.Size=new System.Drawing.Size(175, 23);
-			this.btnIf.TabIndex=1;
-			this.btnIf.Text="If";
-			this.btnIf.UseVisualStyleBackColor=true;
-			this.btnIf.Click+=new System.EventHandler(this.btnIf_Click);
+			this.tabPage2.Location=new System.Drawing.Point(4, 22);
+			this.tabPage2.Name="tabPage2";
+			this.tabPage2.Padding=new System.Windows.Forms.Padding(3);
+			this.tabPage2.Size=new System.Drawing.Size(998, 401);
+			this.tabPage2.TabIndex=1;
+			this.tabPage2.Text="tabPage2";
+			this.tabPage2.UseVisualStyleBackColor=true;
 			// 
 			// FormMain
 			// 
@@ -1304,7 +1288,6 @@
 		private System.Windows.Forms.ToolStripMenuItem optionenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
 		private System.Windows.Forms.ToolStripMenuItem skriptingToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem nPCGeneratorToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem kartenthumbnailsUndMinimapsErzeugenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
 		private System.Windows.Forms.ToolStripMenuItem clientUpdateErstellenToolStripMenuItem;
@@ -1315,7 +1298,6 @@
 		private System.Windows.Forms.ToolStripMenuItem monsterxmlMediaWikiToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem itemsxmlMediaWikiToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem mapsAusEinerBitmapErzeugenToolStripMenuItem;
-		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
 		private System.Windows.Forms.ToolStripMenuItem mapskripteErzeugenUndEintragenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem6;
 		private System.Windows.Forms.ToolStripMenuItem weltkartenErzeugenToolStripMenuItem;

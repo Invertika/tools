@@ -38,14 +38,9 @@ namespace Invertika_Editor
 			}
 		}
 
-		private void SaveMonsterSpreading(string filename, gtImage img, TMX map)
+		private void SaveFeatureMapMonsterSpreading(string filename, gtImage img, TMX map)
 		{
 			//Farben
-			//Color green=Color.FromArgb(64, 0, 0, 255);
-			//Color yellow=Color.FromArgb(64, 255, 255, 0);
-			//Color red=Color.FromArgb(64, 255, 0, 0);
-			//Color blue=Color.FromArgb(64, 0, 0, 255);
-
 			Color green=Color.FromArgb(128, 0, 255, 0);
 			Color yellow=Color.FromArgb(128, 255, 255, 0);
 			Color red=Color.FromArgb(128, 255, 0, 0);
@@ -122,6 +117,38 @@ namespace Invertika_Editor
 			tmpImage.SaveToFile(filename);
 		}
 
+		private void SaveFeatureMapMusic(string filename, gtImage img, TMX map)
+		{
+			//Farben
+			Color green=Color.FromArgb(128, 0, 255, 0);
+			Color yellow=Color.FromArgb(128, 255, 255, 0);
+			Color red=Color.FromArgb(128, 255, 0, 0);
+			Color blue=Color.FromArgb(128, 0, 0, 255);
+
+			//Images
+			gtImage tmpImage=img.GetImage();
+			gtImage tmpDraw=new gtImage(tmpImage.Width, tmpImage.Height, tmpImage.ChannelFormat);
+
+			//Properties durchsuchen
+			bool found=false;
+
+			foreach(Property prop in map.Properties)
+			{
+				if(prop.Name=="music")
+				{
+					found=true;
+					break;
+				}
+			}
+
+			if(found) tmpDraw.Fill(green);
+			else tmpDraw.Fill(red);
+
+			//Drawen
+			tmpImage.Draw(0, 0, tmpDraw, true);
+			tmpImage.SaveToFile(filename);
+		}
+
 		private void bgwCreateMapThumbnailsAndMinimaps_DoWork(object sender, DoWorkEventArgs e)
 		{
 			List<string> files=FileSystem.GetFiles(Globals.folder_clientdata_maps, true, "*.tmx");
@@ -133,11 +160,13 @@ namespace Invertika_Editor
 
 			string temp=FileSystem.TempPath + "Invertika Editor\\";
 			string tempFmMonsterSpreading=FileSystem.TempPath+"Invertika Editor\\fm-monster-spreading\\";
+			string tempFmMusic=FileSystem.TempPath+"Invertika Editor\\fm-music\\";
 
 			#region Bilderordner löschen und neu anlegen
 			FileSystem.RemoveDirectory(temp, true);
 			FileSystem.CreateDirectory(temp, true);
 			FileSystem.CreateDirectory(tempFmMonsterSpreading, true);
+			FileSystem.CreateDirectory(tempFmMusic, true);
 			#endregion
 
 			#region Bilder berechnen
@@ -216,7 +245,11 @@ namespace Invertika_Editor
 
 					//Featuremap Monster Spreading
 					string fnMonsterSpreading=tempFmMonsterSpreading+fn+"-"+imageSize+".png";
-					SaveMonsterSpreading(fnMonsterSpreading, pic, file);
+					SaveFeatureMapMonsterSpreading(fnMonsterSpreading, pic, file);
+
+					//Featuremap Music
+					string fnMusic=tempFmMusic+fn+"-"+imageSize+".png";
+					SaveFeatureMapMusic(fnMusic, pic, file);
 
 					switch(imageSize)
 					{
@@ -266,9 +299,14 @@ namespace Invertika_Editor
 			FortschrittValue=0;
 
 			//Ordner für die Feature Maps
-			if(!Client.Exists("fm-monster-spreading/ow-o0000-o0000-o0000-800.png"))
+			if(!Client.Exists("fm-monster-spreading/ow-o0000-o0000-o0000-800.png")) //Monster Spreading
 			{
 				Client.CreateDirectory("fm-monster-spreading");
+			}
+
+			if(!Client.Exists("fm-music/ow-o0000-o0000-o0000-800.png")) //Music
+			{
+				Client.CreateDirectory("fm-music");
 			}
 
 			foreach(string i in filesToUpload)
