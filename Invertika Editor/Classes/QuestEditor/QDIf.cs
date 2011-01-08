@@ -39,55 +39,55 @@ namespace Invertika_Editor.Classes.QuestEditor
 		public QIfType Type
 		{
 			get;
-			private set;
+			set;
 		}
 
 		public QIfVarType VariableType
 		{
 			get;
-			private set;
+			set;
 		}
 
 		public QIfCharacterType CharacterType
 		{
 			get;
-			private set;
+			set;
 		}
 
 		public string VariableName
 		{
 			get;
-			private set;
+			set;
 		}
 
 		public QIfOperator Operator
 		{
 			get;
-			private set;
+			set;
 		}
 
 		public int Value
 		{
 			get;
-			private set;
+			set;
 		}
 
 		public DateTime TimeOne
 		{
 			get;
-			private set;
+			set;
 		}
 
 		public DateTime TimeTwo
 		{
 			get;
-			private set;
+			set;
 		}
 
 		public bool Else
 		{
 			get;
-			private set;
+			set;
 		}
 
 		public IQuestDataClass ElseData
@@ -106,11 +106,10 @@ namespace Invertika_Editor.Classes.QuestEditor
 			Else=elsed;
 		}
 
-		public QDIf(QIfCharacterType chartype, string varname, QIfOperator varoperator, int value, bool elsed)
+		public QDIf(QIfCharacterType chartype, QIfOperator varoperator, int value, bool elsed)
 		{
-			Type=QIfType.Variable;
+			Type=QIfType.Character;
 			CharacterType=chartype;
-			VariableName=varname;
 			Operator=varoperator;
 			Value=value;
 			Else=elsed;
@@ -118,7 +117,7 @@ namespace Invertika_Editor.Classes.QuestEditor
 
 		public QDIf(DateTime time1, DateTime time2, bool elsed)
 		{
-			Type=QIfType.Variable;
+			Type=QIfType.Time;
 			TimeOne=time1;
 			TimeTwo=time2;
 			Else=elsed;

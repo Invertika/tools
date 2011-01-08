@@ -2782,8 +2782,55 @@ namespace Invertika_Editor
 		{
 			string padLeft="";
 			padLeft=padLeft.PadLeft(spacing, ' ');
-			ListViewItem lvitem=lvEvents.Items.Add(padLeft+node.Value.Key);
-			lvitem.Tag=node;
+
+			switch(node.Value.Key)
+			{
+				case "@if":
+					{
+						QDIf nodedata=(QDIf)node.Value.Value;
+
+						ListViewItem lvitem=lvEvents.Items.Add(padLeft+node.Value.Key + " - <" + nodedata.Type.ToString() + ">");
+						lvitem.Tag=node;
+
+						lvitem=lvEvents.Items.Add(padLeft.PadLeft(spacing+2, ' ')+"@");
+						lvitem.Tag=node;
+
+						if(nodedata.Else)
+						{
+							lvitem=lvEvents.Items.Add(padLeft+"@else");
+							lvitem.Tag=node;
+
+							if(nodedata.ElseData==null)
+							{
+								lvitem=lvEvents.Items.Add(padLeft.PadLeft(spacing+2, ' ')+"@");
+								lvitem.Tag=node;
+							}
+							else
+							{
+								//TODO Wenn else gefüllt ist
+							}
+						}
+
+						lvitem=lvEvents.Items.Add(padLeft+"@endif");
+						lvitem.Tag=node;
+
+						break;
+					}
+				case "@message":
+					{
+						QDMessage nodedata=(QDMessage)node.Value.Value;
+
+						ListViewItem lvitem=lvEvents.Items.Add(padLeft+node.Value.Key+ " - <" +nodedata.Messages[0] + ">");
+						lvitem.Tag=node;
+						break;
+					}
+				default:
+					{
+						ListViewItem lvitem=lvEvents.Items.Add(padLeft+node.Value.Key);
+						lvitem.Tag=node;
+						break;
+					}
+			}
 
 			foreach(Treenode<KeyValuePair<string, IQuestDataClass>> child in node.Childs)
 			{
@@ -2848,6 +2895,21 @@ namespace Invertika_Editor
 
 				switch(node.Value.Key)
 				{
+					case "@if":
+						{
+							QDIf nodedata=(QDIf)node.Value.Value;
+
+							FormQuestDataIf InstFormQuestDataIf=new FormQuestDataIf();
+							InstFormQuestDataIf.Data=nodedata;
+
+							if(InstFormQuestDataIf.ShowDialog()==DialogResult.OK)
+							{
+								lvEvents.Items.Clear();
+								BuildListBox(qee.QuestRoot, 0);
+							}
+
+							break;
+						}
 					case "@message":
 						{
 							QDMessage message=(QDMessage)node.Value.Value;
@@ -2891,7 +2953,7 @@ namespace Invertika_Editor
 				ListViewItem selected=lvEvents.SelectedItems[0];
 				Treenode<KeyValuePair<string, IQuestDataClass>> node=(Treenode<KeyValuePair<string, IQuestDataClass>>)selected.Tag;
 
-				//qee.AddMessage(InstFormQuestDataIf.Messages, node);
+				qee.AddIf(InstFormQuestDataIf.Data, node);
 
 				lvEvents.Items.Clear();
 				BuildListBox(qee.QuestRoot, 0);

@@ -26,11 +26,11 @@ namespace Invertika_Editor.Classes.QuestEditor
 			node.Childs.Add(message);
 		}
 
-		public void AddIf(List<string> messages, Treenode<KeyValuePair<string, IQuestDataClass>> node)
+		public void AddIf(QDIf ifdata, Treenode<KeyValuePair<string, IQuestDataClass>> node)
 		{
-			Treenode<KeyValuePair<string, IQuestDataClass>> message=new Treenode<KeyValuePair<string, IQuestDataClass>>();
-			message.Value=new KeyValuePair<string, IQuestDataClass>("@message", (IQuestDataClass)new QDMessage(messages));
-			node.Childs.Add(message);
+			Treenode<KeyValuePair<string, IQuestDataClass>> tnIf=new Treenode<KeyValuePair<string, IQuestDataClass>>();
+			tnIf.Value=new KeyValuePair<string, IQuestDataClass>("@if", (IQuestDataClass)ifdata);
+			node.Childs.Add(tnIf);
 		}
 
 		//public void Save(string filename)

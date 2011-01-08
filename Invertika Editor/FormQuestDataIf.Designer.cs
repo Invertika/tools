@@ -28,73 +28,72 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.radioButton1=new System.Windows.Forms.RadioButton();
-			this.radioButton2=new System.Windows.Forms.RadioButton();
-			this.comboBox1=new System.Windows.Forms.ComboBox();
+			this.rbVariable=new System.Windows.Forms.RadioButton();
+			this.rbTime=new System.Windows.Forms.RadioButton();
+			this.cbVarType=new System.Windows.Forms.ComboBox();
 			this.label1=new System.Windows.Forms.Label();
-			this.textBox1=new System.Windows.Forms.TextBox();
+			this.tbVarName=new System.Windows.Forms.TextBox();
 			this.label2=new System.Windows.Forms.Label();
 			this.label3=new System.Windows.Forms.Label();
-			this.comboBox2=new System.Windows.Forms.ComboBox();
-			this.numericUpDown1=new System.Windows.Forms.NumericUpDown();
+			this.cbVarOperator=new System.Windows.Forms.ComboBox();
+			this.nudVarValue=new System.Windows.Forms.NumericUpDown();
 			this.label4=new System.Windows.Forms.Label();
 			this.label5=new System.Windows.Forms.Label();
-			this.numericUpDown2=new System.Windows.Forms.NumericUpDown();
-			this.numericUpDown3=new System.Windows.Forms.NumericUpDown();
+			this.nudTimeOneHour=new System.Windows.Forms.NumericUpDown();
+			this.nudTimeOneMinute=new System.Windows.Forms.NumericUpDown();
 			this.label6=new System.Windows.Forms.Label();
-			this.numericUpDown4=new System.Windows.Forms.NumericUpDown();
-			this.numericUpDown5=new System.Windows.Forms.NumericUpDown();
+			this.nudTimeTwoMinute=new System.Windows.Forms.NumericUpDown();
+			this.nudTimeTwoHour=new System.Windows.Forms.NumericUpDown();
 			this.label7=new System.Windows.Forms.Label();
-			this.radioButton3=new System.Windows.Forms.RadioButton();
-			this.comboBox3=new System.Windows.Forms.ComboBox();
-			this.numericUpDown6=new System.Windows.Forms.NumericUpDown();
-			this.comboBox4=new System.Windows.Forms.ComboBox();
-			this.textBox2=new System.Windows.Forms.TextBox();
-			this.checkBox1=new System.Windows.Forms.CheckBox();
-			this.button1=new System.Windows.Forms.Button();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
+			this.rbCharacter=new System.Windows.Forms.RadioButton();
+			this.cbCharType=new System.Windows.Forms.ComboBox();
+			this.nudCharValue=new System.Windows.Forms.NumericUpDown();
+			this.cbCharOperator=new System.Windows.Forms.ComboBox();
+			this.cbElse=new System.Windows.Forms.CheckBox();
+			this.btnSave=new System.Windows.Forms.Button();
+			((System.ComponentModel.ISupportInitialize)(this.nudVarValue)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudTimeOneHour)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudTimeOneMinute)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudTimeTwoMinute)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudTimeTwoHour)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudCharValue)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// radioButton1
+			// rbVariable
 			// 
-			this.radioButton1.AutoSize=true;
-			this.radioButton1.Checked=true;
-			this.radioButton1.Location=new System.Drawing.Point(12, 33);
-			this.radioButton1.Name="radioButton1";
-			this.radioButton1.Size=new System.Drawing.Size(63, 17);
-			this.radioButton1.TabIndex=0;
-			this.radioButton1.TabStop=true;
-			this.radioButton1.Text="Variable";
-			this.radioButton1.UseVisualStyleBackColor=true;
+			this.rbVariable.AutoSize=true;
+			this.rbVariable.Checked=true;
+			this.rbVariable.Location=new System.Drawing.Point(12, 33);
+			this.rbVariable.Name="rbVariable";
+			this.rbVariable.Size=new System.Drawing.Size(63, 17);
+			this.rbVariable.TabIndex=0;
+			this.rbVariable.TabStop=true;
+			this.rbVariable.Text="Variable";
+			this.rbVariable.UseVisualStyleBackColor=true;
 			// 
-			// radioButton2
+			// rbTime
 			// 
-			this.radioButton2.AutoSize=true;
-			this.radioButton2.Location=new System.Drawing.Point(12, 79);
-			this.radioButton2.Name="radioButton2";
-			this.radioButton2.Size=new System.Drawing.Size(58, 17);
-			this.radioButton2.TabIndex=1;
-			this.radioButton2.Text="Uhrzeit";
-			this.radioButton2.UseVisualStyleBackColor=true;
+			this.rbTime.AutoSize=true;
+			this.rbTime.Location=new System.Drawing.Point(12, 79);
+			this.rbTime.Name="rbTime";
+			this.rbTime.Size=new System.Drawing.Size(58, 17);
+			this.rbTime.TabIndex=1;
+			this.rbTime.Text="Uhrzeit";
+			this.rbTime.UseVisualStyleBackColor=true;
 			// 
-			// comboBox1
+			// cbVarType
 			// 
-			this.comboBox1.DropDownStyle=System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBox1.FormattingEnabled=true;
-			this.comboBox1.Items.AddRange(new object[] {
+			this.cbVarType.DropDownStyle=System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbVarType.FormattingEnabled=true;
+			this.cbVarType.Items.AddRange(new object[] {
             "Charakter",
             "Account",
             "Karte",
             "Global"});
-			this.comboBox1.Location=new System.Drawing.Point(81, 29);
-			this.comboBox1.Name="comboBox1";
-			this.comboBox1.Size=new System.Drawing.Size(114, 21);
-			this.comboBox1.TabIndex=2;
+			this.cbVarType.Location=new System.Drawing.Point(81, 29);
+			this.cbVarType.Name="cbVarType";
+			this.cbVarType.Size=new System.Drawing.Size(114, 21);
+			this.cbVarType.TabIndex=2;
 			// 
 			// label1
 			// 
@@ -105,12 +104,12 @@
 			this.label1.TabIndex=3;
 			this.label1.Text="Art der Variable:";
 			// 
-			// textBox1
+			// tbVarName
 			// 
-			this.textBox1.Location=new System.Drawing.Point(201, 29);
-			this.textBox1.Name="textBox1";
-			this.textBox1.Size=new System.Drawing.Size(192, 20);
-			this.textBox1.TabIndex=4;
+			this.tbVarName.Location=new System.Drawing.Point(201, 29);
+			this.tbVarName.Name="tbVarName";
+			this.tbVarName.Size=new System.Drawing.Size(192, 20);
+			this.tbVarName.TabIndex=4;
 			// 
 			// label2
 			// 
@@ -130,27 +129,27 @@
 			this.label3.TabIndex=6;
 			this.label3.Text="Operator:";
 			// 
-			// comboBox2
+			// cbVarOperator
 			// 
-			this.comboBox2.DropDownStyle=System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBox2.FormattingEnabled=true;
-			this.comboBox2.Items.AddRange(new object[] {
+			this.cbVarOperator.DropDownStyle=System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbVarOperator.FormattingEnabled=true;
+			this.cbVarOperator.Items.AddRange(new object[] {
             "Größer",
             "Größer/Gleich",
             "Gleich",
             "Kleiner/Gleich",
             "Kleiner"});
-			this.comboBox2.Location=new System.Drawing.Point(399, 28);
-			this.comboBox2.Name="comboBox2";
-			this.comboBox2.Size=new System.Drawing.Size(96, 21);
-			this.comboBox2.TabIndex=7;
+			this.cbVarOperator.Location=new System.Drawing.Point(399, 28);
+			this.cbVarOperator.Name="cbVarOperator";
+			this.cbVarOperator.Size=new System.Drawing.Size(96, 21);
+			this.cbVarOperator.TabIndex=7;
 			// 
-			// numericUpDown1
+			// nudVarValue
 			// 
-			this.numericUpDown1.Location=new System.Drawing.Point(504, 28);
-			this.numericUpDown1.Name="numericUpDown1";
-			this.numericUpDown1.Size=new System.Drawing.Size(98, 20);
-			this.numericUpDown1.TabIndex=8;
+			this.nudVarValue.Location=new System.Drawing.Point(504, 28);
+			this.nudVarValue.Name="nudVarValue";
+			this.nudVarValue.Size=new System.Drawing.Size(98, 20);
+			this.nudVarValue.TabIndex=8;
 			// 
 			// label4
 			// 
@@ -170,19 +169,19 @@
 			this.label5.TabIndex=10;
 			this.label5.Text="ist zwischen";
 			// 
-			// numericUpDown2
+			// nudTimeOneHour
 			// 
-			this.numericUpDown2.Location=new System.Drawing.Point(148, 74);
-			this.numericUpDown2.Name="numericUpDown2";
-			this.numericUpDown2.Size=new System.Drawing.Size(47, 20);
-			this.numericUpDown2.TabIndex=11;
+			this.nudTimeOneHour.Location=new System.Drawing.Point(148, 74);
+			this.nudTimeOneHour.Name="nudTimeOneHour";
+			this.nudTimeOneHour.Size=new System.Drawing.Size(47, 20);
+			this.nudTimeOneHour.TabIndex=11;
 			// 
-			// numericUpDown3
+			// nudTimeOneMinute
 			// 
-			this.numericUpDown3.Location=new System.Drawing.Point(201, 74);
-			this.numericUpDown3.Name="numericUpDown3";
-			this.numericUpDown3.Size=new System.Drawing.Size(47, 20);
-			this.numericUpDown3.TabIndex=12;
+			this.nudTimeOneMinute.Location=new System.Drawing.Point(201, 74);
+			this.nudTimeOneMinute.Name="nudTimeOneMinute";
+			this.nudTimeOneMinute.Size=new System.Drawing.Size(47, 20);
+			this.nudTimeOneMinute.TabIndex=12;
 			// 
 			// label6
 			// 
@@ -193,19 +192,19 @@
 			this.label6.TabIndex=13;
 			this.label6.Text="Uhr und";
 			// 
-			// numericUpDown4
+			// nudTimeTwoMinute
 			// 
-			this.numericUpDown4.Location=new System.Drawing.Point(358, 74);
-			this.numericUpDown4.Name="numericUpDown4";
-			this.numericUpDown4.Size=new System.Drawing.Size(47, 20);
-			this.numericUpDown4.TabIndex=15;
+			this.nudTimeTwoMinute.Location=new System.Drawing.Point(358, 74);
+			this.nudTimeTwoMinute.Name="nudTimeTwoMinute";
+			this.nudTimeTwoMinute.Size=new System.Drawing.Size(47, 20);
+			this.nudTimeTwoMinute.TabIndex=15;
 			// 
-			// numericUpDown5
+			// nudTimeTwoHour
 			// 
-			this.numericUpDown5.Location=new System.Drawing.Point(305, 74);
-			this.numericUpDown5.Name="numericUpDown5";
-			this.numericUpDown5.Size=new System.Drawing.Size(47, 20);
-			this.numericUpDown5.TabIndex=14;
+			this.nudTimeTwoHour.Location=new System.Drawing.Point(305, 74);
+			this.nudTimeTwoHour.Name="nudTimeTwoHour";
+			this.nudTimeTwoHour.Size=new System.Drawing.Size(47, 20);
+			this.nudTimeTwoHour.TabIndex=14;
 			// 
 			// label7
 			// 
@@ -216,115 +215,109 @@
 			this.label7.TabIndex=16;
 			this.label7.Text="Uhr";
 			// 
-			// radioButton3
+			// rbCharacter
 			// 
-			this.radioButton3.AutoSize=true;
-			this.radioButton3.Location=new System.Drawing.Point(12, 56);
-			this.radioButton3.Name="radioButton3";
-			this.radioButton3.Size=new System.Drawing.Size(71, 17);
-			this.radioButton3.TabIndex=17;
-			this.radioButton3.Text="Charakter";
-			this.radioButton3.UseVisualStyleBackColor=true;
+			this.rbCharacter.AutoSize=true;
+			this.rbCharacter.Location=new System.Drawing.Point(12, 56);
+			this.rbCharacter.Name="rbCharacter";
+			this.rbCharacter.Size=new System.Drawing.Size(71, 17);
+			this.rbCharacter.TabIndex=17;
+			this.rbCharacter.Text="Charakter";
+			this.rbCharacter.UseVisualStyleBackColor=true;
 			// 
-			// comboBox3
+			// cbCharType
 			// 
-			this.comboBox3.DropDownStyle=System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBox3.FormattingEnabled=true;
-			this.comboBox3.Items.AddRange(new object[] {
+			this.cbCharType.DropDownStyle=System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbCharType.FormattingEnabled=true;
+			this.cbCharType.Items.AddRange(new object[] {
             "HP",
             "Gold"});
-			this.comboBox3.Location=new System.Drawing.Point(81, 52);
-			this.comboBox3.Name="comboBox3";
-			this.comboBox3.Size=new System.Drawing.Size(114, 21);
-			this.comboBox3.TabIndex=18;
+			this.cbCharType.Location=new System.Drawing.Point(81, 52);
+			this.cbCharType.Name="cbCharType";
+			this.cbCharType.Size=new System.Drawing.Size(114, 21);
+			this.cbCharType.TabIndex=18;
 			// 
-			// numericUpDown6
+			// nudCharValue
 			// 
-			this.numericUpDown6.Location=new System.Drawing.Point(504, 52);
-			this.numericUpDown6.Name="numericUpDown6";
-			this.numericUpDown6.Size=new System.Drawing.Size(98, 20);
-			this.numericUpDown6.TabIndex=23;
+			this.nudCharValue.Location=new System.Drawing.Point(504, 52);
+			this.nudCharValue.Name="nudCharValue";
+			this.nudCharValue.Size=new System.Drawing.Size(98, 20);
+			this.nudCharValue.TabIndex=23;
 			// 
-			// comboBox4
+			// cbCharOperator
 			// 
-			this.comboBox4.DropDownStyle=System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.comboBox4.FormattingEnabled=true;
-			this.comboBox4.Items.AddRange(new object[] {
+			this.cbCharOperator.DropDownStyle=System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbCharOperator.FormattingEnabled=true;
+			this.cbCharOperator.Items.AddRange(new object[] {
             "Größer",
             "Größer/Gleich",
             "Gleich",
             "Kleiner/Gleich",
             "Kleiner"});
-			this.comboBox4.Location=new System.Drawing.Point(399, 53);
-			this.comboBox4.Name="comboBox4";
-			this.comboBox4.Size=new System.Drawing.Size(96, 21);
-			this.comboBox4.TabIndex=22;
+			this.cbCharOperator.Location=new System.Drawing.Point(399, 53);
+			this.cbCharOperator.Name="cbCharOperator";
+			this.cbCharOperator.Size=new System.Drawing.Size(96, 21);
+			this.cbCharOperator.TabIndex=22;
 			// 
-			// textBox2
+			// cbElse
 			// 
-			this.textBox2.Location=new System.Drawing.Point(201, 53);
-			this.textBox2.Name="textBox2";
-			this.textBox2.Size=new System.Drawing.Size(192, 20);
-			this.textBox2.TabIndex=19;
+			this.cbElse.AutoSize=true;
+			this.cbElse.Location=new System.Drawing.Point(12, 102);
+			this.cbElse.Name="cbElse";
+			this.cbElse.Size=new System.Drawing.Size(84, 17);
+			this.cbElse.TabIndex=25;
+			this.cbElse.Text="Else Zweig?";
+			this.cbElse.UseVisualStyleBackColor=true;
 			// 
-			// checkBox1
+			// btnSave
 			// 
-			this.checkBox1.AutoSize=true;
-			this.checkBox1.Location=new System.Drawing.Point(12, 102);
-			this.checkBox1.Name="checkBox1";
-			this.checkBox1.Size=new System.Drawing.Size(84, 17);
-			this.checkBox1.TabIndex=25;
-			this.checkBox1.Text="Else Zweig?";
-			this.checkBox1.UseVisualStyleBackColor=true;
-			// 
-			// button1
-			// 
-			this.button1.Location=new System.Drawing.Point(504, 115);
-			this.button1.Name="button1";
-			this.button1.Size=new System.Drawing.Size(98, 23);
-			this.button1.TabIndex=26;
-			this.button1.Text="Speichern";
-			this.button1.UseVisualStyleBackColor=true;
+			this.btnSave.Location=new System.Drawing.Point(504, 115);
+			this.btnSave.Name="btnSave";
+			this.btnSave.Size=new System.Drawing.Size(98, 23);
+			this.btnSave.TabIndex=26;
+			this.btnSave.Text="Speichern";
+			this.btnSave.UseVisualStyleBackColor=true;
+			this.btnSave.Click+=new System.EventHandler(this.btnSave_Click);
 			// 
 			// FormQuestDataIf
 			// 
 			this.AutoScaleDimensions=new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode=System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize=new System.Drawing.Size(607, 144);
-			this.Controls.Add(this.button1);
-			this.Controls.Add(this.checkBox1);
-			this.Controls.Add(this.numericUpDown6);
-			this.Controls.Add(this.comboBox4);
-			this.Controls.Add(this.textBox2);
-			this.Controls.Add(this.comboBox3);
-			this.Controls.Add(this.radioButton3);
+			this.Controls.Add(this.btnSave);
+			this.Controls.Add(this.cbElse);
+			this.Controls.Add(this.nudCharValue);
+			this.Controls.Add(this.cbCharOperator);
+			this.Controls.Add(this.cbCharType);
+			this.Controls.Add(this.rbCharacter);
 			this.Controls.Add(this.label7);
-			this.Controls.Add(this.numericUpDown4);
-			this.Controls.Add(this.numericUpDown5);
+			this.Controls.Add(this.nudTimeTwoMinute);
+			this.Controls.Add(this.nudTimeTwoHour);
 			this.Controls.Add(this.label6);
-			this.Controls.Add(this.numericUpDown3);
-			this.Controls.Add(this.numericUpDown2);
+			this.Controls.Add(this.nudTimeOneMinute);
+			this.Controls.Add(this.nudTimeOneHour);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.label4);
-			this.Controls.Add(this.numericUpDown1);
-			this.Controls.Add(this.comboBox2);
+			this.Controls.Add(this.nudVarValue);
+			this.Controls.Add(this.cbVarOperator);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label2);
-			this.Controls.Add(this.textBox1);
+			this.Controls.Add(this.tbVarName);
 			this.Controls.Add(this.label1);
-			this.Controls.Add(this.comboBox1);
-			this.Controls.Add(this.radioButton2);
-			this.Controls.Add(this.radioButton1);
+			this.Controls.Add(this.cbVarType);
+			this.Controls.Add(this.rbTime);
+			this.Controls.Add(this.rbVariable);
 			this.FormBorderStyle=System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name="FormQuestDataIf";
 			this.StartPosition=System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text="If Editor";
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
+			this.Load+=new System.EventHandler(this.FormQuestDataIf_Load);
+			((System.ComponentModel.ISupportInitialize)(this.nudVarValue)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudTimeOneHour)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudTimeOneMinute)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudTimeTwoMinute)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudTimeTwoHour)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudCharValue)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -332,29 +325,28 @@
 
 		#endregion
 
-		private System.Windows.Forms.RadioButton radioButton1;
-		private System.Windows.Forms.RadioButton radioButton2;
-		private System.Windows.Forms.ComboBox comboBox1;
+		private System.Windows.Forms.RadioButton rbVariable;
+		private System.Windows.Forms.RadioButton rbTime;
+		private System.Windows.Forms.ComboBox cbVarType;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.TextBox tbVarName;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.ComboBox comboBox2;
-		private System.Windows.Forms.NumericUpDown numericUpDown1;
+		private System.Windows.Forms.ComboBox cbVarOperator;
+		private System.Windows.Forms.NumericUpDown nudVarValue;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.NumericUpDown numericUpDown2;
-		private System.Windows.Forms.NumericUpDown numericUpDown3;
+		private System.Windows.Forms.NumericUpDown nudTimeOneHour;
+		private System.Windows.Forms.NumericUpDown nudTimeOneMinute;
 		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.NumericUpDown numericUpDown4;
-		private System.Windows.Forms.NumericUpDown numericUpDown5;
+		private System.Windows.Forms.NumericUpDown nudTimeTwoMinute;
+		private System.Windows.Forms.NumericUpDown nudTimeTwoHour;
 		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.RadioButton radioButton3;
-		private System.Windows.Forms.ComboBox comboBox3;
-		private System.Windows.Forms.NumericUpDown numericUpDown6;
-		private System.Windows.Forms.ComboBox comboBox4;
-		private System.Windows.Forms.TextBox textBox2;
-		private System.Windows.Forms.CheckBox checkBox1;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.RadioButton rbCharacter;
+		private System.Windows.Forms.ComboBox cbCharType;
+		private System.Windows.Forms.NumericUpDown nudCharValue;
+		private System.Windows.Forms.ComboBox cbCharOperator;
+		private System.Windows.Forms.CheckBox cbElse;
+		private System.Windows.Forms.Button btnSave;
 	}
 }
