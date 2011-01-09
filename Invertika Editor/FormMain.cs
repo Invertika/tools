@@ -2959,12 +2959,5 @@ namespace Invertika_Editor
 				BuildListBox(qee.QuestRoot, 0);
 			}
 		}
-
-		private void bildtestToolStripMenuItem_Click(object sender, EventArgs e)
-		{
-			gtImage image=gtImage.FromFile("/home/seeseekey/test.png");
-
-			image.Resize(1000, 1000);
-		}
 	}
 }
