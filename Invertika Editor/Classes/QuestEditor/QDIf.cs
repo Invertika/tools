@@ -96,6 +96,12 @@ namespace Invertika_Editor.Classes.QuestEditor
 			private set;
 		}
 
+		public IQuestDataClass IfData
+		{
+			get;
+			private set;
+		}
+
 		public QDIf(QIfVarType vartype, string varname, QIfOperator varoperator, int value, bool elsed)
 		{
 			Type=QIfType.Variable;
