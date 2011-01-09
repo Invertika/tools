@@ -115,38 +115,7 @@
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog=new System.Windows.Forms.SaveFileDialog();
 			this.folderBrowserDialog=new System.Windows.Forms.FolderBrowserDialog();
-			this.tabControl=new System.Windows.Forms.TabControl();
 			this.tabPage1=new System.Windows.Forms.TabPage();
-			this.lvEvents=new System.Windows.Forms.ListView();
-			this.groupBox5=new System.Windows.Forms.GroupBox();
-			this.button12=new System.Windows.Forms.Button();
-			this.groupBox4=new System.Windows.Forms.GroupBox();
-			this.button11=new System.Windows.Forms.Button();
-			this.groupBox3=new System.Windows.Forms.GroupBox();
-			this.btnIf=new System.Windows.Forms.Button();
-			this.button13=new System.Windows.Forms.Button();
-			this.groupBox2=new System.Windows.Forms.GroupBox();
-			this.button10=new System.Windows.Forms.Button();
-			this.button9=new System.Windows.Forms.Button();
-			this.button8=new System.Windows.Forms.Button();
-			this.button7=new System.Windows.Forms.Button();
-			this.button4=new System.Windows.Forms.Button();
-			this.button5=new System.Windows.Forms.Button();
-			this.button6=new System.Windows.Forms.Button();
-			this.groupBox1=new System.Windows.Forms.GroupBox();
-			this.button3=new System.Windows.Forms.Button();
-			this.button2=new System.Windows.Forms.Button();
-			this.btnShowText=new System.Windows.Forms.Button();
-			this.label2=new System.Windows.Forms.Label();
-			this.label1=new System.Windows.Forms.Label();
-			this.nudNPCID=new System.Windows.Forms.NumericUpDown();
-			this.label19=new System.Windows.Forms.Label();
-			this.nudPosY=new System.Windows.Forms.NumericUpDown();
-			this.label18=new System.Windows.Forms.Label();
-			this.nudPosX=new System.Windows.Forms.NumericUpDown();
-			this.label17=new System.Windows.Forms.Label();
-			this.label16=new System.Windows.Forms.Label();
-			this.tbNPCName=new System.Windows.Forms.TextBox();
 			this.toolStrip=new System.Windows.Forms.ToolStrip();
 			this.tsbNewQuest=new System.Windows.Forms.ToolStripButton();
 			this.toolStripSeparator1=new System.Windows.Forms.ToolStripSeparator();
@@ -154,19 +123,49 @@
 			this.toolStripComboBox1=new System.Windows.Forms.ToolStripComboBox();
 			this.toolStripLabel1=new System.Windows.Forms.ToolStripLabel();
 			this.tsbExport=new System.Windows.Forms.ToolStripButton();
-			this.tabPage2=new System.Windows.Forms.TabPage();
+			this.tbNPCName=new System.Windows.Forms.TextBox();
+			this.label16=new System.Windows.Forms.Label();
+			this.label17=new System.Windows.Forms.Label();
+			this.nudPosX=new System.Windows.Forms.NumericUpDown();
+			this.label18=new System.Windows.Forms.Label();
+			this.nudPosY=new System.Windows.Forms.NumericUpDown();
+			this.label19=new System.Windows.Forms.Label();
+			this.nudNPCID=new System.Windows.Forms.NumericUpDown();
+			this.label1=new System.Windows.Forms.Label();
+			this.label2=new System.Windows.Forms.Label();
+			this.groupBox1=new System.Windows.Forms.GroupBox();
+			this.btnShowText=new System.Windows.Forms.Button();
+			this.button2=new System.Windows.Forms.Button();
+			this.button3=new System.Windows.Forms.Button();
+			this.groupBox2=new System.Windows.Forms.GroupBox();
+			this.button6=new System.Windows.Forms.Button();
+			this.button5=new System.Windows.Forms.Button();
+			this.button4=new System.Windows.Forms.Button();
+			this.button7=new System.Windows.Forms.Button();
+			this.button8=new System.Windows.Forms.Button();
+			this.button9=new System.Windows.Forms.Button();
+			this.button10=new System.Windows.Forms.Button();
+			this.groupBox3=new System.Windows.Forms.GroupBox();
+			this.button13=new System.Windows.Forms.Button();
+			this.btnIf=new System.Windows.Forms.Button();
+			this.groupBox4=new System.Windows.Forms.GroupBox();
+			this.button11=new System.Windows.Forms.Button();
+			this.groupBox5=new System.Windows.Forms.GroupBox();
+			this.button12=new System.Windows.Forms.Button();
+			this.lvEvents=new System.Windows.Forms.ListView();
+			this.tabControl=new System.Windows.Forms.TabControl();
 			this.menuStrip.SuspendLayout();
-			this.tabControl.SuspendLayout();
 			this.tabPage1.SuspendLayout();
-			this.groupBox5.SuspendLayout();
-			this.groupBox4.SuspendLayout();
-			this.groupBox3.SuspendLayout();
-			this.groupBox2.SuspendLayout();
-			this.groupBox1.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.nudNPCID)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.nudPosY)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.nudPosX)).BeginInit();
 			this.toolStrip.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.nudPosX)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudPosY)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudNPCID)).BeginInit();
+			this.groupBox1.SuspendLayout();
+			this.groupBox2.SuspendLayout();
+			this.groupBox3.SuspendLayout();
+			this.groupBox4.SuspendLayout();
+			this.groupBox5.SuspendLayout();
+			this.tabControl.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// menuStrip
@@ -802,17 +801,6 @@
 			this.statusStrip.TabIndex=2;
 			this.statusStrip.Text="statusStrip1";
 			// 
-			// tabControl
-			// 
-			this.tabControl.Controls.Add(this.tabPage1);
-			this.tabControl.Controls.Add(this.tabPage2);
-			this.tabControl.Dock=System.Windows.Forms.DockStyle.Fill;
-			this.tabControl.Location=new System.Drawing.Point(0, 24);
-			this.tabControl.Name="tabControl";
-			this.tabControl.SelectedIndex=0;
-			this.tabControl.Size=new System.Drawing.Size(1006, 427);
-			this.tabControl.TabIndex=3;
-			// 
 			// tabPage1
 			// 
 			this.tabPage1.Controls.Add(this.lvEvents);
@@ -839,330 +827,6 @@
 			this.tabPage1.TabIndex=0;
 			this.tabPage1.Text="NPC-/Questeditor";
 			this.tabPage1.UseVisualStyleBackColor=true;
-			// 
-			// lvEvents
-			// 
-			this.lvEvents.Anchor=((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Bottom)
-						|System.Windows.Forms.AnchorStyles.Left)
-						|System.Windows.Forms.AnchorStyles.Right)));
-			this.lvEvents.FullRowSelect=true;
-			this.lvEvents.HideSelection=false;
-			this.lvEvents.Location=new System.Drawing.Point(617, 101);
-			this.lvEvents.Name="lvEvents";
-			this.lvEvents.Size=new System.Drawing.Size(375, 294);
-			this.lvEvents.TabIndex=36;
-			this.lvEvents.UseCompatibleStateImageBehavior=false;
-			this.lvEvents.View=System.Windows.Forms.View.List;
-			this.lvEvents.MouseDoubleClick+=new System.Windows.Forms.MouseEventHandler(this.lvEvents_MouseDoubleClick);
-			// 
-			// groupBox5
-			// 
-			this.groupBox5.Controls.Add(this.button12);
-			this.groupBox5.Location=new System.Drawing.Point(397, 188);
-			this.groupBox5.Name="groupBox5";
-			this.groupBox5.Size=new System.Drawing.Size(187, 71);
-			this.groupBox5.TabIndex=35;
-			this.groupBox5.TabStop=false;
-			this.groupBox5.Text="Musik und Sound";
-			// 
-			// button12
-			// 
-			this.button12.Location=new System.Drawing.Point(6, 19);
-			this.button12.Name="button12";
-			this.button12.Size=new System.Drawing.Size(175, 23);
-			this.button12.TabIndex=0;
-			this.button12.Text="Spiele Sound...";
-			this.button12.UseVisualStyleBackColor=true;
-			// 
-			// groupBox4
-			// 
-			this.groupBox4.Controls.Add(this.button11);
-			this.groupBox4.Location=new System.Drawing.Point(397, 101);
-			this.groupBox4.Name="groupBox4";
-			this.groupBox4.Size=new System.Drawing.Size(187, 71);
-			this.groupBox4.TabIndex=34;
-			this.groupBox4.TabStop=false;
-			this.groupBox4.Text="Bewegung";
-			// 
-			// button11
-			// 
-			this.button11.Location=new System.Drawing.Point(6, 19);
-			this.button11.Name="button11";
-			this.button11.Size=new System.Drawing.Size(175, 23);
-			this.button11.TabIndex=0;
-			this.button11.Text="Transferiere Spieler...";
-			this.button11.UseVisualStyleBackColor=true;
-			// 
-			// groupBox3
-			// 
-			this.groupBox3.Controls.Add(this.btnIf);
-			this.groupBox3.Controls.Add(this.button13);
-			this.groupBox3.Location=new System.Drawing.Point(11, 217);
-			this.groupBox3.Name="groupBox3";
-			this.groupBox3.Size=new System.Drawing.Size(187, 110);
-			this.groupBox3.TabIndex=33;
-			this.groupBox3.TabStop=false;
-			this.groupBox3.Text="Flusskontrolle";
-			// 
-			// btnIf
-			// 
-			this.btnIf.Location=new System.Drawing.Point(6, 19);
-			this.btnIf.Name="btnIf";
-			this.btnIf.Size=new System.Drawing.Size(175, 23);
-			this.btnIf.TabIndex=1;
-			this.btnIf.Text="If";
-			this.btnIf.UseVisualStyleBackColor=true;
-			this.btnIf.Click+=new System.EventHandler(this.btnIf_Click);
-			// 
-			// button13
-			// 
-			this.button13.Location=new System.Drawing.Point(6, 48);
-			this.button13.Name="button13";
-			this.button13.Size=new System.Drawing.Size(175, 23);
-			this.button13.TabIndex=0;
-			this.button13.Text="Schleife";
-			this.button13.UseVisualStyleBackColor=true;
-			// 
-			// groupBox2
-			// 
-			this.groupBox2.Controls.Add(this.button10);
-			this.groupBox2.Controls.Add(this.button9);
-			this.groupBox2.Controls.Add(this.button8);
-			this.groupBox2.Controls.Add(this.button7);
-			this.groupBox2.Controls.Add(this.button4);
-			this.groupBox2.Controls.Add(this.button5);
-			this.groupBox2.Controls.Add(this.button6);
-			this.groupBox2.Location=new System.Drawing.Point(204, 101);
-			this.groupBox2.Name="groupBox2";
-			this.groupBox2.Size=new System.Drawing.Size(187, 227);
-			this.groupBox2.TabIndex=33;
-			this.groupBox2.TabStop=false;
-			this.groupBox2.Text="Charakter";
-			// 
-			// button10
-			// 
-			this.button10.Location=new System.Drawing.Point(6, 193);
-			this.button10.Name="button10";
-			this.button10.Size=new System.Drawing.Size(175, 23);
-			this.button10.TabIndex=6;
-			this.button10.Text="Ändere Frisur...";
-			this.button10.UseVisualStyleBackColor=true;
-			// 
-			// button9
-			// 
-			this.button9.Location=new System.Drawing.Point(6, 164);
-			this.button9.Name="button9";
-			this.button9.Size=new System.Drawing.Size(175, 23);
-			this.button9.TabIndex=5;
-			this.button9.Text="Ändere Haarfarbe...";
-			this.button9.UseVisualStyleBackColor=true;
-			// 
-			// button8
-			// 
-			this.button8.Location=new System.Drawing.Point(6, 135);
-			this.button8.Name="button8";
-			this.button8.Size=new System.Drawing.Size(175, 23);
-			this.button8.TabIndex=4;
-			this.button8.Text="Ändere  Geschlecht...";
-			this.button8.UseVisualStyleBackColor=true;
-			// 
-			// button7
-			// 
-			this.button7.Location=new System.Drawing.Point(6, 106);
-			this.button7.Name="button7";
-			this.button7.Size=new System.Drawing.Size(175, 23);
-			this.button7.TabIndex=3;
-			this.button7.Text="Ändere Name...";
-			this.button7.UseVisualStyleBackColor=true;
-			// 
-			// button4
-			// 
-			this.button4.Location=new System.Drawing.Point(6, 77);
-			this.button4.Name="button4";
-			this.button4.Size=new System.Drawing.Size(175, 23);
-			this.button4.TabIndex=2;
-			this.button4.Text="Ändere Skills...";
-			this.button4.UseVisualStyleBackColor=true;
-			// 
-			// button5
-			// 
-			this.button5.Location=new System.Drawing.Point(6, 48);
-			this.button5.Name="button5";
-			this.button5.Size=new System.Drawing.Size(175, 23);
-			this.button5.TabIndex=1;
-			this.button5.Text="Ändere Erfahrung...";
-			this.button5.UseVisualStyleBackColor=true;
-			// 
-			// button6
-			// 
-			this.button6.Location=new System.Drawing.Point(6, 19);
-			this.button6.Name="button6";
-			this.button6.Size=new System.Drawing.Size(175, 23);
-			this.button6.TabIndex=0;
-			this.button6.Text="Ändere HP...";
-			this.button6.UseVisualStyleBackColor=true;
-			// 
-			// groupBox1
-			// 
-			this.groupBox1.Controls.Add(this.button3);
-			this.groupBox1.Controls.Add(this.button2);
-			this.groupBox1.Controls.Add(this.btnShowText);
-			this.groupBox1.Location=new System.Drawing.Point(11, 101);
-			this.groupBox1.Name="groupBox1";
-			this.groupBox1.Size=new System.Drawing.Size(187, 110);
-			this.groupBox1.TabIndex=32;
-			this.groupBox1.TabStop=false;
-			this.groupBox1.Text="Nachrichten";
-			// 
-			// button3
-			// 
-			this.button3.Location=new System.Drawing.Point(6, 77);
-			this.button3.Name="button3";
-			this.button3.Size=new System.Drawing.Size(175, 23);
-			this.button3.TabIndex=2;
-			this.button3.Text="Eingabe (Text, Zahl)...";
-			this.button3.UseVisualStyleBackColor=true;
-			// 
-			// button2
-			// 
-			this.button2.Location=new System.Drawing.Point(6, 48);
-			this.button2.Name="button2";
-			this.button2.Size=new System.Drawing.Size(175, 23);
-			this.button2.TabIndex=1;
-			this.button2.Text="Zeige Auswahl...";
-			this.button2.UseVisualStyleBackColor=true;
-			// 
-			// btnShowText
-			// 
-			this.btnShowText.Location=new System.Drawing.Point(6, 19);
-			this.btnShowText.Name="btnShowText";
-			this.btnShowText.Size=new System.Drawing.Size(175, 23);
-			this.btnShowText.TabIndex=0;
-			this.btnShowText.Text="Zeige Text...";
-			this.btnShowText.UseVisualStyleBackColor=true;
-			this.btnShowText.Click+=new System.EventHandler(this.btnShowText_Click);
-			// 
-			// label2
-			// 
-			this.label2.AutoSize=true;
-			this.label2.Location=new System.Drawing.Point(11, 85);
-			this.label2.Name="label2";
-			this.label2.Size=new System.Drawing.Size(68, 13);
-			this.label2.TabIndex=30;
-			this.label2.Text="Kommandos:";
-			// 
-			// label1
-			// 
-			this.label1.Anchor=((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)
-						|System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.AutoSize=true;
-			this.label1.Location=new System.Drawing.Point(614, 85);
-			this.label1.Name="label1";
-			this.label1.Size=new System.Drawing.Size(56, 13);
-			this.label1.TabIndex=29;
-			this.label1.Text="Eventliste:";
-			// 
-			// nudNPCID
-			// 
-			this.nudNPCID.Anchor=((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)
-						|System.Windows.Forms.AnchorStyles.Right)));
-			this.nudNPCID.Location=new System.Drawing.Point(616, 53);
-			this.nudNPCID.Maximum=new decimal(new int[] {
-            200,
-            0,
-            0,
-            0});
-			this.nudNPCID.Name="nudNPCID";
-			this.nudNPCID.Size=new System.Drawing.Size(114, 20);
-			this.nudNPCID.TabIndex=28;
-			this.nudNPCID.Value=new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-			// 
-			// label19
-			// 
-			this.label19.Anchor=((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)
-						|System.Windows.Forms.AnchorStyles.Right)));
-			this.label19.AutoSize=true;
-			this.label19.Location=new System.Drawing.Point(614, 36);
-			this.label19.Name="label19";
-			this.label19.Size=new System.Drawing.Size(46, 13);
-			this.label19.TabIndex=27;
-			this.label19.Text="NPC ID:";
-			// 
-			// nudPosY
-			// 
-			this.nudPosY.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
-			this.nudPosY.Location=new System.Drawing.Point(867, 53);
-			this.nudPosY.Maximum=new decimal(new int[] {
-            200,
-            0,
-            0,
-            0});
-			this.nudPosY.Name="nudPosY";
-			this.nudPosY.Size=new System.Drawing.Size(125, 20);
-			this.nudPosY.TabIndex=26;
-			this.nudPosY.Value=new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-			// 
-			// label18
-			// 
-			this.label18.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
-			this.label18.AutoSize=true;
-			this.label18.Location=new System.Drawing.Point(863, 36);
-			this.label18.Name="label18";
-			this.label18.Size=new System.Drawing.Size(127, 13);
-			this.label18.TabIndex=25;
-			this.label18.Text="Position Y (in Tilegrößen):";
-			// 
-			// nudPosX
-			// 
-			this.nudPosX.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
-			this.nudPosX.Location=new System.Drawing.Point(736, 53);
-			this.nudPosX.Maximum=new decimal(new int[] {
-            200,
-            0,
-            0,
-            0});
-			this.nudPosX.Name="nudPosX";
-			this.nudPosX.Size=new System.Drawing.Size(125, 20);
-			this.nudPosX.TabIndex=24;
-			this.nudPosX.Value=new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-			// 
-			// label17
-			// 
-			this.label17.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
-			this.label17.AutoSize=true;
-			this.label17.Location=new System.Drawing.Point(730, 36);
-			this.label17.Name="label17";
-			this.label17.Size=new System.Drawing.Size(127, 13);
-			this.label17.TabIndex=23;
-			this.label17.Text="Position X (in Tilegrößen):";
-			// 
-			// label16
-			// 
-			this.label16.AutoSize=true;
-			this.label16.Location=new System.Drawing.Point(8, 37);
-			this.label16.Name="label16";
-			this.label16.Size=new System.Drawing.Size(38, 13);
-			this.label16.TabIndex=22;
-			this.label16.Text="Name:";
-			// 
-			// tbNPCName
-			// 
-			this.tbNPCName.Location=new System.Drawing.Point(11, 53);
-			this.tbNPCName.Name="tbNPCName";
-			this.tbNPCName.Size=new System.Drawing.Size(589, 20);
-			this.tbNPCName.TabIndex=21;
 			// 
 			// toolStrip
 			// 
@@ -1229,15 +893,339 @@
 			this.tsbExport.Text="Export nach Lua";
 			this.tsbExport.Click+=new System.EventHandler(this.tsbExport_Click);
 			// 
-			// tabPage2
+			// tbNPCName
 			// 
-			this.tabPage2.Location=new System.Drawing.Point(4, 22);
-			this.tabPage2.Name="tabPage2";
-			this.tabPage2.Padding=new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size=new System.Drawing.Size(998, 401);
-			this.tabPage2.TabIndex=1;
-			this.tabPage2.Text="tabPage2";
-			this.tabPage2.UseVisualStyleBackColor=true;
+			this.tbNPCName.Location=new System.Drawing.Point(11, 53);
+			this.tbNPCName.Name="tbNPCName";
+			this.tbNPCName.Size=new System.Drawing.Size(589, 20);
+			this.tbNPCName.TabIndex=21;
+			// 
+			// label16
+			// 
+			this.label16.AutoSize=true;
+			this.label16.Location=new System.Drawing.Point(8, 37);
+			this.label16.Name="label16";
+			this.label16.Size=new System.Drawing.Size(38, 13);
+			this.label16.TabIndex=22;
+			this.label16.Text="Name:";
+			// 
+			// label17
+			// 
+			this.label17.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
+			this.label17.AutoSize=true;
+			this.label17.Location=new System.Drawing.Point(730, 36);
+			this.label17.Name="label17";
+			this.label17.Size=new System.Drawing.Size(127, 13);
+			this.label17.TabIndex=23;
+			this.label17.Text="Position X (in Tilegrößen):";
+			// 
+			// nudPosX
+			// 
+			this.nudPosX.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
+			this.nudPosX.Location=new System.Drawing.Point(736, 53);
+			this.nudPosX.Maximum=new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+			this.nudPosX.Name="nudPosX";
+			this.nudPosX.Size=new System.Drawing.Size(125, 20);
+			this.nudPosX.TabIndex=24;
+			this.nudPosX.Value=new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+			// 
+			// label18
+			// 
+			this.label18.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
+			this.label18.AutoSize=true;
+			this.label18.Location=new System.Drawing.Point(863, 36);
+			this.label18.Name="label18";
+			this.label18.Size=new System.Drawing.Size(127, 13);
+			this.label18.TabIndex=25;
+			this.label18.Text="Position Y (in Tilegrößen):";
+			// 
+			// nudPosY
+			// 
+			this.nudPosY.Anchor=((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Right)));
+			this.nudPosY.Location=new System.Drawing.Point(867, 53);
+			this.nudPosY.Maximum=new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+			this.nudPosY.Name="nudPosY";
+			this.nudPosY.Size=new System.Drawing.Size(125, 20);
+			this.nudPosY.TabIndex=26;
+			this.nudPosY.Value=new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+			// 
+			// label19
+			// 
+			this.label19.Anchor=((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)
+						|System.Windows.Forms.AnchorStyles.Right)));
+			this.label19.AutoSize=true;
+			this.label19.Location=new System.Drawing.Point(614, 36);
+			this.label19.Name="label19";
+			this.label19.Size=new System.Drawing.Size(46, 13);
+			this.label19.TabIndex=27;
+			this.label19.Text="NPC ID:";
+			// 
+			// nudNPCID
+			// 
+			this.nudNPCID.Anchor=((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)
+						|System.Windows.Forms.AnchorStyles.Right)));
+			this.nudNPCID.Location=new System.Drawing.Point(616, 53);
+			this.nudNPCID.Maximum=new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+			this.nudNPCID.Name="nudNPCID";
+			this.nudNPCID.Size=new System.Drawing.Size(114, 20);
+			this.nudNPCID.TabIndex=28;
+			this.nudNPCID.Value=new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+			// 
+			// label1
+			// 
+			this.label1.Anchor=((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Left)
+						|System.Windows.Forms.AnchorStyles.Right)));
+			this.label1.AutoSize=true;
+			this.label1.Location=new System.Drawing.Point(614, 85);
+			this.label1.Name="label1";
+			this.label1.Size=new System.Drawing.Size(56, 13);
+			this.label1.TabIndex=29;
+			this.label1.Text="Eventliste:";
+			// 
+			// label2
+			// 
+			this.label2.AutoSize=true;
+			this.label2.Location=new System.Drawing.Point(11, 85);
+			this.label2.Name="label2";
+			this.label2.Size=new System.Drawing.Size(68, 13);
+			this.label2.TabIndex=30;
+			this.label2.Text="Kommandos:";
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this.button3);
+			this.groupBox1.Controls.Add(this.button2);
+			this.groupBox1.Controls.Add(this.btnShowText);
+			this.groupBox1.Location=new System.Drawing.Point(11, 101);
+			this.groupBox1.Name="groupBox1";
+			this.groupBox1.Size=new System.Drawing.Size(187, 110);
+			this.groupBox1.TabIndex=32;
+			this.groupBox1.TabStop=false;
+			this.groupBox1.Text="Nachrichten";
+			// 
+			// btnShowText
+			// 
+			this.btnShowText.Location=new System.Drawing.Point(6, 19);
+			this.btnShowText.Name="btnShowText";
+			this.btnShowText.Size=new System.Drawing.Size(175, 23);
+			this.btnShowText.TabIndex=0;
+			this.btnShowText.Text="Zeige Text...";
+			this.btnShowText.UseVisualStyleBackColor=true;
+			this.btnShowText.Click+=new System.EventHandler(this.btnShowText_Click);
+			// 
+			// button2
+			// 
+			this.button2.Location=new System.Drawing.Point(6, 48);
+			this.button2.Name="button2";
+			this.button2.Size=new System.Drawing.Size(175, 23);
+			this.button2.TabIndex=1;
+			this.button2.Text="Zeige Auswahl...";
+			this.button2.UseVisualStyleBackColor=true;
+			// 
+			// button3
+			// 
+			this.button3.Location=new System.Drawing.Point(6, 77);
+			this.button3.Name="button3";
+			this.button3.Size=new System.Drawing.Size(175, 23);
+			this.button3.TabIndex=2;
+			this.button3.Text="Eingabe (Text, Zahl)...";
+			this.button3.UseVisualStyleBackColor=true;
+			// 
+			// groupBox2
+			// 
+			this.groupBox2.Controls.Add(this.button10);
+			this.groupBox2.Controls.Add(this.button9);
+			this.groupBox2.Controls.Add(this.button8);
+			this.groupBox2.Controls.Add(this.button7);
+			this.groupBox2.Controls.Add(this.button4);
+			this.groupBox2.Controls.Add(this.button5);
+			this.groupBox2.Controls.Add(this.button6);
+			this.groupBox2.Location=new System.Drawing.Point(204, 101);
+			this.groupBox2.Name="groupBox2";
+			this.groupBox2.Size=new System.Drawing.Size(187, 227);
+			this.groupBox2.TabIndex=33;
+			this.groupBox2.TabStop=false;
+			this.groupBox2.Text="Charakter";
+			// 
+			// button6
+			// 
+			this.button6.Location=new System.Drawing.Point(6, 19);
+			this.button6.Name="button6";
+			this.button6.Size=new System.Drawing.Size(175, 23);
+			this.button6.TabIndex=0;
+			this.button6.Text="Ändere HP...";
+			this.button6.UseVisualStyleBackColor=true;
+			// 
+			// button5
+			// 
+			this.button5.Location=new System.Drawing.Point(6, 48);
+			this.button5.Name="button5";
+			this.button5.Size=new System.Drawing.Size(175, 23);
+			this.button5.TabIndex=1;
+			this.button5.Text="Ändere Erfahrung...";
+			this.button5.UseVisualStyleBackColor=true;
+			// 
+			// button4
+			// 
+			this.button4.Location=new System.Drawing.Point(6, 77);
+			this.button4.Name="button4";
+			this.button4.Size=new System.Drawing.Size(175, 23);
+			this.button4.TabIndex=2;
+			this.button4.Text="Ändere Skills...";
+			this.button4.UseVisualStyleBackColor=true;
+			// 
+			// button7
+			// 
+			this.button7.Location=new System.Drawing.Point(6, 106);
+			this.button7.Name="button7";
+			this.button7.Size=new System.Drawing.Size(175, 23);
+			this.button7.TabIndex=3;
+			this.button7.Text="Ändere Name...";
+			this.button7.UseVisualStyleBackColor=true;
+			// 
+			// button8
+			// 
+			this.button8.Location=new System.Drawing.Point(6, 135);
+			this.button8.Name="button8";
+			this.button8.Size=new System.Drawing.Size(175, 23);
+			this.button8.TabIndex=4;
+			this.button8.Text="Ändere  Geschlecht...";
+			this.button8.UseVisualStyleBackColor=true;
+			// 
+			// button9
+			// 
+			this.button9.Location=new System.Drawing.Point(6, 164);
+			this.button9.Name="button9";
+			this.button9.Size=new System.Drawing.Size(175, 23);
+			this.button9.TabIndex=5;
+			this.button9.Text="Ändere Haarfarbe...";
+			this.button9.UseVisualStyleBackColor=true;
+			// 
+			// button10
+			// 
+			this.button10.Location=new System.Drawing.Point(6, 193);
+			this.button10.Name="button10";
+			this.button10.Size=new System.Drawing.Size(175, 23);
+			this.button10.TabIndex=6;
+			this.button10.Text="Ändere Frisur...";
+			this.button10.UseVisualStyleBackColor=true;
+			// 
+			// groupBox3
+			// 
+			this.groupBox3.Controls.Add(this.btnIf);
+			this.groupBox3.Controls.Add(this.button13);
+			this.groupBox3.Location=new System.Drawing.Point(11, 217);
+			this.groupBox3.Name="groupBox3";
+			this.groupBox3.Size=new System.Drawing.Size(187, 110);
+			this.groupBox3.TabIndex=33;
+			this.groupBox3.TabStop=false;
+			this.groupBox3.Text="Flusskontrolle";
+			// 
+			// button13
+			// 
+			this.button13.Location=new System.Drawing.Point(6, 48);
+			this.button13.Name="button13";
+			this.button13.Size=new System.Drawing.Size(175, 23);
+			this.button13.TabIndex=0;
+			this.button13.Text="Schleife";
+			this.button13.UseVisualStyleBackColor=true;
+			// 
+			// btnIf
+			// 
+			this.btnIf.Location=new System.Drawing.Point(6, 19);
+			this.btnIf.Name="btnIf";
+			this.btnIf.Size=new System.Drawing.Size(175, 23);
+			this.btnIf.TabIndex=1;
+			this.btnIf.Text="If";
+			this.btnIf.UseVisualStyleBackColor=true;
+			this.btnIf.Click+=new System.EventHandler(this.btnIf_Click);
+			// 
+			// groupBox4
+			// 
+			this.groupBox4.Controls.Add(this.button11);
+			this.groupBox4.Location=new System.Drawing.Point(397, 101);
+			this.groupBox4.Name="groupBox4";
+			this.groupBox4.Size=new System.Drawing.Size(187, 71);
+			this.groupBox4.TabIndex=34;
+			this.groupBox4.TabStop=false;
+			this.groupBox4.Text="Bewegung";
+			// 
+			// button11
+			// 
+			this.button11.Location=new System.Drawing.Point(6, 19);
+			this.button11.Name="button11";
+			this.button11.Size=new System.Drawing.Size(175, 23);
+			this.button11.TabIndex=0;
+			this.button11.Text="Transferiere Spieler...";
+			this.button11.UseVisualStyleBackColor=true;
+			// 
+			// groupBox5
+			// 
+			this.groupBox5.Controls.Add(this.button12);
+			this.groupBox5.Location=new System.Drawing.Point(397, 188);
+			this.groupBox5.Name="groupBox5";
+			this.groupBox5.Size=new System.Drawing.Size(187, 71);
+			this.groupBox5.TabIndex=35;
+			this.groupBox5.TabStop=false;
+			this.groupBox5.Text="Musik und Sound";
+			// 
+			// button12
+			// 
+			this.button12.Location=new System.Drawing.Point(6, 19);
+			this.button12.Name="button12";
+			this.button12.Size=new System.Drawing.Size(175, 23);
+			this.button12.TabIndex=0;
+			this.button12.Text="Spiele Sound...";
+			this.button12.UseVisualStyleBackColor=true;
+			// 
+			// lvEvents
+			// 
+			this.lvEvents.Anchor=((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top|System.Windows.Forms.AnchorStyles.Bottom)
+						|System.Windows.Forms.AnchorStyles.Left)
+						|System.Windows.Forms.AnchorStyles.Right)));
+			this.lvEvents.FullRowSelect=true;
+			this.lvEvents.HideSelection=false;
+			this.lvEvents.Location=new System.Drawing.Point(617, 101);
+			this.lvEvents.Name="lvEvents";
+			this.lvEvents.Size=new System.Drawing.Size(375, 294);
+			this.lvEvents.TabIndex=36;
+			this.lvEvents.UseCompatibleStateImageBehavior=false;
+			this.lvEvents.View=System.Windows.Forms.View.List;
+			this.lvEvents.MouseDoubleClick+=new System.Windows.Forms.MouseEventHandler(this.lvEvents_MouseDoubleClick);
+			// 
+			// tabControl
+			// 
+			this.tabControl.Controls.Add(this.tabPage1);
+			this.tabControl.Dock=System.Windows.Forms.DockStyle.Fill;
+			this.tabControl.Location=new System.Drawing.Point(0, 24);
+			this.tabControl.Name="tabControl";
+			this.tabControl.SelectedIndex=0;
+			this.tabControl.Size=new System.Drawing.Size(1006, 427);
+			this.tabControl.TabIndex=3;
 			// 
 			// FormMain
 			// 
@@ -1257,19 +1245,19 @@
 			this.Load+=new System.EventHandler(this.FormMain_Load);
 			this.menuStrip.ResumeLayout(false);
 			this.menuStrip.PerformLayout();
-			this.tabControl.ResumeLayout(false);
 			this.tabPage1.ResumeLayout(false);
 			this.tabPage1.PerformLayout();
-			this.groupBox5.ResumeLayout(false);
-			this.groupBox4.ResumeLayout(false);
-			this.groupBox3.ResumeLayout(false);
-			this.groupBox2.ResumeLayout(false);
-			this.groupBox1.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.nudNPCID)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.nudPosY)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.nudPosX)).EndInit();
 			this.toolStrip.ResumeLayout(false);
 			this.toolStrip.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.nudPosX)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudPosY)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.nudNPCID)).EndInit();
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox2.ResumeLayout(false);
+			this.groupBox3.ResumeLayout(false);
+			this.groupBox4.ResumeLayout(false);
+			this.groupBox5.ResumeLayout(false);
+			this.tabControl.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -1362,31 +1350,15 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem16;
 		private System.Windows.Forms.ToolStripMenuItem spritesÜberprüfenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem;
-		private System.Windows.Forms.TabControl tabControl;
-		private System.Windows.Forms.TabPage tabPage1;
-		private System.Windows.Forms.TabPage tabPage2;
 		private System.Windows.Forms.ToolStripMenuItem nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem;
-		private System.Windows.Forms.ToolStrip toolStrip;
-		private System.Windows.Forms.ToolStripButton tsbNewQuest;
-		private System.Windows.Forms.NumericUpDown nudNPCID;
-		private System.Windows.Forms.Label label19;
-		private System.Windows.Forms.NumericUpDown nudPosY;
-		private System.Windows.Forms.Label label18;
-		private System.Windows.Forms.NumericUpDown nudPosX;
-		private System.Windows.Forms.Label label17;
-		private System.Windows.Forms.Label label16;
-		private System.Windows.Forms.TextBox tbNPCName;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-		private System.Windows.Forms.ToolStripButton toolStripButton2;
-		private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
-		private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+		private System.Windows.Forms.TabPage tabPage1;
+		private System.Windows.Forms.ListView lvEvents;
 		private System.Windows.Forms.GroupBox groupBox5;
 		private System.Windows.Forms.Button button12;
 		private System.Windows.Forms.GroupBox groupBox4;
 		private System.Windows.Forms.Button button11;
 		private System.Windows.Forms.GroupBox groupBox3;
+		private System.Windows.Forms.Button btnIf;
 		private System.Windows.Forms.Button button13;
 		private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.Button button10;
@@ -1400,9 +1372,24 @@
 		private System.Windows.Forms.Button button3;
 		private System.Windows.Forms.Button button2;
 		private System.Windows.Forms.Button btnShowText;
-		private System.Windows.Forms.ListView lvEvents;
+		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.NumericUpDown nudNPCID;
+		private System.Windows.Forms.Label label19;
+		private System.Windows.Forms.NumericUpDown nudPosY;
+		private System.Windows.Forms.Label label18;
+		private System.Windows.Forms.NumericUpDown nudPosX;
+		private System.Windows.Forms.Label label17;
+		private System.Windows.Forms.Label label16;
+		private System.Windows.Forms.TextBox tbNPCName;
+		private System.Windows.Forms.ToolStrip toolStrip;
+		private System.Windows.Forms.ToolStripButton tsbNewQuest;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripButton toolStripButton2;
+		private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
+		private System.Windows.Forms.ToolStripLabel toolStripLabel1;
 		private System.Windows.Forms.ToolStripButton tsbExport;
-		private System.Windows.Forms.Button btnIf;
+		private System.Windows.Forms.TabControl tabControl;
 	}
 }
 
