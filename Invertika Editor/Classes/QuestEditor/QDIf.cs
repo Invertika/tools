@@ -90,13 +90,13 @@ namespace Invertika_Editor.Classes.QuestEditor
 			set;
 		}
 
-		public IQuestDataClass ElseData
+		public IQuestDataClass IfData
 		{
 			get;
 			private set;
 		}
 
-		public IQuestDataClass IfData
+		public IQuestDataClass ElseData
 		{
 			get;
 			private set;
