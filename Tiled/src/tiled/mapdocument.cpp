@@ -38,6 +38,7 @@
 #include "tilesetmanager.h"
 #include "tileset.h"
 
+#include <QFileInfo>
 #include <QRect>
 #include <QUndoStack>
 
@@ -67,6 +68,8 @@ MapDocument::MapDocument(Map *map, const QString &fileName):
     connect(mLayerModel, SIGNAL(layerRemoved(int)), SLOT(onLayerRemoved(int)));
     connect(mLayerModel, SIGNAL(layerChanged(int)), SIGNAL(layerChanged(int)));
 
+    connect(mUndoStack, SIGNAL(cleanChanged(bool)), SIGNAL(modifiedChanged()));
+
     // Register tileset references
     TilesetManager *tilesetManager = TilesetManager::instance();
     tilesetManager->addReferences(mMap->tilesets());
@@ -80,6 +83,36 @@ MapDocument::~MapDocument()
 
     delete mRenderer;
     delete mMap;
+}
+
+void MapDocument::setFileName(const QString &fileName)
+{
+    if (mFileName == fileName)
+        return;
+
+    mFileName = fileName;
+    emit fileNameChanged();
+}
+
+/**
+ * Returns the name with which to display this map. It is the file name without
+ * its path, or 'untitled.tmx' when the map has no file name.
+ */
+QString MapDocument::displayName() const
+{
+    QString displayName = QFileInfo(mFileName).fileName();
+    if (displayName.isEmpty())
+        displayName = tr("untitled.tmx");
+
+    return displayName;
+}
+
+/**
+ * Returns whether the map has unsaved changes.
+ */
+bool MapDocument::isModified() const
+{
+    return !mUndoStack->isClean();
 }
 
 void MapDocument::setCurrentLayer(int index)
@@ -267,24 +300,6 @@ void MapDocument::setTileSelection(const QRegion &selection)
     }
 }
 
-static Tileset *findSimilarTileset(const Tileset *tileset,
-                                   const QList<Tileset*> &tilesets)
-{
-    foreach (Tileset *candidate, tilesets) {
-        if (candidate != tileset
-            && candidate->imageSource() == tileset->imageSource()
-            && candidate->tileWidth() == tileset->tileWidth()
-            && candidate->tileHeight() == tileset->tileHeight()
-            && candidate->tileSpacing() == tileset->tileSpacing()
-            && candidate->margin() == tileset->margin())
-        {
-            return candidate;
-        }
-    }
-
-    return 0;
-}
-
 /**
  * Makes sure the all tilesets which are used at the given \a map will be
  * present in the map document.
@@ -304,7 +319,7 @@ void MapDocument::unifyTilesets(Map *map)
         if (existingTilesets.contains(tileset))
             continue;
 
-        Tileset *replacement = findSimilarTileset(tileset, existingTilesets);
+        Tileset *replacement = tileset->findSimilarTileset(existingTilesets);
         if (!replacement) {
             undoCommands.append(new AddTileset(this, tileset));
             continue;
@@ -346,6 +361,11 @@ void MapDocument::emitMapChanged()
 void MapDocument::emitRegionChanged(const QRegion &region)
 {
     emit regionChanged(region);
+}
+
+void MapDocument::emitRegionEdited(const QRegion &region, Layer *layer)
+{
+    emit regionEdited(region, layer);
 }
 
 /**

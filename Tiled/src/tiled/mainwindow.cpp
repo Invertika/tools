@@ -67,6 +67,7 @@
 #include "undodock.h"
 #include "utils.h"
 #include "zoomable.h"
+#include "commandbutton.h"
 
 #include <QCloseEvent>
 #include <QFileDialog>
@@ -102,6 +103,8 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
     PluginManager::instance()->loadPlugins();
 
+    Preferences *preferences = Preferences::instance();
+
     QIcon redoIcon(QLatin1String(":images/16x16/edit-redo.png"));
     QIcon undoIcon(QLatin1String(":images/16x16/edit-undo.png"));
 
@@ -122,14 +125,21 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     mUi->actionOpen->setIcon(openIcon);
     mUi->actionSave->setIcon(saveIcon);
 
-    mUndoGroup = new QUndoGroup(this);
-    QAction *undoAction = mUndoGroup->createUndoAction(this, tr("Undo"));
-    QAction *redoAction = mUndoGroup->createRedoAction(this, tr("Redo"));
+    QUndoGroup *undoGroup = mDocumentManager->undoGroup();
+    QAction *undoAction = undoGroup->createUndoAction(this, tr("Undo"));
+    QAction *redoAction = undoGroup->createRedoAction(this, tr("Redo"));
+#if QT_VERSION >= 0x040600
+    mUi->mainToolBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
+    mUi->actionNew->setPriority(QAction::LowPriority);
+    redoAction->setPriority(QAction::LowPriority);
+#endif
     redoAction->setIcon(redoIcon);
     undoAction->setIcon(undoIcon);
-    connect(mUndoGroup, SIGNAL(cleanChanged(bool)), SLOT(updateModified()));
+    redoAction->setIconText(tr("Redo"));
+    undoAction->setIconText(tr("Undo"));
+    connect(undoGroup, SIGNAL(cleanChanged(bool)), SLOT(updateWindowTitle()));
 
-    UndoDock *undoDock = new UndoDock(mUndoGroup, this);
+    UndoDock *undoDock = new UndoDock(undoGroup, this);
 
     addDockWidget(Qt::RightDockWidgetArea, mLayerDock);
     addDockWidget(Qt::RightDockWidgetArea, undoDock);
@@ -152,6 +162,9 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     undoAction->setShortcuts(QKeySequence::Undo);
     redoAction->setShortcuts(QKeySequence::Redo);
 
+    mUi->actionShowGrid->setChecked(preferences->showGrid());
+    mUi->actionSnapToGrid->setChecked(preferences->snapToGrid());
+
     // Make sure Ctrl+= also works for zooming in
     QList<QKeySequence> keys = QKeySequence::keyBindings(QKeySequence::ZoomIn);
     keys += QKeySequence(tr("Ctrl+="));
@@ -171,6 +184,11 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     mUi->menuEdit->insertSeparator(mUi->actionPreferences);
     mUi->mainToolBar->addAction(undoAction);
     mUi->mainToolBar->addAction(redoAction);
+
+    mUi->mainToolBar->addSeparator();
+
+    mCommandButton = new CommandButton(this, mDocumentManager);
+    mUi->mainToolBar->addWidget(mCommandButton);
 
     mLayerMenu = new QMenu(tr("&Layer"), this);
     mLayerMenu->addAction(mActionHandler->actionAddTileLayer());
@@ -194,6 +212,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     connect(mUi->actionSaveAsImage, SIGNAL(triggered()), SLOT(saveAsImage()));
     connect(mUi->actionExport, SIGNAL(triggered()), SLOT(exportAs()));
     connect(mUi->actionClose, SIGNAL(triggered()), SLOT(closeFile()));
+    connect(mUi->actionCloseAll, SIGNAL(triggered()), SLOT(closeAllFiles()));
     connect(mUi->actionQuit, SIGNAL(triggered()), SLOT(close()));
 
     connect(mUi->actionCut, SIGNAL(triggered()), SLOT(cut()));
@@ -201,7 +220,14 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     connect(mUi->actionPaste, SIGNAL(triggered()), SLOT(paste()));
     connect(mUi->actionPreferences, SIGNAL(triggered()),
             SLOT(openPreferences()));
-    connect(mUi->actionAutoMap, SIGNAL(triggered()), SLOT(autoMap()));
+
+    connect(mUi->actionShowGrid, SIGNAL(toggled(bool)),
+            preferences, SLOT(setShowGrid(bool)));
+    connect(mUi->actionSnapToGrid, SIGNAL(toggled(bool)),
+            preferences, SLOT(setSnapToGrid(bool)));
+    connect(mUi->actionZoomIn, SIGNAL(triggered()), SLOT(zoomIn()));
+    connect(mUi->actionZoomOut, SIGNAL(triggered()), SLOT(zoomOut()));
+    connect(mUi->actionZoomNormal, SIGNAL(triggered()), SLOT(zoomNormal()));
 
     connect(mUi->actionNewTileset, SIGNAL(triggered()), SLOT(newTileset()));
     connect(mUi->actionAddExternalTileset, SIGNAL(triggered()),
@@ -210,6 +236,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     connect(mUi->actionOffsetMap, SIGNAL(triggered()), SLOT(offsetMap()));
     connect(mUi->actionMapProperties, SIGNAL(triggered()),
             SLOT(editMapProperties()));
+    connect(mUi->actionAutoMap, SIGNAL(triggered()), SLOT(autoMap()));
 
     connect(mActionHandler->actionLayerProperties(), SIGNAL(triggered()),
             SLOT(editLayerProperties()));
@@ -250,13 +277,6 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     setThemeIcon(mUi->actionMapProperties, "document-properties");
     setThemeIcon(mUi->actionAbout, "help-about");
 
-    mMapView = mDocumentManager->currentMapView();
-    mScene = mDocumentManager->currentMapScene();
-    mMapView->centerOn(0, 0);
-#ifdef Q_OS_MAC
-    mMapView->setFrameStyle(QFrame::NoFrame);
-#endif
-
     mStampBrush = new StampBrush(this);
     mBucketFillTool = new BucketFillTool(this);
     CreateObjectTool *tileObjectsTool = new CreateObjectTool(
@@ -293,8 +313,8 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
     connect(mClipboardManager, SIGNAL(hasMapChanged()), SLOT(updateActions()));
 
-    connect(mDocumentManager, SIGNAL(currentMapDocumentChanged()),
-            SLOT(mapDocumentChanged()));
+    connect(mDocumentManager, SIGNAL(currentDocumentChanged(MapDocument*)),
+            SLOT(mapDocumentChanged(MapDocument*)));
     connect(mDocumentManager, SIGNAL(documentCloseRequested(int)),
             this, SLOT(closeMapDocument(int)));
 
@@ -305,11 +325,10 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
 MainWindow::~MainWindow()
 {
-    writeSettings();
-
     cleanQuickStamps();
-    mDocumentManager->closeMapDocuments();
+    mDocumentManager->closeAllDocuments();
 
+    AutomaticMappingManager::deleteInstance();
     ToolManager::deleteInstance();
     TilesetManager::deleteInstance();
     Preferences::deleteInstance();
@@ -330,6 +349,8 @@ void MainWindow::commitData(QSessionManager &manager)
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    writeSettings();
+
     if (confirmAllSave())
         event->accept();
     else
@@ -384,7 +405,6 @@ void MainWindow::newMap()
         return;
 
     addMapDocument(mapDocument);
-    updateActions();
 }
 
 bool MainWindow::openFile(const QString &fileName,
@@ -392,6 +412,13 @@ bool MainWindow::openFile(const QString &fileName,
 {
     if (fileName.isEmpty())
         return false;
+
+    // Select existing document if this file is already open
+    int documentIndex = mDocumentManager->findDocument(fileName);
+    if (documentIndex != -1) {
+        mDocumentManager->switchToDocument(documentIndex);
+        return true;
+    }
 
     TmxMapReader tmxMapReader;
 
@@ -420,7 +447,7 @@ bool MainWindow::openFile(const QString &fileName,
     }
 
     addMapDocument(new MapDocument(map, fileName));
-    updateActions();
+    setRecentFile(fileName);
     return true;
 }
 
@@ -454,15 +481,17 @@ void MainWindow::openLastFiles()
             continue;
 
         if (openFile(files.at(i))) {
+            MapView *mapView = mDocumentManager->currentMapView();
+
             // Restore camera to the previous position
             qreal scale = mapScales.at(i).toDouble();
             if (scale > 0)
-                mMapView->zoomable()->setScale(scale);
+                mapView->zoomable()->setScale(scale);
 
             const int hor = scrollX.at(i).toInt();
             const int ver = scrollY.at(i).toInt();
-            mMapView->horizontalScrollBar()->setSliderPosition(hor);
-            mMapView->verticalScrollBar()->setSliderPosition(ver);
+            mapView->horizontalScrollBar()->setSliderPosition(hor);
+            mapView->verticalScrollBar()->setSliderPosition(ver);
 
             int layer = selectedLayer.at(i).toInt();
             if (layer > 0 && layer < mMapDocument->map()->layerCount())
@@ -470,6 +499,12 @@ void MainWindow::openLastFiles()
 
         }
     }
+    QString lastActiveDocument =
+            mSettings.value(QLatin1String("lastActive")).toString();
+    int documentIndex = mDocumentManager->findDocument(lastActiveDocument);
+    if (documentIndex != -1)
+        mDocumentManager->switchToDocument(documentIndex);
+
     mSettings.endGroup();
 }
 
@@ -523,14 +558,19 @@ bool MainWindow::saveFile(const QString &fileName)
 
     mMapDocument->undoStack()->setClean();
     mMapDocument->setFileName(fileName);
-    setCurrentFileName(fileName);
+    setRecentFile(fileName);
     return true;
 }
 
 bool MainWindow::saveFile()
 {
-    if (mCurrentFileName.endsWith(QLatin1String(".tmx"), Qt::CaseInsensitive))
-        return saveFile(mCurrentFileName);
+    if (!mMapDocument)
+        return false;
+
+    const QString currentFileName = mMapDocument->fileName();
+
+    if (currentFileName.endsWith(QLatin1String(".tmx"), Qt::CaseInsensitive))
+        return saveFile(currentFileName);
     else
         return saveFileAs();
 }
@@ -560,7 +600,7 @@ bool MainWindow::saveFileAs()
 
 bool MainWindow::confirmSave()
 {
-    if (!mMapDocument || mMapDocument->undoStack()->isClean())
+    if (!mMapDocument || !mMapDocument->isModified())
         return true;
 
     int ret = QMessageBox::warning(
@@ -579,8 +619,8 @@ bool MainWindow::confirmSave()
 
 bool MainWindow::confirmAllSave()
 {
-    for (int i = 0; i < mDocumentManager->mapDocumentCount(); i++) {
-        mDocumentManager->switchToMapDocument(i);
+    for (int i = 0; i < mDocumentManager->documentCount(); i++) {
+        mDocumentManager->switchToDocument(i);
         if (!confirmSave())
             return false;
     }
@@ -593,9 +633,10 @@ void MainWindow::saveAsImage()
     if (!mMapDocument)
         return;
 
+    MapView *mapView = mDocumentManager->currentMapView();
     SaveAsImageDialog dialog(mMapDocument,
-                             mCurrentFileName,
-                             mMapView->zoomable()->scale(),
+                             mMapDocument->fileName(),
+                             mapView->zoomable()->scale(),
                              this);
     dialog.exec();
 }
@@ -662,7 +703,13 @@ void MainWindow::exportAs()
 void MainWindow::closeFile()
 {
     if (confirmSave())
-        mDocumentManager->closeMapDocument();
+        mDocumentManager->closeCurrentDocument();
+}
+
+void MainWindow::closeAllFiles()
+{
+    if (confirmAllSave())
+        mDocumentManager->closeAllDocuments();
 }
 
 void MainWindow::cut()
@@ -738,6 +785,24 @@ void MainWindow::openPreferences()
 {
     PreferencesDialog preferencesDialog(this);
     preferencesDialog.exec();
+}
+
+void MainWindow::zoomIn()
+{
+    if (MapView *mapView = mDocumentManager->currentMapView())
+        mapView->zoomable()->zoomIn();
+}
+
+void MainWindow::zoomOut()
+{
+    if (MapView *mapView = mDocumentManager->currentMapView())
+        mapView->zoomable()->zoomOut();
+}
+
+void MainWindow::zoomNormal()
+{
+    if (MapView *mapView = mDocumentManager->currentMapView())
+        mapView->zoomable()->resetZoom();
 }
 
 void MainWindow::newTileset(const QString &path)
@@ -831,21 +896,7 @@ void MainWindow::editMapProperties()
 
 void MainWindow::autoMap()
 {
-    if (!mMapDocument)
-        return;
-
-    const QString mapPath = QFileInfo(mMapDocument->fileName()).path();
-    const QString rulesFileName = mapPath + QLatin1String("/rules.txt");
-
-    QUndoStack *undoStack = mMapDocument->undoStack();
-    undoStack->beginMacro(tr("Apply AutoMap rules"));
-    AutomaticMapping::handleFile(mMapDocument, rulesFileName);
-    undoStack->endMacro();
-}
-
-void MainWindow::updateModified()
-{
-    setWindowModified(!mUndoGroup->isClean());
+    AutomaticMappingManager::instance()->automap();
 }
 
 void MainWindow::openRecentFile()
@@ -929,6 +980,10 @@ void MainWindow::updateActions()
             Layer *layer = mMapDocument->map()->layerAt(currentLayer);
             tileLayerSelected = dynamic_cast<TileLayer*>(layer) != 0;
         }
+
+        mCommandButton->setEnabled(true);
+    } else {
+        mCommandButton->setEnabled(false);
     }
 
     const bool mapInClipboard = mClipboardManager->hasMap();
@@ -938,6 +993,7 @@ void MainWindow::updateActions()
     mUi->actionSaveAsImage->setEnabled(map);
     mUi->actionExport->setEnabled(map);
     mUi->actionClose->setEnabled(map);
+    mUi->actionCloseAll->setEnabled(map);
     mUi->actionCut->setEnabled(tileLayerSelected && !selection.isEmpty());
     mUi->actionCopy->setEnabled(tileLayerSelected && !selection.isEmpty());
     mUi->actionPaste->setEnabled(tileLayerSelected && mapInClipboard);
@@ -947,16 +1003,24 @@ void MainWindow::updateActions()
     mUi->actionOffsetMap->setEnabled(map);
     mUi->actionMapProperties->setEnabled(map);
     mUi->actionAutoMap->setEnabled(map);
+
+    updateZoomLabel(); // for the zoom actions
 }
 
-void MainWindow::updateZoomLabel(qreal scale)
+void MainWindow::updateZoomLabel()
 {
-    const Zoomable *zoomable = mMapView->zoomable();
-    mUi->actionZoomIn->setEnabled(zoomable->canZoomIn());
-    mUi->actionZoomOut->setEnabled(zoomable->canZoomOut());
+    MapView *mapView = mDocumentManager->currentMapView();
+    const Zoomable *zoomable = mapView ? mapView->zoomable() : 0;
+    const qreal scale = zoomable ? zoomable->scale() : 1;
+
+    mUi->actionZoomIn->setEnabled(zoomable && zoomable->canZoomIn());
+    mUi->actionZoomOut->setEnabled(zoomable && zoomable->canZoomOut());
     mUi->actionZoomNormal->setEnabled(scale != 1);
 
-    mZoomLabel->setText(tr("%1%").arg(scale * 100));
+    if (zoomable)
+        mZoomLabel->setText(tr("%1%").arg(scale * 100));
+    else
+        mZoomLabel->setText(QString());
 }
 
 void MainWindow::editLayerProperties()
@@ -994,25 +1058,28 @@ void MainWindow::writeSettings()
     mSettings.beginGroup(QLatin1String("mainwindow"));
     mSettings.setValue(QLatin1String("geometry"), saveGeometry());
     mSettings.setValue(QLatin1String("state"), saveState());
-    mSettings.setValue(QLatin1String("gridVisible"),
-                       mUi->actionShowGrid->isChecked());
     mSettings.endGroup();
 
     mSettings.beginGroup(QLatin1String("recentFiles"));
     mSettings.setValue(QLatin1String("recentOpenedFiles"),
-                       mDocumentManager->mapDocumentCount());
+                       mDocumentManager->documentCount());
+
+    if (MapDocument *document = mDocumentManager->currentDocument())
+        mSettings.setValue(QLatin1String("lastActive"), document->fileName());
 
     QStringList mapScales;
     QStringList scrollX;
     QStringList scrollY;
     QStringList selectedLayer;
-    for (int i = 0; i < mDocumentManager->mapDocumentCount(); i++) {
-        mDocumentManager->switchToMapDocument(i);
-        mapScales.append(QString::number(mMapView->zoomable()->scale()));
+    for (int i = 0; i < mDocumentManager->documentCount(); i++) {
+        mDocumentManager->switchToDocument(i);
+        MapView *mapView = mDocumentManager->currentMapView();
+
+        mapScales.append(QString::number(mapView->zoomable()->scale()));
         scrollX.append(QString::number(
-                       mMapView->horizontalScrollBar()->sliderPosition()));
+                       mapView->horizontalScrollBar()->sliderPosition()));
         scrollY.append(QString::number(
-                       mMapView->verticalScrollBar()->sliderPosition()));
+                       mapView->verticalScrollBar()->sliderPosition()));
         selectedLayer.append(QString::number(mMapDocument->currentLayer()));
 
     }
@@ -1033,36 +1100,42 @@ void MainWindow::readSettings()
         resize(800, 600);
     restoreState(mSettings.value(QLatin1String("state"),
                                  QByteArray()).toByteArray());
-    mUi->actionShowGrid->setChecked(
-            mSettings.value(QLatin1String("gridVisible"), true).toBool());
     mSettings.endGroup();
     updateRecentFiles();
 }
 
-void MainWindow::setCurrentFileName(const QString &fileName)
+void MainWindow::updateWindowTitle()
 {
-    mCurrentFileName = fileName;
-    setWindowFilePath(mCurrentFileName);
-    setWindowTitle(tr("%1[*] - Tiled").arg(QFileInfo(fileName).fileName()));
-    setRecentFile(mCurrentFileName);
-    mDocumentManager->mapDocumentsFileNameChanged();
+    if (mMapDocument) {
+        setWindowTitle(tr("[*]%1 - Tiled").arg(mMapDocument->displayName()));
+        setWindowFilePath(mMapDocument->fileName());
+        setWindowModified(mMapDocument->isModified());
+    } else {
+        setWindowTitle(QApplication::applicationName());
+        setWindowFilePath(QString());
+        setWindowModified(false);
+    }
 }
 
 void MainWindow::addMapDocument(MapDocument *mapDocument)
 {
-    mDocumentManager->addMapDocument(mapDocument);
+    mDocumentManager->addDocument(mapDocument);
 
-    if (mMapDocument) {
-        setCurrentFileName(mMapDocument->fileName());
-        mUndoGroup->addStack(mapDocument->undoStack());
+    connect(mapDocument, SIGNAL(currentLayerChanged(int)),
+            SLOT(updateActions()));
+    connect(mapDocument, SIGNAL(tileSelectionChanged(QRegion,QRegion)),
+            SLOT(updateActions()));
 
-        connect(mapDocument, SIGNAL(currentLayerChanged(int)),
-                SLOT(updateActions()));
-        connect(mapDocument, SIGNAL(tileSelectionChanged(QRegion,QRegion)),
-                SLOT(updateActions()));
-    } else {
-        setCurrentFileName(QString());
-    }
+    MapView *mapView = mDocumentManager->currentMapView();
+    connect(mapView->zoomable(), SIGNAL(scaleChanged(qreal)),
+            this, SLOT(updateZoomLabel()));
+
+    Preferences *prefs = Preferences::instance();
+
+    MapScene *mapScene = mapView->mapScene();
+    mapScene->setGridVisible(prefs->showGrid());
+    connect(prefs, SIGNAL(showGridChanged(bool)),
+            mapScene, SLOT(setGridVisible(bool)));
 }
 
 void MainWindow::aboutTiled()
@@ -1073,53 +1146,22 @@ void MainWindow::aboutTiled()
 
 void MainWindow::retranslateUi()
 {
-    if (!mCurrentFileName.isEmpty()) {
-        const QString fileName = QFileInfo(mCurrentFileName).fileName();
-        setWindowTitle(tr("%1[*] - Tiled").arg(fileName));
-    }
+    updateWindowTitle();
 
     mLayerMenu->setTitle(tr("&Layer"));
     mActionHandler->retranslateUi();
 }
 
-void MainWindow::mapDocumentChanged()
+void MainWindow::mapDocumentChanged(MapDocument *mapDocument)
 {
-    mMapDocument = mDocumentManager->currentMapDocument();
-    mScene = mDocumentManager->currentMapScene();
+    mMapDocument = mapDocument;
 
     mActionHandler->setMapDocument(mMapDocument);
-
     mLayerDock->setMapDocument(mMapDocument);
     mTilesetDock->setMapDocument(mMapDocument);
-    MapDocumentActionHandler *handler = MapDocumentActionHandler::instance();
-    handler->setMapDocument(mMapDocument);
+    AutomaticMappingManager::instance()->setMapDocument(mMapDocument);
 
-    mMapView = mDocumentManager->currentMapView();
-
-    mUi->actionZoomIn->disconnect();
-    mUi->actionZoomOut->disconnect();
-    mUi->actionZoomNormal->disconnect();
-    connect(mUi->actionZoomIn, SIGNAL(triggered()),
-            mMapView->zoomable(), SLOT(zoomIn()));
-    connect(mUi->actionZoomOut, SIGNAL(triggered()),
-            mMapView->zoomable(), SLOT(zoomOut()));
-    connect(mUi->actionZoomNormal, SIGNAL(triggered()),
-            mMapView->zoomable(), SLOT(resetZoom()));
-
-    updateZoomLabel(mMapView->zoomable()->scale());
-    connect(mMapView->zoomable(), SIGNAL(scaleChanged(qreal)),
-            this, SLOT(updateZoomLabel(qreal)));
-
-    mUi->actionShowGrid->setChecked(mScene->isGridVisible());
-    connect(mUi->actionShowGrid, SIGNAL(toggled(bool)),
-            mScene, SLOT(setGridVisible(bool)));
-
-    if (mMapDocument) {
-        setCurrentFileName(mMapDocument->fileName());
-        mUndoGroup->setActiveStack(mMapDocument->undoStack());
-    } else {
-        setCurrentFileName(tr(""));
-    }
+    updateWindowTitle();
     updateActions();
 }
 
@@ -1237,8 +1279,7 @@ void MainWindow::saveQuickStamp(int index)
 
 void MainWindow::closeMapDocument(int index)
 {
-    mDocumentManager->switchToMapDocument(index);
+    mDocumentManager->switchToDocument(index);
     if (confirmSave())
-        mDocumentManager->closeMapDocument();
-    updateActions();
+        mDocumentManager->closeCurrentDocument();
 }

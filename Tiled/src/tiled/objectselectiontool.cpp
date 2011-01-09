@@ -32,6 +32,7 @@
 #include "movemapobjecttogroup.h"
 #include "objectgroup.h"
 #include "objectpropertiesdialog.h"
+#include "preferences.h"
 #include "utils.h"
 
 #include <QApplication>
@@ -139,7 +140,7 @@ void ObjectSelectionTool::mouseMoved(const QPointF &pos,
                                      Qt::KeyboardModifiers modifiers)
 {
     if (mMode == NoMode && mMousePressed) {
-        const int dragDistance = (mStart - pos).manhattanLength();
+        const int dragDistance = (mStart - pos).toPoint().manhattanLength();
         if (dragDistance >= QApplication::startDragDistance()) {
             if (mClickedObjectItem)
                 startMoving();
@@ -236,6 +237,19 @@ void ObjectSelectionTool::languageChanged()
 {
     setName(tr("Select Objects"));
     setShortcut(QKeySequence(tr("S")));
+}
+
+void ObjectSelectionTool::updateEnabledState()
+{
+    bool enabled = false;
+    if (MapDocument *doc = mapDocument()) {
+        const int currentLayerIndex = mapDocument()->currentLayer();
+        if (currentLayerIndex >= 0) {
+            Layer *currentLayer = doc->map()->layerAt(currentLayerIndex);
+            enabled = (dynamic_cast<ObjectGroup*>(currentLayer) != 0);
+        }
+    }
+    setEnabled(enabled);
 }
 
 void ObjectSelectionTool::updateSelection(const QPointF &pos,
@@ -391,7 +405,11 @@ void ObjectSelectionTool::updateMovingItems(const QPointF &pos,
     MapRenderer *renderer = mapDocument()->renderer();
     QPointF diff = pos - mStart;
 
-    if (modifiers & Qt::ControlModifier) {
+    bool snapToGrid = Preferences::instance()->snapToGrid();
+    if (modifiers & Qt::ControlModifier)
+        snapToGrid = !snapToGrid;
+
+    if (snapToGrid) {
         const QPointF alignPixelPos =
                 renderer->tileToPixelCoords(mAlignPosition);
         const QPointF newAlignPixelPos = alignPixelPos + diff;
@@ -441,12 +459,18 @@ void ObjectSelectionTool::duplicateObjects(const QList<MapObject *> &objects)
 {
     QUndoStack *undoStack = mapDocument()->undoStack();
     undoStack->beginMacro(tr("Duplicate %n Object(s)", "", objects.size()));
+
+    QList<MapObject*> clones;
     foreach (MapObject *mapObject, objects) {
+        MapObject *clone = mapObject->clone();
+        clones.append(clone);
         undoStack->push(new AddMapObject(mapDocument(),
                                          mapObject->objectGroup(),
-                                         mapObject->clone()));
+                                         clone));
     }
+
     undoStack->endMacro();
+    mMapScene->setSelectedObjects(clones);
 }
 
 void ObjectSelectionTool::removeObjects(const QList<MapObject *> &objects)

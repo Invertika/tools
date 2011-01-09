@@ -202,11 +202,12 @@ bool TenginePlugin::write(const Tiled::Map *map, const QString &fileName)
     out << endl << "-- addSpot section" << endl;
     foreach (Layer *layer, map->layers()) {
         ObjectGroup *objectLayer = layer->asObjectGroup();
-        if (objectLayer and objectLayer->name().toLower() == "addspot") {
+        if (objectLayer and objectLayer->name().startsWith("addspot", Qt::CaseInsensitive)) {
             foreach (MapObject *obj, objectLayer->objects()) {
                 QList<QString> propertyOrder;
                 propertyOrder.append("type");
                 propertyOrder.append("subtype");
+                propertyOrder.append("additional");
                 QString args = constructArgs(obj->properties(), propertyOrder);
                 if (not args.isEmpty()) {
                     args = QString(", %1").arg(args);
@@ -224,11 +225,12 @@ bool TenginePlugin::write(const Tiled::Map *map, const QString &fileName)
     out << endl << "-- addZone section" << endl;
     foreach (Layer *layer, map->layers()) {
         ObjectGroup *objectLayer = layer->asObjectGroup();
-        if (objectLayer and objectLayer->name().toLower() == "addzone") {
+        if (objectLayer and objectLayer->name().startsWith("addzone", Qt::CaseInsensitive)) {
             foreach (MapObject *obj, objectLayer->objects()) {
                 QList<QString> propertyOrder;
                 propertyOrder.append("type");
                 propertyOrder.append("subtype");
+                propertyOrder.append("additional");
                 QString args = constructArgs(obj->properties(), propertyOrder);
                 if (not args.isEmpty()) {
                     args = QString(", %1").arg(args);
@@ -302,6 +304,10 @@ QString TenginePlugin::constructArgs(Tiled::Properties props, QList<QString> pro
     // We work backwards so we don't have to include a bunch of nils
     for (int i = propOrder.size() - 1; i >= 0; --i) {
         QString currentValue = props[propOrder[i]];
+        // Special handling of the "additional" property
+        if ((propOrder[i] == "additional") and currentValue.isEmpty()) {
+            currentValue = constructAdditionalTable(props, propOrder);
+        }
         if (not argString.isEmpty()) {
             if (currentValue.isEmpty()) {
                 currentValue = "nil";
@@ -312,6 +318,28 @@ QString TenginePlugin::constructArgs(Tiled::Properties props, QList<QString> pro
         }
     }
     return argString;
+}
+
+// Finds unhandled properties and bundles them into a Lua table
+QString TenginePlugin::constructAdditionalTable(Tiled::Properties props, QList<QString> propOrder) const
+{
+    QString tableString;
+    QMap<QString, QString> unhandledProps = QMap<QString, QString>(props);
+    // Remove handled properties
+    for (int i = 0; i < propOrder.size(); i++) {
+        unhandledProps.remove(propOrder[i]);
+    }
+    // Construct the Lua string
+    if (unhandledProps.size() > 0) {
+        tableString = "{";
+        QMapIterator<QString, QString> i(unhandledProps);
+        while (i.hasNext()) {
+            i.next();
+            tableString = QString("%1%2=%3,").arg(tableString, i.key(), i.value());
+        }
+        tableString = QString("%1}").arg(tableString);
+    }
+    return tableString;
 }
 
 Q_EXPORT_PLUGIN2(Tengine, TenginePlugin)

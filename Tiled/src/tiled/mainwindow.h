@@ -31,7 +31,6 @@
 #include <QSettings>
 
 class QLabel;
-class QUndoGroup;
 
 namespace Ui {
 class MainWindow;
@@ -53,6 +52,7 @@ class StampBrush;
 class BucketFillTool;
 class TilesetDock;
 class MapView;
+class CommandButton;
 
 /**
  * The main editor window.
@@ -94,7 +94,7 @@ protected:
     void dragEnterEvent(QDragEnterEvent *);
     void dropEvent(QDropEvent *);
 
-private slots:
+public slots:
     void newMap();
     void openFile();
     bool saveFile();
@@ -102,11 +102,16 @@ private slots:
     void saveAsImage();
     void exportAs();
     void closeFile();
+    void closeAllFiles();
 
     void cut();
     void copy();
     void paste();
     void openPreferences();
+
+    void zoomIn();
+    void zoomOut();
+    void zoomNormal();
 
     void newTileset(const QString &path = QString());
     void addExternalTileset();
@@ -114,9 +119,10 @@ private slots:
     void offsetMap();
     void editMapProperties();
     void autoMap();
-    void updateModified();
+
+    void updateWindowTitle();
     void updateActions();
-    void updateZoomLabel(qreal scale);
+    void updateZoomLabel();
     void aboutTiled();
     void openRecentFile();
     void clearRecentFiles();
@@ -129,7 +135,7 @@ private slots:
     void selectQuickStamp(int index);
     void saveQuickStamp(int index);
 
-    void mapDocumentChanged();
+    void mapDocumentChanged(MapDocument *mapDocument);
     void closeMapDocument(int index);
 
 private:
@@ -161,7 +167,6 @@ private:
     void writeSettings();
     void readSettings();
 
-    void setCurrentFileName(const QString &fileName);
     void addMapDocument(MapDocument *mapDocument);
     QStringList recentFiles() const;
     QString fileDialogStartLocation() const;
@@ -181,14 +186,12 @@ private:
     Ui::MainWindow *mUi;
     MapDocument *mMapDocument;
     MapDocumentActionHandler *mActionHandler;
-    MapScene *mScene;
     LayerDock *mLayerDock;
     TilesetDock *mTilesetDock;
     QLabel *mZoomLabel;
     QLabel *mStatusInfoLabel;
     QSettings mSettings;
-    QString mCurrentFileName;
-    QUndoGroup *mUndoGroup;
+    CommandButton *mCommandButton;
 
     StampBrush *mStampBrush;
     BucketFillTool *mBucketFillTool;
@@ -205,7 +208,6 @@ private:
     void cleanQuickStamps();
     void eraseQuickStamp(int index);
 
-    MapView *mMapView;
     DocumentManager *mDocumentManager;
 };
 

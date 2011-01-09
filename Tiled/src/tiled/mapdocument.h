@@ -33,6 +33,7 @@ class QUndoStack;
 
 namespace Tiled {
 
+class Layer;
 class Map;
 class MapObject;
 class MapRenderer;
@@ -69,8 +70,11 @@ public:
     ~MapDocument();
 
     QString fileName() const { return mFileName; }
+    void setFileName(const QString &fileName);
 
-    void setFileName(const QString &fileName) { mFileName = fileName; }
+    QString displayName() const;
+
+    bool isModified() const;
 
     /**
      * Returns the map instance. Be aware that directly modifying the map will
@@ -166,6 +170,13 @@ public:
      */
     void emitRegionChanged(const QRegion &region);
 
+    /**
+     * Emits the region edited signal for the specified region and tile layer.
+     * The region should be in tile coordinates. This should be called from
+     * all map document changing classes which are triggered by user input.
+     */
+    void emitRegionEdited(const QRegion &region, Layer *layer);
+
     void emitObjectsAdded(const QList<MapObject*> &objects);
     void emitObjectsRemoved(const QList<MapObject*> &objects);
     void emitObjectsChanged(const QList<MapObject*> &objects);
@@ -180,6 +191,9 @@ public:
     { emitObjectsChanged(QList<MapObject*>() << object); }
 
 signals:
+    void fileNameChanged();
+    void modifiedChanged();
+
     /**
      * Emitted when the selected tile region changes. Sends the currently
      * selected region and the previously selected region.
@@ -212,6 +226,13 @@ signals:
      * tile coordinates.
      */
     void regionChanged(const QRegion &region);
+
+    /**
+     * Emitted when a certain region of the map was edited by user input.
+     * The region is given in tile coordinates.
+     * If multiple layers have been edited, multiple signals will be emitted.
+     */
+    void regionEdited(const QRegion &region, Layer *layer);
 
     void tilesetAdded(int index, Tileset *tileset);
     void tilesetRemoved(Tileset *tileset);

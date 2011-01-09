@@ -48,7 +48,7 @@ QVariant PropertiesModel::data(const QModelIndex &index, int role) const
                 case 1: return mProperties.value(key);
             }
         } else if (index.column() == 0) {
-            return tr("<new property>");
+            return (role == Qt::EditRole) ? QString() : tr("<new property>");
         }
     }
     return QVariant();
@@ -72,7 +72,7 @@ bool PropertiesModel::setData(const QModelIndex &index, const QVariant &value,
         QString text = value.toString();
         if (index.row() == mKeys.size()) {
             // Add a new property
-            if (text == tr("<new property>"))
+            if (text.isEmpty())
                 return false;
             mProperties.insert(text, QString());
         } else {
