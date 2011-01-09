@@ -2960,9 +2960,11 @@ namespace Invertika_Editor
 			}
 		}
 
-		private void inhaltToolStripMenuItem_Click(object sender, EventArgs e)
+		private void bildtestToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			gtImage image=gtImage.FromFile("/home/seeseekey/test.png");
 
+			image.Resize(1000, 1000);
 		}
 	}
 }

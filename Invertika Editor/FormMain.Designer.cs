@@ -150,6 +150,8 @@
 			this.button12=new System.Windows.Forms.Button();
 			this.lvEvents=new System.Windows.Forms.ListView();
 			this.tabControl=new System.Windows.Forms.TabControl();
+			this.debugToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.bildtestToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.toolStrip.SuspendLayout();
@@ -174,7 +176,8 @@
             this.exportToolStripMenuItem,
             this.prüfungToolStripMenuItem,
             this.testsToolStripMenuItem,
-            this.automatismenToolStripMenuItem});
+            this.automatismenToolStripMenuItem,
+            this.debugToolStripMenuItem});
 			this.menuStrip.Location=new System.Drawing.Point(0, 0);
 			this.menuStrip.Name="menuStrip";
 			this.menuStrip.Size=new System.Drawing.Size(1006, 24);
@@ -1195,6 +1198,21 @@
 			this.tabControl.Size=new System.Drawing.Size(1006, 427);
 			this.tabControl.TabIndex=3;
 			// 
+			// debugToolStripMenuItem
+			// 
+			this.debugToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.bildtestToolStripMenuItem});
+			this.debugToolStripMenuItem.Name="debugToolStripMenuItem";
+			this.debugToolStripMenuItem.Size=new System.Drawing.Size(50, 20);
+			this.debugToolStripMenuItem.Text="Debug";
+			// 
+			// bildtestToolStripMenuItem
+			// 
+			this.bildtestToolStripMenuItem.Name="bildtestToolStripMenuItem";
+			this.bildtestToolStripMenuItem.Size=new System.Drawing.Size(152, 22);
+			this.bildtestToolStripMenuItem.Text="Bildtest...";
+			this.bildtestToolStripMenuItem.Click+=new System.EventHandler(this.bildtestToolStripMenuItem_Click);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions=new System.Drawing.SizeF(6F, 13F);
@@ -1354,6 +1372,8 @@
 		private System.Windows.Forms.ToolStripLabel toolStripLabel1;
 		private System.Windows.Forms.ToolStripButton tsbExport;
 		private System.Windows.Forms.TabControl tabControl;
+		private System.Windows.Forms.ToolStripMenuItem debugToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem bildtestToolStripMenuItem;
 	}
 }
 
