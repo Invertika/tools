@@ -2959,5 +2959,10 @@ namespace Invertika_Editor
 				BuildListBox(qee.QuestRoot, 0);
 			}
 		}
+
+		private void inhaltToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

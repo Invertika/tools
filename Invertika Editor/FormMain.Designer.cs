@@ -107,10 +107,6 @@
 			this.bOMAusSkriptenUndMapsEntfernenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem8=new System.Windows.Forms.ToolStripSeparator();
 			this.weltkartenErzeugenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.hilfeToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.inhaltToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem14=new System.Windows.Forms.ToolStripSeparator();
-			this.überToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.statusStrip=new System.Windows.Forms.StatusStrip();
 			this.openFileDialog=new System.Windows.Forms.OpenFileDialog();
 			this.saveFileDialog=new System.Windows.Forms.SaveFileDialog();
@@ -178,8 +174,7 @@
             this.exportToolStripMenuItem,
             this.prüfungToolStripMenuItem,
             this.testsToolStripMenuItem,
-            this.automatismenToolStripMenuItem,
-            this.hilfeToolStripMenuItem});
+            this.automatismenToolStripMenuItem});
 			this.menuStrip.Location=new System.Drawing.Point(0, 0);
 			this.menuStrip.Name="menuStrip";
 			this.menuStrip.Size=new System.Drawing.Size(1006, 24);
@@ -766,33 +761,6 @@
 			this.weltkartenErzeugenToolStripMenuItem.Text="Weltkarten erzeugen...";
 			this.weltkartenErzeugenToolStripMenuItem.Click+=new System.EventHandler(this.weltkartenErzeugenToolStripMenuItem_Click);
 			// 
-			// hilfeToolStripMenuItem
-			// 
-			this.hilfeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.inhaltToolStripMenuItem,
-            this.toolStripMenuItem14,
-            this.überToolStripMenuItem});
-			this.hilfeToolStripMenuItem.Name="hilfeToolStripMenuItem";
-			this.hilfeToolStripMenuItem.Size=new System.Drawing.Size(40, 20);
-			this.hilfeToolStripMenuItem.Text="&Hilfe";
-			// 
-			// inhaltToolStripMenuItem
-			// 
-			this.inhaltToolStripMenuItem.Name="inhaltToolStripMenuItem";
-			this.inhaltToolStripMenuItem.Size=new System.Drawing.Size(125, 22);
-			this.inhaltToolStripMenuItem.Text="Inhalt...";
-			// 
-			// toolStripMenuItem14
-			// 
-			this.toolStripMenuItem14.Name="toolStripMenuItem14";
-			this.toolStripMenuItem14.Size=new System.Drawing.Size(122, 6);
-			// 
-			// überToolStripMenuItem
-			// 
-			this.überToolStripMenuItem.Name="überToolStripMenuItem";
-			this.überToolStripMenuItem.Size=new System.Drawing.Size(125, 22);
-			this.überToolStripMenuItem.Text="Ü&ber...";
-			// 
 			// statusStrip
 			// 
 			this.statusStrip.Location=new System.Drawing.Point(0, 451);
@@ -1267,8 +1235,6 @@
 
 		private System.Windows.Forms.MenuStrip menuStrip;
 		private System.Windows.Forms.ToolStripMenuItem dateiToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem hilfeToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem überToolStripMenuItem;
 		private System.Windows.Forms.StatusStrip statusStrip;
 		private System.Windows.Forms.ToolStripMenuItem beendenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem mappingToolStripMenuItem;
@@ -1344,8 +1310,6 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem4;
 		private System.Windows.Forms.ToolStripMenuItem kompletteÜberprüfungToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem mapsÜberprüfenToolStripMenuItem1;
-		private System.Windows.Forms.ToolStripMenuItem inhaltToolStripMenuItem;
-		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem14;
 		private System.Windows.Forms.ToolStripMenuItem spritesAufDateiebendePrüfenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem16;
 		private System.Windows.Forms.ToolStripMenuItem spritesÜberprüfenToolStripMenuItem;
