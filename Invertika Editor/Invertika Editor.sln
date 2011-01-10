@@ -48,10 +48,10 @@ Global
 		{C2A06611-C8D1-43D2-B0C7-8BF66E508674}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C2A06611-C8D1-43D2-B0C7-8BF66E508674}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Invertika Editor.csproj
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
