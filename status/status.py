@@ -27,7 +27,7 @@ for row in cursor: countPlayer+=1
 server_file.write(str(countPlayer) + '\n')
 
 cursor.execute('SELECT * FROM mana_v_online_chars ORDER BY name')
-for row in cursor: server_file.write((row[3] + '\n').encode('ascii', 'ignore'))
+for row in cursor: server_file.write((row[3] + '\n').encode('utf-8'))
 
 cursor.close()
 connection.close()
