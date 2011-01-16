@@ -185,7 +185,7 @@ namespace autoupdate
 				sw.WriteLine("dem SVN Repository erstellt.");
 				sw.WriteLine("##0");
 				sw.WriteLine("##0 Status: in Betrieb");
-				sw.WriteLine("##0 Autoupdate vom: {0}", DateTime.Now.ToShortTimeString());
+				sw.WriteLine("##0 Autoupdate vom {0}, {1} Uhr.", DateTime.Now.ToShortDateString(), DateTime.Now.ToShortTimeString());
 				sw.WriteLine("");
 				sw.WriteLine("##2 Das Invertika Development Team");
 				sw.WriteLine("##0");
