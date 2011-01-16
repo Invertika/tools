@@ -168,9 +168,27 @@ namespace autoupdate
 				adler.Update(textToHash);
 				string adler32=String.Format("{0:x}", adler.Value);
 
+				//Ressources
 				string resFile=path_temp_folder+FileSystem.PathDelimiter+"resources2.txt";
 				StreamWriter sw=new StreamWriter(resFile);
 				sw.WriteLine("{0} {1}", FileSystem.GetFilename(zipFilename), adler32);
+				sw.Close();
+
+				//Newsfile
+				string newsFile=path_temp_folder+FileSystem.PathDelimiter+"news.txt";
+				sw=new StreamWriter(newsFile);
+				
+				sw.WriteLine("##3 Serenity");
+				sw.WriteLine("");
+				sw.WriteLine("##0 Entwicklerserver des Invertika Projektes");
+				sw.WriteLine("Jeden Tag wird ein neues Image aus");
+				sw.WriteLine("dem SVN Repository erstellt.");
+				sw.WriteLine("##0");
+				sw.WriteLine("##0 Status: in Betrieb");
+				sw.WriteLine("##0 Autoupdate vom: {0}", DateTime.Now.ToShortTimeString());
+				sw.WriteLine("");
+				sw.WriteLine("##2 Das Invertika Development Team");
+				sw.WriteLine("##0");
 				sw.Close();
 
 				//Upload
@@ -199,6 +217,7 @@ namespace autoupdate
 				Console.WriteLine("Lade Updatedatei hoch...");
 				Client.UploadFile(zipFilename, FileSystem.GetFilename(zipFilename));
 				Client.UploadFile(resFile, FileSystem.GetFilename(resFile));
+				Client.UploadFile(newsFile, FileSystem.GetFilename(newsFile));
 
 				Client.Close();
 			}
