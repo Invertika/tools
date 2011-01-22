@@ -18,6 +18,7 @@ using Invertika_Editor.Classes;
 using System.Net;
 using CSCL.Helpers;
 using Invertika_Editor.Classes.QuestEditor;
+using CSCL.Exceptions;
 
 namespace Invertika_Editor
 {
@@ -897,7 +898,17 @@ namespace Invertika_Editor
 				bool ground=false, fringe=false, over=false, collision=false, @object=false;
 
 				TMX map=new TMX();
-				map.Open(fnCurrent, false);
+
+				try
+				{
+					map.Open(fnCurrent, false);
+				}
+				catch(NotSupportedCompressionException ex)
+				{
+					msg+=String.Format("Unbekannte Kompressionsart (warscheinlich zlib) in Map {0} vorhanden.\n", fnCurrent);
+					continue;
+				}
+				
 				string fn=FileSystem.GetRelativePath(fnCurrent, Globals.folder_clientdata);
 
 				foreach(CSCL.FileFormats.TMX.TMX.TilesetData fnTileset in map.Tilesets)
