@@ -46,6 +46,7 @@ CommandButton::CommandButton(MainWindow *mainWindow,
     setIcon(QIcon(QLatin1String(":images/24x24/system-run.png")));
     setThemeIcon(this, "system-run");
     setToolTip(tr("Execute Command"));
+    setShortcut(QKeySequence(tr("F5")));
 
     setPopupMode(QToolButton::MenuButtonPopup);
     setMenu(mMenu);
@@ -68,7 +69,8 @@ void CommandButton::runCommand(const QString &command)
     MapDocument *mapDocument = mDocumentManager->currentDocument();
     if (mapDocument) {
         const QString fileName = mapDocument->fileName();
-        finalCommand.replace(QLatin1String("%mapfile"), fileName);
+        finalCommand.replace(QLatin1String("%mapfile"),
+                             QString(QLatin1String("\"%1\"")).arg(fileName));
     }
 
     QProcess *process = new QProcess(window());

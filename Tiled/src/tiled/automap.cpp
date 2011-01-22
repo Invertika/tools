@@ -37,19 +37,19 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QFileSystemWatcher>
-#include <QMessageBox>
 #include <QObject>
 #include <QTextStream>
 
 using namespace Tiled;
 using namespace Tiled::Internal;
 
-AutoMapper::AutoMapper(MapDocument *workingDocument)
+AutoMapper::AutoMapper(MapDocument *workingDocument, QString setlayer)
     : mMapDocument(workingDocument)
     , mMapWork(workingDocument ? workingDocument->map() : 0)
     , mMapRules(0)
     , mLayerRuleRegions(0)
     , mLayerSet(0)
+    , mSetLayer(setlayer)
 {
 
     connect(mMapDocument, SIGNAL(layerAdded(int)), SLOT(layerAdd(int)));
@@ -73,6 +73,8 @@ QSet<QString> AutoMapper::getTouchedLayers() const
 
 bool AutoMapper::prepareLoad(Map *rules, const QString &rulePath)
 {
+    mError.clear();
+
     if (!setupMapDocumentLayers())
         return false;
 
@@ -94,7 +96,7 @@ bool AutoMapper::prepareLoad(Map *rules, const QString &rulePath)
 bool AutoMapper::setupMapDocumentLayers()
 {
     Q_ASSERT(!mLayerSet);
-    mLayerSet = findTileLayer(mMapWork, QLatin1String("set"));
+    mLayerSet = findTileLayer(mMapWork, mSetLayer);
 
     if (!mLayerSet)
         return false;
@@ -108,20 +110,17 @@ TileLayer *AutoMapper::findTileLayer(Map *map, const QString &name)
     QString error;
 
     foreach (Layer *layer, map->layers()) {
-        if (layer->name().compare(name, Qt::CaseInsensitive) == 0) {
+        if (layer->name().compare(name) == 0) {
             if (TileLayer *tileLayer = layer->asTileLayer()) {
                 if (ret)
-                    error = tr("Multiple layers %1 found!").arg(name);
+                    error = tr("Multiple layers %1 found!").arg(name) +
+                            QLatin1Char('\n');
                 ret = tileLayer;
             }
         }
     }
 
-    if (!error.isEmpty()) {
-        QMessageBox msgBox;
-        msgBox.setText(error);
-        msgBox.exec();
-    }
+    mError += error;
 
     return ret;
 }
@@ -183,7 +182,7 @@ bool AutoMapper::setupRuleMapLayers()
             continue;
         }
 
-        int pos = layername.indexOf(QLatin1Char('_'), Qt::CaseInsensitive) + 1;
+        int pos = layername.indexOf(QLatin1Char('_')) + 1;
         QString group = layername.left(pos) ;
 
         QString name = layername.right(layername.size() - pos);
@@ -242,9 +241,7 @@ bool AutoMapper::setupRuleMapLayers()
 
     if (!error.isEmpty()) {
         error = mRulePath + QLatin1Char('\n') + error;
-        QMessageBox msgBox;
-        msgBox.setText(error);
-        msgBox.exec();
+        mError += error;
         return false;
     }
 
@@ -364,7 +361,7 @@ void AutoMapper::layerAdd(int index)
         return;
 
     QString name = layer->name();
-    if (mAddLayers.contains(name, Qt::CaseInsensitive)) {
+    if (mAddLayers.contains(name)) {
         mAddLayers.removeAt(mAddLayers.indexOf(name));
 
         QList<QList<QPair<TileLayer*, TileLayer*> >* >::const_iterator j;
@@ -373,7 +370,7 @@ void AutoMapper::layerAdd(int index)
         // update layer translation table
         for (j = mLayerList.constBegin(); j != mLayerList.constEnd(); ++j)
             for (i = (*j)->begin(); i != (*j)->end(); ++i)
-                if (i->first->name().endsWith(name, Qt::CaseInsensitive)) {
+                if (i->first->name().endsWith(name)) {
                     QPair<TileLayer*, TileLayer*> updatePair(i->first, layer);
                     *i = updatePair;
                 }
@@ -561,13 +558,13 @@ static QVector<Tile*> tilesInRegion(QVector<TileLayer*> list, const QRegion &r)
 /**
  * This function is one of the core functions for understanding the
  * automapping.
- * In this function a certain region (of the "set" layer) is compared to
+ * In this function a certain region (of the set layer) is compared to
  * several other layers (ruleSet and ruleNotSet).
  * This comparision will determine if a rule of automapping matches,
  * so if this rule is applied at this region given
  * by a QRegion and Offset given by a QPoint.
  *
- * This compares the tile layer l1 ("set" layer) to several others given
+ * This compares the tile layer l1 (set layer) to several others given
  * in the QList listYes (ruleSet) and OList listNo (ruleNotSet).
  * The tile layer l1 is examined at QRegion r1 + offset
  * The tile layers within listYes and listNo are examined at QRegion r1.
@@ -652,7 +649,7 @@ static bool compareLayerTo(TileLayer *l1, QVector<TileLayer*> listYes,
 
                 Tile *t1 = l1->tileAt(x + offset.x(), y + offset.y());
 
-                // when there is no tile in l1 (= "set" layer),
+                // when there is no tile in l1 (= set layer),
                 // there should be no rule at all
                 if (!t1)
                     return false;
@@ -820,6 +817,7 @@ AutoMapperWrapper::AutoMapperWrapper(MapDocument *mapDocument, QVector<AutoMappe
     }
     foreach (const QString &layerName, touchedlayers) {
         const int layerindex = map->indexOfLayer(layerName);
+        Q_ASSERT(layerindex != -1);
         mLayersBefore << map->layerAt(layerindex)->clone();
     }
 
@@ -830,6 +828,7 @@ AutoMapperWrapper::AutoMapperWrapper(MapDocument *mapDocument, QVector<AutoMappe
     foreach (const QString &layerName, touchedlayers) {
         const int layerindex = map->indexOfLayer(layerName);
         // layerindex exists, because AutoMapper is still alive, dont check
+        Q_ASSERT(layerindex != -1);
         mLayersAfter << map->layerAt(layerindex)->clone();
     }
     foreach (AutoMapper *a, autoMapper) {
@@ -897,6 +896,9 @@ AutomaticMappingManager::AutomaticMappingManager(QObject *parent)
     mChangedFilesTimer.setSingleShot(true);
     connect(&mChangedFilesTimer, SIGNAL(timeout()),
             this, SLOT(fileChangedTimeout()));
+    // this should be stored in the project file later on.
+    // now just default to the value we always had.
+    mSetLayer = QLatin1String("set");
 }
 
 AutomaticMappingManager::~AutomaticMappingManager()
@@ -924,25 +926,28 @@ void AutomaticMappingManager::automap()
     if (!mMapDocument)
         return;
 
-    int w = mMapDocument->map()->width();
-    int h = mMapDocument->map()->height();
-    TileLayer *l = new TileLayer(QLatin1String("set"), 0 , 0, 0, 0);
-    automap(QRect(0, 0, w, h), l, true);
-    delete l;
+    Map *map = mMapDocument->map();
+    int w = map->width();
+    int h = map->height();
+    int l = map->indexOfLayer(mSetLayer);
+    if (l != -1)
+        automap(QRect(0, 0, w, h), map->layerAt(l));
+    else
+        mError = tr("No set layer found!") + QLatin1Char('\n');
 }
 
-void AutomaticMappingManager::automap(QRegion where, Layer *l, bool verbose)
+void AutomaticMappingManager::automap(QRegion where, Layer *l)
 {
     if (!mMapDocument)
         return;
 
-    if (l->name() != QLatin1String("set"))
+    if (l->name() != mSetLayer)
         return;
 
     if (!mLoaded) {
         const QString mapPath = QFileInfo(mMapDocument->fileName()).path();
         const QString rulesFileName = mapPath + QLatin1String("/rules.txt");
-        if (loadFile(rulesFileName, verbose))
+        if (loadFile(rulesFileName))
             mLoaded = true;
     }
 
@@ -967,24 +972,21 @@ void AutomaticMappingManager::automap(QRegion where, Layer *l, bool verbose)
     mMapDocument->setCurrentLayer(map->indexOfLayer(layer));
 }
 
-bool AutomaticMappingManager::loadFile(const QString &filePath, bool verbose)
+bool AutomaticMappingManager::loadFile(const QString &filePath)
 {
+    mError.clear();
     bool ret = true;
     const QString absPath = QFileInfo(filePath).path();
     QFile rulesFile(filePath);
 
     if (!rulesFile.exists()) {
-        if (verbose)
-            QMessageBox::critical(
-                    0, tr("AutoMap Error"),
-                    tr("No rules file found at:\n%1").arg(filePath));
+        mError += tr("No rules file found at:\n%1").arg(filePath)
+                  + QLatin1Char('\n');
         return false;
     }
     if (!rulesFile.open(QIODevice::ReadOnly)) {
-        if (verbose)
-            QMessageBox::critical(
-                    0, tr("AutoMap Error"),
-                    tr("Error opening rules file:\n%1").arg(filePath));
+        mError += tr("Error opening rules file:\n%1").arg(filePath)
+                  + QLatin1Char('\n');
         return false;
     }
 
@@ -1002,9 +1004,7 @@ bool AutomaticMappingManager::loadFile(const QString &filePath, bool verbose)
             rulePath = absPath + QLatin1Char('/') + rulePath;
 
         if (!QFileInfo(rulePath).exists()) {
-            if (verbose)
-                QMessageBox::warning(0, tr("AutoMap Warning"),
-                        tr("file not found:\n%1").arg(rulePath));
+            mError += tr("File not found:\n%1").arg(rulePath) + QLatin1Char('\n');
             ret = false;
             continue;
         }
@@ -1017,24 +1017,21 @@ bool AutomaticMappingManager::loadFile(const QString &filePath, bool verbose)
             tilesetManager->addReferences(rules->tilesets());
 
             if (!rules) {
-                if (verbose)
-                        QMessageBox::warning(
-                                0, tr("Error Opening Rules Map"),
-                                mapReader.errorString());
+                mError += tr("Opening rules map failed:\n%1").arg(
+                        mapReader.errorString()) + QLatin1Char('\n');
                 ret = false;
                 continue;
             }
             AutoMapper *autoMapper;
-            autoMapper = new AutoMapper(mMapDocument);
+            autoMapper = new AutoMapper(mMapDocument, mSetLayer);
 
             if (autoMapper->prepareLoad(rules, rulePath))
                 mAutoMappers.append(autoMapper);
             else
                 delete autoMapper;
-
         }
         if (rulePath.endsWith(QLatin1String(".txt"), Qt::CaseInsensitive)){
-            if (!loadFile(rulePath, verbose))
+            if (!loadFile(rulePath))
                 ret = false;
         }
     }
@@ -1091,7 +1088,7 @@ void AutomaticMappingManager::fileChangedTimeout()
                 continue;
             }
 
-            AutoMapper *autoMapper = new AutoMapper(mMapDocument);
+            AutoMapper *autoMapper = new AutoMapper(mMapDocument, mSetLayer);
             if (autoMapper->prepareLoad(rules, fileName)) {
                 mAutoMappers.replace(i, autoMapper);
             } else {
