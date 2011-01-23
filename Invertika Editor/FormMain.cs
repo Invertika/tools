@@ -533,7 +533,7 @@ namespace Invertika_Editor
 			+"! style=\"background:#efdead;\" | Verteidigung (physisch)\n"
 			+"! style=\"background:#efdead;\" | Verteidigung (magisch)\n"
 			+"! style=\"background:#efdead;\" | Mutation\n"
-			+"! style=\"background:#efdead;\" | Geschwindigkeit\n"
+			+"! style=\"background:#efdead;\" | Geschwindigkeit (in Tiles pro Sekunde)\n"
 			+"! style=\"background:#efdead;\" | Händlerdropwert (in Aki)\n"
 			+"! style=\"background:#efdead;\" | Kampfstärke\n"
 			+"! style=\"background:#efdead;\" | Erfahrung\n"
@@ -567,7 +567,7 @@ namespace Invertika_Editor
 				ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.PhysicalDefence);
 				ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.MagicalDefence);
 				ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.Mutation);
-				ret+=String.Format("| align=\"center\" | {0} Tiles/Sekunde\n", monster.Attributes.Speed);
+				ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.Speed);
 
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.GetSaleDropMoneyValue(items));
 
