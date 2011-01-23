@@ -150,6 +150,7 @@
 			this.toolStripLabel1=new System.Windows.Forms.ToolStripLabel();
 			this.tsbExport=new System.Windows.Forms.ToolStripButton();
 			this.tabControl=new System.Windows.Forms.TabControl();
+			this.nPCsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.groupBox5.SuspendLayout();
@@ -604,6 +605,7 @@
             this.itemsÜberprüfenToolStripMenuItem,
             this.mapsÜberprüfenToolStripMenuItem1,
             this.monsterÜberprüfenToolStripMenuItem,
+            this.nPCsÜberprüfenToolStripMenuItem,
             this.spritesÜberprüfenToolStripMenuItem,
             this.tilesetsÜberprüfenToolStripMenuItem,
             this.toolStripMenuItem4,
@@ -1195,6 +1197,13 @@
 			this.tabControl.Size=new System.Drawing.Size(1006, 427);
 			this.tabControl.TabIndex=3;
 			// 
+			// nPCsÜberprüfenToolStripMenuItem
+			// 
+			this.nPCsÜberprüfenToolStripMenuItem.Name="nPCsÜberprüfenToolStripMenuItem";
+			this.nPCsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(242, 22);
+			this.nPCsÜberprüfenToolStripMenuItem.Text="NPCs überprüfen...";
+			this.nPCsÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.nPCsÜberprüfenToolStripMenuItem_Click);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions=new System.Drawing.SizeF(6F, 13F);
@@ -1354,6 +1363,7 @@
 		private System.Windows.Forms.ToolStripLabel toolStripLabel1;
 		private System.Windows.Forms.ToolStripButton tsbExport;
 		private System.Windows.Forms.TabControl tabControl;
+		private System.Windows.Forms.ToolStripMenuItem nPCsÜberprüfenToolStripMenuItem;
 	}
 }
 

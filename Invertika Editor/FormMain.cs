@@ -2714,6 +2714,39 @@ namespace Invertika_Editor
 			return msg;
 		}
 
+		private string CheckNPCs()
+		{
+			bool found=false;
+			string msg="";
+
+			string fnNpcsXml=Globals.folder_clientdata+"npcs.xml";
+			List<Npc> npcs=Npc.GetNpcsFromXml(fnNpcsXml);
+
+			//foreach(Sprite set in tmpNpc.)
+			//{
+			//    string[] splited2=set.Src.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+			//    string setPath=Globals.folder_clientdata+splited2[0];
+
+			//    if(!FileSystem.Exists(setPath))
+			//    {
+			//        found=true;
+
+			//        string relpathPNG=FileSystem.GetRelativePath(setPath, Globals.folder_clientdata);
+			//        string relpathXML=FileSystem.GetRelativePath(i, Globals.folder_clientdata);
+
+			//        msg+=String.Format("Sprite PNG Datei ({0}) für XML Datei {1} existiert nicht.\n", relpathPNG, relpathXML);
+			//    }
+			//}
+			//ljkh
+
+			if(found==false)
+			{
+				msg="Es wurden keine Fehler gefunden.";
+			}
+
+			return msg;
+		}
+
 		private void spritesÜberprüfenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if(Globals.folder_root=="")
@@ -2986,6 +3019,18 @@ namespace Invertika_Editor
 				lvEvents.Items.Clear();
 				BuildListBox(qee.QuestRoot, 0);
 			}
+		}
+
+		private void nPCsÜberprüfenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			string msg=CheckNPCs();
+			FormOutputBox.ShowOutputBox("Fehler in der npcs.xml", msg);
 		}
 	}
 }
