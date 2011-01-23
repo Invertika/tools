@@ -402,7 +402,7 @@ namespace Invertika_Editor
 			+"! style=\"background:#efdead;\" | HP\n"
 			+"! style=\"background:#efdead;\" | Gewicht\n"
 			+"! style=\"background:#efdead;\" | Verteidigung\n"
-			+"! style=\"background:#efdead;\" | Verkaufspreis\n"
+			+"! style=\"background:#efdead;\" | Verkaufspreis (in Aki)\n"
 			+"! style=\"background:#efdead;\" | Maximale Anzahl pro Slot\n"
 			+"|-\n";
 
@@ -465,7 +465,7 @@ namespace Invertika_Editor
 				ret+=String.Format("| align=\"center\" | {0}\n", item.HP);
 				ret+=String.Format("| align=\"center\" | {0}\n", item.Weight);
 				ret+=String.Format("| align=\"center\" | {0}%\n", item.Defense);
-				ret+=String.Format("| align=\"center\" | {0} Aki\n", item.Value);
+				ret+=String.Format("| align=\"center\" | {0}\n", item.Value);
 				ret+=String.Format("| align=\"center\" | {0}\n", item.MaxPerSlot);
 				ret+=String.Format("|-\n");
 			}
@@ -534,7 +534,7 @@ namespace Invertika_Editor
 			+"! style=\"background:#efdead;\" | Verteidigung (magisch)\n"
 			+"! style=\"background:#efdead;\" | Mutation\n"
 			+"! style=\"background:#efdead;\" | Geschwindigkeit\n"
-			+"! style=\"background:#efdead;\" | Händlerdropwert\n"
+			+"! style=\"background:#efdead;\" | Händlerdropwert (in Aki)\n"
 			+"! style=\"background:#efdead;\" | Erfahrung\n"
 				//+"! style=\"background:#efdead;\" | Drops"
 			+"|-\n";
@@ -568,7 +568,7 @@ namespace Invertika_Editor
 				ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.Mutation);
 				ret+=String.Format("| align=\"center\" | {0} Tiles/Sekunde\n", monster.Attributes.Speed);
 
-				ret+=String.Format("| align=\"center\" | {0} Aki\n", monster.GetSaleDropMoneyValue(items));
+				ret+=String.Format("| align=\"center\" | {0}\n", monster.GetSaleDropMoneyValue(items));
 
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.Exp);
 
