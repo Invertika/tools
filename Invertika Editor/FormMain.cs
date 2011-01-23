@@ -528,6 +528,8 @@ namespace Invertika_Editor
 			+"! style=\"background:#efdead;\" | Angriff\n"
 			+"! style=\"background:#efdead;\" | Verteidigung (physisch)\n"
 			+"! style=\"background:#efdead;\" | Verteidigung (magisch)\n"
+			+"! style=\"background:#efdead;\" | Mutation\n"
+			+"! style=\"background:#efdead;\" | Geschwindigkeit\n"
 			+"! style=\"background:#efdead;\" | Erfahrung\n"
 				//+"! style=\"background:#efdead;\" | Drops"
 			+"|-\n";
@@ -544,6 +546,7 @@ namespace Invertika_Editor
 				ret+=String.Format("| [[monster-{0}|{1}]]\n", monster.ID, monster.Name);
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.HP);
 
+
 				if(monster.Behavior!=null)
 				{
 					if(monster.Behavior.Aggressive) ret+=String.Format("| align=\"center\" | Ja\n");
@@ -557,6 +560,9 @@ namespace Invertika_Editor
 				ret+=String.Format("| align=\"center\" | {0}-{1}\n", monster.Attributes.AttackMin-monster.Attributes.AttackDelta, monster.Attributes.AttackMin+monster.Attributes.AttackDelta);
 				ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.PhysicalDefence);
 				ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.MagicalDefence);
+				ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.Mutation);
+				ret+=String.Format("| align=\"center\" | {0} Tiles/Sekunde\n", monster.Attributes.Speed);
+
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.Exp);
 
 				//String.Format("| Bone (2.1%)<br>Skull (3%)<br>Dark Crystal (10%)<br>Warlord Helmet (0.03%)<br>Warlord Plate (0.02%)<br>Leather Gloves (0.35%)");
