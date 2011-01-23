@@ -402,6 +402,7 @@ namespace Invertika_Editor
 			+"! style=\"background:#efdead;\" | HP\n"
 			+"! style=\"background:#efdead;\" | Gewicht\n"
 			+"! style=\"background:#efdead;\" | Verteidigung\n"
+			+"! style=\"background:#efdead;\" | Verkaufspreis\n"
 			+"! style=\"background:#efdead;\" | Maximale Anzahl pro Slot\n"
 			+"|-\n";
 
@@ -464,6 +465,7 @@ namespace Invertika_Editor
 				ret+=String.Format("| align=\"center\" | {0}\n", item.HP);
 				ret+=String.Format("| align=\"center\" | {0}\n", item.Weight);
 				ret+=String.Format("| align=\"center\" | {0}%\n", item.Defense);
+				ret+=String.Format("| align=\"center\" | {0}%\n", item.Value);
 				ret+=String.Format("| align=\"center\" | {0}\n", item.MaxPerSlot);
 				ret+=String.Format("|-\n");
 			}
