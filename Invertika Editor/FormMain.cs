@@ -2541,6 +2541,9 @@ namespace Invertika_Editor
 			msg+="Monster:\n";
 			msg+=CheckMonster();
 			msg+="\n\n";
+			msg+="NPCs:\n";
+			msg+=CheckNPCs();
+			msg+="\n\n";
 			msg+="Sprites:\n";
 			msg+=CheckSprites();
 			msg+="\n\n";
@@ -2722,22 +2725,38 @@ namespace Invertika_Editor
 			string fnNpcsXml=Globals.folder_clientdata+"npcs.xml";
 			List<Npc> npcs=Npc.GetNpcsFromXml(fnNpcsXml);
 
-			//foreach(Sprite set in tmpNpc.)
-			//{
-			//    string[] splited2=set.Src.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-			//    string setPath=Globals.folder_clientdata+splited2[0];
+			foreach(Npc npc in npcs)
+			{
+				if(npc.SpriteFilename!=null)
+				{
+					//Sprite prüfen
+					string[] splited2=npc.SpriteFilename.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+					string setPath=Globals.folder_clientdata_graphics_sprites+splited2[0];
 
-			//    if(!FileSystem.Exists(setPath))
-			//    {
-			//        found=true;
+					if(!FileSystem.Exists(setPath))
+					{
+						string relpath=FileSystem.GetRelativePath(setPath, Globals.folder_clientdata);
 
-			//        string relpathPNG=FileSystem.GetRelativePath(setPath, Globals.folder_clientdata);
-			//        string relpathXML=FileSystem.GetRelativePath(i, Globals.folder_clientdata);
+						found=true;
+						msg+=String.Format("Sprite Datei ({0}) für NPC (ID: {1}) existiert nicht.\n", relpath, npc.ID);
+					}
+				}
 
-			//        msg+=String.Format("Sprite PNG Datei ({0}) für XML Datei {1} existiert nicht.\n", relpathPNG, relpathXML);
-			//    }
-			//}
-			//ljkh
+				if(npc.ParticleFxFilename!=null)
+				{
+					//Sprite prüfen
+					string[] splited2=npc.ParticleFxFilename.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+					string setPath=Globals.folder_clientdata+splited2[0];
+
+					if(!FileSystem.Exists(setPath))
+					{
+						string relpath=FileSystem.GetRelativePath(setPath, Globals.folder_clientdata);
+
+						found=true;
+						msg+=String.Format("ParticleFX Datei ({0}) für NPC (ID: {1}) existiert nicht.\n", relpath, npc.ID);
+					}
+				}
+			}
 
 			if(found==false)
 			{
