@@ -519,7 +519,9 @@ namespace Invertika_Editor
 			string ret="";
 			//Parameter auswerten
 			string fnMonsterXml=Globals.folder_clientdata+"monsters.xml";
+			string fnItemsXml=Globals.folder_clientdata+"items.xml";
 
+			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
 
 			ret+="{| border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\" align=\"center\" class=\"wikitable sortable\"\n"
 			+"! style=\"background:#efdead;\" | Bild\n"
@@ -532,6 +534,7 @@ namespace Invertika_Editor
 			+"! style=\"background:#efdead;\" | Verteidigung (magisch)\n"
 			+"! style=\"background:#efdead;\" | Mutation\n"
 			+"! style=\"background:#efdead;\" | Geschwindigkeit\n"
+			+"! style=\"background:#efdead;\" | Händlerdropwert\n"
 			+"! style=\"background:#efdead;\" | Erfahrung\n"
 				//+"! style=\"background:#efdead;\" | Drops"
 			+"|-\n";
@@ -564,6 +567,8 @@ namespace Invertika_Editor
 				ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.MagicalDefence);
 				ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.Mutation);
 				ret+=String.Format("| align=\"center\" | {0} Tiles/Sekunde\n", monster.Attributes.Speed);
+
+				ret+=String.Format("| align=\"center\" | {0} Aki\n", monster.GetSaleDropMoneyValue(items));
 
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.Exp);
 
@@ -1139,7 +1144,7 @@ namespace Invertika_Editor
 
 					List<string> lines=new List<string>();
 
-					lines.Add("{{Automatic}}{{Anker|AutomaticStartInfobox}}"+monster.ToMediaWikiInfobox()+"{{Anker|AutomaticEndInfobox}}");
+					lines.Add("{{Automatic}}{{Anker|AutomaticStartInfobox}}"+monster.ToMediaWikiInfobox(items)+"{{Anker|AutomaticEndInfobox}}");
 					lines.Add("");
 					lines.Add("Dieses Monster besitzt noch keine Beschreibung.");
 					lines.Add("");
@@ -1436,6 +1441,9 @@ namespace Invertika_Editor
 
 		private void ExportMonstersInfoboxToMediawikiAPI()
 		{
+			string fnItemsXml=Globals.folder_clientdata+"items.xml";
+			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
+
 			string url=Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL");
 			string username=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username");
 			string password=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort");
@@ -1490,7 +1498,8 @@ namespace Invertika_Editor
 					if(monster.ID==monsterIndex)
 					{
 
-						string replaceString="{{Anker|AutomaticStartInfobox}}"+monster.ToMediaWikiInfobox();
+
+						string replaceString="{{Anker|AutomaticStartInfobox}}"+monster.ToMediaWikiInfobox(items);
 
 						text=text.Replace(start, replaceString);
 
