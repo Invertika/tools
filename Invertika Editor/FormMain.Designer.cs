@@ -89,6 +89,7 @@
 			this.itemsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.mapsÜberprüfenToolStripMenuItem1=new System.Windows.Forms.ToolStripMenuItem();
 			this.monsterÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.nPCsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.spritesÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.tilesetsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem4=new System.Windows.Forms.ToolStripSeparator();
@@ -150,7 +151,6 @@
 			this.toolStripLabel1=new System.Windows.Forms.ToolStripLabel();
 			this.tsbExport=new System.Windows.Forms.ToolStripButton();
 			this.tabControl=new System.Windows.Forms.TabControl();
-			this.nPCsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.groupBox5.SuspendLayout();
@@ -636,6 +636,13 @@
 			this.monsterÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(242, 22);
 			this.monsterÜberprüfenToolStripMenuItem.Text="Monster überprüfen...";
 			this.monsterÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.monsterÜberprüfenToolStripMenuItem_Click);
+			// 
+			// nPCsÜberprüfenToolStripMenuItem
+			// 
+			this.nPCsÜberprüfenToolStripMenuItem.Name="nPCsÜberprüfenToolStripMenuItem";
+			this.nPCsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(242, 22);
+			this.nPCsÜberprüfenToolStripMenuItem.Text="NPCs überprüfen...";
+			this.nPCsÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.nPCsÜberprüfenToolStripMenuItem_Click);
 			// 
 			// spritesÜberprüfenToolStripMenuItem
 			// 
@@ -1196,13 +1203,6 @@
 			this.tabControl.SelectedIndex=0;
 			this.tabControl.Size=new System.Drawing.Size(1006, 427);
 			this.tabControl.TabIndex=3;
-			// 
-			// nPCsÜberprüfenToolStripMenuItem
-			// 
-			this.nPCsÜberprüfenToolStripMenuItem.Name="nPCsÜberprüfenToolStripMenuItem";
-			this.nPCsÜberprüfenToolStripMenuItem.Size=new System.Drawing.Size(242, 22);
-			this.nPCsÜberprüfenToolStripMenuItem.Text="NPCs überprüfen...";
-			this.nPCsÜberprüfenToolStripMenuItem.Click+=new System.EventHandler(this.nPCsÜberprüfenToolStripMenuItem_Click);
 			// 
 			// FormMain
 			// 

@@ -535,6 +535,7 @@ namespace Invertika_Editor
 			+"! style=\"background:#efdead;\" | Mutation\n"
 			+"! style=\"background:#efdead;\" | Geschwindigkeit\n"
 			+"! style=\"background:#efdead;\" | Händlerdropwert (in Aki)\n"
+			+"! style=\"background:#efdead;\" | Kampfstärke\n"
 			+"! style=\"background:#efdead;\" | Erfahrung\n"
 				//+"! style=\"background:#efdead;\" | Drops"
 			+"|-\n";
@@ -570,6 +571,7 @@ namespace Invertika_Editor
 
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.GetSaleDropMoneyValue(items));
 
+				ret+=String.Format("| align=\"center\" | {0}\n", monster.FightingStrength);
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.Exp);
 
 				//String.Format("| Bone (2.1%)<br>Skull (3%)<br>Dark Crystal (10%)<br>Warlord Helmet (0.03%)<br>Warlord Plate (0.02%)<br>Leather Gloves (0.35%)");
