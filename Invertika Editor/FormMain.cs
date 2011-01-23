@@ -422,7 +422,7 @@ namespace Invertika_Editor
 				{
 					if(weapons)
 					{
-						ret+="| style=\"background:#efdead;\" colspan=\"8\" align=\"center\"|Waffen\n";
+						ret+="| style=\"background:#efdead;\" colspan=\"9\" align=\"center\"|Waffen\n";
 						ret+="|-\n";
 						weapons=false;
 					}
@@ -432,7 +432,7 @@ namespace Invertika_Editor
 				{
 					if(ruestungen)
 					{
-						ret+="| style=\"background:#efdead;\" colspan=\"8\" align=\"center\"|Rüstungen und Kleidung\n";
+						ret+="| style=\"background:#efdead;\" colspan=\"9\" align=\"center\"|Rüstungen und Kleidung\n";
 						ret+="|-\n";
 						ruestungen=false;
 					}
@@ -442,7 +442,7 @@ namespace Invertika_Editor
 				{
 					if(powerups)
 					{
-						ret+="| style=\"background:#efdead;\" colspan=\"8\" align=\"center\"|Power Ups\n";
+						ret+="| style=\"background:#efdead;\" colspan=\"9\" align=\"center\"|Power Ups\n";
 						ret+="|-\n";
 						powerups=false;
 					}
@@ -452,7 +452,7 @@ namespace Invertika_Editor
 				{
 					if(misc)
 					{
-						ret+="| style=\"background:#efdead;\" colspan=\"8\" align=\"center\"|Sonstiges\n";
+						ret+="| style=\"background:#efdead;\" colspan=\"9\" align=\"center\"|Sonstiges\n";
 						ret+="|-\n";
 						misc=false;
 					}
@@ -465,7 +465,7 @@ namespace Invertika_Editor
 				ret+=String.Format("| align=\"center\" | {0}\n", item.HP);
 				ret+=String.Format("| align=\"center\" | {0}\n", item.Weight);
 				ret+=String.Format("| align=\"center\" | {0}%\n", item.Defense);
-				ret+=String.Format("| align=\"center\" | {0}%\n", item.Value);
+				ret+=String.Format("| align=\"center\" | {0} Aki\n", item.Value);
 				ret+=String.Format("| align=\"center\" | {0}\n", item.MaxPerSlot);
 				ret+=String.Format("|-\n");
 			}
