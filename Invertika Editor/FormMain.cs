@@ -977,6 +977,113 @@ namespace Invertika_Editor
 					if(og.Name=="Object")
 					{
 						@object=true;
+
+						int scriptCount=0;
+
+						foreach(CSCL.FileFormats.TMX.Object obj in og.Objects)
+						{
+							//Warp Überprüfung
+							if(obj.Type=="WARP")
+							{
+								//Prüfen ob Warp auf der Karte liegt
+								if(!(obj.X/32>=0&&obj.X/32<=map.Width&&obj.Y/32>=0&&obj.Y/32<=map.Height))
+								{
+									found=true; 
+									newEntry=true;
+									msg+=String.Format("WARP in Map {0} liegt nicht in der Karte.\n", fn);
+								}
+
+								string dest_map="";
+								int dest_x=0;
+								int dest_y=0;
+
+								foreach(Property prop in obj.Properties)
+								{
+									switch(prop.Name)
+									{
+										case "DEST_MAP":
+											{
+												dest_map=prop.Value;
+												break;
+											}
+										case "DEST_X":
+											{
+												dest_x=Convert.ToInt32(prop.Value);
+												break;
+											}
+										case "DEST_Y":
+											{
+												dest_y=Convert.ToInt32(prop.Value);
+												break;
+											}
+									}
+								}
+
+								dest_x=dest_x/32;
+								dest_y=dest_y/32;
+
+								string warpmapname=Globals.folder_clientdata_maps+dest_map+".tmx";
+								if(FileSystem.ExistsFile(warpmapname))
+								{
+									TMX warpMap=new TMX();
+									warpMap.Open(warpmapname);
+
+									if(!(dest_x>=0&&dest_x<=warpMap.Width&&dest_y>=0&&dest_y<=warpMap.Height)) //Warp in der Map enthalten
+									{
+										found=true; 
+										newEntry=true;
+										msg+=String.Format("WARP auf Map ({0}) in Map {1} zeigt auf nicht vorhandenen Bereich.\n", dest_map+".tmx", fn);
+									}
+								}
+								else
+								{
+									found=true; 
+									newEntry=true;
+									msg+=String.Format("Per WARP Referenzierte Map ({0}) in Map {1} existiert nicht.\n", dest_map+".tmx", fn);
+								}
+							}
+							else if(obj.Type=="SCRIPT") //Skripte überprüfen
+							{
+								if(obj.Name=="External Map Events")
+								{
+									scriptCount++;
+
+									if(scriptCount>1)
+									{
+										found=true;
+										newEntry=true;
+										msg+=String.Format("Mehrere External Map Events Objekte in der Map ({0}) gefunden.\n", fn);
+									}
+
+									string scriptfilename="";
+
+									foreach(Property prop in obj.Properties)
+									{
+										switch(prop.Name)
+										{
+											case "FILENAME":
+												{
+													scriptfilename=prop.Value;
+													break;
+												}
+										}
+									}
+
+									if(FileSystem.GetFilenameWithoutExt(fn)!=FileSystem.GetFilenameWithoutExt(scriptfilename))
+									{
+										found=true;
+										newEntry=true;
+										msg+=String.Format("Dateiname der Skriptdatei in der Map ({0}) entspricht nicht dem Mapnamen.\n", fn);
+									}
+								}
+								else
+								{
+									found=true;
+									newEntry=true;
+									msg+=String.Format("Unbekanntes SCRIPT Objekt in der Map ({0}) gefunden.\n", fn);
+								}
+							}
+						}
 					}
 					else
 					{
@@ -986,7 +1093,7 @@ namespace Invertika_Editor
 					}
 				}
 
-				if(!@object) { found=true; msg+=String.Format("Object Layer in Map {0} vorhanden.\n", fn); }
+				if(!@object) { found=true; msg+=String.Format("Object Layer in Map {0} nicht vorhanden.\n", fn); }
 
 				if(newEntry) msg+="\n";
 			}
