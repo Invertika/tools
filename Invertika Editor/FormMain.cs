@@ -923,7 +923,7 @@ namespace Invertika_Editor
 					msg+=String.Format("Unbekannte Kompressionsart (warscheinlich zlib) in Map {0} vorhanden.\n", fnCurrent);
 					continue;
 				}
-				
+
 				string fn=FileSystem.GetRelativePath(fnCurrent, Globals.folder_clientdata);
 
 				foreach(CSCL.FileFormats.TMX.TMX.TilesetData fnTileset in map.Tilesets)
@@ -988,9 +988,9 @@ namespace Invertika_Editor
 								//Prüfen ob Warp auf der Karte liegt
 								if(!(obj.X/32>=0&&obj.X/32<=map.Width&&obj.Y/32>=0&&obj.Y/32<=map.Height))
 								{
-									found=true; 
+									found=true;
 									newEntry=true;
-									msg+=String.Format("WARP in Map {0} liegt nicht in der Karte.\n", fn);
+									msg+=String.Format("WARP ({0}) in Map {1} liegt nicht in der Karte.\n", obj.Name, fn);
 								}
 
 								string dest_map="";
@@ -1030,16 +1030,16 @@ namespace Invertika_Editor
 
 									if(!(dest_x>=0&&dest_x<=warpMap.Width&&dest_y>=0&&dest_y<=warpMap.Height)) //Warp in der Map enthalten
 									{
-										found=true; 
+										found=true;
 										newEntry=true;
-										msg+=String.Format("WARP auf Map ({0}) in Map {1} zeigt auf nicht vorhandenen Bereich.\n", dest_map+".tmx", fn);
+										msg+=String.Format("WARP ({0}) auf Map ({1}) in Map {2} zeigt auf nicht vorhandenen Bereich.\n", obj.Name, dest_map+".tmx", fn);
 									}
 								}
 								else
 								{
-									found=true; 
+									found=true;
 									newEntry=true;
-									msg+=String.Format("Per WARP Referenzierte Map ({0}) in Map {1} existiert nicht.\n", dest_map+".tmx", fn);
+									msg+=String.Format("Per WARP ({0}) Referenzierte Map ({1}) in Map {2} existiert nicht.\n", obj.Name, dest_map+".tmx", fn);
 								}
 							}
 							else if(obj.Type=="SCRIPT") //Skripte überprüfen
