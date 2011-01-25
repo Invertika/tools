@@ -972,13 +972,13 @@ namespace Invertika_Editor
 				if(!over) { found=true; newEntry=true; msg+=String.Format("Over Layer in Map {0} nicht vorhanden.\n", fn); }
 				if(!collision) { found=true; newEntry=true; msg+=String.Format("Collision Layer in Map {0} nicht vorhanden.\n", fn); }
 
+				int externalMapEventsCount=0;
+
 				foreach(Objectgroup og in map.ObjectLayers)
 				{
 					if(og.Name=="Object")
 					{
 						@object=true;
-
-						int scriptCount=0;
 
 						foreach(CSCL.FileFormats.TMX.Object obj in og.Objects)
 						{
@@ -1046,9 +1046,9 @@ namespace Invertika_Editor
 							{
 								if(obj.Name=="External Map Events")
 								{
-									scriptCount++;
+									externalMapEventsCount++;
 
-									if(scriptCount>1)
+									if(externalMapEventsCount>1)
 									{
 										found=true;
 										newEntry=true;
@@ -1091,6 +1091,13 @@ namespace Invertika_Editor
 						newEntry=true;
 						msg+=String.Format("Unbekannter Objektlayer ({0}) in Map {1} vorhanden.\n", og.Name, fn);
 					}
+				}
+
+				if(externalMapEventsCount==0)
+				{
+					found=true;
+					newEntry=true;
+					msg+=String.Format("Es wurde kein \"External Map Events\" in der Map ({0}) gefunden.\n", fn);
 				}
 
 				if(!@object) { found=true; msg+=String.Format("Object Layer in Map {0} nicht vorhanden.\n", fn); }
