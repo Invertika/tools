@@ -78,11 +78,12 @@ namespace autoupdate
 			#endregion
 
 			#region IRC Message absetzen
+			Console.WriteLine("Sende IRC Nachricht...");
 			string[] serverlist=new string[] { "irc.freenode.net" };
 			int port=6667;
 
 			irc.Connect(serverlist, port);
-			irc.Login("Autoupdate", "Autoupdate", 0, "Autoupdate");
+			irc.Login("Autoupdate", "Autoupdate", 0, "AutoupdateIRC");
 			irc.RfcJoin("#invertika");
 
 			irc.SendMessage(SendType.Message, "", String.Format("Autoupdate wurde soebend auf dem Server {0} gestartet.", misc_servername));
@@ -298,6 +299,7 @@ namespace autoupdate
 			#endregion
 
 			#region IRC Message absetzen und aus Channel verschwinden
+			Console.WriteLine("Sende IRC Nachricht...");
 			irc.SendMessage(SendType.Message, "", String.Format("Autoupdate wurde soebend auf dem Server {0} beendet und manaserv wieder gestartet.", misc_servername));
 			irc.Disconnect();
 			#endregion
