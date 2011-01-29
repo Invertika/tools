@@ -8,7 +8,7 @@ do
     then
         #echo "Kein Update"
     else
-        echo "Update"
+        #echo "Update"
         mono autoupdate.exe autoupdate.xml;
         sleep 3600;
     fi
