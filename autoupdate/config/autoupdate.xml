@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xml>
+  <misc>
+    <servername>Serenity</servername> 
+  </misc>
   <path>
     <temp>/home/manaserv/temp/</temp>
 	<repository>
