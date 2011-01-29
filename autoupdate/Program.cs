@@ -7,11 +7,19 @@ using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 using CSCL.Network.Ftp;
 using CSCL.Network.IRC;
+using System.Threading;
 
 namespace autoupdate
 {
 	class Program
 	{
+		static IrcClient irc=new IrcClient(); //IRC Client zum Bescheid sagen
+		
+		static void StartIRCListen()
+		{
+			irc.Listen();
+		}
+
 		static void Main(string[] args)
 		{
 			#region Init
@@ -35,8 +43,6 @@ namespace autoupdate
 				Console.WriteLine(e.ToString());
 				return;
 			}
-
-			IrcClient irc=new IrcClient(); //IRC Client zum Bescheid sagen
 
 			string workfolder_original=Directory.GetCurrentDirectory();
 
@@ -79,14 +85,22 @@ namespace autoupdate
 
 			#region IRC Message absetzen
 			Console.WriteLine("Sende IRC Nachricht...");
+
+			irc.SendDelay=200;
+			irc.AutoRetry=true;
+			irc.ActiveChannelSyncing=true;
+
 			string[] serverlist=new string[] { "irc.freenode.net" };
+			string ircChannel="#invertika";
 			int port=6667;
 
 			irc.Connect(serverlist, port);
 			irc.Login("Autoupdate", "Autoupdate", 0, "AutoupdateIRC");
 			irc.RfcJoin("#invertika");
 
-			irc.SendMessage(SendType.Message, "", String.Format("Autoupdate wurde soebend auf dem Server {0} gestartet.", misc_servername));
+			irc.SendMessage(SendType.Message, ircChannel, String.Format("Autoupdate wurde auf dem Server {0} gestartet.", misc_servername));
+
+			new Thread(new ThreadStart(StartIRCListen)).Start();
 			#endregion
 
 			#region Repository updaten
@@ -300,7 +314,8 @@ namespace autoupdate
 
 			#region IRC Message absetzen und aus Channel verschwinden
 			Console.WriteLine("Sende IRC Nachricht...");
-			irc.SendMessage(SendType.Message, "", String.Format("Autoupdate wurde soebend auf dem Server {0} beendet und manaserv wieder gestartet.", misc_servername));
+			irc.SendMessage(SendType.Message, ircChannel, String.Format("Autoupdate wurde auf dem Server {0} beendet und manaserv wieder gestartet.", misc_servername));
+			Thread.Sleep(15000);
 			irc.Disconnect();
 			#endregion
 
