@@ -6,6 +6,7 @@ using CSCL.Helpers;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 using CSCL.Network.Ftp;
+using CSCL.Network.IRC;
 
 namespace autoupdate
 {
@@ -35,7 +36,11 @@ namespace autoupdate
 				return;
 			}
 
+			IrcClient irc=new IrcClient(); //IRC Client zum Bescheid sagen
+
 			string workfolder_original=Directory.GetCurrentDirectory();
+
+			string misc_servername=config.GetElementAsString("xml.misc.servername");
 
 			string ftp_data_server=config.GetElementAsString("xml.ftp.data.server");
 			string ftp_data_user=config.GetElementAsString("xml.ftp.data.user");
@@ -70,6 +75,17 @@ namespace autoupdate
 
 			List<string> ExcludeFiles=new List<string>();
 			ExcludeFiles.Add("CMakeLists.txt");
+			#endregion
+
+			#region IRC Message absetzen
+			string[] serverlist=new string[] { "irc.freenode.net" };
+			int port=6667;
+
+			irc.Connect(serverlist, port);
+			irc.Login("Autoupdate", "Autoupdate", 0, "Autoupdate");
+			irc.RfcJoin("#invertika");
+
+			irc.SendMessage(SendType.Message, "", String.Format("Autoupdate wurde soebend auf dem Server {0} gestartet.", misc_servername));
 			#endregion
 
 			#region Repository updaten
@@ -279,6 +295,11 @@ namespace autoupdate
 
 				ClientData.Close();
 			}
+			#endregion
+
+			#region IRC Message absetzen und aus Channel verschwinden
+			irc.SendMessage(SendType.Message, "", String.Format("Autoupdate wurde soebend auf dem Server {0} beendet und manaserv wieder gestartet.", misc_servername));
+			irc.Disconnect();
 			#endregion
 
 			#region Ende
