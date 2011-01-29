@@ -10,6 +10,6 @@ do
     else
         echo "Update"
         mono autoupdate.exe autoupdate.xml;
+        sleep 3600;
     fi
-    sleep 3600;
 done; 
