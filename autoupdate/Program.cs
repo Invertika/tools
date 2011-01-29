@@ -38,7 +38,6 @@ namespace autoupdate
 			}
 			catch(Exception e)
 			{
-				//throw e;
 				Console.WriteLine("Konfiguration konnte nicht gelesen werden.");
 				Console.WriteLine(e.ToString());
 				return;
@@ -51,6 +50,10 @@ namespace autoupdate
 			string ftp_data_server=config.GetElementAsString("xml.ftp.data.server");
 			string ftp_data_user=config.GetElementAsString("xml.ftp.data.user");
 			string ftp_data_password=config.GetElementAsString("xml.ftp.data.password");
+
+			bool irc_active=Convert.ToBoolean(config.GetElementAsString("xml.irc.active"));
+			string irc_network=config.GetElementAsString("xml.irc.network");
+			string irc_channel=config.GetElementAsString("xml.irc.channel");
 
 			string ftp_update_server=config.GetElementAsString("xml.ftp.update.server");
 			string ftp_update_user=config.GetElementAsString("xml.ftp.update.user");
@@ -84,23 +87,25 @@ namespace autoupdate
 			#endregion
 
 			#region IRC Message absetzen
-			Console.WriteLine("Sende IRC Nachricht...");
+			if(irc_active)
+			{
+				Console.WriteLine("Sende IRC Nachricht...");
 
-			irc.SendDelay=200;
-			irc.AutoRetry=true;
-			irc.ActiveChannelSyncing=true;
+				irc.SendDelay=200;
+				irc.AutoRetry=true;
+				irc.ActiveChannelSyncing=true;
 
-			string[] serverlist=new string[] { "irc.freenode.net" };
-			string ircChannel="#invertika";
-			int port=6667;
+				string[] serverlist=new string[] { irc_network };
+				int port=6667;
 
-			irc.Connect(serverlist, port);
-			irc.Login("Autoupdate", "Autoupdate", 0, "AutoupdateIRC");
-			irc.RfcJoin("#invertika");
+				irc.Connect(serverlist, port);
+				irc.Login("Autoupdate", "Autoupdate", 0, "AutoupdateIRC");
+				irc.RfcJoin("#invertika");
 
-			irc.SendMessage(SendType.Message, ircChannel, String.Format("Autoupdate wurde auf dem Server {0} gestartet.", misc_servername));
+				irc.SendMessage(SendType.Message, irc_channel, String.Format("Autoupdate wurde auf dem Server {0} gestartet.", misc_servername));
 
-			new Thread(new ThreadStart(StartIRCListen)).Start();
+				new Thread(new ThreadStart(StartIRCListen)).Start();
+			}
 			#endregion
 
 			#region Repository updaten
@@ -313,10 +318,13 @@ namespace autoupdate
 			#endregion
 
 			#region IRC Message absetzen und aus Channel verschwinden
-			Console.WriteLine("Sende IRC Nachricht...");
-			irc.SendMessage(SendType.Message, ircChannel, String.Format("Autoupdate wurde auf dem Server {0} beendet und manaserv wieder gestartet.", misc_servername));
-			Thread.Sleep(15000);
-			irc.Disconnect();
+			if(irc_active)
+			{
+				Console.WriteLine("Sende IRC Nachricht...");
+				irc.SendMessage(SendType.Message, irc_channel, String.Format("Autoupdate wurde auf dem Server {0} beendet und manaserv wieder gestartet.", misc_servername));
+				Thread.Sleep(15000);
+				irc.Disconnect();
+			}
 			#endregion
 
 			#region Ende
