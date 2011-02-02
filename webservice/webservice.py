@@ -4,7 +4,7 @@
 import sqlite3, hashlib, string, os
 from bottle import get, post, route, run, debug, template, request, response, HTTPResponse, redirect
 
-debug_mode = True
+debug_mode = False
 port = 8080
 path_gameserverlog = "/home/manaserv/.manaserv-game.log"
 path_accountserverlog = "/home/manaserv/.manaserv-account.log"
@@ -157,4 +157,4 @@ def allother(page):
     redirect("http://invertika.org/")
 
 debug(debug_mode)
-run(reloader=True, host="0.0.0.0", port=port)
+run(reloader=False, host="0.0.0.0", port=port)
