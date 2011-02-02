@@ -8,7 +8,6 @@ debug_mode = True
 port = 8080
 path_gameserverlog = "/home/manaserv/.manaserv-game.log"
 path_accountserverlog = "/home/manaserv/.manaserv-account.log"
-path_server_restart_skript = "/home/manaserv/restart-server.sh"
 
 def get_aslog():
     f = open(path_accountserverlog, "r")
@@ -21,11 +20,6 @@ def get_gslog():
     gslog = f.read()
     f.close()
     return gslog.replace("\n", "<br>")
-
-def do_restart():
-    logstream = os.popen(path_server_restart_skript)
-    log = logstream.read()
-    return log
 
 def change_pw(username, password):
     con = sqlite3.connect('webservice.db')
@@ -90,14 +84,6 @@ def made_choice(choice):
             output = template('choice')
             output += "<hr>"
             output += get_gslog()
-        elif (choice == "restart"):
-            output = template('choice')
-            output += "<hr>"
-            output += do_restart()
-        elif (choice == "update"):
-            output = template('choice')
-            output += "<hr>"
-            output += do_update()
         else:
             output = "Ung&uuml;ltige Auswahl!\n<hr>\n"
             output += give_choice()
