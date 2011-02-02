@@ -6,12 +6,9 @@ from bottle import get, post, route, run, debug, template, request, response, HT
 
 debug_mode = True
 port = 8080
-path_python3 = "/usr/bin/python3"
 path_gameserverlog = "/home/manaserv/.manaserv-game.log"
 path_accountserverlog = "/home/manaserv/.manaserv-account.log"
 path_server_restart_skript = "/home/manaserv/restart-server.sh"
-#path_logfile = "/home/manaserv/autoupdate.log"
-commandline_autoupdate = "mono /home/manaserv/autoupdate.exe /home/manaserv/autoupdate.xml"
 
 def get_aslog():
     f = open(path_accountserverlog, "r")
@@ -24,14 +21,6 @@ def get_gslog():
     gslog = f.read()
     f.close()
     return gslog.replace("\n", "<br>")
-
-def do_update():
-    logstream = os.popen(commandline_autoupdate)
-    #log = logstream.read()
-    log = "Keine Ausgabe wird übermittelt, um Freeze zu verhindern"
-    #with open(path_logfile, mode='a', encoding='utf-8') as a_file:
-    #a_file.write(log)
-    return log
 
 def do_restart():
     logstream = os.popen(path_server_restart_skript)
