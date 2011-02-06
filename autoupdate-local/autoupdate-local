@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# Konfigurationsdatei einbinden
+. /etc/autoupdate-local.conf
+
+
+SERVER_DATA_PATH=${SERVER_DATA_PATH%/}
+SERVER_START_CMD=${SERVER_START_CMD}
+SERVER_STOP_CMD=${SERVER_STOP_CMD}
+REPOSITORY_TRUNK_PATH=${REPOSITORY_TRUNK_PATH%/}
+UPDATE_SERVER_PATH=${UPDATE_SERVER_PATH%/}
+
+## Stop server
+echo "Stopping server..."
+${SERVER_STOP_CMD} >/dev/null 2>&1
+echo "Server stopped!"
+
+## Client Update
+# Get existing update file
+for old_archive in ${UPDATE_SERVER_PATH}/*.invupdate.zip; do :; done;
+target_archive=${UPDATE_SERVER_PATH}/`date +%s`.invupdate.zip
+echo "Creating new update ${target_archive} from ${old_archive}"
+mv ${old_archive} ${target_archive}
+# Update config files, sprites and maps in the zip file
+cd ${REPOSITORY_TRUNK_PATH}/client-data
+echo "Copy config files..."
+zip -uq ${target_archive} ./*.xml ./*.xsl ./*.xsd
+echo "Copy maps..."
+zip -urq ${target_archive} maps
+echo "Copy graphics..."
+zip -urq ${target_archive} graphics
+echo "Update complete. Generating Checksum..."
+# Create resources2.txt
+checksum=`adler32 $target_archive | grep -o "[0-9]*$"`
+echo "`basename ${target_archive}` ${checksum}" > ${UPDATE_SERVER_PATH}/resources2.txt
+# Set right permissions
+echo "Setting permissions..."
+chown ${UPDATE_SERVER_OWNERANDGROUP} ${target_archive}
+chown ${UPDATE_SERVER_OWNERANDGROUP} ${UPDATE_SERVER_PATH}/resources2.txt
+chmod ${UPDATE_SERVER_RIGHTS} ${target_archive}
+chmod ${UPDATE_SERVER_RIGHTS} ${UPDATE_SERVER_PATH}/resources2.txt
+echo "Client-Update is complete!"
+
+## Server Update
+echo "Starting server update..."
+cp -uR ${REPOSITORY_TRUNK_PATH}/server-data/* ${SERVER_DATA_PATH}/ 2> /dev/null
+cp -uR ${REPOSITORY_TRUNK_PATH}/client-data/maps/ ${SERVER_DATA_PATH}/ 2> /dev/null
+cp -uR ${REPOSITORY_TRUNK_PATH}/client-data/*.xml ${SERVER_DATA_PATH}/ 2> /dev/null
+cp -uR ${REPOSITORY_TRUNK_PATH}/client-data/*.xsd ${SERVER_DATA_PATH}/ 2> /dev/null
+cp -uR ${REPOSITORY_TRUNK_PATH}/client-data/*.xsl ${SERVER_DATA_PATH}/ 2> /dev/null
+echo "Setting permissions..."
+chown -R ${SERVER_OWNERANDGROUP} ${SERVER_DATA_PATH}
+chmod ${SERVER_RIGHTS} ${SERVER_DATA_PATH}
+echo "Server update complete!"
+
+## Start server
+${SERVER_START_CMD} >/dev/null 2>&1
+echo "Server has been started, have fun ;-)"
