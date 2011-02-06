@@ -1,0 +1,4 @@
+Zur Installation invautoupdate.conf in den /etc-Ordner kopieren und anpassen. Dann lässt sich invautoupdate als Root ausführen.
+
+Invautoupdate ist so optimiert, dass bei wenig Änderungen die Update-Zeit möglichst gering ist. Sollte dadurch einmal ein Fehler auftreten, einfach das bereits 
+vorhandene Client-Update und/oder den Data-Ordner des Servers löschen und neu ausführen.
