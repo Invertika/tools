@@ -50,7 +50,7 @@ cp -uR ${REPOSITORY_TRUNK_PATH}/client-data/*.xsd ${SERVER_DATA_PATH}/ 2> /dev/n
 cp -uR ${REPOSITORY_TRUNK_PATH}/client-data/*.xsl ${SERVER_DATA_PATH}/ 2> /dev/null
 echo "Setting permissions..."
 chown -R ${SERVER_OWNERANDGROUP} ${SERVER_DATA_PATH}
-chmod ${SERVER_RIGHTS} ${SERVER_DATA_PATH}
+chmod -R ${SERVER_RIGHTS} ${SERVER_DATA_PATH}
 echo "Server update complete!"
 
 ## Start server
