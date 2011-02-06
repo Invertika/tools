@@ -128,11 +128,9 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     QUndoGroup *undoGroup = mDocumentManager->undoGroup();
     QAction *undoAction = undoGroup->createUndoAction(this, tr("Undo"));
     QAction *redoAction = undoGroup->createRedoAction(this, tr("Redo"));
-#if QT_VERSION >= 0x040600
     mUi->mainToolBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
     mUi->actionNew->setPriority(QAction::LowPriority);
     redoAction->setPriority(QAction::LowPriority);
-#endif
     redoAction->setIcon(redoIcon);
     undoAction->setIcon(undoIcon);
     redoAction->setIconText(tr("Redo"));
@@ -153,9 +151,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     mUi->actionSave->setShortcuts(QKeySequence::Save);
     mUi->actionSaveAs->setShortcuts(QKeySequence::SaveAs);
     mUi->actionClose->setShortcuts(QKeySequence::Close);
-#if QT_VERSION >= 0x040600
     mUi->actionQuit->setShortcuts(QKeySequence::Quit);
-#endif
     mUi->actionCut->setShortcuts(QKeySequence::Cut);
     mUi->actionCopy->setShortcuts(QKeySequence::Copy);
     mUi->actionPaste->setShortcuts(QKeySequence::Paste);
@@ -243,6 +239,9 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
     connect(mUi->actionAbout, SIGNAL(triggered()), SLOT(aboutTiled()));
     connect(mUi->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+
+    connect(mTilesetDock, SIGNAL(tilesetsDropped(QStringList)),
+            SLOT(newTilesets(QStringList)));
 
     // Add recent file actions to the recent files menu
     for (int i = 0; i < MaxRecentFiles; ++i)
@@ -373,27 +372,14 @@ void MainWindow::changeEvent(QEvent *event)
 void MainWindow::dragEnterEvent(QDragEnterEvent *e)
 {
     const QList<QUrl> urls = e->mimeData()->urls();
-    if (urls.size() == 1 && !urls.at(0).toLocalFile().isEmpty())
+    if (!urls.isEmpty() && !urls.at(0).toLocalFile().isEmpty())
         e->accept();
 }
 
 void MainWindow::dropEvent(QDropEvent *e)
 {
-    const QString file = e->mimeData()->urls().at(0).toLocalFile();
-    const QString extension = QFileInfo(file).suffix();
-
-    // Treat file as a tileset if it is an image. Use the extension here because
-    // QImageReader::imageFormat() treats tmx files as svg
-    const QList<QByteArray> formats = QImageReader::supportedImageFormats();
-    foreach (const QByteArray &format, formats) {
-        if (extension.compare(QString::fromLatin1(format), Qt::CaseInsensitive) == 0) {
-            newTileset(file);
-            return;
-        }
-    }
-
-    // Treat file as a map otherwise
-    openFile(file);
+    foreach (const QUrl &url, e->mimeData()->urls())
+        openFile(url.toLocalFile());
 }
 
 void MainWindow::newMap()
@@ -530,10 +516,10 @@ void MainWindow::openFile()
         filter += reader->nameFilter();
     }
 
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Map"),
+    QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Open Map"),
                                                     fileDialogStartLocation(),
                                                     filter, &selectedFilter);
-    if (fileName.isEmpty())
+    if (fileNames.isEmpty())
         return;
 
     // When a particular filter was selected, use the associated reader
@@ -544,7 +530,8 @@ void MainWindow::openFile()
     }
 
     mSettings.setValue(QLatin1String("lastUsedOpenFilter"), selectedFilter);
-    openFile(fileName, mapReader);
+    foreach (const QString &fileName, fileNames)
+        openFile(fileName, mapReader);
 }
 
 bool MainWindow::saveFile(const QString &fileName)
@@ -809,10 +796,10 @@ void MainWindow::zoomNormal()
         mapView->zoomable()->resetZoom();
 }
 
-void MainWindow::newTileset(const QString &path)
+bool MainWindow::newTileset(const QString &path)
 {
     if (!mMapDocument)
-        return;
+        return false;
 
     Map *map = mMapDocument->map();
 
@@ -824,8 +811,18 @@ void MainWindow::newTileset(const QString &path)
     newTileset.setTileWidth(map->tileWidth());
     newTileset.setTileHeight(map->tileHeight());
 
-    if (Tileset *tileset = newTileset.createTileset())
+    if (Tileset *tileset = newTileset.createTileset()) {
         mMapDocument->undoStack()->push(new AddTileset(mMapDocument, tileset));
+        return true;
+    }
+    return false;
+}
+
+void MainWindow::newTilesets(const QStringList &paths)
+{
+    foreach (const QString &path, paths)
+        if (!newTileset(path))
+            return;
 }
 
 void MainWindow::addExternalTileset()
