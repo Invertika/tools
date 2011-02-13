@@ -464,7 +464,7 @@ namespace Invertika_Editor
 				ret+=String.Format("| align=\"center\" | {0}\n", item.Description);
 				ret+=String.Format("| align=\"center\" | {0}\n", item.HP);
 				ret+=String.Format("| align=\"center\" | {0}\n", item.Weight);
-				ret+=String.Format("| align=\"center\" | {0}%\n", item.Defense);
+				ret+=String.Format("| align=\"center\" | {0}\n", item.Defense);
 				ret+=String.Format("| align=\"center\" | {0}\n", item.Value);
 				ret+=String.Format("| align=\"center\" | {0}\n", item.MaxPerSlot);
 				ret+=String.Format("|-\n");
@@ -564,8 +564,8 @@ namespace Invertika_Editor
 				}
 
 				ret+=String.Format("| align=\"center\" | {0}-{1}\n", monster.Attributes.AttackMin-monster.Attributes.AttackDelta, monster.Attributes.AttackMin+monster.Attributes.AttackDelta);
-				ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.PhysicalDefence);
-				ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.MagicalDefence);
+				ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.PhysicalDefence);
+				ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.MagicalDefence);
 				ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.Mutation);
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.Speed);
 
