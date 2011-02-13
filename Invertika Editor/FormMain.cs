@@ -563,7 +563,7 @@ namespace Invertika_Editor
 					ret+=String.Format("| align=\"center\" | nicht definiert");
 				}
 
-				ret+=String.Format("| align=\"center\" | {0}-{1}\n", monster.Attributes.AttackMin-monster.Attributes.AttackDelta, monster.Attributes.AttackMin+monster.Attributes.AttackDelta);
+				ret+=String.Format("| align=\"center\" | {0}-{1}\n", monster.Attributes.AttackMin, monster.Attributes.AttackMin+monster.Attributes.AttackDelta);
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.PhysicalDefence);
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.MagicalDefence);
 				ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.Mutation);
@@ -574,8 +574,6 @@ namespace Invertika_Editor
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.FightingStrength);
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.Exp);
 
-				//String.Format("| Bone (2.1%)<br>Skull (3%)<br>Dark Crystal (10%)<br>Warlord Helmet (0.03%)<br>Warlord Plate (0.02%)<br>Leather Gloves (0.35%)");
-				//String.Format("| ''<span style=\"color:#ad1818\">Aggro</span>''");
 				ret+=String.Format("|-\n");
 			}
 
