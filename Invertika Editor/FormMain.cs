@@ -3165,5 +3165,133 @@ namespace Invertika_Editor
 			string msg=CheckNPCs();
 			FormOutputBox.ShowOutputBox("Fehler in der npcs.xml", msg);
 		}
+
+		private void lUADokumentationMediawikiAPIToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if(Globals.folder_root=="")
+			{
+				MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL")=="")
+			{
+				MessageBox.Show("Bitte geben sie eine Mediawiki URL in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username")=="")
+			{
+				MessageBox.Show("Bitte geben sie einen Mediawiki Nutzernamen in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort")=="")
+			{
+				MessageBox.Show("Bitte geben sie einen Mediawiki Passwort in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				return;
+			}
+
+			string url=Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL");
+			string username=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username");
+			string password=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort");
+
+			Site wiki=new Site(url, username, password);
+
+			List<string> luafiles=FileSystem.GetFiles(Globals.folder_serverdata_scripts_libs, true, "*.lua");
+
+			foreach(string file in luafiles)
+			{
+				LuaDocParser ldp=new LuaDocParser(file);
+				LucDocReturn ret=ldp.ExportLuaDocToMediaWiki();
+
+				switch(ret.DocType)
+				{
+					case LuaDocType.Module:
+						{
+							Page page=new Page(wiki, ret.Name + " (Luamodul)");
+
+							page.Load();
+
+							string text=page.text;
+
+							if(text=="")
+							{
+								List<string> lines=new List<string>();
+
+								lines.Add("{{Status_Green}}");
+								lines.Add("{{Automatic}}");
+
+								lines.Add("");
+
+								lines.Add("==Funktionen==");
+
+								//Funktions
+								lines.Add("{{Anker|AutomaticStartFunctions}}");
+								lines.AddRange(ret.Functions);
+								lines.Add("{{Anker|AutomaticEndFunctions}}");
+								lines.Add("");
+								lines.Add("[[Kategorie: Lua]]");
+								lines.Add("[[Kategorie: Luamodul]]");
+
+								foreach(string ll in lines)
+								{
+									text+=ll+"\n";
+								}
+
+								if(page.text!=text)
+								{
+									page.text=text;
+								}
+
+								page.Save("Sourcecode Dokumentation erstellt.", false);
+							}
+							else //Entsprechende Bereiche ersetzen
+							{
+								string start="{{Anker|AutomaticStartFunctions}}";
+								string end="{Anker|AutomaticEndFunctions}}";
+								int idxBeginInfobox=text.IndexOf(start, 0);
+								int idxEndInfobox=text.IndexOf(end, 0);
+
+								int lengthOfString=(idxEndInfobox-idxBeginInfobox)-start.Length-1;
+								string vorkommen=text.Substring(idxBeginInfobox+start.Length, lengthOfString);
+
+								if(vorkommen!="\n")
+								{
+									text=text.Replace(vorkommen, "");
+								}
+
+								//if(monsterIndex==-1) continue;
+
+								string replaceString="{{Anker|AutomaticStartFunctions}}\n";
+
+								foreach(string ll in ret.Functions)
+								{
+									replaceString+=ll+"\n";
+								}
+
+								text=text.Replace(start, replaceString);
+
+								if(page.text!=text)
+								{
+									page.text=text;
+								}
+
+								page.Save("Sourcecode Dokumentation aktualisiert.", true);
+							}
+							
+							//ExportLUADocuToMediawikiAPI();
+							break;
+						}
+					default:
+						{
+							break;
+						}
+				}
+
+			}
+
+			MessageBox.Show("Lua Dokumentation aktualisiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
 	}
 }

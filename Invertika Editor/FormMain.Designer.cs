@@ -84,6 +84,8 @@
 			this.vorkommenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.tabelleToolStripMenuItem1=new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem15=new System.Windows.Forms.ToolStripSeparator();
+			this.lUADokumentationMediawikiAPIToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem7=new System.Windows.Forms.ToolStripSeparator();
 			this.alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.prüfungToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
 			this.itemsÜberprüfenToolStripMenuItem=new System.Windows.Forms.ToolStripMenuItem();
@@ -414,6 +416,8 @@
             this.monsterxmlMediawikiInfoboxenToolStripMenuItem,
             this.monstersxmlMediawikiAPIToolStripMenuItem,
             this.toolStripMenuItem15,
+            this.lUADokumentationMediawikiAPIToolStripMenuItem,
+            this.toolStripMenuItem7,
             this.alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem});
 			this.exportToolStripMenuItem.Name="exportToolStripMenuItem";
 			this.exportToolStripMenuItem.Size=new System.Drawing.Size(51, 20);
@@ -591,6 +595,18 @@
 			// 
 			this.toolStripMenuItem15.Name="toolStripMenuItem15";
 			this.toolStripMenuItem15.Size=new System.Drawing.Size(446, 6);
+			// 
+			// lUADokumentationMediawikiAPIToolStripMenuItem
+			// 
+			this.lUADokumentationMediawikiAPIToolStripMenuItem.Name="lUADokumentationMediawikiAPIToolStripMenuItem";
+			this.lUADokumentationMediawikiAPIToolStripMenuItem.Size=new System.Drawing.Size(449, 22);
+			this.lUADokumentationMediawikiAPIToolStripMenuItem.Text="LUA Dokumentation -> Mediawiki API";
+			this.lUADokumentationMediawikiAPIToolStripMenuItem.Click+=new System.EventHandler(this.lUADokumentationMediawikiAPIToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem7
+			// 
+			this.toolStripMenuItem7.Name="toolStripMenuItem7";
+			this.toolStripMenuItem7.Size=new System.Drawing.Size(446, 6);
 			// 
 			// alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem
 			// 
@@ -1364,6 +1380,8 @@
 		private System.Windows.Forms.ToolStripButton tsbExport;
 		private System.Windows.Forms.TabControl tabControl;
 		private System.Windows.Forms.ToolStripMenuItem nPCsÜberprüfenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem lUADokumentationMediawikiAPIToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
 	}
 }
 
