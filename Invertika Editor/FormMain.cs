@@ -3209,7 +3209,7 @@ namespace Invertika_Editor
 				{
 					case LuaDocType.Module:
 						{
-							Page page=new Page(wiki, ret.Name + " (Luamodul)");
+							Page page=new Page(wiki, ret.Name + " (Lua Modul)");
 
 							page.Load();
 
@@ -3232,7 +3232,7 @@ namespace Invertika_Editor
 								lines.Add("{{Anker|AutomaticEndFunctions}}");
 								lines.Add("");
 								lines.Add("[[Kategorie: Lua]]");
-								lines.Add("[[Kategorie: Luamodul]]");
+								lines.Add("[[Kategorie: Lua Modul]]");
 
 								foreach(string ll in lines)
 								{
