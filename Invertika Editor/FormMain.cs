@@ -1371,6 +1371,9 @@ namespace Invertika_Editor
 
 		private string CheckMonster()
 		{
+			string fnItemsXml=Globals.folder_clientdata+"items.xml";
+			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
+
 			string fnMonstersXml=Globals.folder_clientdata+"monsters.xml";
 			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonstersXml);
 			monsters.Sort();
@@ -1381,6 +1384,28 @@ namespace Invertika_Editor
 
 			foreach(Monster monster in monsters)
 			{
+				//Drops testen
+				foreach(Drop drop in monster.Drops)
+				{
+					Item dropitem=null;
+
+					foreach(Item i in items)
+					{
+						if(drop.Item==i.ID)
+						{
+							dropitem=i;
+							break;
+						}
+					}
+
+					if(dropitem==null)
+					{
+						found=true;
+						msg+=String.Format("Drop ({0}) für Monster {1} ({2})) existiert nicht.\n", drop.Item, monster.Name, monster.ID);
+					}
+				}
+
+				//Sounds testen
 				foreach(Sound sound in monster.Sounds)
 				{
 					if(sound!=null)
@@ -1611,8 +1636,6 @@ namespace Invertika_Editor
 				{
 					if(monster.ID==monsterIndex)
 					{
-
-
 						string replaceString="{{Anker|AutomaticStartInfobox}}"+monster.ToMediaWikiInfobox(items);
 
 						text=text.Replace(start, replaceString);
