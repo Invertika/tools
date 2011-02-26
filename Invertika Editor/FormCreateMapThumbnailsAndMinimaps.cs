@@ -214,6 +214,7 @@ namespace Invertika_Editor
 					Map map=new Map(0, FileSystem.GetFilenameWithoutExt(i));
 
 					if(map.MapType=="iw") continue;
+					if(map.MapType=="uw") continue;
 
 					if(map.X>=-7&&map.X<=7&&map.Y>=-7&&map.Y<=7)
 					{
