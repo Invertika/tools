@@ -96,7 +96,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     , mZoomLabel(new QLabel)
     , mStatusInfoLabel(new QLabel)
     , mClipboardManager(new ClipboardManager(this))
-    , mDocumentManager(new DocumentManager(this))
+    , mDocumentManager(DocumentManager::instance())
 {
     mUi->setupUi(this);
     setCentralWidget(mDocumentManager->widget());
@@ -194,6 +194,8 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
     mLayerMenu->addSeparator();
     mLayerMenu->addAction(mActionHandler->actionMoveLayerUp());
     mLayerMenu->addAction(mActionHandler->actionMoveLayerDown());
+    mLayerMenu->addSeparator();
+    mLayerMenu->addAction(mActionHandler->actionToggleOtherLayers());
     mLayerMenu->addSeparator();
     mLayerMenu->addAction(mActionHandler->actionLayerProperties());
 
@@ -330,6 +332,7 @@ MainWindow::~MainWindow()
     AutomaticMappingManager::deleteInstance();
     ToolManager::deleteInstance();
     TilesetManager::deleteInstance();
+    DocumentManager::deleteInstance();
     Preferences::deleteInstance();
     LanguageManager::deleteInstance();
     PluginManager::deleteInstance();
