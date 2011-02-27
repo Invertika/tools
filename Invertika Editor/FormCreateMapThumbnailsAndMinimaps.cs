@@ -85,6 +85,7 @@ namespace Invertika_Editor
 
 				foreach(MonsterSpawn spawn in mSpawns)
 				{
+					if(spawn.MonsterID==1) continue; //Killermade ignorieren
 					fss+=MonsterIDsAndFightingStrength[spawn.MonsterID];
 				}
 
