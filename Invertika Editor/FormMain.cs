@@ -988,6 +988,14 @@ namespace Invertika_Editor
 
 						foreach(CSCL.FileFormats.TMX.Object obj in og.Objects)
 						{
+							//Namen überprüfen
+							if(obj.Name==null||obj.Name=="")
+							{
+								found=true;
+								newEntry=true;
+								msg+=String.Format("Objektname für ein Objekt in der Map {0} nicht gesetzt.\n", fn);
+							}
+
 							//Warp Überprüfung
 							if(obj.Type=="WARP")
 							{
