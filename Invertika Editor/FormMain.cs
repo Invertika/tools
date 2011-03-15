@@ -909,6 +909,7 @@ namespace Invertika_Editor
 			foreach(string fnCurrent in maps)
 			{
 				bool ground=false, fringe=false, over=false, collision=false, @object=false;
+				int countGround=0, countFringe=0, countOver=0, countCollision=0;
 
 				TMX map=new TMX();
 
@@ -936,21 +937,25 @@ namespace Invertika_Editor
 					{
 						case "Ground":
 							{
+								countGround++;
 								ground=true;
 								break;
 							}
 						case "Fringe":
 							{
+								countFringe++;
 								fringe=true;
 								break;
 							}
 						case "Over":
 							{
+								countOver++;
 								over=true;
 								break;
 							}
 						case "Collision":
 							{
+								countCollision++;
 								collision=true;
 								break;
 							}
@@ -969,6 +974,9 @@ namespace Invertika_Editor
 				if(!fringe) { found=true; newEntry=true; msg+=String.Format("Fringe Layer in Map {0} nicht vorhanden.\n", fn); }
 				if(!over) { found=true; newEntry=true; msg+=String.Format("Over Layer in Map {0} nicht vorhanden.\n", fn); }
 				if(!collision) { found=true; newEntry=true; msg+=String.Format("Collision Layer in Map {0} nicht vorhanden.\n", fn); }
+
+				if(countFringe>1) { found=true; newEntry=true; msg+=String.Format("Fringe Layer in Map {0} öfter als ein Mal vorhanden.\n", fn); }
+				if(countCollision>1) { found=true; newEntry=true; msg+=String.Format("Collision Layer in Map {0} öfter als ein Mal vorhanden.\n", fn); }
 
 				int externalMapEventsCount=0;
 
@@ -997,23 +1005,32 @@ namespace Invertika_Editor
 
 								foreach(Property prop in obj.Properties)
 								{
-									switch(prop.Name)
+									try
 									{
-										case "DEST_MAP":
-											{
-												dest_map=prop.Value;
-												break;
-											}
-										case "DEST_X":
-											{
-												dest_x=Convert.ToInt32(prop.Value);
-												break;
-											}
-										case "DEST_Y":
-											{
-												dest_y=Convert.ToInt32(prop.Value);
-												break;
-											}
+										switch(prop.Name)
+										{
+											case "DEST_MAP":
+												{
+													dest_map=prop.Value;
+													break;
+												}
+											case "DEST_X":
+												{
+													dest_x=Convert.ToInt32(prop.Value);
+													break;
+												}
+											case "DEST_Y":
+												{
+													dest_y=Convert.ToInt32(prop.Value);
+													break;
+												}
+										}
+									}
+									catch
+									{
+										found=true;
+										newEntry=true;
+										msg+=String.Format("Eigenschaft ({0}) in Objekt {1} auf der Map {2} ist nicht gesetzt.\n", prop.Name, obj.Name, fn);
 									}
 								}
 
