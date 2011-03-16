@@ -183,7 +183,7 @@ MainWindow::MainWindow(QWidget *parent, Qt::WFlags flags)
 
     mUi->mainToolBar->addSeparator();
 
-    mCommandButton = new CommandButton(this, mDocumentManager);
+    mCommandButton = new CommandButton(this);
     mUi->mainToolBar->addWidget(mCommandButton);
 
     mLayerMenu = new QMenu(tr("&Layer"), this);
@@ -544,16 +544,12 @@ bool MainWindow::saveFile(const QString &fileName)
     if (!mMapDocument)
         return false;
 
-    TmxMapWriter mapWriter;
-
-    if (!mapWriter.write(mMapDocument->map(), fileName)) {
-        QMessageBox::critical(this, tr("Error Saving Map"),
-                              mapWriter.errorString());
+    QString error;
+    if (!mMapDocument->save(fileName, &error)) {
+        QMessageBox::critical(this, tr("Error Saving Map"), error);
         return false;
     }
 
-    mMapDocument->undoStack()->setClean();
-    mMapDocument->setFileName(fileName);
     setRecentFile(fileName);
     return true;
 }
