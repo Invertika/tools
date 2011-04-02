@@ -153,6 +153,7 @@
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
 			this.tsbExport = new System.Windows.Forms.ToolStripButton();
 			this.tabControl = new System.Windows.Forms.TabControl();
+			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.groupBox5.SuspendLayout();
@@ -258,7 +259,8 @@
             this.toolStripMenuItem3,
             this.tilesetsUmbennenToolStripMenuItem,
             this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem,
-            this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem});
+            this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem,
+            this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem});
 			this.mappingToolStripMenuItem.Name = "mappingToolStripMenuItem";
 			this.mappingToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
 			this.mappingToolStripMenuItem.Text = "&Mapping";
@@ -1220,6 +1222,13 @@
 			this.tabControl.Size = new System.Drawing.Size(1006, 427);
 			this.tabControl.TabIndex = 3;
 			// 
+			// tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem
+			// 
+			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem.Name = "tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem";
+			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem.Size = new System.Drawing.Size(309, 22);
+			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem.Text = "Tileset in Map wie Tilesetdateiname benennen";
+			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem.Click += new System.EventHandler(this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem_Click);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1382,6 +1391,7 @@
 		private System.Windows.Forms.ToolStripMenuItem nPCsÜberprüfenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem lUADokumentationMediawikiAPIToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
+		private System.Windows.Forms.ToolStripMenuItem tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem;
 	}
 }
 

@@ -3341,5 +3341,38 @@ namespace Invertika_Editor
 
 			MessageBox.Show("Lua Dokumentation aktualisiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
+
+		private void tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			//Maps laden
+			List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+
+			foreach(string i in mapfiles)
+			{
+				bool changed=false;
+
+				TMX maptmx=new TMX();
+				maptmx.Open(i);
+
+				//Tiles transformieren
+				foreach(TMX.TilesetData ld in maptmx.Tilesets)
+				{
+					string fnForTilesetName=FileSystem.GetFilenameWithoutExt(ld.imgsource);
+
+					if(ld.name!=fnForTilesetName)
+					{
+						changed=true;
+						ld.name=fnForTilesetName;
+					}
+				}
+
+				if(changed)
+				{
+					//Map speichern
+					maptmx.Save(i, TMX.TilesetVMode.Filename);
+				}
+
+			}
+		}
 	}
 }
