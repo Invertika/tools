@@ -1150,7 +1150,7 @@ namespace Invertika_Editor
 				if(!FileSystem.Exists(fnMap))
 				{
 					found=true;
-					
+
 					msg+="Map (in maps.xml) existiert nicht: "+i.Name+"\n";
 				}
 			}
@@ -3031,7 +3031,7 @@ namespace Invertika_Editor
 					{
 						QDIf nodedata=(QDIf)node.Value.Value;
 
-						ListViewItem lvitem=lvEvents.Items.Add(padLeft+node.Value.Key + " - <" + nodedata.Type.ToString() + ">");
+						ListViewItem lvitem=lvEvents.Items.Add(padLeft+node.Value.Key+" - <"+nodedata.Type.ToString()+">");
 						lvitem.Tag=node;
 
 						lvitem=lvEvents.Items.Add(padLeft.PadLeft(spacing+2, ' ')+"@");
@@ -3062,7 +3062,7 @@ namespace Invertika_Editor
 					{
 						QDMessage nodedata=(QDMessage)node.Value.Value;
 
-						ListViewItem lvitem=lvEvents.Items.Add(padLeft+node.Value.Key+ " - <" +nodedata.Messages[0] + ">");
+						ListViewItem lvitem=lvEvents.Items.Add(padLeft+node.Value.Key+" - <"+nodedata.Messages[0]+">");
 						lvitem.Tag=node;
 						break;
 					}
@@ -3104,7 +3104,7 @@ namespace Invertika_Editor
 		{
 			if(!CheckIfEntrySelected())
 			{
-				MessageBox.Show("Es ist kein Eintrag selektiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information); 
+				MessageBox.Show("Es ist kein Eintrag selektiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				return;
 			}
 
@@ -3158,7 +3158,7 @@ namespace Invertika_Editor
 
 							FormQuestDataMessage InstFormQuestDataMessage=new FormQuestDataMessage();
 							InstFormQuestDataMessage.Messages=message.Messages;
-							
+
 							if(InstFormQuestDataMessage.ShowDialog()==DialogResult.OK)
 							{
 								lvEvents.Items.Clear();
@@ -3257,7 +3257,7 @@ namespace Invertika_Editor
 				{
 					case LuaDocType.Module:
 						{
-							Page page=new Page(wiki, ret.Name + " (Lua Modul)");
+							Page page=new Page(wiki, ret.Name+" (Lua Modul)");
 
 							page.Load();
 
@@ -3327,7 +3327,7 @@ namespace Invertika_Editor
 
 								page.Save("Sourcecode Dokumentation aktualisiert.", true);
 							}
-							
+
 							//ExportLUADocuToMediawikiAPI();
 							break;
 						}
@@ -3374,5 +3374,195 @@ namespace Invertika_Editor
 
 			}
 		}
-	}
+
+		private void tileDurchAnderesTileErsetzenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			TMX map=new TMX();
+			map.Open(@"D:\#\Eigende Dateien\Development\invertika.googlecode.com\trunk\client-data\maps\ow-o0000-o0000-o0000.tmx");
+			map.SaveReal(@"D:\#\Eigende Dateien\Development\invertika.googlecode.com\trunk\client-data\maps_templates\ow-o0000-o0000-o0000.tmx");
+			return;
+
+			string tilesetSourceFilename;
+			int tileSourceID=-1;
+
+			string tilesetTargetFilename;
+			int tileTargetID=-1;
+
+			openFileDialog.Filter="PNG Dateien (*.png)|*.png";
+			openFileDialog.Title="Quelltileset auswählen";
+
+			if(openFileDialog.ShowDialog()==DialogResult.OK)
+			{
+				tilesetSourceFilename=openFileDialog.FileName;
+				TilesetInfo ti=Helper.GetTilesetInfo(tilesetSourceFilename);
+
+				if(ti.TileWidth!=32||ti.TileHeight!=32)
+				{
+					MessageBox.Show("Zur Zeit werden nur Tilesets mit einer Tilebreite/höhe von 32 Pixel unterstützt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+					return;
+				}
+
+				FormTileReplacer InstFormTileReplacer=new FormTileReplacer();
+				InstFormTileReplacer.Filename=tilesetSourceFilename;
+
+				if(InstFormTileReplacer.ShowDialog()==DialogResult.OK)
+				{
+					tileSourceID=InstFormTileReplacer.TileID;
+
+					openFileDialog.Filter="PNG Dateien (*.png)|*.png";
+					openFileDialog.Title="Zieltileset auswählen";
+
+					if(openFileDialog.ShowDialog()==DialogResult.OK)
+					{
+						tilesetTargetFilename=openFileDialog.FileName;
+						ti=Helper.GetTilesetInfo(tilesetSourceFilename);
+
+						if(ti.TileWidth!=32||ti.TileHeight!=32)
+						{
+							MessageBox.Show("Zur Zeit werden nur Tilesets mit einer Tilebreite/höhe von 32 Pixel unterstützt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+							return;
+						}
+
+						InstFormTileReplacer=new FormTileReplacer();
+						InstFormTileReplacer.Filename=tilesetTargetFilename;
+
+						if(InstFormTileReplacer.ShowDialog()==DialogResult.OK)
+						{
+							tileTargetID=InstFormTileReplacer.TileID;
+							TransformTileInAllMaps(tilesetSourceFilename, tilesetTargetFilename, tileSourceID, tileTargetID);
+						}
+					}
+				}
+			}
+		}
+
+		public void TransformTileInAllMaps(string srcTileset, string dstTileset, int src, int dst)
+		{
+			//TilesetTransformation tt=new TilesetTransformation(openFileDialog.FileName);
+			//TMX.TilesetData ts=ld.tilesetmap[x, y];
+
+			//Maps laden
+			List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+
+			mapfiles=new List<string>();
+			mapfiles.Add(@"D:\#\Eigende Dateien\Development\invertika.googlecode.com\trunk\client-data\maps\ow-o0000-o0000-o0000.tmx");
+
+			foreach(string i in mapfiles)
+			{
+				bool changed=false;
+
+				TMX maptmx=new TMX();
+				maptmx.Open(i);
+
+				//schauen ob zieltileset vorhanden
+				bool TargetTilesetExists=false;
+
+				TMX.TilesetData destTileset=null;
+
+				foreach(TMX.TilesetData td in maptmx.Tilesets)
+				{
+					if(td.imgsource.IndexOf(FileSystem.GetFilename(dstTileset))!=-1)
+					{
+						TargetTilesetExists=true;
+						destTileset=td;
+						break;
+					}
+				}
+
+				//Tiles transformieren
+				maptmx.RemoveGidsFromLayerData(); //RemoveGidFrom Tiles
+
+				if(TargetTilesetExists==false)
+				{
+					//Tileset eintragen
+					TMX.TilesetData tsData=new TMX.TilesetData();
+					tsData.name=FileSystem.GetFilenameWithoutExt(dstTileset);
+					tsData.imgsource="../graphics/tiles/" + FileSystem.GetFilename(dstTileset);
+					tsData.tileheight=32;
+					tsData.tilewidth=32;
+					maptmx.Tilesets.Add(tsData);
+
+					destTileset=tsData;
+				}
+
+				foreach(TMX.LayerData ld in maptmx.Layers)
+				{
+					for(int y=0; y<ld.height; y++)
+					{
+						for(int x=0; x<ld.width; x++)
+						{
+							TMX.TilesetData ts=ld.tilesetmap[x, y];
+							int TileNumber=ld.data[x, y];
+
+							if(ts.imgsource!=null)
+							{
+								if(ts.imgsource.IndexOf(FileSystem.GetFilename(srcTileset))!=-1)
+								{
+									if(TileNumber==src)
+									{
+										changed=true;
+										ld.data[x, y]=dst;
+										ld.tilesetmap[x, y]=destTileset;
+									}
+								}
+							}
+						}
+					}
+				}
+
+				////Tileset umbennen
+				//TMX.TilesetData TilesetToReplace=null;
+				//TMX.TilesetData TilesetToRemove=null;
+
+				//foreach(TMX.TilesetData td in maptmx.Tilesets)
+				//{
+				//    if(td.imgsource!=null)
+				//    {
+				//        if(FileSystem.GetFilename(td.imgsource)==tt.OldTileset)
+				//        {
+				//            //Schauen ob das Tileset bereits existiert
+				//            foreach(TMX.TilesetData tileset in maptmx.Tilesets)
+				//            {
+				//                if(FileSystem.GetFilename(tileset.imgsource)==tt.NewTileset)
+				//                {
+				//                    TilesetToRemove=td;
+				//                    TilesetToReplace=tileset;
+				//                    break;
+				//                }
+				//            }
+
+				//            //Tileset umbennen
+				//            changed=true;
+				//            td.imgsource=td.imgsource.Replace(FileSystem.GetFilename(td.imgsource), tt.NewTileset);
+
+				//            break;
+				//        }
+				//    }
+				//}
+
+				if(changed)
+				{
+					//FirstGids neu vergeben
+					maptmx.Tilesets.Sort();
+
+					int firstgit=1;
+
+					foreach(TMX.TilesetData gidChange in maptmx.Tilesets)
+					{
+						gidChange.firstgid=firstgit;
+						firstgit+=2000; //Sicherheitsabstand
+					}
+
+					//AddGidToTiles
+					maptmx.AddsGidsToLayerData();
+
+					//Map speichern
+					maptmx.Save(i);
+				}
+			}
+
+			MessageBox.Show("Tile wurde nach "+FileSystem.GetFilename(openFileDialog.FileName)+" transformiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
+	}// clas
 }

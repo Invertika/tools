@@ -154,6 +154,7 @@
 			this.tsbExport = new System.Windows.Forms.ToolStripButton();
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tileDurchAnderesTileErsetzenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.groupBox5.SuspendLayout();
@@ -256,6 +257,7 @@
             this.toolStripMenuItem11,
             this.transformationsdateiErzeugenToolStripMenuItem,
             this.tilesetsInAllenMapsTransformierenToolStripMenuItem,
+            this.tileDurchAnderesTileErsetzenToolStripMenuItem,
             this.toolStripMenuItem3,
             this.tilesetsUmbennenToolStripMenuItem,
             this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem,
@@ -1229,6 +1231,13 @@
 			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem.Text = "Tileset in Map wie Tilesetdateiname benennen";
 			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem.Click += new System.EventHandler(this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem_Click);
 			// 
+			// tileDurchAnderesTileErsetzenToolStripMenuItem
+			// 
+			this.tileDurchAnderesTileErsetzenToolStripMenuItem.Name = "tileDurchAnderesTileErsetzenToolStripMenuItem";
+			this.tileDurchAnderesTileErsetzenToolStripMenuItem.Size = new System.Drawing.Size(309, 22);
+			this.tileDurchAnderesTileErsetzenToolStripMenuItem.Text = "Tile durch anderes Tile ersetzen...";
+			this.tileDurchAnderesTileErsetzenToolStripMenuItem.Click += new System.EventHandler(this.tileDurchAnderesTileErsetzenToolStripMenuItem_Click);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1392,6 +1401,7 @@
 		private System.Windows.Forms.ToolStripMenuItem lUADokumentationMediawikiAPIToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
 		private System.Windows.Forms.ToolStripMenuItem tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem tileDurchAnderesTileErsetzenToolStripMenuItem;
 	}
 }
 

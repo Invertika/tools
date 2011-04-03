@@ -115,6 +115,12 @@
     <Compile Include="FormRenameTileset.Designer.cs">
       <DependentUpon>FormRenameTileset.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormTileReplacer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTileReplacer.Designer.cs">
+      <DependentUpon>FormTileReplacer.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormTilesetCalculator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -157,6 +163,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormRenameTileset.resx">
       <DependentUpon>FormRenameTileset.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTileReplacer.resx">
+      <DependentUpon>FormTileReplacer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTilesetCalculator.resx">
       <DependentUpon>FormTilesetCalculator.cs</DependentUpon>
