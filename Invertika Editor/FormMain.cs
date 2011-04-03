@@ -282,21 +282,21 @@ namespace Invertika_Editor
 							}
 						}
 
-						XmlNode objectgroup=mapAsXml.AddElement(mapnode, "objectgroup", "");
+						XmlNode objectgroup=mapAsXml.AddElement(mapnode, "objectgroup");
 						mapAsXml.AddAttribute(objectgroup, "name", "Object");
 						mapAsXml.AddAttribute(objectgroup, "width", 70);
 						mapAsXml.AddAttribute(objectgroup, "height", 70);
 						mapAsXml.AddAttribute(objectgroup, "x", 70);
 						mapAsXml.AddAttribute(objectgroup, "y", 70);
 
-						XmlNode @object=mapAsXml.AddElement(objectgroup, "object", "");
+						XmlNode @object=mapAsXml.AddElement(objectgroup, "object");
 						mapAsXml.AddAttribute(@object, "name", "External Map Events");
 						mapAsXml.AddAttribute(@object, "type", "SCRIPT");
 						mapAsXml.AddAttribute(@object, "x", 0);
 						mapAsXml.AddAttribute(@object, "y", 0);
 
-						XmlNode properties=mapAsXml.AddElement(@object, "properties", "");
-						XmlNode property=mapAsXml.AddElement(properties, "property", "");
+						XmlNode properties=mapAsXml.AddElement(@object, "properties");
+						XmlNode property=mapAsXml.AddElement(properties, "property");
 						mapAsXml.AddAttribute(property, "name", "FILENAME");
 
 						string fnLuaScript=String.Format("scripts/maps/{0}.lua", i.Name);
