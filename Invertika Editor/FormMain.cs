@@ -3376,6 +3376,11 @@ namespace Invertika_Editor
 
 		private void tileDurchAnderesTileErsetzenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			TMX test=new TMX();
+			test.Open(@"D:\#\Eigende Dateien\Development\invertika.googlecode.com\trunk\client-data\maps\ow-p0003-p0005-o0000.tmx");
+			test.Save(@"D:\#\Eigende Dateien\Development\invertika.googlecode.com\trunk\client-data\maps_templates\ow-p0003-p0005-o0000.tmx");
+			return;
+
 			string tilesetSourceFilename;
 			int tileSourceID=-1;
 
@@ -3498,6 +3503,7 @@ namespace Invertika_Editor
 					}
 				}
 
+				changed=true;
 				if(changed)
 				{
 					//FirstGids neu vergeben
