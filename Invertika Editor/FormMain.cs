@@ -3433,14 +3433,8 @@ namespace Invertika_Editor
 
 		public void TransformTileInAllMaps(string srcTileset, string dstTileset, int src, int dst)
 		{
-			//TilesetTransformation tt=new TilesetTransformation(openFileDialog.FileName);
-			//TMX.TilesetData ts=ld.tilesetmap[x, y];
-
 			//Maps laden
 			List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
-
-			mapfiles=new List<string>();
-			mapfiles.Add(@"D:\#\Eigende Dateien\Development\invertika.googlecode.com\trunk\client-data\maps\ow-o0000-p0001-o0000.tmx");
 
 			foreach(string i in mapfiles)
 			{
