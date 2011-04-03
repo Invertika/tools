@@ -3369,7 +3369,7 @@ namespace Invertika_Editor
 				if(changed)
 				{
 					//Map speichern
-					maptmx.Save(i, TMX.TilesetVMode.Filename);
+					maptmx.Save(i);
 				}
 
 			}
@@ -3377,11 +3377,6 @@ namespace Invertika_Editor
 
 		private void tileDurchAnderesTileErsetzenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			TMX map=new TMX();
-			map.Open(@"D:\#\Eigende Dateien\Development\invertika.googlecode.com\trunk\client-data\maps\ow-o0000-o0000-o0000.tmx");
-			map.SaveReal(@"D:\#\Eigende Dateien\Development\invertika.googlecode.com\trunk\client-data\maps_templates\ow-o0000-o0000-o0000.tmx");
-			return;
-
 			string tilesetSourceFilename;
 			int tileSourceID=-1;
 
@@ -3445,7 +3440,7 @@ namespace Invertika_Editor
 			List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
 
 			mapfiles=new List<string>();
-			mapfiles.Add(@"D:\#\Eigende Dateien\Development\invertika.googlecode.com\trunk\client-data\maps\ow-o0000-o0000-o0000.tmx");
+			mapfiles.Add(@"D:\#\Eigende Dateien\Development\invertika.googlecode.com\trunk\client-data\maps\ow-o0000-p0001-o0000.tmx");
 
 			foreach(string i in mapfiles)
 			{
@@ -3509,36 +3504,6 @@ namespace Invertika_Editor
 						}
 					}
 				}
-
-				////Tileset umbennen
-				//TMX.TilesetData TilesetToReplace=null;
-				//TMX.TilesetData TilesetToRemove=null;
-
-				//foreach(TMX.TilesetData td in maptmx.Tilesets)
-				//{
-				//    if(td.imgsource!=null)
-				//    {
-				//        if(FileSystem.GetFilename(td.imgsource)==tt.OldTileset)
-				//        {
-				//            //Schauen ob das Tileset bereits existiert
-				//            foreach(TMX.TilesetData tileset in maptmx.Tilesets)
-				//            {
-				//                if(FileSystem.GetFilename(tileset.imgsource)==tt.NewTileset)
-				//                {
-				//                    TilesetToRemove=td;
-				//                    TilesetToReplace=tileset;
-				//                    break;
-				//                }
-				//            }
-
-				//            //Tileset umbennen
-				//            changed=true;
-				//            td.imgsource=td.imgsource.Replace(FileSystem.GetFilename(td.imgsource), tt.NewTileset);
-
-				//            break;
-				//        }
-				//    }
-				//}
 
 				if(changed)
 				{
