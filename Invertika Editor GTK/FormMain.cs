@@ -1,4 +1,6 @@
 using System;
+using Gtk;
+
 namespace InvertikaEditor
 {
 	public partial class FormMain : Gtk.Window
@@ -16,6 +18,9 @@ namespace InvertikaEditor
 		
 		protected virtual void OnOptionenAction1Activated(object sender, System.EventArgs e)
 		{
+			FormOptions InstFormOptions=new FormOptions();
+			//InstFormOptions.SetPosition(WindowPosition.Center);
+			InstFormOptions.Show();
 		}
 	}
 }

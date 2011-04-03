@@ -1,4 +1,6 @@
 using System;
+using Gtk;
+
 namespace InvertikaEditor
 {
 	public partial class FormOptions : Gtk.Window
