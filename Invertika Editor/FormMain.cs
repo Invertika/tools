@@ -3498,7 +3498,6 @@ namespace Invertika_Editor
 					}
 				}
 
-				changed=true;
 				if(changed)
 				{
 					//FirstGids neu vergeben
