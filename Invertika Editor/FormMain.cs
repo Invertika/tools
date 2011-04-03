@@ -3345,7 +3345,7 @@ namespace Invertika_Editor
 		private void tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			//Maps laden
-			List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+			List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata_mapsrules, true, "*.tmx");
 
 			foreach(string i in mapfiles)
 			{
@@ -3371,7 +3371,6 @@ namespace Invertika_Editor
 					//Map speichern
 					maptmx.Save(i);
 				}
-
 			}
 		}
 

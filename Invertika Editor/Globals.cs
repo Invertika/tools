@@ -152,6 +152,14 @@ namespace Invertika_Editor
 			}
 		}
 
+		public static string folder_clientdata_mapsrules
+		{
+			get
+			{
+				return folder_clientdata+"maps_rules"+FileSystem.PathDelimiter;
+			}
+		}
+
 		public static string folder_clientdata_music
 		{
 			get
