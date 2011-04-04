@@ -53,10 +53,12 @@
 			this.tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.tilesetsInAllenMapsTransformierenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tileDurchAnderesTileErsetzenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
 			this.tilesetsUmbennenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.skriptingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.mapskripteErzeugenUndEintragenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -153,8 +155,6 @@
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
 			this.tsbExport = new System.Windows.Forms.ToolStripButton();
 			this.tabControl = new System.Windows.Forms.TabControl();
-			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.tileDurchAnderesTileErsetzenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.groupBox5.SuspendLayout();
@@ -363,6 +363,13 @@
 			this.tilesetsInAllenMapsTransformierenToolStripMenuItem.Text = "Tileset in allen Maps transformieren...";
 			this.tilesetsInAllenMapsTransformierenToolStripMenuItem.Click += new System.EventHandler(this.tilesetInAllenMapsTransformierenToolStripMenuItem_Click);
 			// 
+			// tileDurchAnderesTileErsetzenToolStripMenuItem
+			// 
+			this.tileDurchAnderesTileErsetzenToolStripMenuItem.Name = "tileDurchAnderesTileErsetzenToolStripMenuItem";
+			this.tileDurchAnderesTileErsetzenToolStripMenuItem.Size = new System.Drawing.Size(309, 22);
+			this.tileDurchAnderesTileErsetzenToolStripMenuItem.Text = "Tile durch anderes Tile ersetzen...";
+			this.tileDurchAnderesTileErsetzenToolStripMenuItem.Click += new System.EventHandler(this.tileDurchAnderesTileErsetzenToolStripMenuItem_Click);
+			// 
 			// toolStripMenuItem3
 			// 
 			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
@@ -388,6 +395,13 @@
 			this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem.Size = new System.Drawing.Size(309, 22);
 			this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem.Text = "Nicht vorhandene Tilesets aus Maps entfernen...";
 			this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem.Click += new System.EventHandler(this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem_Click);
+			// 
+			// tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem
+			// 
+			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem.Name = "tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem";
+			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem.Size = new System.Drawing.Size(309, 22);
+			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem.Text = "Tileset in Map wie Tilesetdateiname benennen";
+			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem.Click += new System.EventHandler(this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem_Click);
 			// 
 			// skriptingToolStripMenuItem
 			// 
@@ -1223,20 +1237,6 @@
 			this.tabControl.SelectedIndex = 0;
 			this.tabControl.Size = new System.Drawing.Size(1006, 427);
 			this.tabControl.TabIndex = 3;
-			// 
-			// tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem
-			// 
-			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem.Name = "tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem";
-			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem.Size = new System.Drawing.Size(309, 22);
-			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem.Text = "Tileset in Map wie Tilesetdateiname benennen";
-			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem.Click += new System.EventHandler(this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem_Click);
-			// 
-			// tileDurchAnderesTileErsetzenToolStripMenuItem
-			// 
-			this.tileDurchAnderesTileErsetzenToolStripMenuItem.Name = "tileDurchAnderesTileErsetzenToolStripMenuItem";
-			this.tileDurchAnderesTileErsetzenToolStripMenuItem.Size = new System.Drawing.Size(309, 22);
-			this.tileDurchAnderesTileErsetzenToolStripMenuItem.Text = "Tile durch anderes Tile ersetzen...";
-			this.tileDurchAnderesTileErsetzenToolStripMenuItem.Click += new System.EventHandler(this.tileDurchAnderesTileErsetzenToolStripMenuItem_Click);
 			// 
 			// FormMain
 			// 
