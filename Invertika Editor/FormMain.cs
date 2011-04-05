@@ -101,8 +101,13 @@ namespace Invertika_Editor
 				{
 					TMX TestTMX=new TMX();
 					TestTMX.Open(openFileDialog.FileName);
-					TestTMX.Render();
-					MessageBox.Show("Datei konnte ohne Probleme geparst werden.");
+					gtImage Image=TestTMX.Render();
+
+					FormViewImage InstFormViewImage=new FormViewImage();
+					InstFormViewImage.ImageToView=Image.ToBitmap();
+					InstFormViewImage.ShowDialog();
+
+					//MessageBox.Show("Datei konnte ohne Probleme geparst werden.");
 				}
 				catch(Exception exception)
 				{

@@ -127,6 +127,12 @@
     <Compile Include="FormTilesetCalculator.Designer.cs">
       <DependentUpon>FormTilesetCalculator.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormViewImage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormViewImage.Designer.cs">
+      <DependentUpon>FormViewImage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Globals.cs" />
     <Compile Include="LuaDocParser.cs" />
     <Compile Include="Program.cs" />
@@ -169,6 +175,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormTilesetCalculator.resx">
       <DependentUpon>FormTilesetCalculator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormViewImage.resx">
+      <DependentUpon>FormViewImage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
