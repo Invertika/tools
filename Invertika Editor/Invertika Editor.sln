@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICSharpCode.SharpZLib", "..
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invertika Editor", "Invertika Editor.csproj", "{C2A06611-C8D1-43D2-B0C7-8BF66E508674}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invertika", "..\Externals\Invertika\Invertika.csproj", "{52EE41F6-4F3E-4EB1-832A-F18515CA875A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,11 +49,21 @@ Global
 		{C2A06611-C8D1-43D2-B0C7-8BF66E508674}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C2A06611-C8D1-43D2-B0C7-8BF66E508674}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C2A06611-C8D1-43D2-B0C7-8BF66E508674}.Release|x86.ActiveCfg = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Invertika Editor.csproj
+		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Invertika Editor.csproj
 	EndGlobalSection
 EndGlobal
