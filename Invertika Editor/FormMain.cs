@@ -3527,5 +3527,52 @@ namespace Invertika_Editor
 			MessageBox.Show("Tile wurde nach "+FileSystem.GetFilename(openFileDialog.FileName)+" transformiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
+		private void entferneLeereTilesVonDenKartenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			//Maps laden
+			List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+
+			foreach(string i in mapfiles)
+			{
+				bool changed=false;
+
+				TMX maptmx=new TMX();
+				maptmx.Open(i);
+
+				//für jeden Layer
+				foreach(TMX.LayerData ld in maptmx.Layers)
+				{
+					for(int y=0; y<ld.height; y++)
+					{
+						for(int x=0; x<ld.width; x++)
+						{
+							int TileNumber=ld.data[x, y];
+
+							if(TileNumber==0) continue; //leeres Tile
+
+							gtImage tile=maptmx.GetTile(TileNumber);
+							Color median=tile.GetMedianColor();
+
+							int summe=median.A+median.R+median.G+median.R;
+
+							if(summe==0)
+							{
+								ld.data[x, y]=0;
+								changed=true;
+							}
+						}
+					}
+				}
+
+				if(changed)
+				{
+					//Map speichern
+					maptmx.Save(i);
+				}
+			}
+
+			MessageBox.Show("Leere Tiles wurden entfernt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
+		}
+
 	}// clas
 }

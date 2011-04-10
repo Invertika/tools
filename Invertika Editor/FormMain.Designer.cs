@@ -155,6 +155,7 @@
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
 			this.tsbExport = new System.Windows.Forms.ToolStripButton();
 			this.tabControl = new System.Windows.Forms.TabControl();
+			this.entferneLeereTilesVonDenKartenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.groupBox5.SuspendLayout();
@@ -258,6 +259,7 @@
             this.transformationsdateiErzeugenToolStripMenuItem,
             this.tilesetsInAllenMapsTransformierenToolStripMenuItem,
             this.tileDurchAnderesTileErsetzenToolStripMenuItem,
+            this.entferneLeereTilesVonDenKartenToolStripMenuItem,
             this.toolStripMenuItem3,
             this.tilesetsUmbennenToolStripMenuItem,
             this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem,
@@ -1238,6 +1240,13 @@
 			this.tabControl.Size = new System.Drawing.Size(1006, 427);
 			this.tabControl.TabIndex = 3;
 			// 
+			// entferneLeereTilesVonDenKartenToolStripMenuItem
+			// 
+			this.entferneLeereTilesVonDenKartenToolStripMenuItem.Name = "entferneLeereTilesVonDenKartenToolStripMenuItem";
+			this.entferneLeereTilesVonDenKartenToolStripMenuItem.Size = new System.Drawing.Size(309, 22);
+			this.entferneLeereTilesVonDenKartenToolStripMenuItem.Text = "Entferne leere Tiles von den Karten";
+			this.entferneLeereTilesVonDenKartenToolStripMenuItem.Click += new System.EventHandler(this.entferneLeereTilesVonDenKartenToolStripMenuItem_Click);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1402,6 +1411,7 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem7;
 		private System.Windows.Forms.ToolStripMenuItem tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem tileDurchAnderesTileErsetzenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem entferneLeereTilesVonDenKartenToolStripMenuItem;
 	}
 }
 
