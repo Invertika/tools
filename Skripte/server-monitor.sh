@@ -9,9 +9,12 @@ OLDSIZE=$(stat -c %s $FILENAME) # Dateigröße ermitteln
 #Testschleifen
 while true;
 do
-    sleep 300; #5 Minuten
+    sleep 120; #2 Minuten
 
     NEWSIZE=$(stat -c %s $FILENAME) # Dateigröße ermitteln
+
+    echo $OLDSIZE;
+    echo $NEWSIZE;
 
     if [ $OLDSIZE == $NEWSIZE ]; then
 	echo "Restart server..."
