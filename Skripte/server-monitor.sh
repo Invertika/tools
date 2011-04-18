@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#Start with "./server-monitor.sh &"
+
 #Config
 FILENAME="/home/manaserv/.manaserv-game.log"
 OLDSIZE=0
@@ -11,9 +13,9 @@ do
 
     NEWSIZE=$(ls -l $FILENAME | tr -s " " | cut -d " " -f 5)
 
-    if [ "$OLDSIZE" == "$NEWSIZE" ]; then
+    if [ $OLDSIZE == $NEWSIZE ]; then
 	echo "Restart server..."
-        restart-server.sh
+        ./restart-server.sh
     fi
 
     OLDSIZE=$NEWSIZE;
