@@ -16,5 +16,5 @@ do
         restart-server.sh
     fi
 
-    $OLDSIZE=$NEWSIZE;
+    OLDSIZE=$NEWSIZE;
 done;
