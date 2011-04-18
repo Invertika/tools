@@ -4,7 +4,7 @@
 
 #Config
 FILENAME="/home/manaserv/.manaserv-game.log"
-OLDSIZE=0
+OLDSIZE=$(ls -l $FILENAME | tr -s " " | cut -d " " -f 5)
 
 #Testschleifen
 while true;
