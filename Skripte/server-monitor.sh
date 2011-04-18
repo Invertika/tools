@@ -4,7 +4,7 @@
 
 #Config
 FILENAME="/home/manaserv/.manaserv-game.log"
-OLDSIZE=$(ls -l $FILENAME | tr -s " " | cut -d " " -f 5)
+OLDSIZE=$(stat -c %s $FILENAME) # Datei-größe ermitteln
 
 #Testschleifen
 while true;
