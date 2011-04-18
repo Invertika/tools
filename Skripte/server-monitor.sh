@@ -11,7 +11,7 @@ while true;
 do
     sleep 300; #5 Minuten
 
-    NEWSIZE=$(ls -l $FILENAME | tr -s " " | cut -d " " -f 5)
+    NEWSIZE=$(stat -c %s $FILENAME) # Datei-größe ermitteln
 
     if [ $OLDSIZE == $NEWSIZE ]; then
 	echo "Restart server..."
