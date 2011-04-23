@@ -1082,12 +1082,11 @@ namespace Invertika_Editor
 														if((dest_x_pixel>=objWarp.X)&&(dest_x_pixel<=objWarp.X+objWarp.Width))
 														{
 															//X liegt drin
-															if((dest_y_pixel>=objWarp.Y)&&(dest_x_pixel<=objWarp.Y+objWarp.Height))
+															if((dest_y_pixel>=objWarp.Y)&&(dest_y_pixel<=objWarp.Y+objWarp.Height))
 															{
 																//Y liegt drin
 																DestIsInWarp=true;
 															}
-
 														}
 
 														if(DestIsInWarp)
