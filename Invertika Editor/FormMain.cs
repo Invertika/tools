@@ -1047,6 +1047,9 @@ namespace Invertika_Editor
 									}
 								}
 
+								int dest_x_pixel=dest_x;
+								int dest_y_pixel=dest_y;
+
 								dest_x=dest_x/32;
 								dest_y=dest_y/32;
 
@@ -1062,13 +1065,49 @@ namespace Invertika_Editor
 										newEntry=true;
 										msg+=String.Format("WARP ({0}) auf Map ({1}) in Map {2} zeigt auf nicht vorhandenen Bereich.\n", obj.Name, dest_map+".tmx", fn);
 									}
+									else
+									{
+										//Plausbilitätsprüfung
+										foreach(Objectgroup ogWarp in warpMap.ObjectLayers)
+										{
+											foreach(CSCL.FileFormats.TMX.Object objWarp in ogWarp.Objects)
+											{
+												if(ogWarp.Name=="Object")
+												{
+													//Warp Überprüfung
+													if(objWarp.Type=="WARP")
+													{
+														bool DestIsInWarp=false;
+
+														if((dest_x_pixel>=objWarp.X)&&(dest_x_pixel<=objWarp.X+objWarp.Width))
+														{
+															//X liegt drin
+															if((dest_y_pixel>=objWarp.Y)&&(dest_x_pixel<=objWarp.Y+objWarp.Height))
+															{
+																//Y liegt drin
+																DestIsInWarp=true;
+															}
+
+														}
+
+														if(DestIsInWarp)
+														{
+															found=true;
+															newEntry=true;
+															msg+=String.Format("WARP ({0}) auf Map ({1}) in Map {2} zeigt auf weiteren Warp.\n", obj.Name, dest_map+".tmx", fn);
+														}
+													}
+												}
+											}
+										}
+									}
 								}
 								else
 								{
 									found=true;
 									newEntry=true;
 									msg+=String.Format("Per WARP ({0}) Referenzierte Map ({1}) in Map {2} existiert nicht.\n", obj.Name, dest_map+".tmx", fn);
-								}
+								}		
 							}
 							else if(obj.Type=="SCRIPT") //Skripte überprüfen
 							{
