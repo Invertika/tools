@@ -1,0 +1,12 @@
+Source: tiled
+Section: games
+Priority: extra
+Maintainer: Jonathan Raphael Joachim Kolberg <bulldog98@freenet.de>
+Build-Depends: debhelper (>= 7), libqt4-dev (>= 4.5.0), zlib1g-dev
+Standards-Version: 3.8.3
+
+Package: tiled
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Tiled Qt is an Mapeditor based on QT4
+ 
