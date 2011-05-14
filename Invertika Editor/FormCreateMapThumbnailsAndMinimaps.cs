@@ -178,6 +178,27 @@ namespace Invertika_Editor
 
 				GC.Collect(2);
 
+				//Nur sichtbare Weltkarte rendern.
+				if(cbOnlyVisibleMaps.Checked)
+				{
+					Map map=new Map(0, FileSystem.GetFilenameWithoutExt(i));
+
+					//if(map.MapType=="iw") continue;
+					//if(map.MapType=="uw") continue;
+
+					if(map.MapType=="ow")
+					{
+						if(map.X>=-7&&map.X<=7&&map.Y>=-7&&map.Y<=7)
+						{
+							//nichts tun (sprich rendern)
+						}
+						else
+						{
+							continue;
+						}
+					}
+				}
+
 				//Hashvergleich
 				string text=File.ReadAllText(i);
 				string textHash=Hash.SHA1.HashStringToSHA1(text);
@@ -207,24 +228,6 @@ namespace Invertika_Editor
 				if(cbClearCache.Checked==false)
 				{
 					if(textHash==xmlHash) continue;
-				}
-
-				//
-				if(cbOnlyVisibleMaps.Checked)
-				{
-					Map map=new Map(0, FileSystem.GetFilenameWithoutExt(i));
-
-					if(map.MapType=="iw") continue;
-					if(map.MapType=="uw") continue;
-
-					if(map.X>=-7&&map.X<=7&&map.Y>=-7&&map.Y<=7)
-					{
-						//nichts tun (sprich rendern)
-					}
-					else
-					{
-						continue;
-					}
 				}
 
 				//Karte berechnen
