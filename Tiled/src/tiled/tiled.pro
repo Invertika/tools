@@ -95,7 +95,7 @@ SOURCES += aboutdialog.cpp \
     selectiontool.cpp \
     abstracttiletool.cpp \
     abstracttool.cpp \
-    changeselection.cpp \
+    changetileselection.cpp \
     clipboardmanager.cpp \
     offsetlayer.cpp \
     offsetmapdialog.cpp \
@@ -107,6 +107,7 @@ SOURCES += aboutdialog.cpp \
     addremovetileset.cpp \
     movetileset.cpp \
     createobjecttool.cpp \
+    quickstampmanager.cpp \
     objectselectiontool.cpp \
     commandbutton.cpp \
     commanddatamodel.cpp \
@@ -173,7 +174,7 @@ HEADERS += aboutdialog.h \
     undodock.h \
     selectiontool.h \
     abstracttiletool.h \
-    changeselection.h \
+    changetileselection.h \
     clipboardmanager.h \
     undocommands.h \
     offsetlayer.h \
@@ -186,6 +187,7 @@ HEADERS += aboutdialog.h \
     addremovetileset.h \
     movetileset.h \
     createobjecttool.h \
+    quickstampmanager.h \
     objectselectiontool.h \
     commanddatamodel.h \
     commanddialog.h \

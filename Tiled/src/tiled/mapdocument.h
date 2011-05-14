@@ -22,6 +22,7 @@
 #ifndef MAPDOCUMENT_H
 #define MAPDOCUMENT_H
 
+#include <QList>
 #include <QObject>
 #include <QRegion>
 #include <QString>
@@ -102,13 +103,19 @@ public:
     /**
      * Sets the current layer to the given index.
      */
-    void setCurrentLayer(int index);
+    void setCurrentLayerIndex(int index);
 
     /**
      * Returns the index of the currently selected layer. Returns -1 if no
      * layer is currently selected.
      */
-    int currentLayer() const;
+    int currentLayerIndex() const { return mCurrentLayerIndex; }
+
+    /**
+     * Returns the currently selected layer, or 0 if no layer is currently
+     * selected.
+     */
+    Layer *currentLayer() const;
 
     /**
      * Resize this map to the given \a size, while at the same time shifting
@@ -131,6 +138,7 @@ public:
     };
     void addLayer(LayerType layerType);
     void duplicateLayer();
+    void mergeLayerDown();
     void moveLayerUp(int index);
     void moveLayerDown(int index);
     void removeLayer(int index);
@@ -166,6 +174,18 @@ public:
      * Sets the selected area of tiles.
      */
     void setTileSelection(const QRegion &selection);
+
+    /**
+     * Returns the list of selected objects.
+     */
+    const QList<MapObject*> &selectedObjects() const
+    { return mSelectedObjects; }
+
+    /**
+     * Sets the list of selected objects, emitting the selectedObjectsChanged
+     * signal.
+     */
+    void setSelectedObjects(const QList<MapObject*> &selectedObjects);
 
     /**
      * Makes sure the all tilesets which are used at the given \a map will be
@@ -220,6 +240,11 @@ signals:
                               const QRegion &oldSelection);
 
     /**
+     * Emitted when the list of selected objects changes.
+     */
+    void selectedObjectsChanged();
+
+    /**
      * Emitted when the map size or its tile size changes.
      */
     void mapChanged();
@@ -235,9 +260,9 @@ signals:
     void editLayerNameRequested();
 
     /**
-     * Emitted when the current layer changes.
+     * Emitted when the current layer index changes.
      */
-    void currentLayerChanged(int index);
+    void currentLayerIndexChanged(int index);
 
     /**
      * Emitted when a certain region of the map changes. The region is given in
@@ -262,15 +287,19 @@ signals:
 
 private slots:
     void onLayerAdded(int index);
+    void onLayerAboutToBeRemoved(int index);
     void onLayerRemoved(int index);
 
 private:
+    void deselectObjects(const QList<MapObject*> &objects);
+
     QString mFileName;
     Map *mMap;
     LayerModel *mLayerModel;
     QRegion mTileSelection;
+    QList<MapObject*> mSelectedObjects;
     MapRenderer *mRenderer;
-    int mCurrentLayer;
+    int mCurrentLayerIndex;
     QUndoStack *mUndoStack;
 };
 

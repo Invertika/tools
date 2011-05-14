@@ -22,15 +22,18 @@
 #include "mapdocument.h"
 
 #include "addremovelayer.h"
+#include "addremovemapobject.h"
 #include "addremovetileset.h"
 #include "changeproperties.h"
 #include "isometricrenderer.h"
 #include "layermodel.h"
 #include "map.h"
+#include "mapobject.h"
 #include "movelayer.h"
 #include "objectgroup.h"
 #include "offsetlayer.h"
 #include "orthogonalrenderer.h"
+#include "painttilelayer.h"
 #include "resizelayer.h"
 #include "resizemap.h"
 #include "tile.h"
@@ -61,11 +64,13 @@ MapDocument::MapDocument(Map *map, const QString &fileName):
         break;
     }
 
-    mCurrentLayer = (map->layerCount() == 0) ? -1 : 0;
+    mCurrentLayerIndex = (map->layerCount() == 0) ? -1 : 0;
     mLayerModel->setMapDocument(this);
 
     // Forward signals emitted from the layer model
     connect(mLayerModel, SIGNAL(layerAdded(int)), SLOT(onLayerAdded(int)));
+    connect(mLayerModel, SIGNAL(layerAboutToBeRemoved(int)),
+            SLOT(onLayerAboutToBeRemoved(int)));
     connect(mLayerModel, SIGNAL(layerRemoved(int)), SLOT(onLayerRemoved(int)));
     connect(mLayerModel, SIGNAL(layerChanged(int)), SIGNAL(layerChanged(int)));
 
@@ -137,10 +142,10 @@ bool MapDocument::isModified() const
     return !mUndoStack->isClean();
 }
 
-void MapDocument::setCurrentLayer(int index)
+void MapDocument::setCurrentLayerIndex(int index)
 {
     Q_ASSERT(index >= -1 && index < mMap->layerCount());
-    mCurrentLayer = index;
+    mCurrentLayerIndex = index;
 
     /* This function always sends the following signal, even if the index
      * didn't actually change. This is because the selected index in the layer
@@ -152,12 +157,15 @@ void MapDocument::setCurrentLayer(int index)
      * of other items. The selected item doesn't change in that case, but our
      * layer index does.
      */
-    emit currentLayerChanged(mCurrentLayer);
+    emit currentLayerIndexChanged(mCurrentLayerIndex);
 }
 
-int MapDocument::currentLayer() const
+Layer *MapDocument::currentLayer() const
 {
-    return mCurrentLayer;
+    if (mCurrentLayerIndex == -1)
+        return 0;
+
+    return mMap->layerAt(mCurrentLayerIndex);
 }
 
 void MapDocument::resizeMap(const QSize &size, const QPoint &offset)
@@ -217,7 +225,7 @@ void MapDocument::addLayer(LayerType layerType)
 
     const int index = mMap->layerCount();
     mUndoStack->push(new AddLayer(this, index, layer));
-    setCurrentLayer(index);
+    setCurrentLayerIndex(index);
 
     emit editLayerNameRequested();
 }
@@ -227,17 +235,62 @@ void MapDocument::addLayer(LayerType layerType)
  */
 void MapDocument::duplicateLayer()
 {
-    if (mCurrentLayer == -1)
+    if (mCurrentLayerIndex == -1)
         return;
 
-    Layer *duplicate = mMap->layerAt(mCurrentLayer)->clone();
+    Layer *duplicate = mMap->layerAt(mCurrentLayerIndex)->clone();
     duplicate->setName(tr("Copy of %1").arg(duplicate->name()));
 
-    const int index = mCurrentLayer + 1;
+    const int index = mCurrentLayerIndex + 1;
     QUndoCommand *cmd = new AddLayer(this, index, duplicate);
     cmd->setText(tr("Duplicate Layer"));
     mUndoStack->push(cmd);
-    setCurrentLayer(index);
+    setCurrentLayerIndex(index);
+}
+
+/**
+ * Merges the currently selected layer with the layer below. This only works
+ * when the layers are either both tile layers or both object groups.
+ */
+void MapDocument::mergeLayerDown()
+{
+    if (mCurrentLayerIndex < 1)
+        return;
+
+    Layer *upperLayer = mMap->layerAt(mCurrentLayerIndex);
+    Layer *lowerLayer = mMap->layerAt(mCurrentLayerIndex - 1);
+
+    QUndoCommand *mergeCommand = 0;
+
+    if (TileLayer *upperTileLayer = dynamic_cast<TileLayer*>(upperLayer)) {
+        TileLayer *lowerTileLayer = dynamic_cast<TileLayer*>(lowerLayer);
+        if (!lowerTileLayer)
+            return;
+
+        mergeCommand = new PaintTileLayer(this, lowerTileLayer,
+                                          upperTileLayer->x(),
+                                          upperTileLayer->y(),
+                                          upperTileLayer);
+    }
+
+    if (ObjectGroup *upperOG = dynamic_cast<ObjectGroup*>(upperLayer)) {
+        ObjectGroup *lowerOG = dynamic_cast<ObjectGroup*>(lowerLayer);
+        if (!lowerOG)
+            return;
+
+        mergeCommand = new QUndoCommand;
+        foreach (const MapObject *mapObject, upperOG->objects()) {
+            MapObject *objectClone = mapObject->clone();
+            new AddMapObject(this, lowerOG, objectClone, mergeCommand);
+        }
+    }
+
+    if (mergeCommand) {
+        mUndoStack->beginMacro(tr("Merge Layer Down"));
+        mUndoStack->push(mergeCommand);
+        mUndoStack->push(new RemoveLayer(this, mCurrentLayerIndex));
+        mUndoStack->endMacro();
+    }
 }
 
 /**
@@ -333,6 +386,12 @@ void MapDocument::setTileSelection(const QRegion &selection)
     }
 }
 
+void MapDocument::setSelectedObjects(const QList<MapObject *> &selectedObjects)
+{
+    mSelectedObjects = selectedObjects;
+    emit selectedObjectsChanged();
+}
+
 /**
  * Makes sure the all tilesets which are used at the given \a map will be
  * present in the map document.
@@ -413,9 +472,14 @@ void MapDocument::emitObjectsAdded(const QList<MapObject*> &objects)
 /**
  * Emits the objects removed signal with the specified list of objects.
  * This will cause the scene to remove the related items.
+ *
+ * Before emitting the signal, the objects are also removed from the list of
+ * selected objects, triggering a selectedObjectsChanged signal when
+ * appropriate.
  */
 void MapDocument::emitObjectsRemoved(const QList<MapObject*> &objects)
 {
+    deselectObjects(objects);
     emit objectsRemoved(objects);
 }
 
@@ -434,14 +498,31 @@ void MapDocument::onLayerAdded(int index)
 
     // Select the first layer that gets added to the map
     if (mMap->layerCount() == 1)
-        setCurrentLayer(0);
+        setCurrentLayerIndex(0);
+}
+
+void MapDocument::onLayerAboutToBeRemoved(int index)
+{
+    // Deselect any objects on this layer when necessary
+    if (ObjectGroup *og = dynamic_cast<ObjectGroup*>(mMap->layerAt(index)))
+        deselectObjects(og->objects());
 }
 
 void MapDocument::onLayerRemoved(int index)
 {
     // Bring the current layer index to safety
-    if (mCurrentLayer == mMap->layerCount())
-        setCurrentLayer(mCurrentLayer - 1);
+    if (mCurrentLayerIndex == mMap->layerCount())
+        setCurrentLayerIndex(mCurrentLayerIndex - 1);
 
     emit layerRemoved(index);
+}
+
+void MapDocument::deselectObjects(const QList<MapObject *> &objects)
+{
+    int removedCount = 0;
+    foreach (MapObject *object, objects)
+        removedCount += mSelectedObjects.removeAll(object);
+
+    if (removedCount > 0)
+        emit selectedObjectsChanged();
 }

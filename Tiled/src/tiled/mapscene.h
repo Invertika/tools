@@ -89,15 +89,10 @@ public:
     { return mSelectedObjectItems; }
 
     /**
-     * Sets the set of selected map object items.
+     * Sets the set of selected map object items. This translates to a call to
+     * MapDocument::setSelectedObjects.
      */
     void setSelectedObjectItems(const QSet<MapObjectItem*> &items);
-
-    /**
-     * Sets the set of selected map object items to those matching the given
-     * \a objects.
-     */
-    void setSelectedObjects(const QList<MapObject*> &objects);
 
     /**
      * Enables the selected tool at this map scene.
@@ -145,7 +140,7 @@ private slots:
      */
     void repaintRegion(const QRegion &region);
 
-    void currentLayerChanged();
+    void currentLayerIndexChanged();
 
     void mapChanged();
     void tilesetChanged(Tileset *tileset);
@@ -157,6 +152,8 @@ private slots:
     void objectsAdded(const QList<MapObject*> &objects);
     void objectsRemoved(const QList<MapObject*> &objects);
     void objectsChanged(const QList<MapObject*> &objects);
+
+    void updateSelectedObjectItems();
 
 private:
     QGraphicsItem *createLayerItem(Layer *layer);
