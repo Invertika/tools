@@ -550,7 +550,7 @@ namespace Invertika_Editor
 
 			foreach(Monster monster in monsters)
 			{
-				if(monster.ID>9999) continue; //Experimentelle Monster ignorieren
+				if(monster.ID>9000) continue; //Experimentelle Monster ignorieren
 
 				ret+=String.Format("| align=\"center\" | [[Image:monster-{0}.png]] {{{{Anker|{0}}}}}\n", monster.ID);
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.ID);
