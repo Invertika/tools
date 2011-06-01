@@ -550,7 +550,7 @@ namespace Invertika_Editor
 
 			foreach(Monster monster in monsters)
 			{
-				if(monster.ID>9000) continue; //Experimentelle Monster ignorieren
+				if(monster.ID>=10000) continue; //Experimentelle Monster, Pflanzen etc. ignorieren
 
 				ret+=String.Format("| align=\"center\" | [[Image:monster-{0}.png]] {{{{Anker|{0}}}}}\n", monster.ID);
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.ID);
@@ -2213,6 +2213,8 @@ namespace Invertika_Editor
 
 				foreach(Monster monster in monsters)
 				{
+					if(monster.ID>=10000) continue; //Pflanzen etc haben keine "Drops"
+
 					foreach(Drop drop in monster.Drops)
 					{
 						if(drop.Item==itemIndex)

@@ -593,28 +593,28 @@
 			// dropsToolStripMenuItem
 			// 
 			this.dropsToolStripMenuItem.Name = "dropsToolStripMenuItem";
-			this.dropsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+			this.dropsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.dropsToolStripMenuItem.Text = "Drops...";
 			this.dropsToolStripMenuItem.Click += new System.EventHandler(this.dropsToolStripMenuItem_Click);
 			// 
 			// infoboxenToolStripMenuItem1
 			// 
 			this.infoboxenToolStripMenuItem1.Name = "infoboxenToolStripMenuItem1";
-			this.infoboxenToolStripMenuItem1.Size = new System.Drawing.Size(141, 22);
+			this.infoboxenToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
 			this.infoboxenToolStripMenuItem1.Text = "Infoboxen...";
 			this.infoboxenToolStripMenuItem1.Click += new System.EventHandler(this.monstersxmlMediaWikiInfoboxüberMediawikiAPIToolStripMenuItem_Click);
 			// 
 			// vorkommenToolStripMenuItem
 			// 
 			this.vorkommenToolStripMenuItem.Name = "vorkommenToolStripMenuItem";
-			this.vorkommenToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+			this.vorkommenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
 			this.vorkommenToolStripMenuItem.Text = "Vorkommen...";
 			this.vorkommenToolStripMenuItem.Click += new System.EventHandler(this.vorkommenToolStripMenuItem_Click);
 			// 
 			// tabelleToolStripMenuItem1
 			// 
 			this.tabelleToolStripMenuItem1.Name = "tabelleToolStripMenuItem1";
-			this.tabelleToolStripMenuItem1.Size = new System.Drawing.Size(141, 22);
+			this.tabelleToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
 			this.tabelleToolStripMenuItem1.Text = "Tabelle...";
 			this.tabelleToolStripMenuItem1.Click += new System.EventHandler(this.tabelleToolStripMenuItem1_Click);
 			// 
