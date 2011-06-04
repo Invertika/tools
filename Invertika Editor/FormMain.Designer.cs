@@ -156,6 +156,8 @@
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
 			this.tsbExport = new System.Windows.Forms.ToolStripButton();
 			this.tabControl = new System.Windows.Forms.TabControl();
+			this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripSeparator();
+			this.bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.groupBox5.SuspendLayout();
@@ -264,7 +266,9 @@
             this.tilesetsUmbennenToolStripMenuItem,
             this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem,
             this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem,
-            this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem});
+            this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem,
+            this.toolStripMenuItem14,
+            this.bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem});
 			this.mappingToolStripMenuItem.Name = "mappingToolStripMenuItem";
 			this.mappingToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
 			this.mappingToolStripMenuItem.Text = "&Mapping";
@@ -593,28 +597,28 @@
 			// dropsToolStripMenuItem
 			// 
 			this.dropsToolStripMenuItem.Name = "dropsToolStripMenuItem";
-			this.dropsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.dropsToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
 			this.dropsToolStripMenuItem.Text = "Drops...";
 			this.dropsToolStripMenuItem.Click += new System.EventHandler(this.dropsToolStripMenuItem_Click);
 			// 
 			// infoboxenToolStripMenuItem1
 			// 
 			this.infoboxenToolStripMenuItem1.Name = "infoboxenToolStripMenuItem1";
-			this.infoboxenToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+			this.infoboxenToolStripMenuItem1.Size = new System.Drawing.Size(141, 22);
 			this.infoboxenToolStripMenuItem1.Text = "Infoboxen...";
 			this.infoboxenToolStripMenuItem1.Click += new System.EventHandler(this.monstersxmlMediaWikiInfoboxüberMediawikiAPIToolStripMenuItem_Click);
 			// 
 			// vorkommenToolStripMenuItem
 			// 
 			this.vorkommenToolStripMenuItem.Name = "vorkommenToolStripMenuItem";
-			this.vorkommenToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.vorkommenToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
 			this.vorkommenToolStripMenuItem.Text = "Vorkommen...";
 			this.vorkommenToolStripMenuItem.Click += new System.EventHandler(this.vorkommenToolStripMenuItem_Click);
 			// 
 			// tabelleToolStripMenuItem1
 			// 
 			this.tabelleToolStripMenuItem1.Name = "tabelleToolStripMenuItem1";
-			this.tabelleToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+			this.tabelleToolStripMenuItem1.Size = new System.Drawing.Size(141, 22);
 			this.tabelleToolStripMenuItem1.Text = "Tabelle...";
 			this.tabelleToolStripMenuItem1.Click += new System.EventHandler(this.tabelleToolStripMenuItem1_Click);
 			// 
@@ -1247,6 +1251,18 @@
 			this.tabControl.Size = new System.Drawing.Size(1006, 427);
 			this.tabControl.TabIndex = 3;
 			// 
+			// toolStripMenuItem14
+			// 
+			this.toolStripMenuItem14.Name = "toolStripMenuItem14";
+			this.toolStripMenuItem14.Size = new System.Drawing.Size(319, 6);
+			// 
+			// bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem
+			// 
+			this.bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem.Name = "bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem";
+			this.bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem.Size = new System.Drawing.Size(311, 22);
+			this.bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem.Text = "Bestimmte Elemente mit Kollisionstiles versehen...";
+			this.bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem.Click += new System.EventHandler(this.bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem_Click);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1412,6 +1428,8 @@
 		private System.Windows.Forms.ToolStripMenuItem tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem tileDurchAnderesTileErsetzenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem entferneLeereTilesVonDenKartenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem14;
+		private System.Windows.Forms.ToolStripMenuItem bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem;
 	}
 }
 

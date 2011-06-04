@@ -3614,5 +3614,96 @@ namespace Invertika_Editor
 			MessageBox.Show("Leere Tiles wurden entfernt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
+		private void bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			openFileDialog.Multiselect=false;
+			openFileDialog.FileName="";
+			openFileDialog.Filter="TMX Dateien (*.tmx)|*.tmx";
+
+			if(openFileDialog.ShowDialog()==DialogResult.OK)
+			{
+				TMX TestTMX=new TMX();
+				TestTMX.Open(openFileDialog.FileName);
+
+				TMX.LayerData fringe=null;
+				TMX.LayerData coll=null;
+
+				foreach(TMX.LayerData layer in TestTMX.Layers)
+				{
+					switch(layer.name)
+					{
+						case "Fringe":
+							{
+								fringe=layer;
+								break;
+							}
+						case "Collision":
+							{
+								coll=layer;
+								break;
+							}
+					}
+				}
+
+				//CollID = 
+				int CollID=coll.data[0, 0];
+
+				
+				for(int y=0; y<fringe.height; y++)
+				{
+					for(int x=0; x<fringe.width; x++)
+					{
+						int fieldData=fringe.data[x, y];
+						if(fieldData==0) continue;
+						
+						TMX.TilesetData tInfo=TestTMX.GetTileset(fieldData);
+
+						switch(FileSystem.GetFilename(tInfo.imgsource))
+						{
+							case "wood1_32_96.png":
+								{
+									int realID=fieldData-tInfo.firstgid;
+
+									switch(realID)
+									{
+										case 0: //Baum
+										case 1: //Baum
+										case 2: //Baum
+										case 3: //Baum
+										case 4: //Baum
+										case 5: //Baum
+											{
+												coll.data[x, y]=CollID;
+												break;
+											}
+									}
+
+									break;
+								}
+							case "wood1_32_160.png":
+								{
+									int realID=fieldData-tInfo.firstgid;
+
+									switch(realID)
+									{
+										case 1: //Baum
+										case 4: //Baum
+										case 7: //Baum
+											{
+												coll.data[x, y]=CollID;
+												break;
+											}
+									}
+
+									break;
+								}
+						}
+					}
+				}
+
+				TestTMX.Save(openFileDialog.FileName);
+			}
+		}
+
 	}// clas
 }
