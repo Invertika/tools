@@ -60,6 +60,8 @@
 			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripSeparator();
+			this.bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.skriptingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.mapskripteErzeugenUndEintragenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -156,8 +158,6 @@
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
 			this.tsbExport = new System.Windows.Forms.ToolStripButton();
 			this.tabControl = new System.Windows.Forms.TabControl();
-			this.toolStripMenuItem14 = new System.Windows.Forms.ToolStripSeparator();
-			this.bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.groupBox5.SuspendLayout();
@@ -276,52 +276,52 @@
 			// koordinatenrechnerToolStripMenuItem
 			// 
 			this.koordinatenrechnerToolStripMenuItem.Name = "koordinatenrechnerToolStripMenuItem";
-			this.koordinatenrechnerToolStripMenuItem.Size = new System.Drawing.Size(309, 22);
+			this.koordinatenrechnerToolStripMenuItem.Size = new System.Drawing.Size(311, 22);
 			this.koordinatenrechnerToolStripMenuItem.Text = "Koordinatenrechner...";
 			this.koordinatenrechnerToolStripMenuItem.Click += new System.EventHandler(this.koordinatenrechnerToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem5
 			// 
 			this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-			this.toolStripMenuItem5.Size = new System.Drawing.Size(306, 6);
+			this.toolStripMenuItem5.Size = new System.Drawing.Size(308, 6);
 			// 
 			// mapsInDieMapsxmlToolStripMenuItem
 			// 
 			this.mapsInDieMapsxmlToolStripMenuItem.Name = "mapsInDieMapsxmlToolStripMenuItem";
-			this.mapsInDieMapsxmlToolStripMenuItem.Size = new System.Drawing.Size(309, 22);
+			this.mapsInDieMapsxmlToolStripMenuItem.Size = new System.Drawing.Size(311, 22);
 			this.mapsInDieMapsxmlToolStripMenuItem.Text = "Maps in die maps.xml eintragen...";
 			this.mapsInDieMapsxmlToolStripMenuItem.Click += new System.EventHandler(this.mapsInDieMapsxmlToolStripMenuItem_Click);
 			// 
 			// mapsAusEinerBitmapErzeugenToolStripMenuItem
 			// 
 			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Name = "mapsAusEinerBitmapErzeugenToolStripMenuItem";
-			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Size = new System.Drawing.Size(309, 22);
+			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Size = new System.Drawing.Size(311, 22);
 			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Text = "Maps aus einer Bitmap erzeugen...";
 			this.mapsAusEinerBitmapErzeugenToolStripMenuItem.Click += new System.EventHandler(this.mapsAusEinerBitmapErzeugenToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem10
 			// 
 			this.toolStripMenuItem10.Name = "toolStripMenuItem10";
-			this.toolStripMenuItem10.Size = new System.Drawing.Size(306, 6);
+			this.toolStripMenuItem10.Size = new System.Drawing.Size(308, 6);
 			// 
 			// monsterInMapEinfügenToolStripMenuItem
 			// 
 			this.monsterInMapEinfügenToolStripMenuItem.Name = "monsterInMapEinfügenToolStripMenuItem";
-			this.monsterInMapEinfügenToolStripMenuItem.Size = new System.Drawing.Size(309, 22);
+			this.monsterInMapEinfügenToolStripMenuItem.Size = new System.Drawing.Size(311, 22);
 			this.monsterInMapEinfügenToolStripMenuItem.Text = "Monster in Map einfügen...";
 			this.monsterInMapEinfügenToolStripMenuItem.Click += new System.EventHandler(this.monsterInMapEinfügenToolStripMenuItem_Click);
 			// 
 			// monsterInDenMapsErmittelnToolStripMenuItem
 			// 
 			this.monsterInDenMapsErmittelnToolStripMenuItem.Name = "monsterInDenMapsErmittelnToolStripMenuItem";
-			this.monsterInDenMapsErmittelnToolStripMenuItem.Size = new System.Drawing.Size(309, 22);
+			this.monsterInDenMapsErmittelnToolStripMenuItem.Size = new System.Drawing.Size(311, 22);
 			this.monsterInDenMapsErmittelnToolStripMenuItem.Text = "Monster in den Maps ermitteln...";
 			this.monsterInDenMapsErmittelnToolStripMenuItem.Click += new System.EventHandler(this.monsterInDenMapsErmittelnToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem11
 			// 
 			this.toolStripMenuItem11.Name = "toolStripMenuItem11";
-			this.toolStripMenuItem11.Size = new System.Drawing.Size(306, 6);
+			this.toolStripMenuItem11.Size = new System.Drawing.Size(308, 6);
 			// 
 			// transformationsdateiErzeugenToolStripMenuItem
 			// 
@@ -331,7 +331,7 @@
             this.tTDateiFür5121024LinksUntenErzeugenToolStripMenuItem1,
             this.tTDateiFür5121024RechtsUntenErzeugenToolStripMenuItem1});
 			this.transformationsdateiErzeugenToolStripMenuItem.Name = "transformationsdateiErzeugenToolStripMenuItem";
-			this.transformationsdateiErzeugenToolStripMenuItem.Size = new System.Drawing.Size(309, 22);
+			this.transformationsdateiErzeugenToolStripMenuItem.Size = new System.Drawing.Size(311, 22);
 			this.transformationsdateiErzeugenToolStripMenuItem.Text = "Transformationsdatei erzeugen";
 			// 
 			// tTDateiFür5121024LinksObenErzeugenToolStripMenuItem1
@@ -365,56 +365,68 @@
 			// tilesetsInAllenMapsTransformierenToolStripMenuItem
 			// 
 			this.tilesetsInAllenMapsTransformierenToolStripMenuItem.Name = "tilesetsInAllenMapsTransformierenToolStripMenuItem";
-			this.tilesetsInAllenMapsTransformierenToolStripMenuItem.Size = new System.Drawing.Size(309, 22);
+			this.tilesetsInAllenMapsTransformierenToolStripMenuItem.Size = new System.Drawing.Size(311, 22);
 			this.tilesetsInAllenMapsTransformierenToolStripMenuItem.Text = "Tileset in allen Maps transformieren...";
 			this.tilesetsInAllenMapsTransformierenToolStripMenuItem.Click += new System.EventHandler(this.tilesetInAllenMapsTransformierenToolStripMenuItem_Click);
 			// 
 			// tileDurchAnderesTileErsetzenToolStripMenuItem
 			// 
 			this.tileDurchAnderesTileErsetzenToolStripMenuItem.Name = "tileDurchAnderesTileErsetzenToolStripMenuItem";
-			this.tileDurchAnderesTileErsetzenToolStripMenuItem.Size = new System.Drawing.Size(309, 22);
+			this.tileDurchAnderesTileErsetzenToolStripMenuItem.Size = new System.Drawing.Size(311, 22);
 			this.tileDurchAnderesTileErsetzenToolStripMenuItem.Text = "Tile durch anderes Tile ersetzen...";
 			this.tileDurchAnderesTileErsetzenToolStripMenuItem.Click += new System.EventHandler(this.tileDurchAnderesTileErsetzenToolStripMenuItem_Click);
 			// 
 			// entferneLeereTilesVonDenKartenToolStripMenuItem
 			// 
 			this.entferneLeereTilesVonDenKartenToolStripMenuItem.Name = "entferneLeereTilesVonDenKartenToolStripMenuItem";
-			this.entferneLeereTilesVonDenKartenToolStripMenuItem.Size = new System.Drawing.Size(309, 22);
+			this.entferneLeereTilesVonDenKartenToolStripMenuItem.Size = new System.Drawing.Size(311, 22);
 			this.entferneLeereTilesVonDenKartenToolStripMenuItem.Text = "Entferne leere Tiles von den Karten";
 			this.entferneLeereTilesVonDenKartenToolStripMenuItem.Click += new System.EventHandler(this.entferneLeereTilesVonDenKartenToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItem3
 			// 
 			this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-			this.toolStripMenuItem3.Size = new System.Drawing.Size(306, 6);
+			this.toolStripMenuItem3.Size = new System.Drawing.Size(308, 6);
 			// 
 			// tilesetsUmbennenToolStripMenuItem
 			// 
 			this.tilesetsUmbennenToolStripMenuItem.Name = "tilesetsUmbennenToolStripMenuItem";
-			this.tilesetsUmbennenToolStripMenuItem.Size = new System.Drawing.Size(309, 22);
+			this.tilesetsUmbennenToolStripMenuItem.Size = new System.Drawing.Size(311, 22);
 			this.tilesetsUmbennenToolStripMenuItem.Text = "Tilesets umbenennen...";
 			this.tilesetsUmbennenToolStripMenuItem.Click += new System.EventHandler(this.tilesetsUmbennenToolStripMenuItem_Click);
 			// 
 			// vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem
 			// 
 			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Name = "vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem";
-			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Size = new System.Drawing.Size(309, 22);
+			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Size = new System.Drawing.Size(311, 22);
 			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Text = "Von den Maps benutzte Tilesets ermitteln...";
 			this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem.Click += new System.EventHandler(this.vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem_Click);
 			// 
 			// nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem
 			// 
 			this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem.Name = "nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem";
-			this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem.Size = new System.Drawing.Size(309, 22);
+			this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem.Size = new System.Drawing.Size(311, 22);
 			this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem.Text = "Nicht vorhandene Tilesets aus Maps entfernen...";
 			this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem.Click += new System.EventHandler(this.nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem_Click);
 			// 
 			// tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem
 			// 
 			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem.Name = "tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem";
-			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem.Size = new System.Drawing.Size(309, 22);
+			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem.Size = new System.Drawing.Size(311, 22);
 			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem.Text = "Tileset in Map wie Tilesetdateiname benennen";
 			this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem.Click += new System.EventHandler(this.tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem_Click);
+			// 
+			// toolStripMenuItem14
+			// 
+			this.toolStripMenuItem14.Name = "toolStripMenuItem14";
+			this.toolStripMenuItem14.Size = new System.Drawing.Size(308, 6);
+			// 
+			// bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem
+			// 
+			this.bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem.Name = "bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem";
+			this.bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem.Size = new System.Drawing.Size(311, 22);
+			this.bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem.Text = "Bestimmte Elemente mit Kollisionstiles versehen...";
+			this.bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem.Click += new System.EventHandler(this.bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem_Click);
 			// 
 			// skriptingToolStripMenuItem
 			// 
@@ -1250,18 +1262,6 @@
 			this.tabControl.SelectedIndex = 0;
 			this.tabControl.Size = new System.Drawing.Size(1006, 427);
 			this.tabControl.TabIndex = 3;
-			// 
-			// toolStripMenuItem14
-			// 
-			this.toolStripMenuItem14.Name = "toolStripMenuItem14";
-			this.toolStripMenuItem14.Size = new System.Drawing.Size(319, 6);
-			// 
-			// bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem
-			// 
-			this.bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem.Name = "bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem";
-			this.bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem.Size = new System.Drawing.Size(311, 22);
-			this.bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem.Text = "Bestimmte Elemente mit Kollisionstiles versehen...";
-			this.bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem.Click += new System.EventHandler(this.bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem_Click);
 			// 
 			// FormMain
 			// 

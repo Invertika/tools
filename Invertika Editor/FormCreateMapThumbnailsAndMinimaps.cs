@@ -10,9 +10,11 @@ using System.IO;
 using CSCL.Crypto;
 using CSCL.FileFormats.TMX;
 using CSCL.Graphic;
-using CSCL.Network.Ftp;
+using CSCL.Network.FTP;
 using CSCL.Games.Manasource;
 using Invertika_Editor.Classes;
+using CSCL.Network.FTP.Client;
+using System.Net;
 
 namespace Invertika_Editor
 {
@@ -285,15 +287,16 @@ namespace Invertika_Editor
 			List<string> filesToUpload=new List<string>();
 			filesToUpload.AddRange(FileSystem.GetFiles(temp, true, "*.png"));
 
-			FTPConnection Client=new FTPConnection();
+			FTPSClient Client=new FTPSClient();
 
-			Client.ServerAddress=Globals.Options.GetElementAsString("xml.Options.FTP.Worldmap.Server");
-			Client.UserName=Globals.Options.GetElementAsString("xml.Options.FTP.Worldmap.User");
-			Client.Password=Globals.Options.GetElementAsString("xml.Options.FTP.Worldmap.Password");
+			NetworkCredential networkCredential=new NetworkCredential();
+			networkCredential.Domain=Globals.Options.GetElementAsString("xml.Options.FTP.Worldmap.Server");
+			networkCredential.UserName=Globals.Options.GetElementAsString("xml.Options.FTP.Worldmap.User");
+			networkCredential.Password=Globals.Options.GetElementAsString("xml.Options.FTP.Worldmap.Password");
 
 			try
 			{
-				Client.Connect();
+				Client.Connect(networkCredential.Domain, networkCredential,  ESSLSupportMode.ClearText);
 			}
 			catch(Exception exception)
 			{
@@ -305,6 +308,7 @@ namespace Invertika_Editor
 			FortschrittValue=0;
 
 			//Ordner für die Feature Maps
+			
 			if(!Client.Exists("fm-monster-spreading/ow-o0000-o0000-o0000-800.png")) //Monster Spreading
 			{
 				Client.CreateDirectory("fm-monster-spreading");
@@ -319,7 +323,8 @@ namespace Invertika_Editor
 			{
 				string uploadf=FileSystem.GetRelativePath(i, temp);
 				uploadf=uploadf.Replace('\\', '/');
-				Client.UploadFile(i, uploadf);
+				//Client.UploadFile(i, uploadf);
+				Client.PutFile(i, uploadf);
 				FortschrittValue++;
 				bgwCreateMapThumbnailsAndMinimaps.ReportProgress(0);
 			}

@@ -3616,93 +3616,102 @@ namespace Invertika_Editor
 
 		private void bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			openFileDialog.Multiselect=false;
+			openFileDialog.Multiselect=true;
 			openFileDialog.FileName="";
 			openFileDialog.Filter="TMX Dateien (*.tmx)|*.tmx";
 
 			if(openFileDialog.ShowDialog()==DialogResult.OK)
 			{
-				TMX TestTMX=new TMX();
-				TestTMX.Open(openFileDialog.FileName);
-
-				TMX.LayerData fringe=null;
-				TMX.LayerData coll=null;
-
-				foreach(TMX.LayerData layer in TestTMX.Layers)
+				foreach(string filename in openFileDialog.FileNames)
 				{
-					switch(layer.name)
+					TMX TestTMX=new TMX();
+					TestTMX.Open(filename);
+
+					TMX.LayerData fringe=null;
+					TMX.LayerData coll=null;
+
+					foreach(TMX.LayerData layer in TestTMX.Layers)
 					{
-						case "Fringe":
-							{
-								fringe=layer;
-								break;
-							}
-						case "Collision":
-							{
-								coll=layer;
-								break;
-							}
-					}
-				}
-
-				//CollID = 
-				int CollID=coll.data[0, 0];
-
-				
-				for(int y=0; y<fringe.height; y++)
-				{
-					for(int x=0; x<fringe.width; x++)
-					{
-						int fieldData=fringe.data[x, y];
-						if(fieldData==0) continue;
-						
-						TMX.TilesetData tInfo=TestTMX.GetTileset(fieldData);
-
-						switch(FileSystem.GetFilename(tInfo.imgsource))
+						switch(layer.name)
 						{
-							case "wood1_32_96.png":
+							case "Fringe":
 								{
-									int realID=fieldData-tInfo.firstgid;
-
-									switch(realID)
-									{
-										case 0: //Baum
-										case 1: //Baum
-										case 2: //Baum
-										case 3: //Baum
-										case 4: //Baum
-										case 5: //Baum
-											{
-												coll.data[x, y]=CollID;
-												break;
-											}
-									}
-
+									fringe=layer;
 									break;
 								}
-							case "wood1_32_160.png":
+							case "Collision":
 								{
-									int realID=fieldData-tInfo.firstgid;
-
-									switch(realID)
-									{
-										case 1: //Baum
-										case 4: //Baum
-										case 7: //Baum
-											{
-												coll.data[x, y]=CollID;
-												break;
-											}
-									}
-
+									coll=layer;
 									break;
 								}
 						}
 					}
-				}
 
-				TestTMX.Save(openFileDialog.FileName);
+					//CollID = 
+					int CollID=coll.data[0, 0];
+					bool FileChanged=false;
+
+					for(int y=0; y<fringe.height; y++)
+					{
+						for(int x=0; x<fringe.width; x++)
+						{
+							int fieldData=fringe.data[x, y];
+							if(fieldData==0) continue;
+
+							TMX.TilesetData tInfo=TestTMX.GetTileset(fieldData);
+
+							if(CollID==coll.data[x, y]) continue;
+
+							switch(FileSystem.GetFilename(tInfo.imgsource))
+							{
+								case "wood1_32_96.png":
+									{
+										int realID=fieldData-tInfo.firstgid;
+
+										switch(realID)
+										{
+											case 0: //Baum
+											case 1: //Baum
+											case 2: //Baum
+											case 3: //Baum
+											case 4: //Baum
+											case 5: //Baum
+												{
+													FileChanged=true;
+													coll.data[x, y]=CollID;
+													break;
+												}
+										}
+
+										break;
+									}
+								case "wood1_32_160.png":
+									{
+										int realID=fieldData-tInfo.firstgid;
+
+										switch(realID)
+										{
+											case 1: //Baum
+											case 4: //Baum
+											case 7: //Baum
+												{
+													FileChanged=true;
+													coll.data[x, y]=CollID;
+													break;
+												}
+										}
+
+										break;
+									}
+							}
+						}
+					}
+
+					if(FileChanged)	TestTMX.Save(filename);
+				}
 			}
+
+			MessageBox.Show("Vorgang beendet.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 
 	}// clas
