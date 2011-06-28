@@ -8,14 +8,6 @@
 		//Drag & Drop mit Constrain -> oder Hintergrundbild
 		//Abhängikeit von den Yahoo APis entfernen (das laden von yahooapis.com -> über http://developer.yahoo.com/yui/3/configurator/
 		//Code Bereinigung und Refactoring
-
-		//Reagieren auf resizen der Viewarea (Fenster größer etc) -> gelöst
-		//Problem mit dem Copy & Paste im Infofenster beheben -> gelöst
-		//keine Scrollbalken nach rechts und unten -> gelöst
-		//Positionierung der Infobox (nicht ganz oben rechts) -> gelöst
-		//Sauberer Zoom (nicht an andere Stelle springen) -> gelöst (Zoomt jetzt basierend auf linker oberer Ecke)
-		//MouseWheel -> gelöst
-		//Anzeige von Informationen ob auf der Karte Musik vorhganden ist und welche -> gelöst
 	?>
 	
 	<link rel="stylesheet" type="text/css" href="index.css">
@@ -122,6 +114,9 @@ YUI().use("stylesheet", "overlay", "slider", "dd-plugin", "node", function (Y) {
 		else if((xDimension*200)>viewWidth) initZoom=200;
 		else if((xDimension*400)>viewWidth) initZoom=400;
 		else if((xDimension*800)>viewWidth) initZoom=800;
+		else if((xDimension*1600)>viewWidth) initZoom=1600;
+		else if((xDimension*3200)>viewWidth) initZoom=3200;
+		else if((xDimension*6400)>viewWidth) initZoom=6400;
     })
 	
     // Create a Slider to contain zoom level between 10 and 800
