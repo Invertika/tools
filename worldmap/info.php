@@ -71,7 +71,7 @@
 	    echo "Dateiname: " . $row['FileName'] . ".tmx<br/>";
 		echo "Musik: " . $row['Music'] . "<br/><br/>";
 	    echo "- <a href=\"" . $wikilink . "\" target=\"_blank\">Wiki</a><br/>";
-	    echo "- <a href=\"" . $mappath . $row['FileName'] . "-800.png\" target=\"_blank\">Großansicht</a>";
+	    echo "- <a href=\"" . $mappath . $row['FileName'] . "-6400.png\" target=\"_blank\">Großansicht</a>";
     }
   }
   
