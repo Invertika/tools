@@ -94,7 +94,7 @@ YUI().use("stylesheet", "overlay", "slider", "dd-plugin", "node", function (Y) {
     zoomLevelInput = Y.one('#zoom_value');
     zoomLevelInput.set('type', 'hidden');
     zoomLevelInput.get('parentNode').insertBefore(
-    Y.Node.create('10 <span></span> 6400'), zoomLevelInput);
+    Y.Node.create('10 <span></span> 1600'), zoomLevelInput);
 
     slider_container = zoomLevelInput.previous("span");
 
@@ -115,15 +115,15 @@ YUI().use("stylesheet", "overlay", "slider", "dd-plugin", "node", function (Y) {
 		else if((xDimension*400)>viewWidth) initZoom=400;
 		else if((xDimension*800)>viewWidth) initZoom=800;
 		else if((xDimension*1600)>viewWidth) initZoom=1600;
-		else if((xDimension*3200)>viewWidth) initZoom=3200;
-		else if((xDimension*6400)>viewWidth) initZoom=6400;
+		//else if((xDimension*3200)>viewWidth) initZoom=3200;
+		//else if((xDimension*6400)>viewWidth) initZoom=6400;
     })
 	
-    // Create a Slider to contain zoom level between 10 and 6400
+    // Create a Slider to contain zoom level between 10 and 1600
     var slider = new Y.Slider({
         length: '125px',
         min: 10,
-        max: 6400,
+        max: 1600,
         value: initZoom,
         after: {
             valueChange: function (e) {
