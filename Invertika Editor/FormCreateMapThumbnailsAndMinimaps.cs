@@ -240,7 +240,8 @@ namespace Invertika_Editor
 				gtImage pic=file.Render();
 
 				int imageSizeOriginal=(int)pic.Width;
-				int imageSize=6400;
+				//int imageSize=6400;
+				int imageSize=800;
 				pic=pic.Resize(imageSize, imageSize);
 
 				bool next=true;
@@ -261,11 +262,11 @@ namespace Invertika_Editor
 
 					switch(imageSize)
 					{
-						case 6400:
-							{
-								imageSize=1600;
-								break;
-							}
+						//case 6400:
+						//    {
+						//        imageSize=1600;
+						//        break;
+						//    }
 						case 100:
 							{
 								//Minimap zusätzlich speichern
