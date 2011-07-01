@@ -315,12 +315,12 @@ namespace Invertika_Editor
 
 			//Ordner für die Feature Maps
 			
-			if(!Client.Exists("fm-monster-spreading/ow-o0000-o0000-o0000-6400.png")) //Monster Spreading
+			if(!Client.Exists("fm-monster-spreading/ow-o0000-o0000-o0000-800.png")) //Monster Spreading
 			{
 				Client.CreateDirectory("fm-monster-spreading");
 			}
 
-			if(!Client.Exists("fm-music/ow-o0000-o0000-o0000-6400.png")) //Music
+			if(!Client.Exists("fm-music/ow-o0000-o0000-o0000-800.png")) //Music
 			{
 				Client.CreateDirectory("fm-music");
 			}
