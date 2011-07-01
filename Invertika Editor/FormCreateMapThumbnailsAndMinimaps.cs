@@ -261,6 +261,11 @@ namespace Invertika_Editor
 
 					switch(imageSize)
 					{
+						case 6400:
+							{
+								imageSize=1600;
+								break;
+							}
 						case 100:
 							{
 								//Minimap zusätzlich speichern
