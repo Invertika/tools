@@ -22,8 +22,8 @@ function RoundToNextTileSize(size) {
     if (size <= 150) return 100;
     if (size <= 300) return 200;
     if (size <= 600) return 400;
-    if (size <= 1200) return 800;
-	return 1600;
+	return 800;
+    //if (size <= 1200) return 800;
     //if (size <= 2400) return 1600;
     //if (size <= 4800) return 3200;
     //return 6400;
@@ -39,7 +39,7 @@ function GetNextHigherZoomlevel(current) {
     if (corValue == 100) return 200;
     if (corValue == 200) return 400;
     if (corValue == 400) return 800;
-    if (corValue == 800) return 1600;
+    //if (corValue == 800) return 1600;
     //if (corValue == 1600) return 3200;
     //if (corValue == 3200) return 6400;
     return corValue;
@@ -49,7 +49,7 @@ function GetNextLowerZoomlevel(current) {
     corValue=RoundToNextTileSize(current);
     //if (corValue == 6400) return 3200;
     //if (corValue == 3200) return 1600;
-    if (corValue == 1600) return 800;
+    //if (corValue == 1600) return 800;
     if (corValue == 800) return 400;
     if (corValue == 400) return 200;
     if (corValue == 200) return 100;
