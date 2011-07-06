@@ -200,7 +200,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\cscl.googlecode.com\CSCL\CSCL.csproj">
+    <ProjectReference Include="..\Externals\CSCL\CSCL\CSCL.csproj">
       <Project>{0E720343-5366-4C3A-BC59-7B7FD2C311B5}</Project>
       <Name>CSCL</Name>
     </ProjectReference>

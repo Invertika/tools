@@ -97,8 +97,8 @@ namespace Invertika_Editor
 
 			if(openFileDialog.ShowDialog()==DialogResult.OK)
 			{
-				try
-				{
+			    try
+			    {
 					TMX TestTMX=new TMX();
 					TestTMX.Open(openFileDialog.FileName);
 					gtImage Image=TestTMX.Render();
@@ -107,7 +107,7 @@ namespace Invertika_Editor
 					InstFormViewImage.ImageToView=Image.ToBitmap();
 					InstFormViewImage.ShowDialog();
 
-					//MessageBox.Show("Datei konnte ohne Probleme geparst werden.");
+					MessageBox.Show("Datei konnte ohne Probleme geparst werden.");
 				}
 				catch(Exception exception)
 				{
