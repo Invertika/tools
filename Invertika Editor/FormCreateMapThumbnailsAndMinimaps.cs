@@ -241,7 +241,7 @@ namespace Invertika_Editor
 
 				int imageSizeOriginalWidth=(int)pic.Width;
 				int imageSizeOriginalHeight=(int)pic.Height;
-				double imageVerhaeltnis=imageSizeOriginalWidth/imageSizeOriginalHeight;
+				double imageVerhaeltnis=imageSizeOriginalWidth/(double)imageSizeOriginalHeight;
 
 				//int imageSize=6400;
 				int imageSize=800;
