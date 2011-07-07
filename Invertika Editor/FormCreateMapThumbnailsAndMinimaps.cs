@@ -239,10 +239,13 @@ namespace Invertika_Editor
 
 				gtImage pic=file.Render();
 
-				int imageSizeOriginal=(int)pic.Width;
+				int imageSizeOriginalWidth=(int)pic.Width;
+				int imageSizeOriginalHeight=(int)pic.Height;
+				double imageVerhaeltnis=imageSizeOriginalWidth/imageSizeOriginalHeight;
+
 				//int imageSize=6400;
 				int imageSize=800;
-				pic=pic.Resize(imageSize, imageSize);
+				pic=pic.Resize(imageSize, (int)(imageSize/imageVerhaeltnis));
 
 				bool next=true;
 
@@ -283,7 +286,7 @@ namespace Invertika_Editor
 
 					imageSize=GetNextImageSize(imageSize);
 
-					pic=pic.Resize(imageSize, imageSize);
+					pic=pic.Resize(imageSize, (int)(imageSize/imageVerhaeltnis));
 					GC.Collect(3);
 				}
 			}
