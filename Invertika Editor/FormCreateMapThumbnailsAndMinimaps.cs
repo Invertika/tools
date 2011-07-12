@@ -57,18 +57,19 @@ namespace Invertika_Editor
 			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonsterXml);
 			monsters.Sort();
 
-			int minFightingStrength=999999;
-			int maxFightingStrength=-999999;
+			Int64 minFightingStrength=999999999999;
+			Int64 maxFightingStrength=-999999999999;
 
-			int medianFightingStrength=0;
+			Int64 medianFightingStrength=0;
 
-			Dictionary<int, int> MonsterIDsAndFightingStrength=new Dictionary<int, int>();
+			Dictionary<int, Int64> MonsterIDsAndFightingStrength=new Dictionary<int, Int64>();
 
 			foreach(Monster monster in monsters)
 			{
 				if(monster.ID==1) continue; //Killermade ignorieren
+				if(monster.ID==31) continue; //Seraphim Nex ignorieren
 				if(monster.ID>9999) continue; //Experimentelle Monster ignorieren
-				int fightingStrength=monster.FightingStrength;
+				Int64 fightingStrength=monster.FightingStrength;
 
 				if(fightingStrength<minFightingStrength) minFightingStrength=fightingStrength;
 				if(fightingStrength>maxFightingStrength) maxFightingStrength=fightingStrength;
@@ -83,11 +84,12 @@ namespace Invertika_Editor
 
 			if(mSpawns.Count>0)
 			{
-				int fss=0;
+				Int64 fss=0;
 
 				foreach(MonsterSpawn spawn in mSpawns)
 				{
 					if(spawn.MonsterID==1) continue; //Killermade ignorieren
+					if(spawn.MonsterID==31) continue; //Seraphim Nex ignorieren
 					if(spawn.MonsterID>=10000) continue; //Pflanzen etc ignorieren
 					fss+=MonsterIDsAndFightingStrength[spawn.MonsterID];
 				}
@@ -95,8 +97,8 @@ namespace Invertika_Editor
 				fss=fss/mSpawns.Count;
 
 				//Einfärben je nach Stärke
-				int vSmarterGreen=(medianFightingStrength+minFightingStrength)/2;
-				int vSmarterYellow=(maxFightingStrength+medianFightingStrength)/2;
+				Int64 vSmarterGreen=(medianFightingStrength+minFightingStrength)/2;
+				Int64 vSmarterYellow=(maxFightingStrength+medianFightingStrength)/2;
 
 				if(fss<vSmarterGreen)
 				{
