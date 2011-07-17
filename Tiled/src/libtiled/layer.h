@@ -120,7 +120,13 @@ public:
     /**
      * Returns the position of this layer (in tiles).
      */
-    QPoint pos() const { return QPoint(mX, mY); }
+    QPoint position() const { return QPoint(mX, mY); }
+
+    /**
+     * Sets the position of this layer (in tiles).
+     */
+    void setPosition(QPoint pos) { setPosition(pos.x(), pos.y()); }
+    void setPosition(int x, int y) { mX = x; mY = y; }
 
     /**
      * Returns the width of this layer.
@@ -165,6 +171,20 @@ public:
      */
     virtual void offset(const QPoint &offset, const QRect &bounds,
                         bool wrapX, bool wrapY) = 0;
+
+    /**
+     * Returns whether this layer can merge together with the \a other layer.
+     */
+    virtual bool canMergeWith(Layer *other) const = 0;
+
+    /**
+     * Returns a newly allocated layer that is the result of merging this layer
+     * with the \a other layer. Where relevant, the other layer is considered
+     * to be on top of this one.
+     *
+     * Should only be called when canMergeWith returns true.
+     */
+    virtual Layer *mergedWith(Layer *other) const = 0;
 
     /**
      * Returns a duplicate of this layer. The caller is responsible for the
