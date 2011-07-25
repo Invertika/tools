@@ -125,6 +125,22 @@ void TileLayer::merge(const QPoint &pos, const TileLayer *layer)
     }
 }
 
+void TileLayer::setCells(int x, int y, TileLayer *layer,
+                         const QRegion &mask)
+{
+    // Determine the overlapping area
+    QRegion area = QRect(x, y, layer->width(), layer->height());
+    area &= QRect(0, 0, width(), height());
+
+    if (!mask.isEmpty())
+        area &= mask;
+
+    foreach (const QRect &rect, area.rects())
+        for (int _x = rect.left(); _x <= rect.right(); ++_x)
+            for (int _y = rect.top(); _y <= rect.bottom(); ++_y)
+                setCell(_x, _y, layer->cellAt(_x - x, _y - y));
+}
+
 void TileLayer::flip(FlipDirection direction)
 {
     QVector<Cell> newGrid(mWidth * mHeight);
@@ -283,6 +299,32 @@ Layer *TileLayer::mergedWith(Layer *other) const
     merged->resize(unitedBounds.size(), offset);
     merged->merge(o->position() - unitedBounds.topLeft(), o);
     return merged;
+}
+
+QRegion TileLayer::computeDiffRegion(const TileLayer *other) const
+{
+    QRegion ret;
+
+    const int dx = other->x() - mX;
+    const int dy = other->y() - mY;
+    QRect r = QRect(0, 0, width(), height());
+    r &= QRect(dx, dy, other->width(), other->height());
+
+    for (int y = r.top(); y <= r.bottom(); ++y) {
+        for (int x = r.left(); x <= r.right(); ++x) {
+            if (cellAt(x, y) != other->cellAt(x - dx, y - dy)) {
+                const int rangeStart = x;
+                while (x <= r.right() &&
+                       cellAt(x, y) != other->cellAt(x - dx, y - dy)) {
+                    ++x;
+                }
+                const int rangeEnd = x;
+                ret += QRect(rangeStart, y, rangeEnd - rangeStart, 1);
+            }
+        }
+    }
+
+    return ret;
 }
 
 bool TileLayer::isEmpty() const

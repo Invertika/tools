@@ -212,12 +212,6 @@ private:
     QRegion createRule(int x, int y) const;
 
     /**
-     * This searches \a map for a layer with the given \a name. Returns that
-     * layer if found, and NULL otherwise.
-     */
-    TileLayer *findTileLayer(Map *map, const QString &name);
-
-    /**
      * cleans up the data structes filled by setupRuleMapLayers(),
      * so the next rule can be processed.
      */
@@ -291,7 +285,7 @@ private:
      * So if anything is correct mMapWork->layerAt(mLayerSet)->name()
      * equals mSetLayer.
      */
-    int mLayerSet;
+    int mSetLayerIndex;
 
     /**
      * List of Regions in mMapRules to know where the rules are
@@ -357,11 +351,11 @@ public:
     void redo();
 
 private:
-    Layer *swapLayer(int layerIndex, Layer *layer);
+    void patchLayer(int layerIndex, TileLayer *layer);
 
     MapDocument *mMapDocument;
-    QVector<Layer*> mLayersAfter;
-    QVector<Layer*> mLayersBefore;
+    QVector<TileLayer*> mLayersAfter;
+    QVector<TileLayer*> mLayersBefore;
 };
 
 /**
