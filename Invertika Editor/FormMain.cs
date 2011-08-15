@@ -19,6 +19,8 @@ using System.Net;
 using CSCL.Helpers;
 using Invertika_Editor.Classes.QuestEditor;
 using CSCL.Exceptions;
+using Invertika;
+using Invertika.Classes;
 
 namespace Invertika_Editor
 {
@@ -1876,7 +1878,7 @@ namespace Invertika_Editor
 
 			foreach(string fn in maps)
 			{
-				List<MonsterSpawn> spawns=Globals.GetMonsterSpawnFromMap(fn);
+				List<MonsterSpawn> spawns=Monsters.GetMonsterSpawnFromMap(fn);
 
 				foreach(MonsterSpawn spawn in spawns)
 				{

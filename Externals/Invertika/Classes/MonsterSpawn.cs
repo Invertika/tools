@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Invertika_Editor.Classes
+namespace Invertika.Classes
 {
 	public class MonsterSpawn
 	{

@@ -44,7 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\QuestEditor\IQuestDataClass.cs" />
-    <Compile Include="Classes\MonsterSpawn.cs" />
     <Compile Include="Classes\QuestEditor\QDIf.cs" />
     <Compile Include="Classes\QuestEditor\QDMessage.cs" />
     <Compile Include="Classes\QuestEditor\QuestEditorEngine.cs" />
@@ -203,6 +202,10 @@
     <ProjectReference Include="..\Externals\CSCL\CSCL\CSCL.csproj">
       <Project>{0E720343-5366-4C3A-BC59-7B7FD2C311B5}</Project>
       <Name>CSCL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Externals\Invertika\Invertika.csproj">
+      <Project>{52EE41F6-4F3E-4EB1-832A-F18515CA875A}</Project>
+      <Name>Invertika</Name>
     </ProjectReference>
     <ProjectReference Include="..\Externals\SharpZipLib\src\ICSharpCode.SharpZLib.csproj">
       <Project>{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}</Project>
