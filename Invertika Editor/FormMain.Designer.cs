@@ -88,7 +88,6 @@
 			this.infoboxenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.vorkommenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabelleToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-			this.toolStripMenuItem15 = new System.Windows.Forms.ToolStripSeparator();
 			this.lUADokumentationMediawikiAPIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripSeparator();
 			this.alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -158,6 +157,7 @@
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
 			this.tsbExport = new System.Windows.Forms.ToolStripButton();
 			this.tabControl = new System.Windows.Forms.TabControl();
+			this.toolStripMenuItem17 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuStrip.SuspendLayout();
 			this.tabPage1.SuspendLayout();
 			this.groupBox5.SuspendLayout();
@@ -458,7 +458,7 @@
             this.monsterxmlMediaWikiToolStripMenuItem,
             this.monsterxmlMediawikiInfoboxenToolStripMenuItem,
             this.monstersxmlMediawikiAPIToolStripMenuItem,
-            this.toolStripMenuItem15,
+            this.toolStripMenuItem17,
             this.lUADokumentationMediawikiAPIToolStripMenuItem,
             this.toolStripMenuItem7,
             this.alleMediawkiExportenDurchführenüberMediawikiAPIToolStripMenuItem});
@@ -633,11 +633,6 @@
 			this.tabelleToolStripMenuItem1.Size = new System.Drawing.Size(141, 22);
 			this.tabelleToolStripMenuItem1.Text = "Tabelle...";
 			this.tabelleToolStripMenuItem1.Click += new System.EventHandler(this.tabelleToolStripMenuItem1_Click);
-			// 
-			// toolStripMenuItem15
-			// 
-			this.toolStripMenuItem15.Name = "toolStripMenuItem15";
-			this.toolStripMenuItem15.Size = new System.Drawing.Size(435, 6);
 			// 
 			// lUADokumentationMediawikiAPIToolStripMenuItem
 			// 
@@ -1263,6 +1258,11 @@
 			this.tabControl.Size = new System.Drawing.Size(1006, 427);
 			this.tabControl.TabIndex = 3;
 			// 
+			// toolStripMenuItem17
+			// 
+			this.toolStripMenuItem17.Name = "toolStripMenuItem17";
+			this.toolStripMenuItem17.Size = new System.Drawing.Size(435, 6);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1363,7 +1363,6 @@
 		private System.Windows.Forms.ToolStripMenuItem vorkommenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem dropsToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem dropsToolStripMenuItem1;
-		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem15;
 		private System.Windows.Forms.ToolStripMenuItem mapsxmlWeltkartenDBSQLDateiToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem13;
 		private System.Windows.Forms.ToolStripMenuItem tilesetsInAllenMapsTransformierenToolStripMenuItem;
@@ -1430,6 +1429,7 @@
 		private System.Windows.Forms.ToolStripMenuItem entferneLeereTilesVonDenKartenToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem14;
 		private System.Windows.Forms.ToolStripMenuItem bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem;
+		private System.Windows.Forms.ToolStripSeparator toolStripMenuItem17;
 	}
 }
 

@@ -587,6 +587,73 @@ namespace Invertika_Editor
 			return ret;
 		}
 
+		public string GetPlantAsMediaWiki()
+		{
+			string ret="";
+			//Parameter auswerten
+			string fnMonsterXml=Globals.folder_clientdata+"monsters.xml";
+			string fnItemsXml=Globals.folder_clientdata+"items.xml";
+
+			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
+
+			ret+="{| border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\" align=\"center\" class=\"wikitable sortable\"\n"
+			+"! style=\"background:#efdead;\" | Bild\n"
+			+"! style=\"background:#efdead;\" | ID\n"
+			+"! style=\"background:#efdead;\" | Name\n"
+			+"! style=\"background:#efdead;\" | HP\n"
+			+"! style=\"background:#efdead;\" | Agressiv\n"
+			+"! style=\"background:#efdead;\" | Angriff\n"
+			+"! style=\"background:#efdead;\" | Verteidigung (physisch)\n"
+			+"! style=\"background:#efdead;\" | Verteidigung (magisch)\n"
+			+"! style=\"background:#efdead;\" | Mutation\n"
+			+"! style=\"background:#efdead;\" | Händlerdropwert (in Aki)\n"
+			+"! style=\"background:#efdead;\" | Kampfstärke\n"
+			+"! style=\"background:#efdead;\" | Erfahrung\n"
+				//+"! style=\"background:#efdead;\" | Drops"
+			+"|-\n";
+
+			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonsterXml);
+			monsters.Sort();
+
+			foreach(Monster monster in monsters)
+			{
+				if(monster.ID<10000) continue; //Monster, etc. ignorieren
+				if(monster.ID>=20000) continue; //Experimentelle Monster etc. ignorieren
+
+				ret+=String.Format("| align=\"center\" | [[Image:monster-{0}.png]] {{{{Anker|{0}}}}}\n", monster.ID);
+				ret+=String.Format("| align=\"center\" | {0}\n", monster.ID);
+				ret+=String.Format("| [[monster-{0}|{1}]]\n", monster.ID, monster.Name);
+				ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.HP);
+
+
+				if(monster.Behavior!=null)
+				{
+					if(monster.Behavior.Aggressive) ret+=String.Format("| align=\"center\" | Ja\n");
+					else ret+=String.Format("| align=\"center\" | Nein\n");
+				}
+				else
+				{
+					ret+=String.Format("| align=\"center\" | nicht definiert");
+				}
+
+				ret+=String.Format("| align=\"center\" | {0}-{1}\n", monster.Attributes.AttackMin, monster.Attributes.AttackMin+monster.Attributes.AttackDelta);
+				ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.PhysicalDefence);
+				ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.MagicalDefence);
+				ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.Mutation);
+
+				ret+=String.Format("| align=\"center\" | {0}\n", monster.GetSaleDropMoneyValue(items));
+
+				ret+=String.Format("| align=\"center\" | {0}\n", monster.FightingStrength);
+				ret+=String.Format("| align=\"center\" | {0}\n", monster.Exp);
+
+				ret+=String.Format("|-\n");
+			}
+
+			ret+="|}\n";
+
+			return ret;
+		}
+
 		private void inDateiToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
 			if(Globals.folder_root=="")
@@ -713,7 +780,7 @@ namespace Invertika_Editor
 
 				foreach(Monster monster in monsters)
 				{
-					if(monster.ID>9999) continue; //Testmonster ignorieren
+					if(monster.ID>=50000) continue; //Testmonster ignorieren
 
 					if(monster.Sprite!=null)
 					{
@@ -1659,6 +1726,7 @@ namespace Invertika_Editor
 
 			PageList pl=new PageList(wiki);
 			pl.FillAllFromCategory("Monster");
+			pl.FillAllFromCategory("Pflanze");
 			pl.LoadEx();
 
 			foreach(Page i in pl)
@@ -1777,16 +1845,20 @@ namespace Invertika_Editor
 				return;
 			}
 
+
+			//Pflanzen
+			ExportPlantsTableToMediawikiAPI();
+
 			//Items
+			ExportItemTableToMediawikiAPI();
 			ExportItemMonstersDropsToMediawikiAPI();
 			ExportItemsInfoboxToMediawikiAPI();
-			ExportItemTableToMediawikiAPI();
 
 			//Monster
+			ExportMonsterTableToMediawikiAPI();
 			ExportMonstersDropsToMediawikiAPI();
 			ExportMonstersInfoboxToMediawikiAPI();
 			ExportMonstersVorkommenToMediawikiAPI();
-			ExportMonsterTableToMediawikiAPI();
 
 			MessageBox.Show("Alle Mediawiki Exporte durchgeführt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
@@ -1886,6 +1958,7 @@ namespace Invertika_Editor
 
 			PageList pl=new PageList(wiki);
 			pl.FillAllFromCategory("Monster");
+			pl.FillAllFromCategory("Pflanze");
 			pl.LoadEx();
 
 			Dictionary<int, List<string>> MonsterMapList=GetAllMonsterSpawnsFromMaps();
@@ -2007,6 +2080,7 @@ namespace Invertika_Editor
 
 			PageList pl=new PageList(wiki);
 			pl.FillAllFromCategory("Monster");
+			pl.FillAllFromCategory("Pflanze");
 			pl.LoadEx();
 
 			Dictionary<int, List<string>> MonsterMapList=GetAllMonsterSpawnsFromMaps();
@@ -2700,6 +2774,45 @@ namespace Invertika_Editor
 			page.Save("Bot: Liste der Monster aktualisiert.", true);
 		}
 
+		private void ExportPlantsTableToMediawikiAPI()
+		{
+			string url=Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL");
+			string username=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username");
+			string password=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort");
+
+			Site wiki=new Site(url, username, password);
+
+			Page page=new Page(wiki, "Liste der Pflanzen");
+			page.LoadEx();
+
+			string monsterlist=GetPlantAsMediaWiki();
+
+			//Monster Vorkommen ermitteln
+			string text=page.text;
+			string start="{{Anker|AutomaticStartPlantList}}";
+			string end="{Anker|AutomaticEndPlantList}}";
+			int idxBeginInfobox=text.IndexOf(start, 0);
+			int idxEndInfobox=text.IndexOf(end, 0);
+
+			int lengthOfString=(idxEndInfobox-idxBeginInfobox)-start.Length-1;
+
+			string monsterdrops=text.Substring(idxBeginInfobox+start.Length, lengthOfString);
+			if(monsterdrops!="\n")
+			{
+				text=text.Replace(monsterdrops, "");
+			}
+
+			string replaceString="{{Anker|AutomaticStartPlantList}}\n"+monsterlist;
+			text=text.Replace(start, replaceString);
+
+			if(page.text!=text)
+			{
+				page.text=text;
+			}
+
+			page.Save("Bot: Liste der Pflanzen aktualisiert.", true);
+		}
+
 		private void tabelleToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
 			if(Globals.folder_root=="")
@@ -2726,6 +2839,7 @@ namespace Invertika_Editor
 				return;
 			}
 
+			ExportPlantsTableToMediawikiAPI();
 			ExportMonsterTableToMediawikiAPI();
 
 			MessageBox.Show("Liste der Monster in der Mediawiki aktualisiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
