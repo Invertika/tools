@@ -40,6 +40,9 @@
     <Compile Include="Classes\MonsterSpawn.cs" />
     <Compile Include="Imaging.cs" />
     <Compile Include="Invertika.cs" />
+    <Compile Include="LuaDoc\LuaDocParser.cs" />
+    <Compile Include="LuaDoc\LuaDocType.cs" />
+    <Compile Include="LuaDoc\LucDocReturn.cs" />
     <Compile Include="Monsters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Script.cs" />

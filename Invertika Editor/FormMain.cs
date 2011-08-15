@@ -21,6 +21,7 @@ using Invertika_Editor.Classes.QuestEditor;
 using CSCL.Exceptions;
 using Invertika;
 using Invertika.Classes;
+using Invertika.LuaDoc;
 
 namespace Invertika_Editor
 {

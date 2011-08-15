@@ -3,28 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-namespace Invertika_Editor
+namespace Invertika.LuaDoc
 {
-	public enum LuaDocType
-	{
-		Unknown,
-		Module
-	}
-
-	public class LucDocReturn
-	{
-		public List<string> Functions { get; private set; }
-		public LuaDocType DocType { get; private set; }
-		public string Name { get; private set; }
-
-		public LucDocReturn(List<string> content, LuaDocType docType, string name)
-		{
-			Functions=content;
-			DocType=docType;
-			Name=name;
-		}
-	}
-
 	public class LuaDocParser
 	{
 		Dictionary<string, List<string>> FunctionAndComments;
@@ -104,7 +84,7 @@ namespace Invertika_Editor
 
 							for(int i=2; i<splited.Length; i++)
 							{
-								desc+=" " + splited[i];
+								desc+=" "+splited[i];
 							}
 
 							Parameters.Add(splited[1], desc.Trim());
@@ -130,7 +110,7 @@ namespace Invertika_Editor
 
 					fileContent.Add("{{ParamTableEnd}}");
 				}
-				
+
 				fileContent.Add("");
 			}
 
