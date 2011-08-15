@@ -5,7 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using Invertika_Editor.Classes.QuestEditor;
+using Invertika.QuestEditor;
 
 namespace Invertika_Editor
 {

@@ -45,6 +45,10 @@
     <Compile Include="LuaDoc\LucDocReturn.cs" />
     <Compile Include="Monsters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuestEditor\IQuestDataClass.cs" />
+    <Compile Include="QuestEditor\QDIf.cs" />
+    <Compile Include="QuestEditor\QDMessage.cs" />
+    <Compile Include="QuestEditor\QuestEditorEngine.cs" />
     <Compile Include="Script.cs" />
     <Compile Include="Worldmap.cs" />
   </ItemGroup>

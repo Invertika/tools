@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Invertika_Editor.Classes.QuestEditor
+namespace Invertika.QuestEditor
 {
 	public class QDMessage: IQuestDataClass
 	{

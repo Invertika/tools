@@ -17,11 +17,11 @@ using System.Text.RegularExpressions;
 using Invertika_Editor.Classes;
 using System.Net;
 using CSCL.Helpers;
-using Invertika_Editor.Classes.QuestEditor;
 using CSCL.Exceptions;
 using Invertika;
 using Invertika.Classes;
 using Invertika.LuaDoc;
+using Invertika.QuestEditor;
 
 namespace Invertika_Editor
 {

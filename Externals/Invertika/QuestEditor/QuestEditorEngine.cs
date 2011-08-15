@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using CSCL;
 
-namespace Invertika_Editor.Classes.QuestEditor
+namespace Invertika.QuestEditor
 {
 	public class QuestEditorEngine
 	{
