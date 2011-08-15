@@ -230,12 +230,12 @@ namespace Invertika_Editor
 				FileSystem.CreateDirectory(pathOutput, true);
 
 				//Kartenerzeugen
-				Globals.CreateWorldmapHTML(pathOutput+"weltkarte.html", xmin, xmax, ymin, ymax, 100, false);
-				Globals.CreateWorldmapHTML(pathOutput+"weltkarte-small.html", xmin, xmax, ymin, ymax, 50, false);
-				Globals.CreateWorldmapHTML(pathOutput+"weltkarte-print.html", xmin, xmax, ymin, ymax, 100, true);
-				Globals.CreateWorldmapHTML(pathOutput+"weltkarte-big.html", xmin, xmax, ymin, ymax, 1400, false);
+				Worldmap.CreateWorldmapHTML(pathOutput+"weltkarte.html", xmin, xmax, ymin, ymax, 100, false);
+				Worldmap.CreateWorldmapHTML(pathOutput+"weltkarte-small.html", xmin, xmax, ymin, ymax, 50, false);
+				Worldmap.CreateWorldmapHTML(pathOutput+"weltkarte-print.html", xmin, xmax, ymin, ymax, 100, true);
+				Worldmap.CreateWorldmapHTML(pathOutput+"weltkarte-big.html", xmin, xmax, ymin, ymax, 1400, false);
 
-				Globals.CreateWorldmapMediaWiki(pathOutput+"weltkarte.mediawiki", xmin, xmax, ymin, ymax, maps);
+				Worldmap.CreateWorldmapMediaWiki(pathOutput+"weltkarte.mediawiki", xmin, xmax, ymin, ymax, maps);
 
 				Globals.CreateMySQLScript(pathOutput+"weltkarte.sql", maps);
 				return;
@@ -365,17 +365,17 @@ namespace Invertika_Editor
 									{
 									}
 
-									Globals.CreateMapScriptFile(fnLuaOutput, MapUp, MapRight, MapDown, MapLeft, true);
+									Script.CreateMapScriptFile(fnLuaOutput, MapUp, MapRight, MapDown, MapLeft, true);
 									break;
 								}
 							case "uw":
 								{
-									Globals.CreateMapScriptFile(fnLuaOutput, i.ID, i.ID, i.ID, i.ID, true);
+									Script.CreateMapScriptFile(fnLuaOutput, i.ID, i.ID, i.ID, i.ID, true);
 									break;
 								}
 							case "iw":
 								{
-									Globals.CreateMapScriptFile(fnLuaOutput);
+									Script.CreateMapScriptFile(fnLuaOutput);
 									break;
 								}
 						}
