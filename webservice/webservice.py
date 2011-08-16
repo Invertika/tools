@@ -6,20 +6,45 @@ from bottle import get, post, route, run, debug, template, request, response, HT
 
 debug_mode = False
 port = 8080
-path_gameserverlog = "/home/manaserv/.manaserv-game.log"
-path_accountserverlog = "/home/manaserv/.manaserv-account.log"
+path_gameserverlog = "/home/ablu/invertika/mana/manaserv/manaserv-game.log"
+path_accountserverlog = "/home/ablu/invertika/mana/manaserv/manaserv-account.log"
+LOGLEVEL = {"[FTL]" : 0,
+            "[ERR]" : 1,
+            "[WRN]" : 2,
+            "[INF]" : 3,
+            "[DBG]" : 4}
+
+class Log:
+    def __init__(self, path, loglevel):
+        self.path = path
+        self.level = loglevel
+
+    def __iter__(self):
+        self.logfile = open(self.path, "r")
+        return self
+
+    def is_loglevel(self, line):
+        level_string = line[11:16]
+        if level_string in LOGLEVEL:
+            return (LOGLEVEL[level_string] <= int(self.level))
+        else:
+            return False
+
+    def next(self):
+        line = self.logfile.next()
+        while not self.is_loglevel(line):
+            line = self.logfile.next()
+        return line.replace("\n", "<br>")
 
 def get_aslog():
-    f = open(path_accountserverlog, "r")
-    aslog = f.read()
-    f.close()
-    return aslog.replace("\n", "<br>")
+    loglevel = request.GET.get("l", default=2)
+    gamelog = Log(path_accountserverlog, loglevel)
+    return gamelog
 
 def get_gslog():
-    f = open(path_gameserverlog, "r")
-    gslog = f.read()
-    f.close()
-    return gslog.replace("\n", "<br>")
+    loglevel = request.GET.get("l", default=2)
+    gamelog = Log(path_gameserverlog, loglevel)
+    return gamelog
 
 def change_pw(username, password):
     con = sqlite3.connect('webservice.db')
@@ -79,11 +104,13 @@ def made_choice(choice):
         if (choice == "aslog"):
             output = template('choice')
             output += "<hr>"
-            output += get_aslog()
+            for line in get_aslog():
+                output += line
         elif (choice == "gslog"):
             output = template('choice')
             output += "<hr>"
-            output += get_gslog()
+            for line in get_gslog():
+                output += line
         else:
             output = "Ung&uuml;ltige Auswahl!\n<hr>\n"
             output += give_choice()
