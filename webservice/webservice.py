@@ -30,10 +30,10 @@ class Log:
         else:
             return False
 
-    def next(self):
-        line = self.logfile.next()
+    def __next__(self):
+        line = next(self.logfile)
         while not self.is_loglevel(line):
-            line = self.logfile.next()
+            line = next(self.logfile)
         return line.replace("\n", "<br>")
 
 def get_aslog():
