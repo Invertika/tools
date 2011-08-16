@@ -6,8 +6,8 @@ from bottle import get, post, route, run, debug, template, request, response, HT
 
 debug_mode = False
 port = 8080
-path_gameserverlog = "/home/ablu/invertika/mana/manaserv/manaserv-game.log"
-path_accountserverlog = "/home/ablu/invertika/mana/manaserv/manaserv-account.log"
+path_gameserverlog = "/home/manaserv/.manaserv-game.log"
+path_accountserverlog = "/home/manaserv/.manaserv-account.log"
 LOGLEVEL = {"[FTL]" : 0,
             "[ERR]" : 1,
             "[WRN]" : 2,
