@@ -18,6 +18,8 @@ class Log:
     def __init__(self, path, loglevel):
         self.path = path
         self.level = loglevel
+        # Falls das Loglevel der ersten Zeile nicht gelesen werden kann, wird diese immer angezeigt:
+        self.lastLogLevel = "[FTL]"
 
     def __iter__(self):
         self.logfile = open(self.path, "r")
