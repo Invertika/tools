@@ -26,9 +26,10 @@ class Log:
     def is_loglevel(self, line):
         level_string = line[11:16]
         if level_string in LOGLEVEL:
+            self.lastLogLevel = level_string
             return (LOGLEVEL[level_string] <= int(self.level))
         else:
-            return False
+            return (LOGLEVEL[self.lastLogLevel] <= int(self.level))
 
     def __next__(self):
         line = next(self.logfile)
