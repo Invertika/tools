@@ -97,11 +97,11 @@ os.system('rrdtool graph ivk_4.png --start -31556926         \
         -c CANVAS#e3d3a77f  \
 		-X 0')
 		
-os.system('composite ivk_0.png status_bg.png ivk_hour.jpg')
-os.system('composite ivk_1.png status_bg.png ivk_day.jpg')
-os.system('composite ivk_2.png status_bg.png ivk_week.jpg')
-os.system('composite ivk_3.png status_bg.png ivk_month.jpg')
-os.system('composite ivk_4.png status_bg.png ivk_year.jpg')
+os.system('composite ivk_0.png status-bg.png ivk_hour.jpg')
+os.system('composite ivk_1.png status-bg.png ivk_day.jpg')
+os.system('composite ivk_2.png status-bg.png ivk_week.jpg')
+os.system('composite ivk_3.png status-bg.png ivk_month.jpg')
+os.system('composite ivk_4.png status-bg.png ivk_year.jpg')
 
 # Datei per FTP hochladen
 ftp = ftplib.FTP(ftp_server)
