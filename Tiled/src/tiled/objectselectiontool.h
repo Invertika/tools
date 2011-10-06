@@ -29,7 +29,6 @@ namespace Tiled {
 namespace Internal {
 
 class MapObjectItem;
-class MapScene;
 class SelectionRectangle;
 
 class ObjectSelectionTool : public AbstractObjectTool
@@ -48,9 +47,6 @@ public:
     void modifiersChanged(Qt::KeyboardModifiers modifiers);
 
     void languageChanged();
-
-protected:
-    void updateEnabledState();
 
 private:
     enum Mode {

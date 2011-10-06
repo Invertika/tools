@@ -1,7 +1,7 @@
 /*
  * mapobjectitem.cpp
  * Copyright 2008, Roderic Morris <roderic@ccs.neu.edu>
- * Copyright 2008-2010, Thorbjørn Lindeijer <thorbjorn@lindeijer.nl>
+ * Copyright 2008-2011, Thorbjørn Lindeijer <thorbjorn@lindeijer.nl>
  * Copyright 2010, Jeff Bland <jksb@member.fsf.org>
  *
  * This file is part of Tiled.
@@ -44,17 +44,41 @@ namespace Tiled {
 namespace Internal {
 
 /**
- * A resize handle that allows resizing of a map object.
+ * Some handle item that indicates a point on an object can be dragged.
  */
-class ResizeHandle : public QGraphicsItem
+class Handle : public QGraphicsItem
 {
 public:
-    ResizeHandle(MapObjectItem *mapObjectItem);
+    Handle(MapObjectItem *mapObjectItem)
+        : QGraphicsItem(mapObjectItem)
+        , mMapObjectItem(mapObjectItem)
+    {
+        setFlags(QGraphicsItem::ItemIsMovable |
+                 QGraphicsItem::ItemSendsGeometryChanges |
+                 QGraphicsItem::ItemIgnoresTransformations |
+                 QGraphicsItem::ItemIgnoresParentOpacity);
+    }
 
     QRectF boundingRect() const;
     void paint(QPainter *painter,
                const QStyleOptionGraphicsItem *option,
                QWidget *widget = 0);
+
+protected:
+    MapObjectItem *mMapObjectItem;
+};
+
+/**
+ * A resize handle that allows resizing of a map object.
+ */
+class ResizeHandle : public Handle
+{
+public:
+    ResizeHandle(MapObjectItem *mapObjectItem)
+        : Handle(mapObjectItem)
+    {
+        setCursor(Qt::SizeFDiagCursor);
+    }
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -63,7 +87,6 @@ protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 private:
-    MapObjectItem *mMapObjectItem;
     QSizeF mOldSize;
 };
 
@@ -71,28 +94,20 @@ private:
 } // namespace Tiled
 
 
-ResizeHandle::ResizeHandle(MapObjectItem *mapObjectItem)
-    : QGraphicsItem(mapObjectItem)
-    , mMapObjectItem(mapObjectItem)
-{
-    setCursor(Qt::SizeFDiagCursor);
-    setFlag(QGraphicsItem::ItemIsMovable);
-    setFlag(QGraphicsItem::ItemSendsGeometryChanges);
-}
-
-QRectF ResizeHandle::boundingRect() const
+QRectF Handle::boundingRect() const
 {
     return QRectF(-5, -5, 10 + 1, 10 + 1);
 }
 
-void ResizeHandle::paint(QPainter *painter,
-                         const QStyleOptionGraphicsItem *,
-                         QWidget *)
+void Handle::paint(QPainter *painter,
+                   const QStyleOptionGraphicsItem *,
+                   QWidget *)
 {
     painter->setBrush(mMapObjectItem->color());
     painter->setPen(Qt::black);
     painter->drawRect(QRectF(-5, -5, 10, 10));
 }
+
 
 void ResizeHandle::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
@@ -100,12 +115,12 @@ void ResizeHandle::mousePressEvent(QGraphicsSceneMouseEvent *event)
     if (event->button() == Qt::LeftButton)
         mOldSize = mMapObjectItem->mapObject()->size();
 
-    QGraphicsItem::mousePressEvent(event);
+    Handle::mousePressEvent(event);
 }
 
 void ResizeHandle::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    QGraphicsItem::mouseReleaseEvent(event);
+    Handle::mouseReleaseEvent(event);
 
     // If we resized the object, create an undo command
     MapObject *obj = mMapObjectItem->mapObject();
@@ -152,7 +167,7 @@ QVariant ResizeHandle::itemChange(GraphicsItemChange change,
         }
     }
 
-    return QGraphicsItem::itemChange(change, value);
+    return Handle::itemChange(change, value);
 }
 
 
@@ -171,10 +186,18 @@ MapObjectItem::MapObjectItem(MapObject *object, MapDocument *mapDocument,
 
 void MapObjectItem::syncWithMapObject()
 {
-    // Update the whole object when the name has changed
-    if (mObject->name() != mName) {
+    // Update the whole object when the name or polygon has changed
+    if (mObject->name() != mName || mObject->polygon() != mPolygon) {
         mName = mObject->name();
+        mPolygon = mObject->polygon();
         update();
+    }
+
+    const QColor color = objectColor(mObject);
+    if (mColor != color) {
+        mColor = color;
+        update();
+        mResizeHandle->update();
     }
 
     QString toolTip = mName;
@@ -191,16 +214,18 @@ void MapObjectItem::syncWithMapObject()
     setPos(pixelPos);
     setZValue(pixelPos.y());
 
+    mSyncing = true;
+
     if (mBoundingRect != bounds) {
         // Notify the graphics scene about the geometry change in advance
         prepareGeometryChange();
         mBoundingRect = bounds;
         const QPointF bottomRight = mObject->bounds().bottomRight();
         const QPointF handlePos = renderer->tileToPixelCoords(bottomRight);
-        mSyncing = true;
         mResizeHandle->setPos(handlePos - pixelPos);
-        mSyncing = false;
     }
+
+    mSyncing = false;
 }
 
 void MapObjectItem::setEditable(bool editable)
@@ -210,7 +235,9 @@ void MapObjectItem::setEditable(bool editable)
 
     mIsEditable = editable;
 
-    mResizeHandle->setVisible(mIsEditable && !mObject->tile());
+    const bool handlesVisible = mIsEditable && !mObject->tile();
+    mResizeHandle->setVisible(handlesVisible && mObject->polygon().isEmpty());
+
     if (mIsEditable)
         setCursor(Qt::SizeAllCursor);
     else
@@ -236,30 +263,36 @@ void MapObjectItem::paint(QPainter *painter,
                           QWidget *)
 {
     painter->translate(-pos());
-    const QColor color = MapObjectItem::color();
-    mMapDocument->renderer()->drawMapObject(painter, mObject, color);
+    mMapDocument->renderer()->drawMapObject(painter, mObject, mColor);
 
     if (mIsEditable) {
         painter->translate(pos());
 
+        QLineF top(mBoundingRect.topLeft(), mBoundingRect.topRight());
+        QLineF left(mBoundingRect.topLeft(), mBoundingRect.bottomLeft());
+        QLineF right(mBoundingRect.topRight(), mBoundingRect.bottomRight());
+        QLineF bottom(mBoundingRect.bottomLeft(), mBoundingRect.bottomRight());
+
         QPen dashPen(Qt::DashLine);
         dashPen.setDashOffset(qMax(qreal(0), x()));
         painter->setPen(dashPen);
-        painter->drawLine(mBoundingRect.topLeft(), mBoundingRect.topRight());
-        painter->drawLine(mBoundingRect.bottomLeft(),
-                          mBoundingRect.bottomRight());
+        painter->drawLines(QVector<QLineF>() << top << bottom);
+
         dashPen.setDashOffset(qMax(qreal(0), y()));
         painter->setPen(dashPen);
-        painter->drawLine(mBoundingRect.topLeft(), mBoundingRect.bottomLeft());
-        painter->drawLine(mBoundingRect.topRight(),
-                          mBoundingRect.bottomRight());
+        painter->drawLines(QVector<QLineF>() << left << right);
     }
 }
 
 void MapObjectItem::resize(const QSizeF &size)
 {
-    prepareGeometryChange();
     mObject->setSize(size);
+    syncWithMapObject();
+}
+
+void MapObjectItem::setPolygon(const QPolygonF &polygon)
+{
+    mObject->setPolygon(polygon);
     syncWithMapObject();
 }
 
@@ -270,8 +303,19 @@ MapDocument *MapObjectItem::mapDocument() const
 
 QColor MapObjectItem::color() const
 {
-    // Get color from object group
-    const ObjectGroup *objectGroup = mObject->objectGroup();
+    return mColor;
+}
+
+QColor MapObjectItem::objectColor(const MapObject *object)
+{
+    // See if this object type has a color associated with it
+    foreach (const ObjectType &type, Preferences::instance()->objectTypes()) {
+        if (type.name.compare(object->type(), Qt::CaseInsensitive) == 0)
+            return type.color;
+    }
+
+    // If not, get color from object group
+    const ObjectGroup *objectGroup = object->objectGroup();
     if (objectGroup && objectGroup->color().isValid())
         return objectGroup->color();
 

@@ -33,7 +33,7 @@
 
 #include "object.h"
 
-#include <QPointF>
+#include <QPolygonF>
 #include <QSizeF>
 #include <QString>
 #include <QRectF>
@@ -56,6 +56,17 @@ class TILEDSHARED_EXPORT MapObject : public Object
 {
 public:
     /**
+     * Enumerates the different object shapes. Rectangle is the default shape.
+     * When a polygon is set, the shape determines whether it should be
+     * interpreted as a filled polygon or a line.
+     */
+    enum Shape {
+        Rectangle,
+        Polygon,
+        Polyline
+    };
+
+    /**
      * Default constructor.
      */
     MapObject();
@@ -64,8 +75,8 @@ public:
      * Constructor.
      */
     MapObject(const QString &name, const QString &type,
-              qreal x, qreal y,
-              qreal width, qreal height);
+              const QPointF &pos,
+              const QSizeF &size);
 
     /**
      * Destructor.
@@ -82,6 +93,17 @@ public:
      * Sets the name of this object.
      */
     void setName(const QString &name) { mName = name; }
+
+    /**
+     * Returns the type of this object. The type usually says something about
+     * how the object is meant to be interpreted by the engine.
+     */
+    const QString &type() const { return mType; }
+
+    /**
+     * Sets the type of this object.
+     */
+    void setType(const QString &type) { mType = type; }
 
     /**
      * Returns the position of this object.
@@ -147,24 +169,39 @@ public:
     void setHeight(qreal height) { mSize.setHeight(height); }
 
     /**
+     * Sets the polygon associated with this object. The polygon is only used
+     * when the object shape is set to either Polygon or Polyline.
+     *
+     * \sa setShape()
+     */
+    void setPolygon(const QPolygonF &polygon) { mPolygon = polygon; }
+
+    /**
+     * Returns the polygon associated with this object. Returns an empty
+     * polygon when no polygon is associated with this object.
+     */
+    const QPolygonF &polygon() const { return mPolygon; }
+
+    /**
+     * Sets the shape of the object.
+     */
+    void setShape(Shape shape) { mShape = shape; }
+
+    /**
+     * Returns the shape of the object.
+     */
+    Shape shape() const { return mShape; }
+
+    /**
      * Shortcut to getting a QRectF from position() and size().
      */
     QRectF bounds() const { return QRectF(mPos, mSize); }
 
     /**
-     * Returns the type of this object. The type usually says something about
-     * how the object is meant to be interpreted by the engine.
-     */
-    const QString &type() const { return mType; }
-
-    /**
-     * Sets the type of this object.
-     */
-    void setType(const QString &type) { mType = type; }
-
-    /**
      * Sets the tile that is associated with this object. The object will
      * display as the tile image.
+     *
+     * \warning The object shape is ignored for tile objects!
      */
     void setTile(Tile *tile) { mTile = tile; }
 
@@ -193,9 +230,11 @@ public:
 
 private:
     QString mName;
+    QString mType;
     QPointF mPos;
     QSizeF mSize;
-    QString mType;
+    QPolygonF mPolygon;
+    Shape mShape;
     Tile *mTile;
     ObjectGroup *mObjectGroup;
 };

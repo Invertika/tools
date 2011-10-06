@@ -1,6 +1,8 @@
 /*
  * main.cpp
- * Copyright 2008-2010, Thorbjørn Lindeijer <thorbjorn@lindeijer.nl>
+ * Copyright 2008-2011, Thorbjørn Lindeijer <thorbjorn@lindeijer.nl>
+ * Copyright 2011, Ben Longbons <b.r.longbons@gmail.com>
+ * Copyright 2011, Stefan Beller <stefanbeller@googlemail.com>
  *
  * This file is part of Tiled.
  *
@@ -18,6 +20,7 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "commandlineparser.h"
 #include "mainwindow.h"
 #include "languagemanager.h"
 #include "tiledapplication.h"
@@ -31,61 +34,72 @@ Q_IMPORT_PLUGIN(qjpeg)
 Q_IMPORT_PLUGIN(qtiff)
 #endif
 
+#define STRINGIFY(x) #x
+#define AS_STRING(x) STRINGIFY(x)
+
 using namespace Tiled::Internal;
 
 namespace {
 
-struct CommandLineOptions {
-    CommandLineOptions()
-        : showHelp(false)
-        , showVersion(false)
-    {}
+class CommandLineHandler : public CommandLineParser
+{
+public:
+    CommandLineHandler();
 
-    bool showHelp;
-    bool showVersion;
-    QStringList filesToOpen;
+    bool quit;
+    bool showedVersion;
+
+private:
+    void showVersion();
+    void justQuit();
+
+    // Convenience wrapper around registerOption
+    template <void (CommandLineHandler::*memberFunction)()>
+    void option(QChar shortName,
+                const QString &longName,
+                const QString &help)
+    {
+        registerOption<CommandLineHandler, memberFunction>(this,
+                                                           shortName,
+                                                           longName,
+                                                           help);
+    }
 };
 
-void showHelp()
+} // anonymous namespace
+
+
+CommandLineHandler::CommandLineHandler()
+    : quit(false)
+    , showedVersion(false)
 {
-    // TODO: Make translatable
-    qWarning() <<
-            "Usage: tiled [option] [files...]\n\n"
-            "Options:\n"
-            "  -h --help    : Display this help\n"
-            "  -v --version : Display the version";
+    option<&CommandLineHandler::showVersion>(
+                QLatin1Char('v'),
+                QLatin1String("--version"),
+                QLatin1String("Display the version"));
+
+    option<&CommandLineHandler::justQuit>(
+                QChar(),
+                QLatin1String("--quit"),
+                QLatin1String("Only check validity of arguments, "
+                              "don't actually load any files"));
 }
 
-void showVersion()
+void CommandLineHandler::showVersion()
 {
-    qWarning() << "Tiled (Qt) Map Editor"
-            << qPrintable(QApplication::applicationVersion());
-}
-
-void parseCommandLineArguments(CommandLineOptions &options)
-{
-    const QStringList arguments = QCoreApplication::arguments();
-
-    for (int i = 1; i < arguments.size(); ++i) {
-        const QString &arg = arguments.at(i);
-        if (arg.isEmpty())
-            continue;
-
-        if (arg == QLatin1String("--help") || arg == QLatin1String("-h")) {
-            options.showHelp = true;
-        } else if (arg == QLatin1String("--version")
-                || arg == QLatin1String("-v")) {
-            options.showVersion = true;
-        } else if (arg.at(0) == QLatin1Char('-')) {
-            qWarning() << "Unknown option" << arg;
-            options.showHelp = true;
-        } else {
-            options.filesToOpen.append(arg);
-        }
+    if (!showedVersion) {
+        showedVersion = true;
+        qWarning() << "Tiled (Qt) Map Editor"
+                   << qPrintable(QApplication::applicationVersion());
+        quit = true;
     }
 }
 
-} // anonymous namespace
+void CommandLineHandler::justQuit()
+{
+    quit = true;
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -102,7 +116,12 @@ int main(int argc, char *argv[])
 
     a.setOrganizationDomain(QLatin1String("mapeditor.org"));
     a.setApplicationName(QLatin1String("Tiled"));
-    a.setApplicationVersion(QLatin1String("0.7.0"));
+#ifdef BUILD_INFO_VERSION
+    a.setApplicationVersion(QLatin1String(AS_STRING(BUILD_INFO_VERSION)));
+#else
+    a.setApplicationVersion(QLatin1String("0.7.1"));
+#endif
+
 #ifdef Q_WS_MAC
     a.setAttribute(Qt::AA_DontShowIconsInMenus);
 #endif
@@ -110,14 +129,11 @@ int main(int argc, char *argv[])
     LanguageManager *languageManager = LanguageManager::instance();
     languageManager->installTranslators();
 
-    CommandLineOptions options;
-    parseCommandLineArguments(options);
+    CommandLineHandler commandLine;
 
-    if (options.showVersion)
-        showVersion();
-    if (options.showHelp)
-        showHelp();
-    if (options.showVersion || options.showHelp)
+    if (!commandLine.parse(QCoreApplication::arguments()))
+        return 0;
+    if (commandLine.quit)
         return 0;
 
     MainWindow w;
@@ -126,8 +142,8 @@ int main(int argc, char *argv[])
     QObject::connect(&a, SIGNAL(fileOpenRequest(QString)),
                      &w, SLOT(openFile(QString)));
 
-    if (!options.filesToOpen.empty()) {
-        foreach (const QString &fileName, options.filesToOpen)
+    if (!commandLine.filesToOpen().isEmpty()) {
+        foreach (const QString &fileName, commandLine.filesToOpen())
             w.openFile(fileName);
     } else {
         w.openLastFiles();

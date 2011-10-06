@@ -24,6 +24,7 @@
 #include <QObject>
 
 #include "mapwriter.h"
+#include "objecttypes.h"
 
 class QSettings;
 
@@ -60,6 +61,16 @@ public:
     bool useOpenGL() const { return mUseOpenGL; }
     void setUseOpenGL(bool useOpenGL);
 
+    const ObjectTypes &objectTypes() const { return mObjectTypes; }
+    void setObjectTypes(const ObjectTypes &objectTypes);
+
+    enum FileType {
+        ObjectTypesFile
+    };
+
+    QString lastPath(FileType fileType) const;
+    void setLastPath(FileType fileType, const QString &path);
+
     /**
      * Provides access to the QSettings instance to allow storing/retrieving
      * arbitrary values. The naming style for groups and keys is CamelCase.
@@ -76,6 +87,8 @@ signals:
 
     void useOpenGLChanged(bool useOpenGL);
 
+    void objectTypesChanged();
+
 private:
     Preferences();
     ~Preferences();
@@ -90,6 +103,7 @@ private:
     QString mLanguage;
     bool mReloadTilesetsOnChange;
     bool mUseOpenGL;
+    ObjectTypes mObjectTypes;
 
     static Preferences *mInstance;
 };

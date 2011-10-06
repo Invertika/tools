@@ -1,6 +1,6 @@
 /*
  * createobjecttool.cpp
- * Copyright 2010, Thorbjørn Lindeijer <thorbjorn@lindeijer.nl>
+ * Copyright 2010-2011, Thorbjørn Lindeijer <thorbjorn@lindeijer.nl>
  *
  * This file is part of Tiled.
  *
@@ -33,6 +33,9 @@
 #include "tile.h"
 #include "utils.h"
 
+#include <QApplication>
+#include <QPalette>
+
 using namespace Tiled;
 using namespace Tiled::Internal;
 
@@ -42,22 +45,55 @@ CreateObjectTool::CreateObjectTool(CreationMode mode, QObject *parent)
           QKeySequence(tr("O")),
           parent)
     , mNewMapObjectItem(0)
+    , mOverlayObjectGroup(0)
+    , mOverlayPolygonObject(0)
+    , mOverlayPolygonItem(0)
     , mTile(0)
     , mMode(mode)
 {
-    if (mMode == TileObjects)
-        setIcon(QIcon(QLatin1String(":images/24x24/insert-image.png")));
-
     switch (mMode) {
-    case AreaObjects:
+    case CreateArea:
         Utils::setThemeIcon(this, "insert-object");
         break;
-    case TileObjects:
+
+    case CreateTile:
+        setIcon(QIcon(QLatin1String(":images/24x24/insert-image.png")));
         Utils::setThemeIcon(this, "insert-image");
         break;
+
+    case CreatePolygon:
+        setIcon(QIcon(QLatin1String(":images/24x24/insert-polygon.png")));
+        // fall through
+
+    case CreatePolyline: {
+        if (mMode != CreatePolygon)
+            setIcon(QIcon(QLatin1String(":images/24x24/insert-polyline.png")));
+
+        mOverlayPolygonObject = new MapObject;
+
+        mOverlayObjectGroup = new ObjectGroup;
+        mOverlayObjectGroup->addObject(mOverlayPolygonObject);
+
+        QColor highlight = QApplication::palette().highlight().color();
+        mOverlayObjectGroup->setColor(highlight);
+        break;
+    }
     }
 
     languageChanged();
+}
+
+CreateObjectTool::~CreateObjectTool()
+{
+    delete mOverlayObjectGroup;
+}
+
+void CreateObjectTool::deactivate(MapScene *scene)
+{
+    if (mNewMapObjectItem)
+        cancelNewMapObject();
+
+    AbstractObjectTool::deactivate(scene);
 }
 
 void CreateObjectTool::mouseEntered()
@@ -73,13 +109,15 @@ void CreateObjectTool::mouseMoved(const QPointF &pos,
         return;
 
     const MapRenderer *renderer = mapDocument()->renderer();
-    QPointF tileCoords = renderer->pixelToTileCoords(pos);
 
     bool snapToGrid = Preferences::instance()->snapToGrid();
     if (modifiers & Qt::ControlModifier)
         snapToGrid = !snapToGrid;
 
-    if (mMode == AreaObjects) {
+    switch (mMode) {
+    case CreateArea: {
+        const QPointF tileCoords = renderer->pixelToTileCoords(pos);
+
         // Update the size of the new map object
         const QPointF objectPos = mNewMapObjectItem->mapObject()->position();
         QSizeF newSize(qMax(qreal(0), tileCoords.x() - objectPos.x()),
@@ -89,12 +127,34 @@ void CreateObjectTool::mouseMoved(const QPointF &pos,
             newSize = newSize.toSize();
 
         mNewMapObjectItem->resize(newSize);
-    } else {
+        break;
+    }
+    case CreateTile: {
+        const QSize imgSize = mNewMapObjectItem->mapObject()->tile()->size();
+        const QPointF diff(-imgSize.width() / 2, imgSize.height() / 2);
+        QPointF tileCoords = renderer->pixelToTileCoords(pos + diff);
+
         if (snapToGrid)
             tileCoords = tileCoords.toPoint();
 
         mNewMapObjectItem->mapObject()->setPosition(tileCoords);
         mNewMapObjectItem->syncWithMapObject();
+        break;
+    }
+    case CreatePolygon:
+    case CreatePolyline: {
+        QPointF tileCoords = renderer->pixelToTileCoords(pos);
+
+        if (snapToGrid)
+            tileCoords = tileCoords.toPoint();
+
+        tileCoords -= mNewMapObjectItem->mapObject()->position();
+
+        QPolygonF polygon = mOverlayPolygonObject->polygon();
+        polygon.last() = tileCoords;
+        mOverlayPolygonItem->setPolygon(polygon);
+        break;
+    }
     }
 }
 
@@ -102,8 +162,33 @@ void CreateObjectTool::mousePressed(QGraphicsSceneMouseEvent *event)
 {
     // Check if we are already creating a new map object
     if (mNewMapObjectItem) {
-        if (event->button() == Qt::RightButton)
-            cancelNewMapObject();
+        switch (mMode) {
+        case CreateArea:
+        case CreateTile:
+            if (event->button() == Qt::RightButton)
+                cancelNewMapObject();
+            break;
+        case CreatePolygon:
+        case CreatePolyline:
+            if (event->button() == Qt::RightButton) {
+                // The polygon needs to have at least three points and a
+                // polyline needs at least two.
+                int min = mMode == CreatePolygon ? 3 : 2;
+                if (mNewMapObjectItem->mapObject()->polygon().size() >= min)
+                    finishNewMapObject();
+                else
+                    cancelNewMapObject();
+            } else if (event->button() == Qt::LeftButton) {
+                // Assign current overlay polygon to the new object
+                QPolygonF polygon = mOverlayPolygonObject->polygon();
+                mNewMapObjectItem->setPolygon(polygon);
+
+                // Add a new editable point to the overlay
+                polygon.append(polygon.last());
+                mOverlayPolygonItem->setPolygon(polygon);
+            }
+            break;
+        }
         return;
     }
 
@@ -113,37 +198,58 @@ void CreateObjectTool::mousePressed(QGraphicsSceneMouseEvent *event)
     }
 
     ObjectGroup *objectGroup = currentObjectGroup();
-    if (objectGroup && objectGroup->isVisible() && !mNewMapObjectItem) {
-        const MapRenderer *renderer = mapDocument()->renderer();
-        QPointF tileCoords = renderer->pixelToTileCoords(event->scenePos());
+    if (!objectGroup || !objectGroup->isVisible())
+        return;
 
-        bool snapToGrid = Preferences::instance()->snapToGrid();
-        if (event->modifiers() & Qt::ControlModifier)
-            snapToGrid = !snapToGrid;
+    const MapRenderer *renderer = mapDocument()->renderer();
+    QPointF tileCoords;
 
-        if (snapToGrid)
-            tileCoords = tileCoords.toPoint();
+    if (mMode == CreateTile) {
+        if (!mTile)
+            return;
 
-        startNewMapObject(tileCoords, objectGroup);
+        const QPointF diff(-mTile->width() / 2, mTile->height() / 2);
+        tileCoords = renderer->pixelToTileCoords(event->scenePos() + diff);
+    } else {
+        tileCoords = renderer->pixelToTileCoords(event->scenePos());
     }
+
+    bool snapToGrid = Preferences::instance()->snapToGrid();
+    if (event->modifiers() & Qt::ControlModifier)
+        snapToGrid = !snapToGrid;
+
+    if (snapToGrid)
+        tileCoords = tileCoords.toPoint();
+
+    startNewMapObject(tileCoords, objectGroup);
 }
 
 void CreateObjectTool::mouseReleased(QGraphicsSceneMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton && mNewMapObjectItem)
-        finishNewMapObject();
+    if (event->button() == Qt::LeftButton && mNewMapObjectItem) {
+        if (mMode == CreateArea || mMode == CreateTile)
+            finishNewMapObject();
+    }
 }
 
 void CreateObjectTool::languageChanged()
 {
     switch (mMode) {
-    case AreaObjects:
-        setName(tr("Insert Objects"));
+    case CreateArea:
+        setName(tr("Insert Object"));
         setShortcut(QKeySequence(tr("O")));
         break;
-    case TileObjects:
-        setName(tr("Insert Tile Objects"));
+    case CreateTile:
+        setName(tr("Insert Tile"));
         setShortcut(QKeySequence(tr("T")));
+        break;
+    case CreatePolygon:
+        setName(tr("Insert Polygon"));
+        setShortcut(QKeySequence(tr("P")));
+        break;
+    case CreatePolyline:
+        setName(tr("Insert Polyline"));
+        setShortcut(QKeySequence(tr("L")));
         break;
     }
 }
@@ -153,19 +259,36 @@ void CreateObjectTool::startNewMapObject(const QPointF &pos,
 {
     Q_ASSERT(!mNewMapObjectItem);
 
-    if (mMode == TileObjects && !mTile)
+    if (mMode == CreateTile && !mTile)
         return;
 
     MapObject *newMapObject = new MapObject;
     newMapObject->setPosition(pos);
 
-    if (mMode == TileObjects)
+    if (mMode == CreateTile)
         newMapObject->setTile(mTile);
+
+    if (mMode == CreatePolygon || mMode == CreatePolyline) {
+        MapObject::Shape shape = mMode == CreatePolygon ? MapObject::Polygon
+                                                        : MapObject::Polyline;
+        QPolygonF polygon;
+        polygon.append(QPointF());
+        newMapObject->setPolygon(polygon);
+        newMapObject->setShape(shape);
+
+        polygon.append(QPointF()); // The last point is connected to the mouse
+        mOverlayPolygonObject->setPolygon(polygon);
+        mOverlayPolygonObject->setShape(shape);
+        mOverlayPolygonObject->setPosition(pos);
+
+        mOverlayPolygonItem = new MapObjectItem(mOverlayPolygonObject,
+                                                mapDocument());
+        mapScene()->addItem(mOverlayPolygonItem);
+    }
 
     objectGroup->addObject(newMapObject);
 
     mNewMapObjectItem = new MapObjectItem(newMapObject, mapDocument());
-    mNewMapObjectItem->setZValue(10000);
     mapScene()->addItem(mNewMapObjectItem);
 }
 
@@ -180,6 +303,9 @@ MapObject *CreateObjectTool::clearNewMapObjectItem()
 
     delete mNewMapObjectItem;
     mNewMapObjectItem = 0;
+
+    delete mOverlayPolygonItem;
+    mOverlayPolygonItem = 0;
 
     return newMapObject;
 }

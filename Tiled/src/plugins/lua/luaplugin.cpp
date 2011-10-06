@@ -32,6 +32,14 @@
 
 #include <QFile>
 
+/**
+ * See below for an explanation of the different formats. One of these needs
+ * to be defined.
+ */
+#define POLYGON_FORMAT_FULL
+//#define POLYGON_FORMAT_PAIRS
+//#define POLYGON_FORMAT_OPTIMAL
+
 using namespace Lua;
 using namespace Tiled;
 
@@ -42,7 +50,7 @@ LuaPlugin::LuaPlugin()
 bool LuaPlugin::write(const Map *map, const QString &fileName)
 {
     QFile file(fileName);
-    if (!file.open(QIODevice::WriteOnly)) {
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         mError = tr("Could not open file for writing.");
         return false;
     }
@@ -69,7 +77,7 @@ QString LuaPlugin::errorString() const
 
 void LuaPlugin::writeMap(LuaTableWriter &writer, const Map *map)
 {
-    writer.writeStartTable("map");
+    writer.writeStartReturnTable();
 
     writer.writeKeyAndValue("version", "1.1");
     writer.writeKeyAndValue("luaversion", "5.1");
@@ -159,6 +167,8 @@ void LuaPlugin::writeTileset(LuaTableWriter &writer, const Tileset *tileset,
             writer.writeKeyAndValue("transparentColor",
                                     tileset->transparentColor().name());
         }
+
+        writeProperties(writer, tileset->properties());
     }
 
     writer.writeStartTable("tiles");
@@ -226,6 +236,34 @@ void LuaPlugin::writeObjectGroup(LuaTableWriter &writer,
     writer.writeEndTable();
 }
 
+// TODO: Unduplicate this class since it's used also in mapwriter.cpp
+class TileToPixelCoordinates
+{
+public:
+    TileToPixelCoordinates(Map *map)
+    {
+        if (map->orientation() == Map::Isometric) {
+            // Isometric needs special handling, since the pixel values are
+            // based solely on the tile height.
+            mMultiplierX = map->tileHeight();
+            mMultiplierY = map->tileHeight();
+        } else {
+            mMultiplierX = map->tileWidth();
+            mMultiplierY = map->tileHeight();
+        }
+    }
+
+    QPoint operator() (qreal x, qreal y) const
+    {
+        return QPoint(qRound(x * mMultiplierX),
+                      qRound(y * mMultiplierY));
+    }
+
+private:
+    int mMultiplierX;
+    int mMultiplierY;
+};
+
 void LuaPlugin::writeMapObject(LuaTableWriter &writer,
                                const Tiled::MapObject *mapObject)
 {
@@ -233,35 +271,97 @@ void LuaPlugin::writeMapObject(LuaTableWriter &writer,
     writer.writeKeyAndValue("name", mapObject->name());
     writer.writeKeyAndValue("type", mapObject->type());
 
-    // Convert from tile to pixel coordinates
     const ObjectGroup *objectGroup = mapObject->objectGroup();
-    const Map *map = objectGroup->map();
-    const int tileHeight = map->tileHeight();
-    const int tileWidth = map->tileWidth();
-    const QRectF bounds = mapObject->bounds();
+    const TileToPixelCoordinates toPixel(objectGroup->map());
 
-    int x, y, width, height;
+    const QPoint pos = toPixel(mapObject->x(), mapObject->y());
+    const QPoint size = toPixel(mapObject->width(), mapObject->height());
 
-    if (map->orientation() == Map::Isometric) {
-        // Isometric needs special handling, since the pixel values are based
-        // solely on the tile height.
-        x = qRound(bounds.x() * tileHeight);
-        y = qRound(bounds.y() * tileHeight);
-        width = qRound(bounds.width() * tileHeight);
-        height = qRound(bounds.height() * tileHeight);
-    } else {
-        x = qRound(bounds.x() * tileWidth);
-        y = qRound(bounds.y() * tileHeight);
-        width = qRound(bounds.width() * tileWidth);
-        height = qRound(bounds.height() * tileHeight);
-    }
+    writer.writeKeyAndValue("x", pos.x());
+    writer.writeKeyAndValue("y", pos.y());
+    writer.writeKeyAndValue("width", size.x());
+    writer.writeKeyAndValue("height", size.y());
 
-    writer.writeKeyAndValue("x", x);
-    writer.writeKeyAndValue("y", y);
-    writer.writeKeyAndValue("width", width);
-    writer.writeKeyAndValue("height", height);
     if (Tile *tile = mapObject->tile())
         writer.writeKeyAndValue("gid", mGidMapper.cellToGid(Cell(tile)));
+
+    const QPolygonF &polygon = mapObject->polygon();
+    if (!polygon.isEmpty()) {
+        if (mapObject->shape() == MapObject::Polygon)
+            writer.writeStartTable("polygon");
+        else
+            writer.writeStartTable("polyline");
+
+#if defined(POLYGON_FORMAT_FULL)
+        /* This format is the easiest to read and understand:
+         *
+         *  {
+         *    { x = 1, y = 1 },
+         *    { x = 2, y = 2 },
+         *    { x = 3, y = 3 },
+         *    ...
+         *  }
+         */
+        foreach (const QPointF &point, polygon) {
+            writer.writeStartTable();
+            writer.setSuppressNewlines(true);
+
+            const QPoint pixelCoordinates = toPixel(point.x(), point.y());
+            writer.writeKeyAndValue("x", pixelCoordinates.x());
+            writer.writeKeyAndValue("y", pixelCoordinates.y());
+
+            writer.writeEndTable();
+            writer.setSuppressNewlines(false);
+        }
+#elif defined(POLYGON_FORMAT_PAIRS)
+        /* This is an alternative that takes about 25% less memory.
+         *
+         *  {
+         *    { 1, 1 },
+         *    { 2, 2 },
+         *    { 3, 3 },
+         *    ...
+         *  }
+         */
+        foreach (const QPointF &point, polygon) {
+            writer.writeStartTable();
+            writer.setSuppressNewlines(true);
+
+            const QPoint pixelCoordinates = toPixel(point.x(), point.y());
+            writer.writeValue(pixelCoordinates.x());
+            writer.writeValue(pixelCoordinates.y());
+
+            writer.writeEndTable();
+            writer.setSuppressNewlines(false);
+        }
+#elif defined(POLYGON_FORMAT_OPTIMAL)
+        /* Writing it out in two tables, one for the x coordinates and one for
+         * the y coordinates. It is a compromise between code readability and
+         * performance. This takes the least amount of memory (60% less than
+         * the first approach).
+         *
+         * x = { 1, 2, 3, ... }
+         * y = { 1, 2, 3, ... }
+         */
+
+        writer.writeStartTable("x");
+        writer.setSuppressNewlines(true);
+        foreach (const QPointF &point, polygon)
+            writer.writeValue(toPixel(point.x(), point.y()).x());
+        writer.writeEndTable();
+        writer.setSuppressNewlines(false);
+
+        writer.writeStartTable("y");
+        writer.setSuppressNewlines(true);
+        foreach (const QPointF &point, polygon)
+            writer.writeValue(toPixel(point.x(), point.y()).y());
+        writer.writeEndTable();
+        writer.setSuppressNewlines(false);
+#endif
+
+        writer.writeEndTable();
+    }
+
     writeProperties(writer, mapObject->properties());
 
     writer.writeEndTable();

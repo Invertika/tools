@@ -1,6 +1,6 @@
 /*
  * isometricrenderer.cpp
- * Copyright 2009-2010, Thorbjørn Lindeijer <thorbjorn@lindeijer.nl>
+ * Copyright 2009-2011, Thorbjørn Lindeijer <thorbjorn@lindeijer.nl>
  *
  * This file is part of libtiled.
  *
@@ -71,6 +71,11 @@ QRectF IsometricRenderer::boundingRect(const MapObject *object) const
                       bottomCenter.y() - img.height(),
                       img.width(),
                       img.height()).adjusted(-1, -1, 1, 1);
+    } else if (!object->polygon().isEmpty()) {
+        const QPointF &pos = object->position();
+        const QPolygonF polygon = object->polygon().translated(pos);
+        const QPolygonF screenPolygon = tileToPixelCoords(polygon);
+        return screenPolygon.boundingRect().adjusted(-2, -2, 3, 3);
     } else {
         // Take the bounding rect of the projected object, and then add a few
         // pixels on all sides to correct for the line width.
@@ -82,10 +87,31 @@ QRectF IsometricRenderer::boundingRect(const MapObject *object) const
 QPainterPath IsometricRenderer::shape(const MapObject *object) const
 {
     QPainterPath path;
-    if (object->tile())
+    if (object->tile()) {
         path.addRect(boundingRect(object));
-    else
-        path.addPolygon(tileRectToPolygon(object->bounds()));
+    } else {
+        switch (object->shape()) {
+        case MapObject::Rectangle:
+            path.addPolygon(tileRectToPolygon(object->bounds()));
+            break;
+        case MapObject::Polygon:
+        case MapObject::Polyline: {
+            const QPointF &pos = object->position();
+            const QPolygonF polygon = object->polygon().translated(pos);
+            const QPolygonF screenPolygon = tileToPixelCoords(polygon);
+            if (object->shape() == MapObject::Polygon) {
+                path.addPolygon(screenPolygon);
+            } else {
+                for (int i = 1; i < screenPolygon.size(); ++i) {
+                    path.addPolygon(lineToPolygon(screenPolygon[i - 1],
+                                                  screenPolygon[i]));
+                }
+                path.setFillRule(Qt::WindingFill);
+            }
+            break;
+        }
+        }
+    }
     return path;
 }
 
@@ -176,6 +202,8 @@ void IsometricRenderer::drawTileLayer(QPainter *painter,
     // Determine whether the current row is shifted half a tile to the right
     bool shifted = inUpperHalf ^ inLeftHalf;
 
+    QTransform baseTransform = painter->transform();
+
     for (int y = startPos.y(); y - tileHeight < rect.bottom();
          y += tileHeight / 2)
     {
@@ -186,16 +214,41 @@ void IsometricRenderer::drawTileLayer(QPainter *painter,
                 const Cell &cell = layer->cellAt(columnItr);
                 if (!cell.isEmpty()) {
                     const QPixmap &img = cell.tile->image();
-                    int flipX = cell.flippedHorizontally ? -1 : 1;
-                    int flipY = cell.flippedVertically ? -1 : 1;
-                    int offsetX = cell.flippedHorizontally ? img.width() : 0;
-                    int offsetY = cell.flippedVertically ? 0 : img.height();
 
-                    painter->scale(flipX, flipY);
-                    painter->drawPixmap(x * flipX - offsetX,
-                                        y * flipY - offsetY,
-                                        img);
-                    painter->scale(flipX, flipY);
+                    qreal m11 = 1;      // Horizontal scaling factor
+                    qreal m12 = 0;      // Vertical shearing factor
+                    qreal m21 = 0;      // Horizontal shearing factor
+                    qreal m22 = 1;      // Vertical scaling factor
+                    qreal dx = x;
+                    qreal dy = y - img.height();
+
+                    if (cell.flippedDiagonally) {
+                        // Use shearing to swap the X/Y axis
+                        m11 = 0;
+                        m12 = 1;
+                        m21 = 1;
+                        m22 = 0;
+
+                        // Compensate for the swap of image dimensions
+                        dy += img.height() - img.width();
+                    }
+                    if (cell.flippedHorizontally) {
+                        m11 = -m11;
+                        m21 = -m21;
+                        dx += cell.flippedDiagonally ? img.height()
+                                                     : img.width();
+                    }
+                    if (cell.flippedVertically) {
+                        m12 = -m12;
+                        m22 = -m22;
+                        dy += cell.flippedDiagonally ? img.width()
+                                                     : img.height();
+                    }
+
+                    const QTransform transform(m11, m12, m21, m22, dx, dy);
+                    painter->setTransform(transform * baseTransform);
+
+                    painter->drawPixmap(0, 0, img);
                 }
             }
 
@@ -215,6 +268,8 @@ void IsometricRenderer::drawTileLayer(QPainter *painter,
             shifted = false;
         }
     }
+
+    painter->setTransform(baseTransform);
 }
 
 void IsometricRenderer::drawTileSelection(QPainter *painter,
@@ -267,18 +322,49 @@ void IsometricRenderer::drawMapObject(QPainter *painter,
         // TODO: Draw the object name
         // TODO: Do something sensible to make null-sized objects usable
 
-        QPolygonF polygon = tileRectToPolygon(object->bounds());
+        switch (object->shape()) {
+        case MapObject::Rectangle: {
+            QPolygonF polygon = tileRectToPolygon(object->bounds());
+            painter->drawPolygon(polygon);
 
-        // Make sure the line aligns nicely on the pixels
-        if (pen.width() % 2)
-            painter->translate(0.5, 0.5);
+            pen.setColor(color);
+            painter->setPen(pen);
+            painter->setBrush(brush);
+            polygon.translate(0, -1);
 
-        painter->drawPolygon(polygon);
-        pen.setColor(color);
-        painter->setPen(pen);
-        painter->setBrush(brush);
-        polygon.translate(0, -1);
-        painter->drawPolygon(polygon);
+            painter->drawPolygon(polygon);
+            break;
+        }
+        case MapObject::Polygon: {
+            const QPointF &pos = object->position();
+            const QPolygonF polygon = object->polygon().translated(pos);
+            QPolygonF screenPolygon = tileToPixelCoords(polygon);
+
+            painter->drawPolygon(screenPolygon);
+
+            pen.setColor(color);
+            painter->setPen(pen);
+            painter->setBrush(brush);
+            screenPolygon.translate(0, -1);
+
+            painter->drawPolygon(screenPolygon);
+            break;
+        }
+        case MapObject::Polyline: {
+            const QPointF &pos = object->position();
+            const QPolygonF polygon = object->polygon().translated(pos);
+            QPolygonF screenPolygon = tileToPixelCoords(polygon);
+
+            painter->drawPolyline(screenPolygon);
+
+            pen.setColor(color);
+            painter->setPen(pen);
+            screenPolygon.translate(0, -1);
+
+            painter->drawPolyline(screenPolygon);
+            break;
+        }
+        }
     }
 
     painter->restore();

@@ -37,6 +37,11 @@
 
 using namespace Tiled;
 
+ObjectGroup::ObjectGroup()
+    : Layer(QString(), 0, 0, 0, 0)
+{
+}
+
 ObjectGroup::ObjectGroup(const QString &name,
                          int x, int y, int width, int height)
     : Layer(name, x, y, width, height)
@@ -186,7 +191,7 @@ Layer *ObjectGroup::clone() const
 ObjectGroup *ObjectGroup::initializeClone(ObjectGroup *clone) const
 {
     Layer::initializeClone(clone);
-    foreach (MapObject *object, mObjects)
+    foreach (const MapObject *object, mObjects)
         clone->addObject(object->clone());
     clone->setColor(mColor);
     return clone;

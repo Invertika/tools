@@ -1,7 +1,7 @@
 /*
  * mapobjectitem.h
  * Copyright 2008, Roderic Morris <roderic@ccs.neu.edu>
- * Copyright 2008-2010, Thorbjørn Lindeijer <thorbjorn@lindeijer.nl>
+ * Copyright 2008-2011, Thorbjørn Lindeijer <thorbjorn@lindeijer.nl>
  *
  * This file is part of Tiled.
  *
@@ -31,8 +31,10 @@ class MapObject;
 
 namespace Internal {
 
+class Handle;
 class MapDocument;
 class ObjectGroupItem;
+class PointHandle;
 class ResizeHandle;
 
 /**
@@ -83,6 +85,19 @@ public:
      */
     void resize(const QSizeF &size);
 
+    /**
+     * Sets a new polygon on the associated object.
+     */
+    void setPolygon(const QPolygonF &polygon);
+
+    /**
+     * A helper function to determine the color of a map object. The color is
+     * determined first of all by the object type, and otherwise by the group
+     * that the object is in. If still no color is defined, it defaults to
+     * gray.
+     */
+    static QColor objectColor(const MapObject *object);
+
 private:
     MapDocument *mapDocument() const;
     QColor color() const;
@@ -92,11 +107,15 @@ private:
 
     /** Bounding rect cached, for adapting to geometry change correctly. */
     QRectF mBoundingRect;
-    QString mName; // Copy of the name, so we know when it changes
+    QString mName;      // Copy of the name, so we know when it changes
+    QPolygonF mPolygon; // Copy of the polygon, for the same reason
+    QColor mColor;      // Cached color of the object
     bool mIsEditable;
     bool mSyncing;
     ResizeHandle *mResizeHandle;
 
+    friend class Handle;
+    friend class PointHandle;
     friend class ResizeHandle;
 };
 

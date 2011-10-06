@@ -72,13 +72,19 @@ void TileLayer::setCell(int x, int y, const Cell &cell)
     Q_ASSERT(contains(x, y));
 
     if (cell.tile) {
-        if (cell.tile->width() > mMaxTileSize.width()) {
-            mMaxTileSize.setWidth(cell.tile->width());
+        int width = cell.tile->width();
+        int height = cell.tile->height();
+
+        if (cell.flippedDiagonally)
+            std::swap(width, height);
+
+        if (width > mMaxTileSize.width()) {
+            mMaxTileSize.setWidth(width);
             if (mMap)
                 mMap->adjustMaxTileSize(mMaxTileSize);
         }
-        if (cell.tile->height() > mMaxTileSize.height()) {
-            mMaxTileSize.setHeight(cell.tile->height());
+        if (height > mMaxTileSize.height()) {
+            mMaxTileSize.setHeight(height);
             if (mMap)
                 mMap->adjustMaxTileSize(mMaxTileSize);
         }
@@ -145,6 +151,8 @@ void TileLayer::flip(FlipDirection direction)
 {
     QVector<Cell> newGrid(mWidth * mHeight);
 
+    Q_ASSERT(direction == FlipHorizontally || direction == FlipVertically);
+
     for (int y = 0; y < mHeight; ++y) {
         for (int x = 0; x < mWidth; ++x) {
             Cell &dest = newGrid[x + y * mWidth];
@@ -152,16 +160,60 @@ void TileLayer::flip(FlipDirection direction)
                 const Cell &source = cellAt(mWidth - x - 1, y);
                 dest = source;
                 dest.flippedHorizontally = !source.flippedHorizontally;
-            } else {
+            } else if (direction == FlipVertically) {
                 const Cell &source = cellAt(x, mHeight - y - 1);
                 dest = source;
                 dest.flippedVertically = !source.flippedVertically;
-            }
+            }	
         }
     }
 
     mGrid = newGrid;
 }
+
+void TileLayer::rotate(RotateDirection direction)
+{
+    static const char rotateRightMask[8] = { 5, 4, 1, 0, 7, 6, 3, 2 };
+    static const char rotateLeftMask[8]  = { 3, 2, 7, 6, 1, 0, 5, 4 };
+
+    const char (&rotateMask)[8] =
+            (direction == RotateRight) ? rotateRightMask : rotateLeftMask;
+
+    int newWidth = mHeight;
+    int newHeight = mWidth;
+    QVector<Cell> newGrid(newWidth * newHeight);
+
+    for (int y = 0; y < mHeight; ++y) {
+        for (int x = 0; x < mWidth; ++x) {
+            const Cell &source = cellAt(x, y);
+            Cell dest = source;
+
+            unsigned char mask =
+                    (dest.flippedHorizontally << 2) |
+                    (dest.flippedVertically << 1) |
+                    (dest.flippedDiagonally << 0);
+
+            mask = rotateMask[mask];
+
+            dest.flippedHorizontally = (mask & 4) != 0;
+            dest.flippedVertically = (mask & 2) != 0;
+            dest.flippedDiagonally = (mask & 1) != 0;
+
+            if (direction == RotateRight)
+                newGrid[x * newWidth + (mHeight - y - 1)] = dest;
+            else
+                newGrid[(mWidth - x - 1) * newWidth + y] = dest;
+        }
+    }
+
+    std::swap(mMaxTileSize.rwidth(),
+              mMaxTileSize.rheight());
+
+    mWidth = newWidth;
+    mHeight = newHeight;
+    mGrid = newGrid;
+}
+
 
 QSet<Tileset*> TileLayer::usedTilesets() const
 {

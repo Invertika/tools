@@ -31,6 +31,7 @@
 #include "maprenderer.h"
 #include "objectgroup.h"
 #include "objectgroupitem.h"
+#include "preferences.h"
 #include "tilelayer.h"
 #include "tilelayeritem.h"
 #include "tileselectionitem.h"
@@ -62,6 +63,9 @@ MapScene::MapScene(QObject *parent):
     TilesetManager *tilesetManager = TilesetManager::instance();
     connect(tilesetManager, SIGNAL(tilesetChanged(Tileset*)),
             this, SLOT(tilesetChanged(Tileset*)));
+
+    Preferences *prefs = Preferences::instance();
+    connect(prefs, SIGNAL(objectTypesChanged()), SLOT(syncAllObjectItems()));
 
     // Install an event filter so that we can get key events on behalf of the
     // active tool without having to have the current focus.
@@ -113,7 +117,7 @@ void MapScene::setSelectedObjectItems(const QSet<MapObjectItem *> &items)
 #if QT_VERSION >= 0x040700
     selectedObjects.reserve(items.size());
 #endif
-    foreach (MapObjectItem *item, items)
+    foreach (const MapObjectItem *item, items)
         selectedObjects.append(item->mapObject());
     mMapDocument->setSelectedObjects(selectedObjects);
 }
@@ -350,8 +354,8 @@ void MapScene::objectsRemoved(const QList<MapObject*> &objects)
  */
 void MapScene::objectsChanged(const QList<MapObject*> &objects)
 {
-    foreach (MapObject *o, objects) {
-        MapObjectItem *item = mObjectItems.value(o);
+    foreach (MapObject *object, objects) {
+        MapObjectItem *item = itemForObject(object);
         Q_ASSERT(item);
 
         item->syncWithMapObject();
@@ -364,7 +368,7 @@ void MapScene::updateSelectedObjectItems()
 
     QSet<MapObjectItem*> items;
     foreach (MapObject *object, objects) {
-        MapObjectItem *item = mObjectItems.value(object);
+        MapObjectItem *item = itemForObject(object);
         Q_ASSERT(item);
 
         items.insert(item);
@@ -377,6 +381,13 @@ void MapScene::updateSelectedObjectItems()
         item->setEditable(true);
 
     mSelectedObjectItems = items;
+    emit selectedObjectItemsChanged();
+}
+
+void MapScene::syncAllObjectItems()
+{
+    foreach (MapObjectItem *item, mObjectItems)
+        item->syncWithMapObject();
 }
 
 void MapScene::setGridVisible(bool visible)
