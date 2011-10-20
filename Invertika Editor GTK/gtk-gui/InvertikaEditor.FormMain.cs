@@ -85,8 +85,8 @@ namespace InvertikaEditor
 			if((this.Child!=null)) {
 				this.Child.ShowAll();
 			}
-			this.DefaultWidth=400;
-			this.DefaultHeight=300;
+			this.DefaultWidth=438;
+			this.DefaultHeight=325;
 			this.Show();
 			this.BeendenAction.Activated+=new global::System.EventHandler(this.OnBeendenActionActivated);
 			this.OptionenAction1.Activated+=new global::System.EventHandler(this.OnOptionenAction1Activated);

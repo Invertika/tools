@@ -7,6 +7,8 @@ namespace InvertikaEditor
 		private global::Gtk.VBox vbox1;
 		private global::Gtk.Notebook notebook1;
 		private global::Gtk.Label label1;
+		private global::Gtk.Label label2;
+		private global::Gtk.Label label3;
         
 		protected virtual void Build()
 		{
@@ -14,7 +16,7 @@ namespace InvertikaEditor
 			// Widget InvertikaEditor.FormOptions
 			this.Name="InvertikaEditor.FormOptions";
 			this.Title=global::Mono.Unix.Catalog.GetString("FormOptions");
-			this.WindowPosition=((global::Gtk.WindowPosition)(4));
+			this.WindowPosition=((global::Gtk.WindowPosition)(1));
 			// Container child InvertikaEditor.FormOptions.Gtk.Container+ContainerChild
 			this.vbox1=new global::Gtk.VBox();
 			this.vbox1.Name="vbox1";
@@ -24,19 +26,37 @@ namespace InvertikaEditor
 			this.notebook1=new global::Gtk.Notebook();
 			this.notebook1.CanFocus=true;
 			this.notebook1.Name="notebook1";
-			this.notebook1.CurrentPage=0;
+			this.notebook1.CurrentPage=2;
 			// Notebook tab
 			global::Gtk.Label w1=new global::Gtk.Label();
 			w1.Visible=true;
 			this.notebook1.Add(w1);
 			this.label1=new global::Gtk.Label();
 			this.label1.Name="label1";
-			this.label1.LabelProp=global::Mono.Unix.Catalog.GetString("page1");
+			this.label1.LabelProp=global::Mono.Unix.Catalog.GetString("Pfade");
 			this.notebook1.SetTabLabel(w1, this.label1);
 			this.label1.ShowAll();
+			// Notebook tab
+			global::Gtk.Label w2=new global::Gtk.Label();
+			w2.Visible=true;
+			this.notebook1.Add(w2);
+			this.label2=new global::Gtk.Label();
+			this.label2.Name="label2";
+			this.label2.LabelProp=global::Mono.Unix.Catalog.GetString("FTP (Weltkarte)");
+			this.notebook1.SetTabLabel(w2, this.label2);
+			this.label2.ShowAll();
+			// Notebook tab
+			global::Gtk.Label w3=new global::Gtk.Label();
+			w3.Visible=true;
+			this.notebook1.Add(w3);
+			this.label3=new global::Gtk.Label();
+			this.label3.Name="label3";
+			this.label3.LabelProp=global::Mono.Unix.Catalog.GetString("Wiki");
+			this.notebook1.SetTabLabel(w3, this.label3);
+			this.label3.ShowAll();
 			this.vbox1.Add(this.notebook1);
-			global::Gtk.Box.BoxChild w2=((global::Gtk.Box.BoxChild)(this.vbox1 [this.notebook1]));
-			w2.Position=0;
+			global::Gtk.Box.BoxChild w4=((global::Gtk.Box.BoxChild)(this.vbox1 [this.notebook1]));
+			w4.Position=0;
 			this.Add(this.vbox1);
 			if((this.Child!=null)) {
 				this.Child.ShowAll();
