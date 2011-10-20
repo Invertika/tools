@@ -10,6 +10,7 @@
     <RootNamespace>InvertikaEditor</RootNamespace>
     <AssemblyName>Invertika Editor</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ApplicationIcon>Invertika.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>

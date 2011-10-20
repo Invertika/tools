@@ -4,10 +4,33 @@ namespace InvertikaEditor
 {
 	public partial class FormOptions
 	{
+		private global::Gtk.VBox vbox;
+		private global::Gtk.Notebook notebook;
 		private global::Gtk.VBox vbox1;
-		private global::Gtk.Notebook notebook1;
+		private global::Gtk.Label label4;
+		private global::Gtk.HBox hbox1;
+		private global::Gtk.Entry entryPathRepositoryTrunk;
+		private global::Gtk.Button btnBrowse;
 		private global::Gtk.Label label1;
+		private global::Gtk.HBox hbox3;
+		private global::Gtk.VBox vbox3;
+		private global::Gtk.Label label6;
+		private global::Gtk.Entry entry2;
+		private global::Gtk.Label label9;
+		private global::Gtk.Entry entry4;
+		private global::Gtk.VBox vbox4;
+		private global::Gtk.Label label7;
+		private global::Gtk.Entry entry3;
+		private global::Gtk.Label label10;
+		private global::Gtk.Entry entry5;
 		private global::Gtk.Label label2;
+		private global::Gtk.VBox vbox5;
+		private global::Gtk.Label label11;
+		private global::Gtk.Entry entry6;
+		private global::Gtk.Label label12;
+		private global::Gtk.Entry entry7;
+		private global::Gtk.Label label13;
+		private global::Gtk.Entry entry8;
 		private global::Gtk.Label label3;
         
 		protected virtual void Build()
@@ -17,52 +40,264 @@ namespace InvertikaEditor
 			this.Name="InvertikaEditor.FormOptions";
 			this.Title=global::Mono.Unix.Catalog.GetString("FormOptions");
 			this.WindowPosition=((global::Gtk.WindowPosition)(1));
+			this.Modal=true;
+			this.AllowShrink=true;
+			this.DefaultWidth=600;
+			this.DefaultHeight=400;
 			// Container child InvertikaEditor.FormOptions.Gtk.Container+ContainerChild
+			this.vbox=new global::Gtk.VBox();
+			this.vbox.Name="vbox";
+			this.vbox.Homogeneous=true;
+			this.vbox.Spacing=6;
+			// Container child vbox.Gtk.Box+BoxChild
+			this.notebook=new global::Gtk.Notebook();
+			this.notebook.CanFocus=true;
+			this.notebook.Name="notebook";
+			this.notebook.CurrentPage=2;
+			// Container child notebook.Gtk.Notebook+NotebookChild
 			this.vbox1=new global::Gtk.VBox();
 			this.vbox1.Name="vbox1";
-			this.vbox1.Homogeneous=true;
 			this.vbox1.Spacing=6;
 			// Container child vbox1.Gtk.Box+BoxChild
-			this.notebook1=new global::Gtk.Notebook();
-			this.notebook1.CanFocus=true;
-			this.notebook1.Name="notebook1";
-			this.notebook1.CurrentPage=2;
+			this.label4=new global::Gtk.Label();
+			this.label4.Name="label4";
+			this.label4.Xalign=0F;
+			this.label4.LabelProp=global::Mono.Unix.Catalog.GetString("Lokaler trunk Pfad des Repositories:");
+			this.vbox1.Add(this.label4);
+			global::Gtk.Box.BoxChild w1=((global::Gtk.Box.BoxChild)(this.vbox1 [this.label4]));
+			w1.Position=0;
+			w1.Expand=false;
+			w1.Fill=false;
+			// Container child vbox1.Gtk.Box+BoxChild
+			this.hbox1=new global::Gtk.HBox();
+			this.hbox1.Name="hbox1";
+			this.hbox1.Spacing=6;
+			// Container child hbox1.Gtk.Box+BoxChild
+			this.entryPathRepositoryTrunk=new global::Gtk.Entry();
+			this.entryPathRepositoryTrunk.CanFocus=true;
+			this.entryPathRepositoryTrunk.Name="entryPathRepositoryTrunk";
+			this.entryPathRepositoryTrunk.IsEditable=true;
+			this.entryPathRepositoryTrunk.InvisibleChar='●';
+			this.hbox1.Add(this.entryPathRepositoryTrunk);
+			global::Gtk.Box.BoxChild w2=((global::Gtk.Box.BoxChild)(this.hbox1 [this.entryPathRepositoryTrunk]));
+			w2.Position=0;
+			// Container child hbox1.Gtk.Box+BoxChild
+			this.btnBrowse=new global::Gtk.Button();
+			this.btnBrowse.CanFocus=true;
+			this.btnBrowse.Name="btnBrowse";
+			this.btnBrowse.UseUnderline=true;
+			this.btnBrowse.Label=global::Mono.Unix.Catalog.GetString("Durchsuchen...");
+			this.hbox1.Add(this.btnBrowse);
+			global::Gtk.Box.BoxChild w3=((global::Gtk.Box.BoxChild)(this.hbox1 [this.btnBrowse]));
+			w3.Position=1;
+			w3.Expand=false;
+			w3.Fill=false;
+			this.vbox1.Add(this.hbox1);
+			global::Gtk.Box.BoxChild w4=((global::Gtk.Box.BoxChild)(this.vbox1 [this.hbox1]));
+			w4.Position=1;
+			w4.Expand=false;
+			w4.Fill=false;
+			this.notebook.Add(this.vbox1);
 			// Notebook tab
-			global::Gtk.Label w1=new global::Gtk.Label();
-			w1.Visible=true;
-			this.notebook1.Add(w1);
 			this.label1=new global::Gtk.Label();
 			this.label1.Name="label1";
 			this.label1.LabelProp=global::Mono.Unix.Catalog.GetString("Pfade");
-			this.notebook1.SetTabLabel(w1, this.label1);
+			this.notebook.SetTabLabel(this.vbox1, this.label1);
 			this.label1.ShowAll();
+			// Container child notebook.Gtk.Notebook+NotebookChild
+			this.hbox3=new global::Gtk.HBox();
+			this.hbox3.Name="hbox3";
+			this.hbox3.Spacing=6;
+			// Container child hbox3.Gtk.Box+BoxChild
+			this.vbox3=new global::Gtk.VBox();
+			this.vbox3.Name="vbox3";
+			this.vbox3.Spacing=6;
+			// Container child vbox3.Gtk.Box+BoxChild
+			this.label6=new global::Gtk.Label();
+			this.label6.Name="label6";
+			this.label6.Xalign=0F;
+			this.label6.LabelProp=global::Mono.Unix.Catalog.GetString("Server:");
+			this.vbox3.Add(this.label6);
+			global::Gtk.Box.BoxChild w6=((global::Gtk.Box.BoxChild)(this.vbox3 [this.label6]));
+			w6.Position=0;
+			w6.Expand=false;
+			w6.Fill=false;
+			// Container child vbox3.Gtk.Box+BoxChild
+			this.entry2=new global::Gtk.Entry();
+			this.entry2.CanFocus=true;
+			this.entry2.Name="entry2";
+			this.entry2.IsEditable=true;
+			this.entry2.InvisibleChar='●';
+			this.vbox3.Add(this.entry2);
+			global::Gtk.Box.BoxChild w7=((global::Gtk.Box.BoxChild)(this.vbox3 [this.entry2]));
+			w7.Position=1;
+			w7.Expand=false;
+			w7.Fill=false;
+			// Container child vbox3.Gtk.Box+BoxChild
+			this.label9=new global::Gtk.Label();
+			this.label9.Name="label9";
+			this.label9.Xalign=0F;
+			this.label9.LabelProp=global::Mono.Unix.Catalog.GetString("Nutzer:");
+			this.vbox3.Add(this.label9);
+			global::Gtk.Box.BoxChild w8=((global::Gtk.Box.BoxChild)(this.vbox3 [this.label9]));
+			w8.Position=2;
+			w8.Expand=false;
+			w8.Fill=false;
+			// Container child vbox3.Gtk.Box+BoxChild
+			this.entry4=new global::Gtk.Entry();
+			this.entry4.CanFocus=true;
+			this.entry4.Name="entry4";
+			this.entry4.IsEditable=true;
+			this.entry4.InvisibleChar='●';
+			this.vbox3.Add(this.entry4);
+			global::Gtk.Box.BoxChild w9=((global::Gtk.Box.BoxChild)(this.vbox3 [this.entry4]));
+			w9.Position=3;
+			w9.Expand=false;
+			w9.Fill=false;
+			this.hbox3.Add(this.vbox3);
+			global::Gtk.Box.BoxChild w10=((global::Gtk.Box.BoxChild)(this.hbox3 [this.vbox3]));
+			w10.Position=0;
+			// Container child hbox3.Gtk.Box+BoxChild
+			this.vbox4=new global::Gtk.VBox();
+			this.vbox4.Name="vbox4";
+			this.vbox4.Spacing=6;
+			// Container child vbox4.Gtk.Box+BoxChild
+			this.label7=new global::Gtk.Label();
+			this.label7.Name="label7";
+			this.label7.Xalign=0F;
+			this.label7.LabelProp=global::Mono.Unix.Catalog.GetString("Verzeichnis:");
+			this.vbox4.Add(this.label7);
+			global::Gtk.Box.BoxChild w11=((global::Gtk.Box.BoxChild)(this.vbox4 [this.label7]));
+			w11.Position=0;
+			w11.Expand=false;
+			w11.Fill=false;
+			// Container child vbox4.Gtk.Box+BoxChild
+			this.entry3=new global::Gtk.Entry();
+			this.entry3.CanFocus=true;
+			this.entry3.Name="entry3";
+			this.entry3.IsEditable=true;
+			this.entry3.InvisibleChar='●';
+			this.vbox4.Add(this.entry3);
+			global::Gtk.Box.BoxChild w12=((global::Gtk.Box.BoxChild)(this.vbox4 [this.entry3]));
+			w12.Position=1;
+			w12.Expand=false;
+			w12.Fill=false;
+			// Container child vbox4.Gtk.Box+BoxChild
+			this.label10=new global::Gtk.Label();
+			this.label10.Name="label10";
+			this.label10.Xalign=0F;
+			this.label10.LabelProp=global::Mono.Unix.Catalog.GetString("Passwort:");
+			this.vbox4.Add(this.label10);
+			global::Gtk.Box.BoxChild w13=((global::Gtk.Box.BoxChild)(this.vbox4 [this.label10]));
+			w13.Position=2;
+			w13.Expand=false;
+			w13.Fill=false;
+			// Container child vbox4.Gtk.Box+BoxChild
+			this.entry5=new global::Gtk.Entry();
+			this.entry5.CanFocus=true;
+			this.entry5.Name="entry5";
+			this.entry5.IsEditable=true;
+			this.entry5.InvisibleChar='●';
+			this.vbox4.Add(this.entry5);
+			global::Gtk.Box.BoxChild w14=((global::Gtk.Box.BoxChild)(this.vbox4 [this.entry5]));
+			w14.Position=3;
+			w14.Expand=false;
+			w14.Fill=false;
+			this.hbox3.Add(this.vbox4);
+			global::Gtk.Box.BoxChild w15=((global::Gtk.Box.BoxChild)(this.hbox3 [this.vbox4]));
+			w15.Position=1;
+			this.notebook.Add(this.hbox3);
+			global::Gtk.Notebook.NotebookChild w16=((global::Gtk.Notebook.NotebookChild)(this.notebook [this.hbox3]));
+			w16.Position=1;
 			// Notebook tab
-			global::Gtk.Label w2=new global::Gtk.Label();
-			w2.Visible=true;
-			this.notebook1.Add(w2);
 			this.label2=new global::Gtk.Label();
 			this.label2.Name="label2";
 			this.label2.LabelProp=global::Mono.Unix.Catalog.GetString("FTP (Weltkarte)");
-			this.notebook1.SetTabLabel(w2, this.label2);
+			this.notebook.SetTabLabel(this.hbox3, this.label2);
 			this.label2.ShowAll();
+			// Container child notebook.Gtk.Notebook+NotebookChild
+			this.vbox5=new global::Gtk.VBox();
+			this.vbox5.Name="vbox5";
+			this.vbox5.Spacing=6;
+			// Container child vbox5.Gtk.Box+BoxChild
+			this.label11=new global::Gtk.Label();
+			this.label11.Name="label11";
+			this.label11.Xalign=0F;
+			this.label11.LabelProp=global::Mono.Unix.Catalog.GetString("MediaWiki URL:");
+			this.vbox5.Add(this.label11);
+			global::Gtk.Box.BoxChild w17=((global::Gtk.Box.BoxChild)(this.vbox5 [this.label11]));
+			w17.Position=0;
+			w17.Expand=false;
+			w17.Fill=false;
+			// Container child vbox5.Gtk.Box+BoxChild
+			this.entry6=new global::Gtk.Entry();
+			this.entry6.CanFocus=true;
+			this.entry6.Name="entry6";
+			this.entry6.IsEditable=true;
+			this.entry6.InvisibleChar='●';
+			this.vbox5.Add(this.entry6);
+			global::Gtk.Box.BoxChild w18=((global::Gtk.Box.BoxChild)(this.vbox5 [this.entry6]));
+			w18.Position=1;
+			w18.Expand=false;
+			w18.Fill=false;
+			// Container child vbox5.Gtk.Box+BoxChild
+			this.label12=new global::Gtk.Label();
+			this.label12.Name="label12";
+			this.label12.Xalign=0F;
+			this.label12.LabelProp=global::Mono.Unix.Catalog.GetString("Nutzer:");
+			this.vbox5.Add(this.label12);
+			global::Gtk.Box.BoxChild w19=((global::Gtk.Box.BoxChild)(this.vbox5 [this.label12]));
+			w19.Position=2;
+			w19.Expand=false;
+			w19.Fill=false;
+			// Container child vbox5.Gtk.Box+BoxChild
+			this.entry7=new global::Gtk.Entry();
+			this.entry7.CanFocus=true;
+			this.entry7.Name="entry7";
+			this.entry7.IsEditable=true;
+			this.entry7.InvisibleChar='●';
+			this.vbox5.Add(this.entry7);
+			global::Gtk.Box.BoxChild w20=((global::Gtk.Box.BoxChild)(this.vbox5 [this.entry7]));
+			w20.Position=3;
+			w20.Expand=false;
+			w20.Fill=false;
+			// Container child vbox5.Gtk.Box+BoxChild
+			this.label13=new global::Gtk.Label();
+			this.label13.Name="label13";
+			this.label13.Xalign=0F;
+			this.label13.LabelProp=global::Mono.Unix.Catalog.GetString("Passwort:");
+			this.vbox5.Add(this.label13);
+			global::Gtk.Box.BoxChild w21=((global::Gtk.Box.BoxChild)(this.vbox5 [this.label13]));
+			w21.Position=4;
+			w21.Expand=false;
+			w21.Fill=false;
+			// Container child vbox5.Gtk.Box+BoxChild
+			this.entry8=new global::Gtk.Entry();
+			this.entry8.CanFocus=true;
+			this.entry8.Name="entry8";
+			this.entry8.IsEditable=true;
+			this.entry8.InvisibleChar='●';
+			this.vbox5.Add(this.entry8);
+			global::Gtk.Box.BoxChild w22=((global::Gtk.Box.BoxChild)(this.vbox5 [this.entry8]));
+			w22.Position=5;
+			w22.Expand=false;
+			w22.Fill=false;
+			this.notebook.Add(this.vbox5);
+			global::Gtk.Notebook.NotebookChild w23=((global::Gtk.Notebook.NotebookChild)(this.notebook [this.vbox5]));
+			w23.Position=2;
 			// Notebook tab
-			global::Gtk.Label w3=new global::Gtk.Label();
-			w3.Visible=true;
-			this.notebook1.Add(w3);
 			this.label3=new global::Gtk.Label();
 			this.label3.Name="label3";
 			this.label3.LabelProp=global::Mono.Unix.Catalog.GetString("Wiki");
-			this.notebook1.SetTabLabel(w3, this.label3);
+			this.notebook.SetTabLabel(this.vbox5, this.label3);
 			this.label3.ShowAll();
-			this.vbox1.Add(this.notebook1);
-			global::Gtk.Box.BoxChild w4=((global::Gtk.Box.BoxChild)(this.vbox1 [this.notebook1]));
-			w4.Position=0;
-			this.Add(this.vbox1);
+			this.vbox.Add(this.notebook);
+			global::Gtk.Box.BoxChild w24=((global::Gtk.Box.BoxChild)(this.vbox [this.notebook]));
+			w24.Position=0;
+			this.Add(this.vbox);
 			if((this.Child!=null)) {
 				this.Child.ShowAll();
 			}
-			this.DefaultWidth=400;
-			this.DefaultHeight=300;
 			this.Show();
 		}
 	}
