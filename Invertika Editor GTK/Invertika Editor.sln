@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invertika Editor", "Invertika Editor.csproj", "{466FFE75-61F9-4703-80A1-332BC18375D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSCL", "..\Externals\CSCL\CSCL\CSCL.csproj", "{0E720343-5366-4C3A-BC59-7B7FD2C311B5}"

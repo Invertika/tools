@@ -4,6 +4,10 @@ namespace InvertikaEditor
 {
 	public partial class FormOptions
 	{
+		private global::Gtk.VBox vbox1;
+		private global::Gtk.Notebook notebook1;
+		private global::Gtk.Label label1;
+        
 		protected virtual void Build()
 		{
 			global::Stetic.Gui.Initialize(this);
@@ -11,6 +15,29 @@ namespace InvertikaEditor
 			this.Name="InvertikaEditor.FormOptions";
 			this.Title=global::Mono.Unix.Catalog.GetString("FormOptions");
 			this.WindowPosition=((global::Gtk.WindowPosition)(4));
+			// Container child InvertikaEditor.FormOptions.Gtk.Container+ContainerChild
+			this.vbox1=new global::Gtk.VBox();
+			this.vbox1.Name="vbox1";
+			this.vbox1.Homogeneous=true;
+			this.vbox1.Spacing=6;
+			// Container child vbox1.Gtk.Box+BoxChild
+			this.notebook1=new global::Gtk.Notebook();
+			this.notebook1.CanFocus=true;
+			this.notebook1.Name="notebook1";
+			this.notebook1.CurrentPage=0;
+			// Notebook tab
+			global::Gtk.Label w1=new global::Gtk.Label();
+			w1.Visible=true;
+			this.notebook1.Add(w1);
+			this.label1=new global::Gtk.Label();
+			this.label1.Name="label1";
+			this.label1.LabelProp=global::Mono.Unix.Catalog.GetString("page1");
+			this.notebook1.SetTabLabel(w1, this.label1);
+			this.label1.ShowAll();
+			this.vbox1.Add(this.notebook1);
+			global::Gtk.Box.BoxChild w2=((global::Gtk.Box.BoxChild)(this.vbox1 [this.notebook1]));
+			w2.Position=0;
+			this.Add(this.vbox1);
 			if((this.Child!=null)) {
 				this.Child.ShowAll();
 			}

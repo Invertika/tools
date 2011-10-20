@@ -5,27 +5,17 @@ namespace InvertikaEditor
 	public partial class FormMain
 	{
 		private global::Gtk.UIManager UIManager;
-
 		private global::Gtk.Action DateiAction;
-
 		private global::Gtk.Action BeendenAction;
-
 		private global::Gtk.Action beendenAction;
-
 		private global::Gtk.Action OptionenAction;
-
 		private global::Gtk.Action OptionenAction1;
-
 		private global::Gtk.VBox vbox1;
-
 		private global::Gtk.MenuBar menubar1;
-
 		private global::Gtk.Notebook notebook1;
-
 		private global::Gtk.Label label1;
-
 		private global::Gtk.Statusbar statusbar1;
-
+        
 		protected virtual void Build()
 		{
 			global::Stetic.Gui.Initialize(this);
@@ -61,7 +51,7 @@ namespace InvertikaEditor
 			this.menubar1=((global::Gtk.MenuBar)(this.UIManager.GetWidget("/menubar1")));
 			this.menubar1.Name="menubar1";
 			this.vbox1.Add(this.menubar1);
-			global::Gtk.Box.BoxChild w2=((global::Gtk.Box.BoxChild)(this.vbox1[this.menubar1]));
+			global::Gtk.Box.BoxChild w2=((global::Gtk.Box.BoxChild)(this.vbox1 [this.menubar1]));
 			w2.Position=0;
 			w2.Expand=false;
 			w2.Fill=false;
@@ -80,14 +70,14 @@ namespace InvertikaEditor
 			this.notebook1.SetTabLabel(w3, this.label1);
 			this.label1.ShowAll();
 			this.vbox1.Add(this.notebook1);
-			global::Gtk.Box.BoxChild w4=((global::Gtk.Box.BoxChild)(this.vbox1[this.notebook1]));
+			global::Gtk.Box.BoxChild w4=((global::Gtk.Box.BoxChild)(this.vbox1 [this.notebook1]));
 			w4.Position=1;
 			// Container child vbox1.Gtk.Box+BoxChild
 			this.statusbar1=new global::Gtk.Statusbar();
 			this.statusbar1.Name="statusbar1";
 			this.statusbar1.Spacing=6;
 			this.vbox1.Add(this.statusbar1);
-			global::Gtk.Box.BoxChild w5=((global::Gtk.Box.BoxChild)(this.vbox1[this.statusbar1]));
+			global::Gtk.Box.BoxChild w5=((global::Gtk.Box.BoxChild)(this.vbox1 [this.statusbar1]));
 			w5.Position=2;
 			w5.Expand=false;
 			w5.Fill=false;
