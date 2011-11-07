@@ -32,6 +32,7 @@ namespace ivktool
 			Console.WriteLine("   -checkAll");
 			Console.WriteLine("   -createClientUpdate -pathLastFullClient:<path> -pathUpdate:<path>");
 			Console.WriteLine("   -createDataFolder -path:<path>");
+			Console.WriteLine("   -createExampleConfig");
 			Console.WriteLine("   -createMapScriptsAndUpdateMaps");
 			Console.WriteLine("   -getMonstersOnMap");
 			Console.WriteLine("   -minimaps");
@@ -40,10 +41,51 @@ namespace ivktool
 			Console.WriteLine("   -updateMapsInMapsXml");
 			Console.WriteLine("   -updateMediaWiki");
 			Console.WriteLine("   -worldmap [-onlyVisible] [-clearCache]");
-			Console.WriteLine("");
-			Console.WriteLine("Nicht implementiert:");
-			Console.WriteLine("   -createExampleConfig");
+			//Console.WriteLine("");
+			//Console.WriteLine("Nicht implementiert:");
+			//Console.WriteLine("   -createExampleConfig");
 		}
+
+		#region CreateConfig
+		static void CreateExampleConfig()
+		{
+			StreamWriter sw=new StreamWriter(FileSystem.ApplicationPath+"ivkconfig.xml");
+
+			sw.WriteLine("<!-- Beispielkonfiguration -->");
+			sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>");
+			sw.WriteLine("<xml>");
+			sw.WriteLine("  <Options>");
+			sw.WriteLine("    <Paths>");
+			sw.WriteLine("      <Repository>");
+			sw.WriteLine("        <Trunk>/home/seeseekey/Invertika/Repository/trunk</Trunk>");
+			sw.WriteLine("      </Repository>");
+			sw.WriteLine("      <CreateDataFolder>");
+			sw.WriteLine("        <TargetFolder>/home/seeseekey/Invertika/DataFolder</TargetFolder>");
+			sw.WriteLine("      </CreateDataFolder>");
+			sw.WriteLine("      <CreateClientUpdate>");
+			sw.WriteLine("        <LastClient>/home/seeseekey/Invertika/LastClient</LastClient>");
+			sw.WriteLine("        <TargetFolder>/home/seeseekey/Invertika/Update</TargetFolder>");
+			sw.WriteLine("      </CreateClientUpdate>");
+			sw.WriteLine("    </Paths>");
+			sw.WriteLine("    <FTP>");
+			sw.WriteLine("      <Worldmap>");
+			sw.WriteLine("        <Folder>");
+			sw.WriteLine("        </Folder>");
+			sw.WriteLine("        <Password>geheim</Password>");
+			sw.WriteLine("        <Server>invertika.org</Server>");
+			sw.WriteLine("        <User>nutzer</User>");
+			sw.WriteLine("      </Worldmap>");
+			sw.WriteLine("    </FTP>");
+			sw.WriteLine("    <Mediawiki>");
+			sw.WriteLine("      <URL>http://wiki.invertika.org</URL>");
+			sw.WriteLine("      <Username>nutzer</Username>");
+			sw.WriteLine("      <Passwort>geheim</Passwort>");
+			sw.WriteLine("    </Mediawiki>");
+			sw.WriteLine("</xml>");
+
+			sw.Close();
+		}
+		#endregion
 
 		#region Clientupdate erstellen
 		static List<string> GetFilesWithoutSVN(string Path)
@@ -3416,6 +3458,10 @@ namespace ivktool
 				{
 					CreateDataFolder(path);
 				}
+			}
+			else if(parameters.GetBool("createExampleConfig"))
+			{
+				CreateExampleConfig();
 			}
 			else if(parameters.GetBool("createMapScriptsAndUpdateMaps"))
 			{
