@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invertika", "..\Externals\I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSCL", "..\Externals\CSCL\CSCL\CSCL.csproj", "{0E720343-5366-4C3A-BC59-7B7FD2C311B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invertika Editor", "..\Invertika Editor\Invertika Editor.csproj", "{C2A06611-C8D1-43D2-B0C7-8BF66E508674}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICSharpCode.SharpZLib", "..\Externals\SharpZipLib\src\ICSharpCode.SharpZLib.csproj", "{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}"
 EndProject
 Global
@@ -17,31 +15,27 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DF7BABDB-D358-42F7-AFFE-9575A63702BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF7BABDB-D358-42F7-AFFE-9575A63702BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF7BABDB-D358-42F7-AFFE-9575A63702BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF7BABDB-D358-42F7-AFFE-9575A63702BA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C2A06611-C8D1-43D2-B0C7-8BF66E508674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C2A06611-C8D1-43D2-B0C7-8BF66E508674}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C2A06611-C8D1-43D2-B0C7-8BF66E508674}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C2A06611-C8D1-43D2-B0C7-8BF66E508674}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF7BABDB-D358-42F7-AFFE-9575A63702BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF7BABDB-D358-42F7-AFFE-9575A63702BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF7BABDB-D358-42F7-AFFE-9575A63702BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF7BABDB-D358-42F7-AFFE-9575A63702BA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = ivktool.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = ivktool\ivktool.csproj
 	EndGlobalSection
 EndGlobal
