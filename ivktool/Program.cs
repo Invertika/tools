@@ -3414,7 +3414,19 @@ namespace ivktool
 			if(!ExitsConfig) Globals.Options.AddRoot("xml");
 
 			//Parameter auswerten
-			Parameters parameters=Parameters.InterpretCommandLine(args);
+			Parameters parameters=null;
+
+			try
+			{
+				parameters=Parameters.InterpretCommandLine(args);
+			}
+			catch
+			{
+				Console.WriteLine("Parameter wurden nicht erkannt!");
+				Console.WriteLine("");
+				DisplayHelp();
+				return;
+			}
 
 			//Aktion starten
 			if(parameters.GetBool("calcAdler32"))
