@@ -15,6 +15,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DF7BABDB-D358-42F7-AFFE-9575A63702BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF7BABDB-D358-42F7-AFFE-9575A63702BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF7BABDB-D358-42F7-AFFE-9575A63702BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF7BABDB-D358-42F7-AFFE-9575A63702BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -23,19 +31,11 @@ Global
 		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{52EE41F6-4F3E-4EB1-832A-F18515CA875A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DF7BABDB-D358-42F7-AFFE-9575A63702BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF7BABDB-D358-42F7-AFFE-9575A63702BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF7BABDB-D358-42F7-AFFE-9575A63702BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF7BABDB-D358-42F7-AFFE-9575A63702BA}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = ivktool.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = ivktool.csproj
 	EndGlobalSection
 EndGlobal
