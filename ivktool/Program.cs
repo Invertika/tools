@@ -1,22 +1,24 @@
-using System;
-using CSCL;
-using System.Net;
-using CSCL.Network.FTP.Client;
+ï»¿using System;
 using System.Collections.Generic;
-using CSCL.Games.Manasource;
-using System.IO;
-using CSCL.Crypto;
-using CSCL.FileFormats.TMX;
-using CSCL.Graphic;
-using Invertika;
-using System.Drawing;
-using ICSharpCode.SharpZipLib.Zip;
-using System.Xml;
-using CSCL.Bots.Mediawiki;
-using Invertika.Classes;
-using CSCL.Helpers;
-using CSCL.Exceptions;
+using System.Linq;
 using System.Text;
+using CSCL.Graphic;
+using CSCL.FileFormats.TMX;
+using System.IO;
+using CSCL;
+using CSCL.Network.FTP.Client;
+using System.Net;
+using CSCL.Crypto;
+using System.Drawing;
+using CSCL.Games.Manasource;
+using System.Xml;
+using CSCL.Helpers;
+using ICSharpCode.SharpZipLib.Zip;
+using CSCL.Bots.Mediawiki;
+using Invertika;
+using Invertika.Classes;
+using CSCL.Exceptions;
+using Invertika.LuaDoc;
 
 namespace ivktool
 {
@@ -24,34 +26,42 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.5");
+			Console.WriteLine("ivktool 1.5.1");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
 			Console.WriteLine("   z.B. ivktool -worldmap");
 			Console.WriteLine("");
 			Console.WriteLine("   -calcAdler32 -filename:<filename>");
 			Console.WriteLine("   -checkAll");
 			Console.WriteLine("   -createClientUpdate -pathLastFullClient:<path> -pathUpdate:<path>");
+			Console.WriteLine("   -createCollisionsOnMaps");
 			Console.WriteLine("   -createDataFolder -path:<path>");
 			Console.WriteLine("   -createExampleConfig");
 			Console.WriteLine("   -createMapScriptsAndUpdateMaps");
+			Console.WriteLine("   -createWorldmapDatabaseSQLFile -target:<filename>");
+			Console.WriteLine("   -exportItemsImages -target:<path>");
+			Console.WriteLine("   -exportMonsterImages -target:<path>");
 			Console.WriteLine("   -getMonstersOnMap");
-			Console.WriteLine("   -minimaps");
+			Console.WriteLine("   -getTilesetsFromMapsUsed");
+			Console.WriteLine("   -removeBlankTilesFromMaps");
+			Console.WriteLine("   -removeBomFromFiles");
+			Console.WriteLine("   -removeNonExistingTilesetsFromMaps");
 			Console.WriteLine("   -renameTileset -oldName:<name> -newName:<name>");
+			Console.WriteLine("   -renameTilesetNameInMapsToTilesetFilename");
 			Console.WriteLine("   -renderTMX -tmx:<name> -output:<name>");
+			Console.WriteLine("   -transformTileInMaps -srcTileset:<name> -dstTileset:<name> -srcTile:<id> -dstTile:<id>");
 			Console.WriteLine("   -updateMapsInMapsXml");
+			Console.WriteLine("   -updateMinimaps");
 			Console.WriteLine("   -updateMediaWiki");
-			Console.WriteLine("   -worldmap [-onlyVisible] [-clearCache]");
-			//Console.WriteLine("");
-			//Console.WriteLine("Nicht implementiert:");
-			//Console.WriteLine("   -createExampleConfig");
+			Console.WriteLine("   -updateLuaInMediaWiki");
+			Console.WriteLine("   -updateWorldmap [-onlyVisible] [-clearCache]");
+			Console.WriteLine("   -updateWorldmapDatabaseSQLFile -target:<filename>");
 		}
 
 		#region CreateConfig
 		static void CreateExampleConfig()
 		{
-			StreamWriter sw=new StreamWriter(FileSystem.ApplicationPath+"ivkconfig.xml");
+			StreamWriter sw=new StreamWriter(FileSystem.ApplicationPath+"ivktool.xml");
 
-			sw.WriteLine("<!-- Beispielkonfiguration -->");
 			sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>");
 			sw.WriteLine("<xml>");
 			sw.WriteLine("  <Options>");
@@ -81,6 +91,7 @@ namespace ivktool
 			sw.WriteLine("      <Username>nutzer</Username>");
 			sw.WriteLine("      <Passwort>geheim</Passwort>");
 			sw.WriteLine("    </Mediawiki>");
+			sw.WriteLine("  </Options>");
 			sw.WriteLine("</xml>");
 
 			sw.Close();
@@ -426,7 +437,7 @@ namespace ivktool
 						if(!FileSystem.Exists(imagePath))
 						{
 							found=true;
-							msg+=String.Format("Itembild ({0}) für Item {1} ({2})) existiert nicht.\n", imagePath, item.Name, item.ID);
+							msg+=String.Format("Itembild ({0}) fÃ¼r Item {1} ({2})) existiert nicht.\n", imagePath, item.Name, item.ID);
 						}
 					}
 				}
@@ -441,11 +452,11 @@ namespace ivktool
 						if(!FileSystem.Exists(spritePath))
 						{
 							found=true;
-							msg+=String.Format("Sprite XML Datei ({0}) für Item {1} ({2})) existiert nicht.\n", spritePath, item.Name, item.ID);
+							msg+=String.Format("Sprite XML Datei ({0}) fÃ¼r Item {1} ({2})) existiert nicht.\n", spritePath, item.Name, item.ID);
 						}
 						else
 						{
-							//Sprite öffnen und testen
+							//Sprite Ã¶ffnen und testen
 							Sprite tmpSprite=Sprite.GetSpriteFromXml(spritePath);
 
 							foreach(Imageset set in tmpSprite.Imagesets)
@@ -456,7 +467,7 @@ namespace ivktool
 								if(!FileSystem.Exists(setPath))
 								{
 									found=true;
-									msg+=String.Format("Sprite PNG Datei ({0}) für Item {1} ({2})) existiert nicht.\n", setPath, item.Name, item.ID);
+									msg+=String.Format("Sprite PNG Datei ({0}) fÃ¼r Item {1} ({2})) existiert nicht.\n", setPath, item.Name, item.ID);
 								}
 							}
 						}
@@ -479,6 +490,13 @@ namespace ivktool
 
 			List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
 			List<string> usedTilesets=new List<string>();
+
+			if(maps==null)
+			{
+				Console.WriteLine("Es wurden keine Maps gefunden.");
+				Console.WriteLine("Eventuell ist der Pfad des Repositories in der Konfigurationdatei falsch.");
+				return "";
+			}
 
 			foreach(string fnCurrent in maps)
 			{
@@ -549,8 +567,8 @@ namespace ivktool
 				if(!over) { found=true; newEntry=true; msg+=String.Format("Over Layer in Map {0} nicht vorhanden.\n", fn); }
 				if(!collision) { found=true; newEntry=true; msg+=String.Format("Collision Layer in Map {0} nicht vorhanden.\n", fn); }
 
-				if(countFringe>1) { found=true; newEntry=true; msg+=String.Format("Fringe Layer in Map {0} öfter als ein Mal vorhanden.\n", fn); }
-				if(countCollision>1) { found=true; newEntry=true; msg+=String.Format("Collision Layer in Map {0} öfter als ein Mal vorhanden.\n", fn); }
+				if(countFringe>1) { found=true; newEntry=true; msg+=String.Format("Fringe Layer in Map {0} Ã¶fter als ein Mal vorhanden.\n", fn); }
+				if(countCollision>1) { found=true; newEntry=true; msg+=String.Format("Collision Layer in Map {0} Ã¶fter als ein Mal vorhanden.\n", fn); }
 
 				int externalMapEventsCount=0;
 
@@ -562,18 +580,18 @@ namespace ivktool
 
 						foreach(CSCL.FileFormats.TMX.Object obj in og.Objects)
 						{
-							//Namen überprüfen
+							//Namen Ã¼berprÃ¼fen
 							if(obj.Name==null||obj.Name=="")
 							{
 								found=true;
 								newEntry=true;
-								msg+=String.Format("Objektname für ein Objekt in der Map {0} nicht gesetzt.\n", fn);
+								msg+=String.Format("Objektname fÃ¼r ein Objekt in der Map {0} nicht gesetzt.\n", fn);
 							}
 
-							//Warp Überprüfung
+							//Warp ÃœberprÃ¼fung
 							if(obj.Type=="WARP")
 							{
-								//Prüfen ob Warp auf der Karte liegt
+								//PrÃ¼fen ob Warp auf der Karte liegt
 								if(!(obj.X/32>=0&&obj.X/32<=map.Width&&obj.Y/32>=0&&obj.Y/32<=map.Height))
 								{
 									found=true;
@@ -636,14 +654,14 @@ namespace ivktool
 									}
 									else
 									{
-										//Plausbilitätsprüfung
+										//PlausbilitÃ¤tsprÃ¼fung
 										foreach(Objectgroup ogWarp in warpMap.ObjectLayers)
 										{
 											foreach(CSCL.FileFormats.TMX.Object objWarp in ogWarp.Objects)
 											{
 												if(ogWarp.Name=="Object")
 												{
-													//Warp Überprüfung
+													//Warp ÃœberprÃ¼fung
 													if(objWarp.Type=="WARP")
 													{
 														bool DestIsInWarp=false;
@@ -677,7 +695,7 @@ namespace ivktool
 									msg+=String.Format("Per WARP ({0}) Referenzierte Map ({1}) in Map {2} existiert nicht.\n", obj.Name, dest_map+".tmx", fn);
 								}
 							}
-							else if(obj.Type=="SCRIPT") //Skripte überprüfen
+							else if(obj.Type=="SCRIPT") //Skripte Ã¼berprÃ¼fen
 							{
 								if(obj.Name=="External Map Events")
 								{
@@ -810,7 +828,7 @@ namespace ivktool
 					if(dropitem==null)
 					{
 						found=true;
-						msg+=String.Format("Drop ({0}) für Monster {1} ({2})) existiert nicht.\n", drop.Item, monster.Name, monster.ID);
+						msg+=String.Format("Drop ({0}) fÃ¼r Monster {1} ({2})) existiert nicht.\n", drop.Item, monster.Name, monster.ID);
 					}
 				}
 
@@ -828,7 +846,7 @@ namespace ivktool
 								if(!FileSystem.Exists(imagePath))
 								{
 									found=true;
-									msg+=String.Format("Sound ({0}) für Monster {1} ({2})) existiert nicht.\n", imagePath, monster.Name, monster.ID);
+									msg+=String.Format("Sound ({0}) fÃ¼r Monster {1} ({2})) existiert nicht.\n", imagePath, monster.Name, monster.ID);
 								}
 							}
 						}
@@ -845,11 +863,11 @@ namespace ivktool
 						if(!FileSystem.Exists(spritePath))
 						{
 							found=true;
-							msg+=String.Format("Sprite XML Datei ({0}) für Monster {1} ({2})) existiert nicht.\n", spritePath, monster.Name, monster.ID);
+							msg+=String.Format("Sprite XML Datei ({0}) fÃ¼r Monster {1} ({2})) existiert nicht.\n", spritePath, monster.Name, monster.ID);
 						}
 						else
 						{
-							//Sprite öffnen und testen
+							//Sprite Ã¶ffnen und testen
 							Sprite tmpSprite=Sprite.GetSpriteFromXml(spritePath);
 
 							foreach(Imageset set in tmpSprite.Imagesets)
@@ -860,7 +878,7 @@ namespace ivktool
 								if(!FileSystem.Exists(setPath))
 								{
 									found=true;
-									msg+=String.Format("Sprite PNG Datei ({0}) für Monster {1} ({2})) existiert nicht.\n", setPath, monster.Name, monster.ID);
+									msg+=String.Format("Sprite PNG Datei ({0}) fÃ¼r Monster {1} ({2})) existiert nicht.\n", setPath, monster.Name, monster.ID);
 								}
 							}
 						}
@@ -888,7 +906,7 @@ namespace ivktool
 			{
 				if(npc.SpriteFilename!=null)
 				{
-					//Sprite prüfen
+					//Sprite prÃ¼fen
 					string[] splited2=npc.SpriteFilename.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 					string setPath=Globals.folder_clientdata_graphics_sprites+splited2[0];
 
@@ -897,13 +915,13 @@ namespace ivktool
 						string relpath=FileSystem.GetRelativePath(setPath, Globals.folder_clientdata);
 
 						found=true;
-						msg+=String.Format("Sprite Datei ({0}) für NPC (ID: {1}) existiert nicht.\n", relpath, npc.ID);
+						msg+=String.Format("Sprite Datei ({0}) fÃ¼r NPC (ID: {1}) existiert nicht.\n", relpath, npc.ID);
 					}
 				}
 
 				if(npc.ParticleFxFilename!=null)
 				{
-					//Sprite prüfen
+					//Sprite prÃ¼fen
 					string[] splited2=npc.ParticleFxFilename.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 					string setPath=Globals.folder_clientdata+splited2[0];
 
@@ -912,7 +930,7 @@ namespace ivktool
 						string relpath=FileSystem.GetRelativePath(setPath, Globals.folder_clientdata);
 
 						found=true;
-						msg+=String.Format("ParticleFX Datei ({0}) für NPC (ID: {1}) existiert nicht.\n", relpath, npc.ID);
+						msg+=String.Format("ParticleFX Datei ({0}) fÃ¼r NPC (ID: {1}) existiert nicht.\n", relpath, npc.ID);
 					}
 				}
 			}
@@ -928,6 +946,14 @@ namespace ivktool
 		static string CheckSpritesOnFileLayer()
 		{
 			List<string> Files=FileSystem.GetFiles(Globals.folder_clientdata_graphics_sprites, true, "*.png");
+
+			if(Files==null)
+			{
+				Console.WriteLine("Es wurden keine Sprites gefunden.");
+				Console.WriteLine("Eventuell ist der Pfad des Repositories in der Konfigurationdatei falsch.");
+				return "";
+			}
+
 			Files.AddRange(FileSystem.GetFiles(Globals.folder_clientdata_graphics_sprites, true, "*.xml"));
 
 			Dictionary<string, int> fileCount=new Dictionary<string, int>();
@@ -985,7 +1011,14 @@ namespace ivktool
 
 			List<string> spriteFiles=FileSystem.GetFiles(Globals.folder_clientdata_graphics_sprites, true, "*.xml");
 
-			//Sprite öffnen und testen
+			if(spriteFiles==null)
+			{
+				Console.WriteLine("Es wurden keine Sprites gefunden.");
+				Console.WriteLine("Eventuell ist der Pfad des Repositories in der Konfigurationdatei falsch.");
+				return "";
+			}
+
+			//Sprite Ã¶ffnen und testen
 			foreach(string i in spriteFiles)
 			{
 				Sprite tmpSprite=Sprite.GetSpriteFromXml(i);
@@ -1002,7 +1035,7 @@ namespace ivktool
 						string relpathPNG=FileSystem.GetRelativePath(setPath, Globals.folder_clientdata);
 						string relpathXML=FileSystem.GetRelativePath(i, Globals.folder_clientdata);
 
-						msg+=String.Format("Sprite PNG Datei ({0}) für XML Datei {1} existiert nicht.\n", relpathPNG, relpathXML);
+						msg+=String.Format("Sprite PNG Datei ({0}) fÃ¼r XML Datei {1} existiert nicht.\n", relpathPNG, relpathXML);
 					}
 				}
 			}
@@ -1026,9 +1059,16 @@ namespace ivktool
 			int conformWidth=1024;
 			int conformHeight=1024;
 
+			if(files==null)
+			{
+				Console.WriteLine("Es wurden keine Tilesets gefunden.");
+				Console.WriteLine("Eventuell ist der Pfad des Repositories in der Konfigurationdatei falsch.");
+				return "";
+			}
+
 			foreach(string i in files)
 			{
-				if(i.IndexOf("xold_")!=-1) continue; //xold Tilesets werden nicht geprüft
+				if(i.IndexOf("xold_")!=-1) continue; //xold Tilesets werden nicht geprÃ¼ft
 
 				gtImage tmp=gtImage.FromFile(i);
 
@@ -1038,7 +1078,7 @@ namespace ivktool
 
 				if(tmp.Width!=conformWidth||tmp.Height!=conformHeight)
 				{
-					msg+=String.Format("{0} - Größe entspricht nicht den Richtlinien - X: {1} / Y: {2} -> X: {3} / Y: {4}\n", FileSystem.GetFilename(i), tmp.Width, tmp.Height, conformWidth, conformHeight);
+					msg+=String.Format("{0} - GrÃ¶ÃŸe entspricht nicht den Richtlinien - X: {1} / Y: {2} -> X: {3} / Y: {4}\n", FileSystem.GetFilename(i), tmp.Width, tmp.Height, conformWidth, conformHeight);
 					found=true;
 				}
 			}
@@ -1077,7 +1117,7 @@ namespace ivktool
 			msg+="Tilesets:\n";
 			msg+=CheckTilesets();
 			msg+="\n\n";
-			msg+="Spriteüberprüfung auf Dateiebene:\n";
+			msg+="SpriteÃ¼berprÃ¼fung auf Dateiebene:\n";
 			msg+=CheckSpritesOnFileLayer();
 
 			Console.WriteLine(msg);
@@ -1275,6 +1315,13 @@ namespace ivktool
 
 			List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
 
+			if(maps==null)
+			{
+				Console.WriteLine("Es wurden keine Maps gefunden.");
+				Console.WriteLine("Eventuell ist der Pfad des Repositories in der Konfigurationdatei falsch.");
+				return new Dictionary<int, List<string>>();
+			}
+
 			foreach(string fn in maps)
 			{
 				List<MonsterSpawn> spawns=Monsters.GetMonsterSpawnFromMap(fn);
@@ -1353,8 +1400,8 @@ namespace ivktool
 			+"! style=\"background:#efdead;\" | Verteidigung (physisch)\n"
 			+"! style=\"background:#efdead;\" | Verteidigung (magisch)\n"
 			+"! style=\"background:#efdead;\" | Mutation\n"
-			+"! style=\"background:#efdead;\" | Händlerdropwert (in Aki)\n"
-			+"! style=\"background:#efdead;\" | Kampfstärke\n"
+			+"! style=\"background:#efdead;\" | HÃ¤ndlerdropwert (in Aki)\n"
+			+"! style=\"background:#efdead;\" | KampfstÃ¤rke\n"
 			+"! style=\"background:#efdead;\" | Erfahrung\n"
 				//+"! style=\"background:#efdead;\" | Drops"
 			+"|-\n";
@@ -1428,7 +1475,7 @@ namespace ivktool
 
 			foreach(Item item in items)
 			{
-				if(item.ID<0) continue; //Unötige Items (Hairsets etc) ignorieren
+				if(item.ID<0) continue; //UnÃ¶tige Items (Hairsets etc) ignorieren
 
 				if(item.ID>=10001&&item.ID<=20000)
 				{
@@ -1444,7 +1491,7 @@ namespace ivktool
 				{
 					if(ruestungen)
 					{
-						ret+="| style=\"background:#efdead;\" colspan=\"9\" align=\"center\"|Rüstungen und Kleidung\n";
+						ret+="| style=\"background:#efdead;\" colspan=\"9\" align=\"center\"|RÃ¼stungen und Kleidung\n";
 						ret+="|-\n";
 						ruestungen=false;
 					}
@@ -1506,8 +1553,8 @@ namespace ivktool
 			+"! style=\"background:#efdead;\" | Verteidigung (magisch)\n"
 			+"! style=\"background:#efdead;\" | Mutation\n"
 			+"! style=\"background:#efdead;\" | Geschwindigkeit (in Tiles pro Sekunde)\n"
-			+"! style=\"background:#efdead;\" | Händlerdropwert (in Aki)\n"
-			+"! style=\"background:#efdead;\" | Kampfstärke\n"
+			+"! style=\"background:#efdead;\" | HÃ¤ndlerdropwert (in Aki)\n"
+			+"! style=\"background:#efdead;\" | KampfstÃ¤rke\n"
 			+"! style=\"background:#efdead;\" | Erfahrung\n"
 				//+"! style=\"background:#efdead;\" | Drops"
 			+"|-\n";
@@ -2151,30 +2198,46 @@ namespace ivktool
 			}
 
 			//Pflanzen
-			Console.WriteLine("Exportiere Pflanzentabelle...");
-			ExportPlantsTableToMediawikiAPI();
+			try
+			{
+				Console.WriteLine("Exportiere Pflanzentabelle...");
+				ExportPlantsTableToMediawikiAPI();
 
-			//Items
-			Console.WriteLine("Exportiere Itemtabellen...");
-			ExportItemTableToMediawikiAPI();
-			ExportItemMonstersDropsToMediawikiAPI();
-			ExportItemsInfoboxToMediawikiAPI();
+				//Items
+				Console.WriteLine("Exportiere Itemtabellen...");
+				ExportItemTableToMediawikiAPI();
+				ExportItemMonstersDropsToMediawikiAPI();
+				ExportItemsInfoboxToMediawikiAPI();
 
-			//Monster
-			Console.WriteLine("Exportiere Monstertabellen...");
-			ExportMonsterTableToMediawikiAPI();
-			ExportMonstersDropsToMediawikiAPI();
-			ExportMonstersInfoboxToMediawikiAPI();
-			ExportMonstersVorkommenToMediawikiAPI();
+				//Monster
+				Console.WriteLine("Exportiere Monstertabellen...");
+				ExportMonsterTableToMediawikiAPI();
+				ExportMonstersDropsToMediawikiAPI();
+				ExportMonstersInfoboxToMediawikiAPI();
+				ExportMonstersVorkommenToMediawikiAPI();
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine("Es ist ein Fehler beim Update mittels MediaWiki API aufgetreten!");
+				Console.WriteLine(ex.Message);
+				return;
+			}
 
-			Console.WriteLine("Alle Mediawiki Exporte durchgeführt.");
+			Console.WriteLine("Alle Mediawiki Exporte durchgefÃ¼hrt.");
 		}
 		#endregion
 
 		#region Minimaps berechnen
-		static void CalcMinimaps()
+		static void UpdateMinimaps()
 		{
 			List<string> files=FileSystem.GetFiles(Globals.folder_clientdata_maps, true, "*.tmx");
+
+			if(files==null)
+			{
+				Console.WriteLine("Es wurden keine Maps gefunden.");
+				Console.WriteLine("Eventuell ist der Pfad des Repositories in der Konfigurationdatei falsch.");
+				return;
+			}
 
 			#region Bilder berechnen
 			foreach(string i in files)
@@ -2206,7 +2269,7 @@ namespace ivktool
 				}
 
 				//Karte berechnen
-				Console.WriteLine("Berechne Minimap für Map {0}", FileSystem.GetFilename(i));
+				Console.WriteLine("Berechne Minimap fÃ¼r Map {0}", FileSystem.GetFilename(i));
 
 				TMX file=new TMX();
 				file.Open(i);
@@ -2226,6 +2289,8 @@ namespace ivktool
 				pic.SaveToFile(fnMinimap);
 			}
 			#endregion
+
+			Globals.Options.Save();
 		}
 		#endregion
 
@@ -2301,6 +2366,13 @@ namespace ivktool
 
 			List<string> mapfiles=FileSystem.GetFiles(pathMaps, true, "*.tmx");
 
+			if(mapfiles==null)
+			{
+				Console.WriteLine("Es wurden keine Maps gefunden.");
+				Console.WriteLine("Eventuell ist der Pfad des Repositories in der Konfigurationdatei falsch.");
+				return;
+			}
+
 			foreach(string i in mapfiles)
 			{
 				string mapname=FileSystem.GetFilenameWithoutExt(i);
@@ -2333,7 +2405,7 @@ namespace ivktool
 									if(lastID<map.ID) lastID=map.ID;
 								}
 
-								if(lastID<=0||lastID>=19000) throw new Exception("Wertebereich ungültig!");
+								if(lastID<=0||lastID>=19000) throw new Exception("Wertebereich ungÃ¼ltig!");
 
 								break;
 							}
@@ -2345,7 +2417,7 @@ namespace ivktool
 									if(lastID<map.ID) lastID=map.ID;
 								}
 
-								if(lastID<=19000||lastID>=20000) throw new Exception("Wertebereich ungültig!");
+								if(lastID<=19000||lastID>=20000) throw new Exception("Wertebereich ungÃ¼ltig!");
 
 								break;
 							}
@@ -2357,7 +2429,7 @@ namespace ivktool
 									if(lastID<map.ID) lastID=map.ID;
 								}
 
-								if(lastID<=20000||lastID>=40000) throw new Exception("Wertebereich ungültig!");
+								if(lastID<=20000||lastID>=40000) throw new Exception("Wertebereich ungÃ¼ltig!");
 
 								break;
 							}
@@ -2421,15 +2493,22 @@ namespace ivktool
 			tmpImage.SaveToFile(filename);
 		}
 
-		static void CalcWorldmap(bool onlyVisibleMaps, bool clearCache)
+		static void UpdateWorldmap(bool onlyVisibleMaps, bool clearCache)
 		{
 			List<string> files=FileSystem.GetFiles(Globals.folder_clientdata_maps, true, "*.tmx");
+
+			if(files==null)
+			{
+				Console.WriteLine("Es wurden keine Maps gefunden.");
+				Console.WriteLine("Eventuell ist der Pfad des Repositories in der Konfigurationdatei falsch.");
+				return;
+			}
 
 			string temp=FileSystem.TempPath+"Invertika Editor\\";
 			string tempFmMonsterSpreading=FileSystem.TempPath+"Invertika Editor\\fm-monster-spreading\\";
 			string tempFmMusic=FileSystem.TempPath+"Invertika Editor\\fm-music\\";
 
-			#region Bilderordner löschen und neu anlegen
+			#region Bilderordner lÃ¶schen und neu anlegen
 			Console.WriteLine("Bereinige Bilderordner...");
 
 			FileSystem.RemoveDirectory(temp, true);
@@ -2496,7 +2575,7 @@ namespace ivktool
 				}
 
 				//Karte berechnen
-				Console.WriteLine("Berechne Bilder für Map {0}", FileSystem.GetFilename(i));
+				Console.WriteLine("Berechne Bilder fÃ¼r Map {0}", FileSystem.GetFilename(i));
 
 				TMX file=new TMX();
 				file.Open(i);
@@ -2536,7 +2615,7 @@ namespace ivktool
 						//    }
 						//case 100:
 						//    {
-						//        //Minimap zusätzlich speichern
+						//        //Minimap zusÃ¤tzlich speichern
 						//        string fnMinimap=Globals.folder_clientdata_graphics_minimaps+fn+".png";
 						//        pic.SaveToFile(fnMinimap);
 						//        break;
@@ -2577,7 +2656,7 @@ namespace ivktool
 				return;
 			}
 
-			//Ordner für die Feature Maps
+			//Ordner fÃ¼r die Feature Maps
 			if(!Client.Exists("fm-monster-spreading/ow-o0000-o0000-o0000-800.png")) //Monster Spreading
 			{
 				Client.CreateDirectory("fm-monster-spreading");
@@ -2605,35 +2684,8 @@ namespace ivktool
 		}
 		#endregion
 
-		#region Unimplemented
-		//public partial class FormTileReplacer : Form
-		//{
-		//    public string Filename { get; set; }
-		//    public int TileID { get; private set; }
-
-		//    public FormTileReplacer()
-		//    {
-		//        InitializeComponent();
-		//    }
-
-		//    private void FormTileReplacer_Load(object sender, EventArgs e)
-		//    {
-		//        pbImage.Load(Filename);
-		//    }
-
-		//    private void pbImage_MouseDoubleClick(object sender, MouseEventArgs e)
-		//    {
-		//        int xInTiles=e.X/32;
-		//        int yInTiles=e.Y/32;
-
-		//        int tileID=yInTiles*32+xInTiles;
-		//        TileID=tileID;
-
-		//        DialogResult=DialogResult.OK;
-		//    }
-		//}
-
-		static void RemoveBOMFromFiles(object sender, EventArgs e)
+		#region RemoveBOMFromFile
+		static void RemoveBOMFromFiles()
 		{
 			List<string> files=new List<string>();
 			files.AddRange(FileSystem.GetFiles(Globals.folder_root, true, "*.xml"));
@@ -2651,8 +2703,10 @@ namespace ivktool
 
 			Console.WriteLine("Alle BOMs wurden entfernt.");
 		}
+		#endregion
 
-		static void CopyItemsImages(string outputFolder)
+		#region Copy Images (Items, Monster)
+		static void ExportItemImages(string target)
 		{
 			if(Globals.folder_root=="")
 			{
@@ -2666,10 +2720,10 @@ namespace ivktool
 
 			foreach(Item item in items)
 			{
-				if(item.ID<0) continue; //Unötige Items (Hairsets etc) ignorieren
+				if(item.ID<0) continue; //UnÃ¶tige Items (Hairsets etc) ignorieren
 				string itemImageName=item.Image.Split('|')[0].Trim();
 				string itemfnSrc=Globals.folder_clientdata_graphics_items+itemImageName;
-				string itemfnDst=outputFolder+FileSystem.PathDelimiter+"Item-"+item.ID+".png";
+				string itemfnDst=target+FileSystem.PathDelimiter+"Item-"+item.ID+".png";
 				//File.Copy(itemfnSrc, itemfnDst, true);
 				FileSystem.CopyFile(itemfnSrc, itemfnDst, true);
 			}
@@ -2677,740 +2731,639 @@ namespace ivktool
 			Console.WriteLine("Item Bilder wurden erfolgreich kopiert.");
 		}
 
-		//private void monsterxmlBilderToolStripMenuItem_Click(object sender, EventArgs e)
-		//{
-		//    if(Globals.folder_root=="")
-		//    {
-		//        MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//        return;
-		//    }
-
-		//    if(folderBrowserDialog.ShowDialog()==DialogResult.OK)
-		//    {
-		//        string fnMonstersXml=Globals.folder_clientdata+"monsters.xml";
-		//        List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonstersXml);
-
-		//        foreach(Monster monster in monsters)
-		//        {
-		//            if(monster.ID>=50000) continue; //Testmonster ignorieren
-
-		//            if(monster.Sprite!=null)
-		//            {
-		//                if(monster.Sprite!="")
-		//                {
-		//                    string[] splited=monster.Sprite.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-		//                    string spritePath=Globals.folder_clientdata_graphics_sprites+splited[0];
-
-		//                    Sprite tmp=Sprite.GetSpriteFromXml(spritePath);
-
-		//                    Imageset set=tmp.Imagesets[0];
-		//                    string[] splited2=set.Src.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-		//                    string srcname=splited2[0];
-		//                    gtImage setImage=gtImage.FromFile(Globals.folder_clientdata+srcname);
-		//                    gtImage monsterImage=setImage.GetSubImage(0, 0, (uint)set.Width, (uint)set.Height);
-
-		//                    string monsterDst=folderBrowserDialog.SelectedPath+FileSystem.PathDelimiter+"Monster-"+monster.ID+".png";
-		//                    monsterImage.SaveToPNGGDI(monsterDst);
-		//                }
-		//            }
-		//        }
-
-		//        MessageBox.Show("Monster Bilder wurden erfolgreich kopiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//    }
-		//}
-
-		//private void tilesetsZusammenrechnenToolStripMenuItem_Click(object sender, EventArgs e)
-		//{
-		//    MessageBox.Show("Diese Funktion rechtet 4 512x512 Tilesets zu einem 1024x1024 Tileset zusammen. Sie werden nun nach 4 Dateien gefragt und anschließend nach dem Speicherort.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-		//    openFileDialog.Filter="PNG Dateien (*.png)|*.png";
-		//    openFileDialog.FileName="";
-
-		//    string fn1, fn2, fn3, fn4, fnSave;
-
-		//    if(openFileDialog.ShowDialog()==DialogResult.OK) //file 1
-		//    {
-		//        fn1=openFileDialog.FileName;
-
-		//        if(openFileDialog.ShowDialog()==DialogResult.OK) //file 2
-		//        {
-		//            fn2=openFileDialog.FileName;
-
-		//            if(openFileDialog.ShowDialog()==DialogResult.OK) //file 3
-		//            {
-		//                fn3=openFileDialog.FileName;
-
-		//                if(openFileDialog.ShowDialog()==DialogResult.OK) //file 4
-		//                {
-		//                    fn4=openFileDialog.FileName;
-
-		//                    saveFileDialog.Filter="PNG Dateien (*.png)|*.png";
-		//                    saveFileDialog.FileName="";
-
-		//                    if(saveFileDialog.ShowDialog()==DialogResult.OK)
-		//                    {
-		//                        fnSave=saveFileDialog.FileName;
-
-		//                        gtImage img1=gtImage.FromFile(fn1);
-		//                        gtImage img2=gtImage.FromFile(fn2);
-		//                        gtImage img3=gtImage.FromFile(fn3);
-		//                        gtImage img4=gtImage.FromFile(fn4);
-
-		//                        if(img1.Width!=512||img1.Height!=512
-		//                            ||img2.Width!=512||img2.Height!=512
-		//                            ||img3.Width!=512||img3.Height!=512
-		//                            ||img3.Width!=512||img3.Height!=512)
-		//                        {
-		//                            //Werte stimmen nicht
-		//                            MessageBox.Show("Eines des Ausgangstilesets ist nicht 512x512 Pixel groß. Prozess wird abgebrochen.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//                            return;
-		//                        }
-
-		//                        gtImage imgSave=new gtImage(1024, 1024, gtImage.Format.RGBA);
-		//                        imgSave.Draw(0, 0, img1);
-		//                        imgSave.Draw(512, 0, img2);
-		//                        imgSave.Draw(0, 512, img3);
-		//                        imgSave.Draw(512, 512, img4);
-
-		//                        imgSave.SaveToPNGGDI(fnSave);
-
-		//                        MessageBox.Show("Tileset wurde erfolgreich erzeugt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//                    }
-		//                }
-		//            }
-		//        }
-		//    }
-		//}
-
-		//private void vonDenMapsBenutzteTilesetsErmittelnToolStripMenuItem_Click(object sender, EventArgs e)
-		//{
-		//    if(Globals.folder_root=="")
-		//    {
-		//        MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//        return;
-		//    }
-
-		//    List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
-		//    Dictionary<string, int> usedTilesets=new Dictionary<string, int>();
-		//    //List<string> usedTilesets=new List<string>();
-
-		//    foreach(string fn in maps)
-		//    {
-		//        TMX map=new TMX();
-		//        map.Open(fn, false);
-
-		//        foreach(CSCL.FileFormats.TMX.TMX.TilesetData fnTileset in map.Tilesets)
-		//        {
-		//            string cleanTileset=FileSystem.GetFilename(fnTileset.imgsource);
-
-		//            if(usedTilesets.ContainsKey(cleanTileset)==false)
-		//            {
-		//                usedTilesets.Add(cleanTileset, 1);
-		//            }
-		//            else
-		//            {
-		//                int val=usedTilesets[cleanTileset];
-		//                val++;
-		//                usedTilesets[cleanTileset]=val;
-		//            }
-		//        }
-		//    }
-
-		//    List<string> msg=new List<string>();
-
-		//    foreach(string i in usedTilesets.Keys)
-		//    {
-		//        msg.Add(String.Format("{0} ({1} mal)", i, usedTilesets[i]));
-		//    }
-
-		//    msg.Sort();
-
-		//    FormOutputBox.ShowOutputBox("Von den Maps benutzte Tilesets", msg);
-		//}
-
-		//private void mapsxmlWeltkartenDBSQLDateiToolStripMenuItem_Click(object sender, EventArgs e)
-		//{
-		//    if(Globals.folder_root=="")
-		//    {
-		//        MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//        return;
-		//    }
-
-		//    saveFileDialog.Filter="SQL Dateien (*.sql)|*.sql";
-
-		//    if(saveFileDialog.ShowDialog()==DialogResult.OK)
-		//    {
-		//        //Maps laden
-		//        string fnMapsXml=Globals.folder_serverdata+"maps.xml";
-		//        List<Map> maps=Map.GetMapsFromMapsXml(fnMapsXml);
-
-		//        //Ini
-		//        List<string> sqlFile=new List<string>();
-		//        sqlFile.Add("INSERT `wmInformation` (`MapID`, `FileName`, `Title`, `Music`) VALUES");
-
-		//        //maps
-		//        foreach(Map i in maps)
-		//        {
-		//            WebClient client=new WebClient();
-		//            string infourl=String.Format("http://weltkarte.invertika.org/info.php?onlytext=1&fn={0}", i.Name);
-		//            byte[] padData=client.DownloadData(new Uri(infourl));
-
-		//            if(padData.Length==0)
-		//            {
-		//                sqlFile.Add(String.Format("('{0}', '{1}', '{2}', '{3}'),", i.ID, i.Name, "kein Name vergeben", "keine Musikdatei angegeben"));
-		//            }
-		//        }
-
-		//        sqlFile[sqlFile.Count-1]=sqlFile[sqlFile.Count-1].TrimEnd(',')+";";
-
-		//        File.WriteAllLines(saveFileDialog.FileName, sqlFile.ToArray());
-
-		//        MessageBox.Show("Weltkarten DB SQL Datei geschrieben.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//    }
-		//}
-
-		//private void mapsxmlWeltkartenDBSQLDateifürUpdateBestehenderEinträgeToolStripMenuItem_Click(object sender, EventArgs e)
-		//{
-		//    if(Globals.folder_root=="")
-		//    {
-		//        MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//        return;
-		//    }
-
-		//    saveFileDialog.Filter="SQL Dateien (*.sql)|*.sql";
-
-		//    if(saveFileDialog.ShowDialog()==DialogResult.OK)
-		//    {
-		//        //Maps laden
-		//        string fnMapsXml=Globals.folder_serverdata+"maps.xml";
-		//        List<Map> maps=Map.GetMapsFromMapsXml(fnMapsXml);
-
-		//        //Ini
-		//        List<string> sqlFile=new List<string>();
-
-		//        //maps
-		//        foreach(Map i in maps)
-		//        {
-		//            string fnMap=Globals.folder_clientdata_maps+i.Name+".tmx";
-		//            TMX tmx=new TMX();
-		//            tmx.Open(fnMap, false);
-
-		//            Property p=tmx.GetProperty("music");
-		//            if(p==null)
-		//            {
-		//                sqlFile.Add(String.Format("UPDATE wmInformation SET Music = '{0}' WHERE FileName LIKE \"%{1}%\";", "keine Musikdatei angegeben", i.Name));
-		//            }
-		//            else
-		//            {
-		//                sqlFile.Add(String.Format("UPDATE wmInformation SET Music = '{0}' WHERE FileName LIKE \"%{1}%\";", p.Value, i.Name));
-		//            }
-		//        }
-
-		//        File.WriteAllLines(saveFileDialog.FileName, sqlFile.ToArray());
-
-		//        MessageBox.Show("Weltkarten DB SQL Datei geschrieben.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//    }
-		//}
-
-		//private void nichtVorhandeneTilesetsAusMapsEntfernenToolStripMenuItem_Click(object sender, EventArgs e)
-		//{
-		//    if(Globals.folder_root=="")
-		//    {
-		//        MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//        return;
-		//    }
-
-		//    List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
-		//    int removedTilesets=0;
-
-		//    foreach(string fnCurrent in maps)
-		//    {
-
-		//        TMX map=new TMX();
-		//        map.Open(fnCurrent, false);
-		//        string fn=FileSystem.GetRelativePath(fnCurrent, Globals.folder_clientdata);
-
-		//        for(int i=0; i<map.Tilesets.Count; i++)
-		//        {
-		//            CSCL.FileFormats.TMX.TMX.TilesetData fnTileset=map.Tilesets[i];
-
-		//            string cleanTileset=Globals.folder_clientdata+fnTileset.imgsource.Replace("../graphics", "graphics");
-
-		//            if(!FileSystem.ExistsFile(cleanTileset))
-		//            {
-		//                map.Tilesets.Remove(fnTileset);
-		//                removedTilesets++;
-		//            }
-		//        }
-
-		//        map.Save(fnCurrent);
-		//    }
-
-		//    MessageBox.Show("Es wurden "+removedTilesets+" fehlerhafte Tilesets korrigiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//}
-
-		//private void lUADokumentationMediawikiAPIToolStripMenuItem_Click(object sender, EventArgs e)
-		//{
-		//    if(Globals.folder_root=="")
-		//    {
-		//        MessageBox.Show("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//        return;
-		//    }
-
-		//    if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL")=="")
-		//    {
-		//        MessageBox.Show("Bitte geben sie eine Mediawiki URL in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//        return;
-		//    }
-
-		//    if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username")=="")
-		//    {
-		//        MessageBox.Show("Bitte geben sie einen Mediawiki Nutzernamen in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//        return;
-		//    }
-
-		//    if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort")=="")
-		//    {
-		//        MessageBox.Show("Bitte geben sie einen Mediawiki Passwort in den Optionen an.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//        return;
-		//    }
-
-		//    string url=Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL");
-		//    string username=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username");
-		//    string password=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort");
-
-		//    Site wiki=new Site(url, username, password);
-
-		//    List<string> luafiles=FileSystem.GetFiles(Globals.folder_serverdata_scripts_libs, true, "*.lua");
-
-		//    foreach(string file in luafiles)
-		//    {
-		//        LuaDocParser ldp=new LuaDocParser(file);
-		//        LucDocReturn ret=ldp.ExportLuaDocToMediaWiki();
-
-		//        switch(ret.DocType)
-		//        {
-		//            case LuaDocType.Module:
-		//                {
-		//                    Page page=new Page(wiki, ret.Name+" (Lua Modul)");
-
-		//                    page.Load();
-
-		//                    string text=page.text;
-
-		//                    if(text=="")
-		//                    {
-		//                        List<string> lines=new List<string>();
-
-		//                        lines.Add("{{Status_Green}}");
-		//                        lines.Add("{{Automatic}}");
-
-		//                        lines.Add("");
-
-		//                        lines.Add("==Funktionen==");
-
-		//                        //Funktions
-		//                        lines.Add("{{Anker|AutomaticStartFunctions}}");
-		//                        lines.AddRange(ret.Functions);
-		//                        lines.Add("{{Anker|AutomaticEndFunctions}}");
-		//                        lines.Add("");
-		//                        lines.Add("[[Kategorie: Lua]]");
-		//                        lines.Add("[[Kategorie: Lua Modul]]");
-
-		//                        foreach(string ll in lines)
-		//                        {
-		//                            text+=ll+"\n";
-		//                        }
-
-		//                        if(page.text!=text)
-		//                        {
-		//                            page.text=text;
-		//                        }
-
-		//                        page.Save("Sourcecode Dokumentation erstellt.", false);
-		//                    }
-		//                    else //Entsprechende Bereiche ersetzen
-		//                    {
-		//                        string start="{{Anker|AutomaticStartFunctions}}";
-		//                        string end="{Anker|AutomaticEndFunctions}}";
-		//                        int idxBeginInfobox=text.IndexOf(start, 0);
-		//                        int idxEndInfobox=text.IndexOf(end, 0);
-
-		//                        int lengthOfString=(idxEndInfobox-idxBeginInfobox)-start.Length-1;
-		//                        string vorkommen=text.Substring(idxBeginInfobox+start.Length, lengthOfString);
-
-		//                        if(vorkommen!="\n")
-		//                        {
-		//                            text=text.Replace(vorkommen, "");
-		//                        }
-
-		//                        //if(monsterIndex==-1) continue;
-
-		//                        string replaceString="{{Anker|AutomaticStartFunctions}}\n";
-
-		//                        foreach(string ll in ret.Functions)
-		//                        {
-		//                            replaceString+=ll+"\n";
-		//                        }
-
-		//                        text=text.Replace(start, replaceString);
-
-		//                        if(page.text!=text)
-		//                        {
-		//                            page.text=text;
-		//                        }
-
-		//                        page.Save("Sourcecode Dokumentation aktualisiert.", true);
-		//                    }
-
-		//                    //ExportLUADocuToMediawikiAPI();
-		//                    break;
-		//                }
-		//            default:
-		//                {
-		//                    break;
-		//                }
-		//        }
-
-		//    }
-
-		//    MessageBox.Show("Lua Dokumentation aktualisiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//}
-
-		//private void tilesetInMapWieTilesetdateinameBennnenToolStripMenuItem_Click(object sender, EventArgs e)
-		//{
-		//    //Maps laden
-		//    List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
-
-		//    foreach(string i in mapfiles)
-		//    {
-		//        bool changed=false;
-
-		//        TMX maptmx=new TMX();
-		//        maptmx.Open(i);
-
-		//        //Tiles transformieren
-		//        foreach(TMX.TilesetData ld in maptmx.Tilesets)
-		//        {
-		//            string fnForTilesetName=FileSystem.GetFilenameWithoutExt(ld.imgsource);
-
-		//            if(ld.name!=fnForTilesetName)
-		//            {
-		//                changed=true;
-		//                ld.name=fnForTilesetName;
-		//            }
-		//        }
-
-		//        if(changed)
-		//        {
-		//            //Map speichern
-		//            maptmx.Save(i);
-		//        }
-		//    }
-		//}
-
-		//private void tileDurchAnderesTileErsetzenToolStripMenuItem_Click(object sender, EventArgs e)
-		//{
-		//    string tilesetSourceFilename;
-		//    int tileSourceID=-1;
-
-		//    string tilesetTargetFilename;
-		//    int tileTargetID=-1;
-
-		//    openFileDialog.Filter="PNG Dateien (*.png)|*.png";
-		//    openFileDialog.Title="Quelltileset auswählen";
-
-		//    if(openFileDialog.ShowDialog()==DialogResult.OK)
-		//    {
-		//        tilesetSourceFilename=openFileDialog.FileName;
-		//        TilesetInfo ti=Helper.GetTilesetInfo(tilesetSourceFilename);
-
-		//        if(ti.TileWidth!=32||ti.TileHeight!=32)
-		//        {
-		//            MessageBox.Show("Zur Zeit werden nur Tilesets mit einer Tilebreite/höhe von 32 Pixel unterstützt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//            return;
-		//        }
-
-		//        FormTileReplacer InstFormTileReplacer=new FormTileReplacer();
-		//        InstFormTileReplacer.Filename=tilesetSourceFilename;
-
-		//        if(InstFormTileReplacer.ShowDialog()==DialogResult.OK)
-		//        {
-		//            tileSourceID=InstFormTileReplacer.TileID;
-
-		//            openFileDialog.Filter="PNG Dateien (*.png)|*.png";
-		//            openFileDialog.Title="Zieltileset auswählen";
-
-		//            if(openFileDialog.ShowDialog()==DialogResult.OK)
-		//            {
-		//                tilesetTargetFilename=openFileDialog.FileName;
-		//                ti=Helper.GetTilesetInfo(tilesetSourceFilename);
-
-		//                if(ti.TileWidth!=32||ti.TileHeight!=32)
-		//                {
-		//                    MessageBox.Show("Zur Zeit werden nur Tilesets mit einer Tilebreite/höhe von 32 Pixel unterstützt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//                    return;
-		//                }
-
-		//                InstFormTileReplacer=new FormTileReplacer();
-		//                InstFormTileReplacer.Filename=tilesetTargetFilename;
-
-		//                if(InstFormTileReplacer.ShowDialog()==DialogResult.OK)
-		//                {
-		//                    tileTargetID=InstFormTileReplacer.TileID;
-		//                    TransformTileInAllMaps(tilesetSourceFilename, tilesetTargetFilename, tileSourceID, tileTargetID);
-		//                }
-		//            }
-		//        }
-		//    }
-		//}
-
-		//public void TransformTileInAllMaps(string srcTileset, string dstTileset, int src, int dst)
-		//{
-		//    //Maps laden
-		//    List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
-
-		//    foreach(string i in mapfiles)
-		//    {
-		//        bool changed=false;
-
-		//        TMX maptmx=new TMX();
-		//        maptmx.Open(i);
-
-		//        //schauen ob zieltileset vorhanden
-		//        bool TargetTilesetExists=false;
-
-		//        TMX.TilesetData destTileset=null;
-
-		//        foreach(TMX.TilesetData td in maptmx.Tilesets)
-		//        {
-		//            if(td.imgsource.IndexOf(FileSystem.GetFilename(dstTileset))!=-1)
-		//            {
-		//                TargetTilesetExists=true;
-		//                destTileset=td;
-		//                break;
-		//            }
-		//        }
-
-		//        //Tiles transformieren
-		//        maptmx.RemoveGidsFromLayerData(); //RemoveGidFrom Tiles
-
-		//        if(TargetTilesetExists==false)
-		//        {
-		//            //Tileset eintragen
-		//            TMX.TilesetData tsData=new TMX.TilesetData();
-		//            tsData.name=FileSystem.GetFilenameWithoutExt(dstTileset);
-		//            tsData.imgsource="../graphics/tiles/"+FileSystem.GetFilename(dstTileset);
-		//            tsData.tileheight=32;
-		//            tsData.tilewidth=32;
-		//            maptmx.Tilesets.Add(tsData);
-
-		//            destTileset=tsData;
-		//        }
-
-		//        foreach(TMX.LayerData ld in maptmx.Layers)
-		//        {
-		//            for(int y=0; y<ld.height; y++)
-		//            {
-		//                for(int x=0; x<ld.width; x++)
-		//                {
-		//                    TMX.TilesetData ts=ld.tilesetmap[x, y];
-		//                    int TileNumber=ld.data[x, y];
-
-		//                    if(ts.imgsource!=null)
-		//                    {
-		//                        if(ts.imgsource.IndexOf(FileSystem.GetFilename(srcTileset))!=-1)
-		//                        {
-		//                            if(TileNumber==src)
-		//                            {
-		//                                changed=true;
-		//                                ld.data[x, y]=dst;
-		//                                ld.tilesetmap[x, y]=destTileset;
-		//                            }
-		//                        }
-		//                    }
-		//                }
-		//            }
-		//        }
-
-		//        if(changed)
-		//        {
-		//            //FirstGids neu vergeben
-		//            maptmx.Tilesets.Sort();
-
-		//            int firstgit=1;
-
-		//            foreach(TMX.TilesetData gidChange in maptmx.Tilesets)
-		//            {
-		//                gidChange.firstgid=firstgit;
-		//                firstgit+=2000; //Sicherheitsabstand
-		//            }
-
-		//            //AddGidToTiles
-		//            maptmx.AddsGidsToLayerData();
-
-		//            //Map speichern
-		//            maptmx.Save(i);
-		//        }
-		//    }
-
-		//    MessageBox.Show("Tile wurde nach "+FileSystem.GetFilename(openFileDialog.FileName)+" transformiert.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//}
-
-		//private void entferneLeereTilesVonDenKartenToolStripMenuItem_Click(object sender, EventArgs e)
-		//{
-		//    //Maps laden
-		//    List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
-
-		//    foreach(string i in mapfiles)
-		//    {
-		//        bool changed=false;
-
-		//        TMX maptmx=new TMX();
-		//        maptmx.Open(i);
-
-		//        //für jeden Layer
-		//        foreach(TMX.LayerData ld in maptmx.Layers)
-		//        {
-		//            for(int y=0; y<ld.height; y++)
-		//            {
-		//                for(int x=0; x<ld.width; x++)
-		//                {
-		//                    int TileNumber=ld.data[x, y];
-
-		//                    if(TileNumber==0) continue; //leeres Tile
-
-		//                    gtImage tile=maptmx.GetTile(TileNumber);
-		//                    Color median=tile.GetMedianColor();
-
-		//                    int summe=median.A+median.R+median.G+median.R;
-
-		//                    if(summe==0)
-		//                    {
-		//                        ld.data[x, y]=0;
-		//                        changed=true;
-		//                    }
-		//                }
-		//            }
-		//        }
-
-		//        if(changed)
-		//        {
-		//            //Map speichern
-		//            maptmx.Save(i);
-		//        }
-		//    }
-
-		//    MessageBox.Show("Leere Tiles wurden entfernt.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//}
-
-		//private void bestimmteElementeMitKollisionslayernVersehenToolStripMenuItem_Click(object sender, EventArgs e)
-		//{
-		//    openFileDialog.Multiselect=true;
-		//    openFileDialog.FileName="";
-		//    openFileDialog.Filter="TMX Dateien (*.tmx)|*.tmx";
-
-		//    if(openFileDialog.ShowDialog()==DialogResult.OK)
-		//    {
-		//        foreach(string filename in openFileDialog.FileNames)
-		//        {
-		//            TMX TestTMX=new TMX();
-		//            TestTMX.Open(filename);
-
-		//            TMX.LayerData fringe=null;
-		//            TMX.LayerData coll=null;
-
-		//            foreach(TMX.LayerData layer in TestTMX.Layers)
-		//            {
-		//                switch(layer.name)
-		//                {
-		//                    case "Fringe":
-		//                        {
-		//                            fringe=layer;
-		//                            break;
-		//                        }
-		//                    case "Collision":
-		//                        {
-		//                            coll=layer;
-		//                            break;
-		//                        }
-		//                }
-		//            }
-
-		//            //CollID = 
-		//            int CollID=coll.data[0, 0];
-		//            bool FileChanged=false;
-
-		//            for(int y=0; y<fringe.height; y++)
-		//            {
-		//                for(int x=0; x<fringe.width; x++)
-		//                {
-		//                    int fieldData=fringe.data[x, y];
-		//                    if(fieldData==0) continue;
-
-		//                    TMX.TilesetData tInfo=TestTMX.GetTileset(fieldData);
-
-		//                    if(CollID==coll.data[x, y]) continue;
-
-		//                    switch(FileSystem.GetFilename(tInfo.imgsource))
-		//                    {
-		//                        case "wood1_32_96.png":
-		//                            {
-		//                                int realID=fieldData-tInfo.firstgid;
-
-		//                                switch(realID)
-		//                                {
-		//                                    case 0: //Baum
-		//                                    case 1: //Baum
-		//                                    case 2: //Baum
-		//                                    case 3: //Baum
-		//                                    case 4: //Baum
-		//                                    case 5: //Baum
-		//                                        {
-		//                                            FileChanged=true;
-		//                                            coll.data[x, y]=CollID;
-		//                                            break;
-		//                                        }
-		//                                }
-
-		//                                break;
-		//                            }
-		//                        case "wood1_32_160.png":
-		//                            {
-		//                                int realID=fieldData-tInfo.firstgid;
-
-		//                                switch(realID)
-		//                                {
-		//                                    case 1: //Baum
-		//                                    case 4: //Baum
-		//                                    case 7: //Baum
-		//                                        {
-		//                                            FileChanged=true;
-		//                                            coll.data[x, y]=CollID;
-		//                                            break;
-		//                                        }
-		//                                }
-
-		//                                break;
-		//                            }
-		//                    }
-		//                }
-		//            }
-
-		//            if(FileChanged) TestTMX.Save(filename);
-		//        }
-		//    }
-
-		//    MessageBox.Show("Vorgang beendet.", "Hinweis", MessageBoxButtons.OK, MessageBoxIcon.Information);
-		//}
+		static void ExportMonsterImages(string target)
+		{
+			if(Globals.folder_root=="")
+			{
+				Console.WriteLine("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.");
+				return;
+			}
+
+			string fnMonstersXml=Globals.folder_clientdata+"monsters.xml";
+			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonstersXml);
+
+			foreach(Monster monster in monsters)
+			{
+				if(monster.ID>=50000) continue; //Testmonster ignorieren
+
+				if(monster.Sprite!=null)
+				{
+					if(monster.Sprite!="")
+					{
+						string[] splited=monster.Sprite.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+						string spritePath=Globals.folder_clientdata_graphics_sprites+splited[0];
+
+						Sprite tmp=Sprite.GetSpriteFromXml(spritePath);
+
+						Imageset set=tmp.Imagesets[0];
+						string[] splited2=set.Src.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+						string srcname=splited2[0];
+						gtImage setImage=gtImage.FromFile(Globals.folder_clientdata+srcname);
+						gtImage monsterImage=setImage.GetSubImage(0, 0, (uint)set.Width, (uint)set.Height);
+
+						string monsterDst=target+FileSystem.PathDelimiter+"Monster-"+monster.ID+".png";
+						monsterImage.SaveToPNGGDI(monsterDst);
+					}
+				}
+
+				Console.WriteLine("Monster Bilder wurden erfolgreich kopiert.");
+			}
+		}
 		#endregion
 
-		public static void Main(string[] args)
+		#region Tilesets
+		static void GetTilesetsFromMapsUsed()
+		{
+			if(Globals.folder_root=="")
+			{
+				Console.WriteLine("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.");
+				return;
+			}
+
+			List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+			Dictionary<string, int> usedTilesets=new Dictionary<string, int>();
+
+			foreach(string fn in maps)
+			{
+				TMX map=new TMX();
+				map.Open(fn, false);
+
+				foreach(CSCL.FileFormats.TMX.TMX.TilesetData fnTileset in map.Tilesets)
+				{
+					string cleanTileset=FileSystem.GetFilename(fnTileset.imgsource);
+
+					if(usedTilesets.ContainsKey(cleanTileset)==false)
+					{
+						usedTilesets.Add(cleanTileset, 1);
+					}
+					else
+					{
+						int val=usedTilesets[cleanTileset];
+						val++;
+						usedTilesets[cleanTileset]=val;
+					}
+				}
+			}
+
+			List<string> msg=new List<string>();
+
+			foreach(string i in usedTilesets.Keys)
+			{
+				msg.Add(String.Format("{0} ({1} mal)", i, usedTilesets[i]));
+			}
+
+			msg.Sort();
+
+			Console.WriteLine(msg);
+		}
+
+		static void RemoveNonExistingTilesetsFromMaps()
+		{
+			if(Globals.folder_root=="")
+			{
+				Console.WriteLine("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.");
+				return;
+			}
+
+			List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+			int removedTilesets=0;
+
+			foreach(string fnCurrent in maps)
+			{
+				TMX map=new TMX();
+				map.Open(fnCurrent, false);
+				string fn=FileSystem.GetRelativePath(fnCurrent, Globals.folder_clientdata);
+
+				for(int i=0; i<map.Tilesets.Count; i++)
+				{
+					CSCL.FileFormats.TMX.TMX.TilesetData fnTileset=map.Tilesets[i];
+
+					string cleanTileset=Globals.folder_clientdata+fnTileset.imgsource.Replace("../graphics", "graphics");
+
+					if(!FileSystem.ExistsFile(cleanTileset))
+					{
+						map.Tilesets.Remove(fnTileset);
+						removedTilesets++;
+					}
+				}
+
+				map.Save(fnCurrent);
+			}
+
+			Console.WriteLine("Es wurden "+removedTilesets+" fehlerhafte Tilesets korrigiert.");
+		}
+
+		static void RenameTilesetNameInMapsToTilesetFilename()
+		{
+			//Maps laden
+			List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+
+			foreach(string i in mapfiles)
+			{
+				bool changed=false;
+
+				TMX maptmx=new TMX();
+				maptmx.Open(i);
+
+				//Tiles transformieren
+				foreach(TMX.TilesetData ld in maptmx.Tilesets)
+				{
+					string fnForTilesetName=FileSystem.GetFilenameWithoutExt(ld.imgsource);
+
+					if(ld.name!=fnForTilesetName)
+					{
+						changed=true;
+						ld.name=fnForTilesetName;
+					}
+				}
+
+				if(changed)
+				{
+					//Map speichern
+					maptmx.Save(i);
+				}
+			}
+		}
+		#endregion
+
+		#region Mapping
+		static void RemoveBlankTilesFromMaps()
+		{
+			//Maps laden
+			List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+
+			foreach(string i in mapfiles)
+			{
+				bool changed=false;
+
+				TMX maptmx=new TMX();
+				maptmx.Open(i);
+
+				//fÃ¼r jeden Layer
+				foreach(TMX.LayerData ld in maptmx.Layers)
+				{
+					for(int y=0; y<ld.height; y++)
+					{
+						for(int x=0; x<ld.width; x++)
+						{
+							int TileNumber=ld.data[x, y];
+
+							if(TileNumber==0) continue; //leeres Tile
+
+							gtImage tile=maptmx.GetTile(TileNumber);
+							Color median=tile.GetMedianColor();
+
+							int summe=median.A+median.R+median.G+median.R;
+
+							if(summe==0)
+							{
+								ld.data[x, y]=0;
+								changed=true;
+							}
+						}
+					}
+				}
+
+				if(changed)
+				{
+					//Map speichern
+					maptmx.Save(i);
+				}
+			}
+
+			Console.WriteLine("Leere Tiles wurden entfernt.");
+		}
+
+		static void CreateCollisionsOnMaps()
+		{
+			//Maps laden
+			List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+
+			foreach(string filename in mapfiles)
+			{
+				TMX TestTMX=new TMX();
+				TestTMX.Open(filename);
+
+				TMX.LayerData fringe=null;
+				TMX.LayerData coll=null;
+
+				foreach(TMX.LayerData layer in TestTMX.Layers)
+				{
+					switch(layer.name)
+					{
+						case "Fringe":
+							{
+								fringe=layer;
+								break;
+							}
+						case "Collision":
+							{
+								coll=layer;
+								break;
+							}
+					}
+				}
+
+				//CollID = 
+				int CollID=coll.data[0, 0];
+				bool FileChanged=false;
+
+				for(int y=0; y<fringe.height; y++)
+				{
+					for(int x=0; x<fringe.width; x++)
+					{
+						int fieldData=fringe.data[x, y];
+						if(fieldData==0) continue;
+
+						TMX.TilesetData tInfo=TestTMX.GetTileset(fieldData);
+
+						if(CollID==coll.data[x, y]) continue;
+
+						switch(FileSystem.GetFilename(tInfo.imgsource))
+						{
+							case "wood1_32_96.png":
+								{
+									int realID=fieldData-tInfo.firstgid;
+
+									switch(realID)
+									{
+										case 0: //Baum
+										case 1: //Baum
+										case 2: //Baum
+										case 3: //Baum
+										case 4: //Baum
+										case 5: //Baum
+											{
+												FileChanged=true;
+												coll.data[x, y]=CollID;
+												break;
+											}
+									}
+
+									break;
+								}
+							case "wood1_32_160.png":
+								{
+									int realID=fieldData-tInfo.firstgid;
+
+									switch(realID)
+									{
+										case 1: //Baum
+										case 4: //Baum
+										case 7: //Baum
+											{
+												FileChanged=true;
+												coll.data[x, y]=CollID;
+												break;
+											}
+									}
+
+									break;
+								}
+						}
+					}
+				}
+
+				if(FileChanged) TestTMX.Save(filename);
+			}
+
+			Console.WriteLine("Vorgang beendet.");
+		}
+		#endregion
+
+		#region Transformation
+		//public partial class FormTileReplacer : Form
+		//{
+		//    public string Filename { get; set; }
+		//    public int TileID { get; private set; }
+
+		//    private void pbImage_MouseDoubleClick(object sender, MouseEventArgs e)
+		//    {
+		//        int xInTiles=e.X/32;
+		//        int yInTiles=e.Y/32;
+
+		//        int tileID=yInTiles*32+xInTiles;
+		//        TileID=tileID;
+
+		//        DialogResult=DialogResult.OK;
+		//    }
+		//}
+
+		static void TransformTileInMaps(string srcTileset, string dstTileset, int src, int dst)
+		{
+			//Maps laden
+			List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+
+			foreach(string i in mapfiles)
+			{
+				bool changed=false;
+
+				TMX maptmx=new TMX();
+				maptmx.Open(i);
+
+				//schauen ob zieltileset vorhanden
+				bool TargetTilesetExists=false;
+
+				TMX.TilesetData destTileset=null;
+
+				foreach(TMX.TilesetData td in maptmx.Tilesets)
+				{
+					if(td.imgsource.IndexOf(FileSystem.GetFilename(dstTileset))!=-1)
+					{
+						TargetTilesetExists=true;
+						destTileset=td;
+						break;
+					}
+				}
+
+				//Tiles transformieren
+				maptmx.RemoveGidsFromLayerData(); //RemoveGidFrom Tiles
+
+				if(TargetTilesetExists==false)
+				{
+					//Tileset eintragen
+					TMX.TilesetData tsData=new TMX.TilesetData();
+					tsData.name=FileSystem.GetFilenameWithoutExt(dstTileset);
+					tsData.imgsource="../graphics/tiles/"+FileSystem.GetFilename(dstTileset);
+					tsData.tileheight=32;
+					tsData.tilewidth=32;
+					maptmx.Tilesets.Add(tsData);
+
+					destTileset=tsData;
+				}
+
+				foreach(TMX.LayerData ld in maptmx.Layers)
+				{
+					for(int y=0; y<ld.height; y++)
+					{
+						for(int x=0; x<ld.width; x++)
+						{
+							TMX.TilesetData ts=ld.tilesetmap[x, y];
+							int TileNumber=ld.data[x, y];
+
+							if(ts.imgsource!=null)
+							{
+								if(ts.imgsource.IndexOf(FileSystem.GetFilename(srcTileset))!=-1)
+								{
+									if(TileNumber==src)
+									{
+										changed=true;
+										ld.data[x, y]=dst;
+										ld.tilesetmap[x, y]=destTileset;
+									}
+								}
+							}
+						}
+					}
+				}
+
+				if(changed)
+				{
+					//FirstGids neu vergeben
+					maptmx.Tilesets.Sort();
+
+					int firstgit=1;
+
+					foreach(TMX.TilesetData gidChange in maptmx.Tilesets)
+					{
+						gidChange.firstgid=firstgit;
+						firstgit+=2000; //Sicherheitsabstand
+					}
+
+					//AddGidToTiles
+					maptmx.AddsGidsToLayerData();
+
+					//Map speichern
+					maptmx.Save(i);
+				}
+			}
+
+			Console.WriteLine("Tile wurde transformiert.");
+		}
+		#endregion
+
+		#region Worldmap
+		static void CreateWorldmapDatabaseSQLFile(string target)
+		{
+			if(Globals.folder_root=="")
+			{
+				Console.WriteLine("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.");
+				return;
+			}
+
+			//Maps laden
+			string fnMapsXml=Globals.folder_serverdata+"maps.xml";
+			List<Map> maps=Map.GetMapsFromMapsXml(fnMapsXml);
+
+			//Ini
+			List<string> sqlFile=new List<string>();
+			sqlFile.Add("INSERT `wmInformation` (`MapID`, `FileName`, `Title`, `Music`) VALUES");
+
+			//maps
+			foreach(Map i in maps)
+			{
+				WebClient client=new WebClient();
+				string infourl=String.Format("http://weltkarte.invertika.org/info.php?onlytext=1&fn={0}", i.Name);
+				byte[] padData=client.DownloadData(new Uri(infourl));
+
+				if(padData.Length==0)
+				{
+					sqlFile.Add(String.Format("('{0}', '{1}', '{2}', '{3}'),", i.ID, i.Name, "kein Name vergeben", "keine Musikdatei angegeben"));
+				}
+			}
+
+			sqlFile[sqlFile.Count-1]=sqlFile[sqlFile.Count-1].TrimEnd(',')+";";
+
+			File.WriteAllLines(target, sqlFile.ToArray());
+
+			Console.WriteLine("Weltkarten DB SQL Datei geschrieben.");
+		}
+
+		static void UpdateWorldmapDatabaseSQLFile(string target)
+		{
+			if(Globals.folder_root=="")
+			{
+				Console.WriteLine("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.");
+				return;
+			}
+
+			//Maps laden
+			string fnMapsXml=Globals.folder_serverdata+"maps.xml";
+			List<Map> maps=Map.GetMapsFromMapsXml(fnMapsXml);
+
+			//Ini
+			List<string> sqlFile=new List<string>();
+
+			//maps
+			foreach(Map i in maps)
+			{
+				string fnMap=Globals.folder_clientdata_maps+i.Name+".tmx";
+				TMX tmx=new TMX();
+				tmx.Open(fnMap, false);
+
+				Property p=tmx.GetProperty("music");
+				if(p==null)
+				{
+					sqlFile.Add(String.Format("UPDATE wmInformation SET Music = '{0}' WHERE FileName LIKE \"%{1}%\";", "keine Musikdatei angegeben", i.Name));
+				}
+				else
+				{
+					sqlFile.Add(String.Format("UPDATE wmInformation SET Music = '{0}' WHERE FileName LIKE \"%{1}%\";", p.Value, i.Name));
+				}
+			}
+
+			File.WriteAllLines(target, sqlFile.ToArray());
+
+			Console.WriteLine("Weltkarten DB SQL Datei geschrieben.");
+		}
+		#endregion
+
+		#region LUA MediaWiki
+		static void UpdateLuaInMediaWiki()
+		{
+			if(Globals.folder_root=="")
+			{
+				Console.WriteLine("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.");
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL")=="")
+			{
+				Console.WriteLine("Bitte geben sie eine Mediawiki URL in den Optionen an.");
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username")=="")
+			{
+				Console.WriteLine("Bitte geben sie einen Mediawiki Nutzernamen in den Optionen an.");
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort")=="")
+			{
+				Console.WriteLine("Bitte geben sie einen Mediawiki Passwort in den Optionen an.");
+				return;
+			}
+
+			string url=Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL");
+			string username=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username");
+			string password=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort");
+
+			Site wiki=new Site(url, username, password);
+
+			List<string> luafiles=FileSystem.GetFiles(Globals.folder_serverdata_scripts_libs, true, "*.lua");
+
+			foreach(string file in luafiles)
+			{
+				LuaDocParser ldp=new LuaDocParser(file);
+				LucDocReturn ret=ldp.ExportLuaDocToMediaWiki();
+
+				switch(ret.DocType)
+				{
+					case LuaDocType.Module:
+						{
+							Page page=new Page(wiki, ret.Name+" (Lua Modul)");
+
+							page.Load();
+
+							string text=page.text;
+
+							if(text=="")
+							{
+								List<string> lines=new List<string>();
+
+								lines.Add("{{Status_Green}}");
+								lines.Add("{{Automatic}}");
+
+								lines.Add("");
+
+								lines.Add("==Funktionen==");
+
+								//Funktions
+								lines.Add("{{Anker|AutomaticStartFunctions}}");
+								lines.AddRange(ret.Functions);
+								lines.Add("{{Anker|AutomaticEndFunctions}}");
+								lines.Add("");
+								lines.Add("[[Kategorie: Lua]]");
+								lines.Add("[[Kategorie: Lua Modul]]");
+
+								foreach(string ll in lines)
+								{
+									text+=ll+"\n";
+								}
+
+								if(page.text!=text)
+								{
+									page.text=text;
+								}
+
+								page.Save("Sourcecode Dokumentation erstellt.", false);
+							}
+							else //Entsprechende Bereiche ersetzen
+							{
+								string start="{{Anker|AutomaticStartFunctions}}";
+								string end="{Anker|AutomaticEndFunctions}}";
+								int idxBeginInfobox=text.IndexOf(start, 0);
+								int idxEndInfobox=text.IndexOf(end, 0);
+
+								int lengthOfString=(idxEndInfobox-idxBeginInfobox)-start.Length-1;
+								string vorkommen=text.Substring(idxBeginInfobox+start.Length, lengthOfString);
+
+								if(vorkommen!="\n")
+								{
+									text=text.Replace(vorkommen, "");
+								}
+
+								//if(monsterIndex==-1) continue;
+
+								string replaceString="{{Anker|AutomaticStartFunctions}}\n";
+
+								foreach(string ll in ret.Functions)
+								{
+									replaceString+=ll+"\n";
+								}
+
+								text=text.Replace(start, replaceString);
+
+								if(page.text!=text)
+								{
+									page.text=text;
+								}
+
+								page.Save("Sourcecode Dokumentation aktualisiert.", true);
+							}
+
+							//ExportLUADocuToMediawikiAPI();
+							break;
+						}
+					default:
+						{
+							break;
+						}
+				}
+
+			}
+
+			Console.WriteLine("Lua Dokumentation aktualisiert.");
+		}
+		#endregion
+
+		static void Main(string[] args)
 		{
 			//Optionen
 			bool ExitsConfig=FileSystem.ExistsFile(Globals.OptionsXmlFilename);
 
-			Globals.Options=new XmlData(Globals.OptionsXmlFilename);
+			try
+			{
+				Globals.Options=new XmlData(Globals.OptionsXmlFilename);
+			}
+			catch(Exception ex)
+			{
+				Console.WriteLine("Fehler bei der Auswertung der Konfigurationsdatei:");
+				Console.WriteLine(ex.Message);
+				return;
+			}
+
 			if(!ExitsConfig) Globals.Options.AddRoot("xml");
 
 			//Parameter auswerten
@@ -3432,14 +3385,8 @@ namespace ivktool
 			if(parameters.GetBool("calcAdler32"))
 			{
 				string filename=parameters.GetString("filename", "");
-				if(filename=="")
-				{
-					Console.WriteLine("Kein Dateiname angegeben!");
-				}
-				else
-				{
-					CalcAdler32(filename);
-				}
+				if(filename=="") Console.WriteLine("Kein Dateiname angegeben!");
+				else CalcAdler32(filename);
 			}
 			else if(parameters.GetBool("checkAll"))
 			{
@@ -3450,26 +3397,18 @@ namespace ivktool
 				string folderLastFullClient=parameters.GetString("pathLastFullClient", "");
 				string folderUpdateTarget=parameters.GetString("pathUpdate", "");
 
-				if(folderLastFullClient==""||folderUpdateTarget=="")
-				{
-					Console.WriteLine("Pfad fehlt!");
-				}
-				else
-				{
-					CreateClientUpdate(folderLastFullClient, folderUpdateTarget);
-				}
+				if(folderLastFullClient==""||folderUpdateTarget=="") Console.WriteLine("Pfad fehlt!");
+				else CreateClientUpdate(folderLastFullClient, folderUpdateTarget);
+			}
+			else if(parameters.GetBool("createCollisionsOnMaps"))
+			{
+				CreateCollisionsOnMaps();
 			}
 			else if(parameters.GetBool("createDataFolder"))
 			{
 				string path=parameters.GetString("path", "");
-				if(path=="")
-				{
-					Console.WriteLine("Kein Pfad angegeben!");
-				}
-				else
-				{
-					CreateDataFolder(path);
-				}
+				if(path=="") Console.WriteLine("Kein Pfad angegeben!");
+				else CreateDataFolder(path);
 			}
 			else if(parameters.GetBool("createExampleConfig"))
 			{
@@ -3479,55 +3418,104 @@ namespace ivktool
 			{
 				CreateMapScriptsAndUpdateMaps();
 			}
+			else if(parameters.GetBool("createWorldmapDatabaseSQLFile"))
+			{
+				string filename=parameters.GetString("target", "");
+				if(filename=="") Console.WriteLine("Kein Dateiname angegeben!");
+				else CreateWorldmapDatabaseSQLFile(filename);
+			}
+			else if(parameters.GetBool("exportItemsImages"))
+			{
+				string path=parameters.GetString("path", "");
+				if(path=="") Console.WriteLine("Kein Pfad angegeben!");
+				else ExportItemImages(path);
+			}
+			else if(parameters.GetBool("exportMonsterImages"))
+			{
+				string path=parameters.GetString("path", "");
+				if(path=="") Console.WriteLine("Kein Pfad angegeben!");
+				else ExportMonsterImages(path);
+			}
 			else if(parameters.GetBool("getMonstersOnMap"))
 			{
 				GetMonstersOnMap();
 			}
-			else if(parameters.GetBool("minimaps"))
+			else if(parameters.GetBool("getTilesetsFromMapsUsed"))
 			{
-				CalcMinimaps();
+				GetTilesetsFromMapsUsed();
+			}
+			else if(parameters.GetBool("removeBlankTilesFromMaps"))
+			{
+				RemoveBlankTilesFromMaps();
+			}
+			else if(parameters.GetBool("removeBomFromFiles"))
+			{
+				RemoveBOMFromFiles();
+			}
+			else if(parameters.GetBool("removeNonExistingTilesetsFromMaps"))
+			{
+				RemoveNonExistingTilesetsFromMaps();
 			}
 			else if(parameters.GetBool("renameTileset"))
 			{
 				string oldName=parameters.GetString("oldName", "");
 				string newName=parameters.GetString("newName", "");
 
-				if(oldName==""||newName=="")
-				{
-					Console.WriteLine("Keine Namen angegeben!");
-				}
-				else
-				{
-					RenameTileset(oldName, newName);
-				}
+				if(oldName==""||newName=="") Console.WriteLine("Keine Namen angegeben!");
+				else RenameTileset(oldName, newName);
+			}
+			else if(parameters.GetBool("renameTilesetNameInMapsToTilesetFilename"))
+			{
+				RenameTilesetNameInMapsToTilesetFilename();
 			}
 			else if(parameters.GetBool("renderTMX"))
 			{
 				string oldName=parameters.GetString("tmx", "");
 				string newName=parameters.GetString("output", "");
 
-				if(oldName==""||newName=="")
-				{
-					Console.WriteLine("Keinen Dateinamen angegeben!");
-				}
-				else
-				{
-					RenderTMX(oldName, newName);
-				}
+				if(oldName==""||newName=="") Console.WriteLine("Keinen Dateinamen angegeben!");
+				else RenderTMX(oldName, newName);
+			}
+			else if(parameters.GetBool("transformTileInMaps"))
+			{
+				string srcTileset=parameters.GetString("srcTileset", "");
+				string dstTileset=parameters.GetString("dstTileset", "");
+
+				string srcTile=parameters.GetString("srcTile", "");
+				string dstTile=parameters.GetString("dstTile", "");
+
+				if(srcTileset==""||srcTileset=="") Console.WriteLine("Keine Tileset angegeben!");
+				if(srcTile==""||dstTile=="") Console.WriteLine("Keine Tiles angegeben!");
+
+				TransformTileInMaps(srcTileset, dstTileset, Convert.ToInt32(srcTile), Convert.ToInt32(dstTile));
 			}
 			else if(parameters.GetBool("updateMapsInMapsXml"))
 			{
 				UpdateMapsInMapsXml();
 			}
+			else if(parameters.GetBool("updateMinimaps"))
+			{
+				UpdateMinimaps();
+			}
 			else if(parameters.GetBool("updateMediaWiki"))
 			{
 				UpdateMediaWiki();
 			}
-			else if(parameters.GetBool("worldmap"))
+			else if(parameters.GetBool("updateLuaInMediaWiki"))
+			{
+				UpdateLuaInMediaWiki();
+			}
+			else if(parameters.GetBool("updateWorldmap"))
 			{
 				bool onlyVisble=parameters.GetBool("onlyVisible", true);
 				bool clearCache=parameters.GetBool("clearCache", false);
-				CalcWorldmap(onlyVisble, clearCache);
+				UpdateWorldmap(onlyVisble, clearCache);
+			}
+			else if(parameters.GetBool("updateWorldmapDatabaseSQLFile"))
+			{
+				string filename=parameters.GetString("target", "");
+				if(filename=="") Console.WriteLine("Kein Dateiname angegeben!");
+				else UpdateWorldmapDatabaseSQLFile(filename);
 			}
 			else
 			{

@@ -9,7 +9,7 @@ namespace ivktool
 	public class Globals
 	{
 		public static XmlData Options;
-		public static string OptionsXmlFilename=FileSystem.ApplicationPath + "ivktool.xml";
+		public static string OptionsXmlFilename=FileSystem.ApplicationPath+"ivktool.xml";
 
 		#region Eigenschaften
 		public static string folder_root
