@@ -5,9 +5,11 @@ using CSCL;
 using CSCL.Helpers;
 using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
-using CSCL.Network.Ftp;
+using CSCL.Network.FTP;
 using CSCL.Network.IRC;
 using System.Threading;
+using CSCL.Network.FTP.Client;
+using System.Net;
 
 namespace autoupdate
 {
@@ -229,17 +231,19 @@ namespace autoupdate
 
 				//Upload
 				Console.WriteLine("Beginne FTP Upload der Update Dateien...");
-				FTPConnection Client=new FTPConnection();
+				FTPSClient Client=new FTPSClient();
 
-				Client.ServerAddress=ftp_update_server;
-				Client.UserName=ftp_update_user;
-				Client.Password=ftp_update_password;
+				NetworkCredential networkCredential=new NetworkCredential();
+				networkCredential.Domain=ftp_update_server;
+				networkCredential.UserName=ftp_update_user;
+				networkCredential.Password=ftp_update_password;
 
 				Console.WriteLine("Verbinde mich mit FTP {0} mittels des Nutzers {1}.", ftp_update_server, ftp_update_user);
 
-				Client.Connect();
+				Client.Connect(networkCredential.Domain, networkCredential, ESSLSupportMode.ClearText);
 
-				string[] currentFTPFiles=Client.GetFiles("");
+				List<string> currentFTPFiles=Client.GetDirectoryFiles(""); //TODO muss getestet werden
+					
 
 				Console.WriteLine("Lösche bestehende Updatedateien auf dem FTP Server...");
 				foreach(string i in currentFTPFiles)
@@ -251,9 +255,9 @@ namespace autoupdate
 				}
 
 				Console.WriteLine("Lade Updatedatei hoch...");
-				Client.UploadFile(zipFilename, FileSystem.GetFilename(zipFilename));
-				Client.UploadFile(resFile, FileSystem.GetFilename(resFile));
-				Client.UploadFile(newsFile, FileSystem.GetFilename(newsFile));
+				Client.PutFile(zipFilename, FileSystem.GetFilename(zipFilename));
+				Client.PutFile(resFile, FileSystem.GetFilename(resFile));
+				Client.PutFile(newsFile, FileSystem.GetFilename(newsFile));
 
 				Client.Close();
 			}
@@ -270,15 +274,16 @@ namespace autoupdate
 			{
 				//Upload
 				Console.WriteLine("Beginne FTP Upload der Data Dateien...");
-				FTPConnection ClientData=new FTPConnection();
+				FTPSClient ClientData=new FTPSClient();
 
-				ClientData.ServerAddress=ftp_data_server;
-				ClientData.UserName=ftp_data_user;
-				ClientData.Password=ftp_data_password;
+				NetworkCredential networkCredential=new NetworkCredential();
+				networkCredential.Domain=ftp_data_server;
+				networkCredential.UserName=ftp_data_user;
+				networkCredential.Password=ftp_data_password;
 
 				Console.WriteLine("Verbinde mich mit FTP {0} mittels des Nutzers {1}.", ftp_data_server, ftp_data_user);
 
-				ClientData.Connect();
+				ClientData.Connect(networkCredential.Domain, networkCredential, ESSLSupportMode.ClearText);
 
 				Console.WriteLine("Lade Data Dateien hoch...");
 
@@ -310,7 +315,7 @@ namespace autoupdate
 					}
 
 					Console.WriteLine("Datei {0} wird hochgeladen...", relativeName);
-					ClientData.UploadFile(ftpfile, relativeName);
+					ClientData.PutFile(ftpfile, relativeName);
 				}
 
 				ClientData.Close();
