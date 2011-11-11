@@ -28,33 +28,33 @@ namespace ivktool
 		{
 			Console.WriteLine("ivktool 1.5.1");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
-			Console.WriteLine("   z.B. ivktool -worldmap");
+			Console.WriteLine("  z.B. ivktool -worldmap");
 			Console.WriteLine("");
-			Console.WriteLine("   -calcAdler32 -filename:<filename>");
-			Console.WriteLine("   -checkAll");
-			Console.WriteLine("   -createClientUpdate -pathLastFullClient:<path> -pathUpdate:<path>");
-			Console.WriteLine("   -createCollisionsOnMaps");
-			Console.WriteLine("   -createDataFolder -path:<path>");
-			Console.WriteLine("   -createExampleConfig");
-			Console.WriteLine("   -createMapScriptsAndUpdateMaps");
-			Console.WriteLine("   -createWorldmapDatabaseSQLFile -target:<filename>");
-			Console.WriteLine("   -exportItemsImages -target:<path>");
-			Console.WriteLine("   -exportMonsterImages -target:<path>");
-			Console.WriteLine("   -getMonstersOnMap");
-			Console.WriteLine("   -getTilesetsFromMapsUsed");
-			Console.WriteLine("   -removeBlankTilesFromMaps");
-			Console.WriteLine("   -removeBomFromFiles");
-			Console.WriteLine("   -removeNonExistingTilesetsFromMaps");
-			Console.WriteLine("   -renameTileset -oldName:<name> -newName:<name>");
-			Console.WriteLine("   -renameTilesetNameInMapsToTilesetFilename");
-			Console.WriteLine("   -renderTMX -tmx:<name> -output:<name>");
-			Console.WriteLine("   -transformTileInMaps -srcTileset:<name> -dstTileset:<name> -srcTile:<id> -dstTile:<id>");
-			Console.WriteLine("   -updateMapsInMapsXml");
-			Console.WriteLine("   -updateMinimaps");
-			Console.WriteLine("   -updateMediaWiki");
-			Console.WriteLine("   -updateLuaInMediaWiki");
-			Console.WriteLine("   -updateWorldmap [-onlyVisible] [-clearCache]");
-			Console.WriteLine("   -updateWorldmapDatabaseSQLFile -target:<filename>");
+			Console.WriteLine("  -calcAdler32 -filename:<filename>");
+			Console.WriteLine("  -checkAll");
+			Console.WriteLine("  -createClientUpdate -pathLastFullClient:<path> -pathUpdate:<path>");
+			Console.WriteLine("  -createCollisionsOnMaps");
+			Console.WriteLine("  -createDataFolder -path:<path>");
+			Console.WriteLine("  -createExampleConfig");
+			Console.WriteLine("  -createMapScriptsAndUpdateMaps");
+			Console.WriteLine("  -createWorldmapDatabaseSQLFile -target:<filename>");
+			Console.WriteLine("  -exportItemsImages -target:<path>");
+			Console.WriteLine("  -exportMonsterImages -target:<path>");
+			Console.WriteLine("  -getMonstersOnMap");
+			Console.WriteLine("  -getTilesetsFromMapsUsed");
+			Console.WriteLine("  -removeBlankTilesFromMaps");
+			Console.WriteLine("  -removeBomFromFiles");
+			Console.WriteLine("  -removeNonExistingTilesetsFromMaps");
+			Console.WriteLine("  -renameTileset -oldName:<name> -newName:<name>");
+			Console.WriteLine("  -renameTilesetNameInMapsToTilesetFilename");
+			Console.WriteLine("  -renderTMX -tmx:<name> -output:<name>");
+			Console.WriteLine("  -transformTileInMaps -srcTileset:<name> -dstTileset:<name> -srcTile:<id> -dstTile:<id>");
+			Console.WriteLine("  -updateMapsInMapsXml");
+			Console.WriteLine("  -updateMinimaps [-onlyVisible] [-clearCache]");
+			Console.WriteLine("  -updateMediaWiki");
+			Console.WriteLine("  -updateLuaInMediaWiki");
+			Console.WriteLine("  -updateWorldmap [-onlyVisible] [-clearCache]");
+			Console.WriteLine("  -updateWorldmapDatabaseSQLFile -target:<filename>");
 		}
 
 		#region CreateConfig
@@ -417,6 +417,8 @@ namespace ivktool
 		#region Check
 		static string CheckItems()
 		{
+			Console.WriteLine("Überprüfe Items...");
+
 			string fnItemsXml=Globals.folder_clientdata+"items.xml";
 			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
 			items.Sort();
@@ -485,6 +487,8 @@ namespace ivktool
 
 		static string CheckMaps()
 		{
+			Console.WriteLine("Überprüfe Maps...");
+
 			string msg="";
 			bool found=false;
 
@@ -500,6 +504,8 @@ namespace ivktool
 
 			foreach(string fnCurrent in maps)
 			{
+				Console.WriteLine("Map {0} wird überprüft...", FileSystem.GetFilename(fnCurrent));
+
 				bool ground=false, fringe=false, over=false, collision=false, @object=false;
 				int countGround=0, countFringe=0, countOver=0, countCollision=0;
 
@@ -798,6 +804,8 @@ namespace ivktool
 
 		static string CheckMonster()
 		{
+			Console.WriteLine("Überprüfe Monster...");
+
 			string fnItemsXml=Globals.folder_clientdata+"items.xml";
 			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
 
@@ -896,6 +904,8 @@ namespace ivktool
 
 		static string CheckNPCs()
 		{
+			Console.WriteLine("Überprüfe NPCs...");
+
 			bool found=false;
 			string msg="";
 
@@ -945,6 +955,8 @@ namespace ivktool
 
 		static string CheckSpritesOnFileLayer()
 		{
+			Console.WriteLine("Überprüfe Sprites auf Dateibasis...");
+
 			List<string> Files=FileSystem.GetFiles(Globals.folder_clientdata_graphics_sprites, true, "*.png");
 
 			if(Files==null)
@@ -1006,6 +1018,8 @@ namespace ivktool
 
 		static string CheckSprites()
 		{
+			Console.WriteLine("Überprüfe Sprites...");
+
 			bool found=false;
 			string msg="";
 
@@ -1050,6 +1064,8 @@ namespace ivktool
 
 		static string CheckTilesets()
 		{
+			Console.WriteLine("Überprüfe Tilesets...");
+
 			List<string> files=FileSystem.GetFiles(Globals.folder_clientdata_graphics_tiles, false, "*.png");
 
 			string msg="";
@@ -2228,7 +2244,7 @@ namespace ivktool
 		#endregion
 
 		#region Minimaps berechnen
-		static void UpdateMinimaps()
+		static void UpdateMinimaps(bool onlyVisibleMaps, bool clearCache)
 		{
 			List<string> files=FileSystem.GetFiles(Globals.folder_clientdata_maps, true, "*.tmx");
 
@@ -2242,6 +2258,31 @@ namespace ivktool
 			#region Bilder berechnen
 			foreach(string i in files)
 			{
+				//Nur sichtbare Weltkarte rendern.
+				if(onlyVisibleMaps)
+				{
+					Map map=new Map(0, FileSystem.GetFilenameWithoutExt(i));
+
+					//if(map.MapType=="iw") continue;
+					//if(map.MapType=="uw") continue;
+
+					if(map.MapType=="ow")
+					{
+						if(map.X>=-7&&map.X<=7&&map.Y>=-7&&map.Y<=7)
+						{
+							//nichts tun (sprich rendern)
+						}
+						else
+						{
+							continue;
+						}
+					}
+				}
+
+				Console.WriteLine("Überprüfe für Map {0} auf Aktualisierung...", FileSystem.GetFilename(i));
+
+				GC.Collect(2);
+
 				//Hashvergleich
 				string text=File.ReadAllText(i);
 				string textHash=Hash.SHA1.HashStringToSHA1(text);
@@ -2258,7 +2299,7 @@ namespace ivktool
 				}
 
 				//xmlHash=""; //DEBUG
-
+			
 				if(xmlHash=="")
 				{
 					Globals.Options.WriteElement("xml.CalcMinimaps."+FileSystem.GetFilenameWithoutExt(i), textHash);
@@ -2266,6 +2307,12 @@ namespace ivktool
 				else
 				{
 					Globals.Options.WriteElement(xmlPath, textHash);
+				}
+
+				//Hashvergleich
+				if(clearCache==false)
+				{
+					if(textHash==xmlHash) continue;
 				}
 
 				//Karte berechnen
@@ -2520,6 +2567,8 @@ namespace ivktool
 			#region Bilder berechnen
 			foreach(string i in files)
 			{
+				Console.WriteLine("Überprüfe für Map {0} auf Aktualisierung...", FileSystem.GetFilename(i));
+
 				GC.Collect(2);
 
 				//Nur sichtbare Weltkarte rendern.
@@ -2669,7 +2718,7 @@ namespace ivktool
 
 			foreach(string i in filesToUpload)
 			{
-				Console.WriteLine("Lade Bild {0} hoch", FileSystem.GetFilename(i));
+				Console.WriteLine("Lade Bild {0} hoch...", FileSystem.GetFilename(i));
 				string uploadf=FileSystem.GetRelativePath(i, temp);
 				uploadf=uploadf.Replace('\\', '/');
 				//Client.UploadFile(i, uploadf);
@@ -3495,7 +3544,9 @@ namespace ivktool
 			}
 			else if(parameters.GetBool("updateMinimaps"))
 			{
-				UpdateMinimaps();
+				bool onlyVisble=parameters.GetBool("onlyVisible", true);
+				bool clearCache=parameters.GetBool("clearCache", false);
+				UpdateMinimaps(onlyVisble, clearCache);
 			}
 			else if(parameters.GetBool("updateMediaWiki"))
 			{
