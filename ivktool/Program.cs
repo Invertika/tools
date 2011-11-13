@@ -26,13 +26,13 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.5.4");
+			Console.WriteLine("ivktool 1.5.5");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
 			Console.WriteLine("  z.B. ivktool -worldmap");
 			Console.WriteLine("");
-			Console.WriteLine("  -calcAdler32 -filename:<filename>");
+			Console.WriteLine("  -calcAdler32 <file(s)>");
 			Console.WriteLine("  -checkAll");
 			Console.WriteLine("  -createClientUpdate -pathLastFullClient:<path> -pathUpdate:<path>");
 			Console.WriteLine("  -createCollisionsOnMaps");
@@ -3456,9 +3456,16 @@ namespace ivktool
 			//Aktion starten
 			if(parameters.GetBool("calcAdler32"))
 			{
-				string filename=parameters.GetString("filename", "");
-				if(filename=="") Console.WriteLine("Kein Dateiname angegeben!");
-				else CalcAdler32(filename);
+				List<string> files=GetFilesFromParameters(parameters);
+
+				if(files.Count==0) Console.WriteLine("Kein Dateiname angegeben!");
+				else 
+				{
+					foreach(string file in files)
+					{
+						CalcAdler32(file);
+					}
+				}
 			}
 			else if(parameters.GetBool("checkAll"))
 			{
