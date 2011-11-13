@@ -2327,7 +2327,6 @@ namespace ivktool
 				int imageSizeOriginalHeight=(int)pic.Height;
 				double imageVerhaeltnis=imageSizeOriginalWidth/(double)imageSizeOriginalHeight;
 
-				//int imageSize=6400;
 				int imageSize=100;
 				pic=pic.Resize(imageSize, (int)(imageSize/imageVerhaeltnis));
 
