@@ -1300,6 +1300,8 @@ namespace ivktool
 				return;
 			}
 
+			Console.WriteLine("Ermittle alle Monster auf den Maps...");
+
 			Dictionary<int, List<string>> MonsterMapList=GetAllMonsterSpawnsFromMaps();
 
 			string fnMonstersXml=Globals.folder_clientdata+"monsters.xml";
