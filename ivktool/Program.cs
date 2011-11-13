@@ -49,7 +49,7 @@ namespace ivktool
 			Console.WriteLine("  -removeNonExistingTilesetsFromMaps");
 			Console.WriteLine("  -renameTileset -oldName:<name> -newName:<name>");
 			Console.WriteLine("  -renameTilesetNameInMapsToTilesetFilename");
-			Console.WriteLine("  -renderTMX <file(s)> -output:<path>");
+			Console.WriteLine("  -renderTMX <file(s)> -output:<path> -zoom:<percent>");
 			Console.WriteLine("  -transformTileInMaps -srcTileset:<name> -dstTileset:<name> -srcTile:<id> -dstTile:<id>");
 			Console.WriteLine("  -updateMapsInMapsXml");
 			Console.WriteLine("  -updateMinimaps [-onlyVisible] [-clearCache]");
@@ -2352,21 +2352,28 @@ namespace ivktool
 		#endregion
 
 		#region RenderTMX
-		static void RenderTMX(string tmx, string output)
+		static void RenderTMX(string tmx, string output, int zoom)
 		{
 			try
 			{
-				TMX TestTMX=new TMX();
-				TestTMX.Open(tmx);
-				gtImage Image=TestTMX.Render();
+				TMX map=new TMX();
+				map.Open(tmx);
+				gtImage img=map.Render();
 
-				Image.SaveToPNGGDI(output+FileSystem.GetFilenameWithoutExt(tmx)+".png");
+				if(zoom!=100)
+				{
+					int newWidth=(int)(img.Width/100*zoom);
+					int newHeight=(int)(img.Height/100*zoom);
+					img=img.Resize(newWidth, newHeight);
+				}
+
+				img.SaveToPNGGDI(output+FileSystem.GetFilenameWithoutExt(tmx)+".png");
 
 				Console.WriteLine("Datei wurde gerendert");
 			}
 			catch(Exception exception)
 			{
-				Console.WriteLine("Es gab Probleme beim Parsen der Datei.\n{0}", exception.ToString());
+				Console.WriteLine("Es gab Probleme beim Parsen der Datei {0}.\n{1}", FileSystem.GetFilename(tmx), exception.ToString());
 			}
 		}
 		#endregion
@@ -3559,13 +3566,15 @@ namespace ivktool
 				List<string> files=GetFilesFromParameters(parameters);
 
 				string output=parameters.GetString("output", "");
+				int zoom=parameters.GetInt32("zoom", 100);
 
 				if(output=="") Console.WriteLine("Keine Ausgabepfad angegeben!");
 				else
 				{
 					foreach(string file in files)
 					{
-						RenderTMX(Globals.folder_clientdata_maps+file, output);
+						RenderTMX(Globals.folder_clientdata_maps+file, output, zoom);
+						GC.Collect(3);
 					}
 				}
 			}
