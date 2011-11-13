@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ivktool", "ivktool.csproj", "{AB1C853C-0447-437E-B96E-065866E5FB22}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invertika", "..\Externals\Invertika\Invertika.csproj", "{52EE41F6-4F3E-4EB1-832A-F18515CA875A}"
@@ -51,16 +51,14 @@ Global
 		{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}.Release|x86.ActiveCfg = Release|Any CPU
 		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Debug|x86.ActiveCfg = Debug|x86
-		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Debug|x86.Build.0 = Debug|x86
+		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Release|Mixed Platforms.Build.0 = Release|x86
-		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Release|x86.ActiveCfg = Release|x86
-		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Release|x86.Build.0 = Release|x86
+		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0E720343-5366-4C3A-BC59-7B7FD2C311B5}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
