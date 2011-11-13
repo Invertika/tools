@@ -53,6 +53,10 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Externals\CSCL\CSCL\CSCL.csproj">
+      <Project>{0E720343-5366-4C3A-BC59-7B7FD2C311B5}</Project>
+      <Name>CSCL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Externals\Invertika\Invertika.csproj">
       <Project>{52EE41F6-4F3E-4EB1-832A-F18515CA875A}</Project>
       <Name>Invertika</Name>

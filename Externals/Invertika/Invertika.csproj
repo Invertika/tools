@@ -48,6 +48,12 @@
     <Compile Include="Script.cs" />
     <Compile Include="Worldmap.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CSCL\CSCL\CSCL.csproj">
+      <Project>{0E720343-5366-4C3A-BC59-7B7FD2C311B5}</Project>
+      <Name>CSCL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
