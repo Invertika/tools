@@ -26,7 +26,9 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.5.1");
+			Console.WriteLine("ivktool 1.5.2");
+			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
+			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
 			Console.WriteLine("  z.B. ivktool -worldmap");
 			Console.WriteLine("");
