@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.5.6");
+			Console.WriteLine("ivktool 1.5.7");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -2352,7 +2352,7 @@ namespace ivktool
 		#endregion
 
 		#region RenderTMX
-		static void RenderTMX(string tmx, string output, int zoom)
+		static void RenderTMX(string tmx, string output, double zoom)
 		{
 			try
 			{
@@ -3566,7 +3566,7 @@ namespace ivktool
 				List<string> files=GetFilesFromParameters(parameters);
 
 				string output=parameters.GetString("output", "");
-				int zoom=parameters.GetInt32("zoom", 100);
+				double zoom=parameters.GetDouble("zoom", 100);
 
 				if(output=="") Console.WriteLine("Keine Ausgabepfad angegeben!");
 				else
