@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.5.3");
+			Console.WriteLine("ivktool 1.5.4");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -49,7 +49,7 @@ namespace ivktool
 			Console.WriteLine("  -removeNonExistingTilesetsFromMaps");
 			Console.WriteLine("  -renameTileset -oldName:<name> -newName:<name>");
 			Console.WriteLine("  -renameTilesetNameInMapsToTilesetFilename");
-			Console.WriteLine("  -renderTMX -tmx:<name> -output:<name>");
+			Console.WriteLine("  -renderTMX <file(s)> -output:<path>");
 			Console.WriteLine("  -transformTileInMaps -srcTileset:<name> -dstTileset:<name> -srcTile:<id> -dstTile:<id>");
 			Console.WriteLine("  -updateMapsInMapsXml");
 			Console.WriteLine("  -updateMinimaps [-onlyVisible] [-clearCache]");
@@ -2358,7 +2358,7 @@ namespace ivktool
 				TestTMX.Open(tmx);
 				gtImage Image=TestTMX.Render();
 
-				Image.SaveToPNGGDI(output);
+				Image.SaveToPNGGDI(output+FileSystem.GetFilenameWithoutExt(tmx)+".png");
 
 				Console.WriteLine("Datei wurde gerendert");
 			}
@@ -3405,6 +3405,21 @@ namespace ivktool
 		}
 		#endregion
 
+		static List<string> GetFilesFromParameters(Parameters param)
+		{
+			List<string> ret=new List<string>();
+
+			foreach(string i in param.GetNames())
+			{
+				if(i.StartsWith("file"))
+				{
+					ret.Add(param.GetString(i));
+				}
+			}
+
+			return ret;
+		}
+
 		static void Main(string[] args)
 		{
 			//Optionen
@@ -3527,11 +3542,18 @@ namespace ivktool
 			}
 			else if(parameters.GetBool("renderTMX"))
 			{
-				string oldName=parameters.GetString("tmx", "");
-				string newName=parameters.GetString("output", "");
+				List<string> files=GetFilesFromParameters(parameters);
 
-				if(oldName==""||newName=="") Console.WriteLine("Keinen Dateinamen angegeben!");
-				else RenderTMX(oldName, newName);
+				string output=parameters.GetString("output", "");
+
+				if(output=="") Console.WriteLine("Keine Ausgabepfad angegeben!");
+				else
+				{
+					foreach(string file in files)
+					{
+						RenderTMX(Globals.folder_clientdata_maps+file, output);
+					}
+				}
 			}
 			else if(parameters.GetBool("transformTileInMaps"))
 			{
