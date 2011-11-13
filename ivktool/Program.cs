@@ -2842,6 +2842,8 @@ namespace ivktool
 
 			foreach(string fn in maps)
 			{
+				Console.WriteLine("Überprüfe Map {0} auf Tilesets...", FileSystem.GetFilename(fn));
+
 				TMX map=new TMX();
 				map.Open(fn, false);
 
@@ -2862,16 +2864,19 @@ namespace ivktool
 				}
 			}
 
-			List<string> msg=new List<string>();
+			List<string> tilesets=new List<string>();
 
 			foreach(string i in usedTilesets.Keys)
 			{
-				msg.Add(String.Format("{0} ({1} mal)", i, usedTilesets[i]));
+				tilesets.Add(String.Format("{0} ({1} mal)", i, usedTilesets[i]));
 			}
 
-			msg.Sort();
+			tilesets.Sort();
 
-			Console.WriteLine(msg);
+			foreach(string i in tilesets)
+			{
+				Console.WriteLine(i);
+			}
 		}
 
 		static void RemoveNonExistingTilesetsFromMaps()
@@ -3609,6 +3614,8 @@ namespace ivktool
 			{
 				DisplayHelp();
 			}
+
+			int debug=555;
 		}
 	}
 }
