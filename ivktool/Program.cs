@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.5.2");
+			Console.WriteLine("ivktool 1.5.3");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -529,6 +529,13 @@ namespace ivktool
 				{
 					string cleanTileset=Globals.folder_clientdata+fnTileset.imgsource.Replace("../graphics", "graphics");
 					if(usedTilesets.IndexOf(cleanTileset)==-1) usedTilesets.Add(cleanTileset);
+				}
+
+				//Check ob Layer gleiche Größe wie die Map haben
+				foreach(TMX.LayerData ld in map.Layers)
+				{
+					if(ld.width!=map.Width) msg+=String.Format("Layerbreite des Layers {0} ungleich Mapbreite in Map {1}.\n", ld.name, fn);
+					if(ld.height!=map.Height) msg+=String.Format("Layerhöhe des Layers {0} ungleich Maphöhe in Map {1}.\n", ld.name, fn);
 				}
 
 				foreach(TMX.LayerData ld in map.Layers)
