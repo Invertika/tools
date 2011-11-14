@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.5.9");
+			Console.WriteLine("ivktool 1.6.0");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -51,6 +51,7 @@ namespace ivktool
 			Console.WriteLine("  -renameTilesetNameInMapsToTilesetFilename");
 			Console.WriteLine("  -renderTMX <file(s)> -output:<path> -zoom:<percent>");
 			Console.WriteLine("  -transformTileInMaps -srcTileset:<name> -dstTileset:<name> -srcTile:<id> -dstTile:<id>");
+			Console.WriteLine("  -update [-onlyVisible] [-clearCache]");
 			Console.WriteLine("  -updateMapsInMapsXml");
 			Console.WriteLine("  -updateMinimaps [-onlyVisible] [-clearCache]");
 			Console.WriteLine("  -updateMediaWiki");
@@ -3627,6 +3628,17 @@ namespace ivktool
 				if(srcTile==""||dstTile=="") Console.WriteLine("Keine Tiles angegeben!");
 
 				TransformTileInMaps(srcTileset, dstTileset, Convert.ToInt32(srcTile), Convert.ToInt32(dstTile));
+			}
+			else if(parameters.GetBool("update"))
+			{
+				bool onlyVisble=parameters.GetBool("onlyVisible", true);
+				bool clearCache=parameters.GetBool("clearCache", false);
+
+				UpdateMinimaps(onlyVisble, clearCache);
+
+				UpdateWorldmap(onlyVisble, clearCache);
+
+				UpdateMediaWiki();
 			}
 			else if(parameters.GetBool("updateMapsInMapsXml"))
 			{
