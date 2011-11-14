@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.5.7");
+			Console.WriteLine("ivktool 1.5.8");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -34,20 +34,20 @@ namespace ivktool
 			Console.WriteLine("");
 			Console.WriteLine("  -calcAdler32 <file(s)>");
 			Console.WriteLine("  -checkAll");
-			Console.WriteLine("  -createClientUpdate -pathLastFullClient:<path> -pathUpdate:<path>");
+			Console.WriteLine("  -createClientUpdate <pathLastFullClient> <pathUpdate>");
 			Console.WriteLine("  -createCollisionsOnMaps");
-			Console.WriteLine("  -createDataFolder -path:<path>");
+			Console.WriteLine("  -createDataFolder <path(s)>");
 			Console.WriteLine("  -createExampleConfig");
 			Console.WriteLine("  -createMapScriptsAndUpdateMaps");
-			Console.WriteLine("  -createWorldmapDatabaseSQLFile -target:<filename>");
-			Console.WriteLine("  -exportItemsImages -target:<path>");
-			Console.WriteLine("  -exportMonsterImages -target:<path>");
+			Console.WriteLine("  -createWorldmapDatabaseSQLFile <filename(s)>");
+			Console.WriteLine("  -exportItemsImages <path(s)>");
+			Console.WriteLine("  -exportMonsterImages <path(s)>");
 			Console.WriteLine("  -getMonstersOnMap");
 			Console.WriteLine("  -getTilesetsFromMapsUsed");
 			Console.WriteLine("  -removeBlankTilesFromMaps");
 			Console.WriteLine("  -removeBomFromFiles");
 			Console.WriteLine("  -removeNonExistingTilesetsFromMaps");
-			Console.WriteLine("  -renameTileset -oldName:<name> -newName:<name>");
+			Console.WriteLine("  -renameTileset <oldName> <newName>");
 			Console.WriteLine("  -renameTilesetNameInMapsToTilesetFilename");
 			Console.WriteLine("  -renderTMX <file(s)> -output:<path> -zoom:<percent>");
 			Console.WriteLine("  -transformTileInMaps -srcTileset:<name> -dstTileset:<name> -srcTile:<id> -dstTile:<id>");
@@ -56,7 +56,7 @@ namespace ivktool
 			Console.WriteLine("  -updateMediaWiki");
 			Console.WriteLine("  -updateLuaInMediaWiki");
 			Console.WriteLine("  -updateWorldmap [-onlyVisible] [-clearCache]");
-			Console.WriteLine("  -updateWorldmapDatabaseSQLFile -target:<filename>");
+			Console.WriteLine("  -updateWorldmapDatabaseSQLFile <filename(s)>");
 		}
 
 		#region CreateConfig
@@ -2310,7 +2310,7 @@ namespace ivktool
 				}
 
 				//xmlHash=""; //DEBUG
-			
+
 				if(xmlHash=="")
 				{
 					Globals.Options.WriteElement("xml.CalcMinimaps."+FileSystem.GetFilenameWithoutExt(i), textHash);
@@ -3473,7 +3473,7 @@ namespace ivktool
 				List<string> files=GetFilesFromParameters(parameters);
 
 				if(files.Count==0) Console.WriteLine("Kein Dateiname angegeben!");
-				else 
+				else
 				{
 					foreach(string file in files)
 					{
@@ -3487,11 +3487,16 @@ namespace ivktool
 			}
 			else if(parameters.GetBool("createClientUpdate"))
 			{
-				string folderLastFullClient=parameters.GetString("pathLastFullClient", "");
-				string folderUpdateTarget=parameters.GetString("pathUpdate", "");
+				List<string> files=GetFilesFromParameters(parameters);
 
-				if(folderLastFullClient==""||folderUpdateTarget=="") Console.WriteLine("Pfad fehlt!");
-				else CreateClientUpdate(folderLastFullClient, folderUpdateTarget);
+				if(files.Count!=2) Console.WriteLine("Keine Pfade angegeben!");
+				else
+				{
+					string folderLastFullClient=files[0];
+					string folderUpdateTarget=files[1];
+
+					CreateClientUpdate(folderLastFullClient, folderUpdateTarget);
+				}
 			}
 			else if(parameters.GetBool("createCollisionsOnMaps"))
 			{
@@ -3499,9 +3504,16 @@ namespace ivktool
 			}
 			else if(parameters.GetBool("createDataFolder"))
 			{
-				string path=parameters.GetString("path", "");
-				if(path=="") Console.WriteLine("Kein Pfad angegeben!");
-				else CreateDataFolder(path);
+				List<string> paths=GetFilesFromParameters(parameters);
+
+				if(paths.Count==0) Console.WriteLine("Keine Pfad(e) angegeben!");
+				else
+				{
+					foreach(string path in paths)
+					{
+						CreateDataFolder(path);
+					}
+				}
 			}
 			else if(parameters.GetBool("createExampleConfig"))
 			{
@@ -3513,21 +3525,42 @@ namespace ivktool
 			}
 			else if(parameters.GetBool("createWorldmapDatabaseSQLFile"))
 			{
-				string filename=parameters.GetString("target", "");
-				if(filename=="") Console.WriteLine("Kein Dateiname angegeben!");
-				else CreateWorldmapDatabaseSQLFile(filename);
+				List<string> files=GetFilesFromParameters(parameters);
+
+				if(files.Count==0) Console.WriteLine("Keine Datei(en) angegeben!");
+				else
+				{
+					foreach(string file in files)
+					{
+						CreateWorldmapDatabaseSQLFile(file);
+					}
+				}
 			}
 			else if(parameters.GetBool("exportItemsImages"))
 			{
-				string path=parameters.GetString("path", "");
-				if(path=="") Console.WriteLine("Kein Pfad angegeben!");
-				else ExportItemImages(path);
+				List<string> paths=GetFilesFromParameters(parameters);
+
+				if(paths.Count==0) Console.WriteLine("Keine Pfad(e) angegeben!");
+				else
+				{
+					foreach(string path in paths)
+					{
+						ExportItemImages(path);
+					}
+				}
 			}
 			else if(parameters.GetBool("exportMonsterImages"))
 			{
-				string path=parameters.GetString("path", "");
-				if(path=="") Console.WriteLine("Kein Pfad angegeben!");
-				else ExportMonsterImages(path);
+				List<string> paths=GetFilesFromParameters(parameters);
+
+				if(paths.Count==0) Console.WriteLine("Keine Pfad(e) angegeben!");
+				else
+				{
+					foreach(string path in paths)
+					{
+						ExportMonsterImages(path);
+					}
+				}
 			}
 			else if(parameters.GetBool("getMonstersOnMap"))
 			{
@@ -3551,11 +3584,15 @@ namespace ivktool
 			}
 			else if(parameters.GetBool("renameTileset"))
 			{
-				string oldName=parameters.GetString("oldName", "");
-				string newName=parameters.GetString("newName", "");
+				List<string> tilesets=GetFilesFromParameters(parameters);
 
-				if(oldName==""||newName=="") Console.WriteLine("Keine Namen angegeben!");
-				else RenameTileset(oldName, newName);
+				if(tilesets.Count!=2) Console.WriteLine("Parameter inkorrekt angegeben.");
+				else
+				{
+					string oldName=tilesets[0];
+					string newName=tilesets[1];
+					RenameTileset(oldName, newName);
+				}
 			}
 			else if(parameters.GetBool("renameTilesetNameInMapsToTilesetFilename"))
 			{
@@ -3617,9 +3654,16 @@ namespace ivktool
 			}
 			else if(parameters.GetBool("updateWorldmapDatabaseSQLFile"))
 			{
-				string filename=parameters.GetString("target", "");
-				if(filename=="") Console.WriteLine("Kein Dateiname angegeben!");
-				else UpdateWorldmapDatabaseSQLFile(filename);
+				List<string> files=GetFilesFromParameters(parameters);
+
+				if(files.Count==0) Console.WriteLine("Keine Datei(en) angegeben!");
+				else
+				{
+					foreach(string file in files)
+					{
+						UpdateWorldmapDatabaseSQLFile(file);
+					}
+				}
 			}
 			else
 			{
