@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.6.1");
+			Console.WriteLine("ivktool 1.6.2");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -40,7 +40,7 @@ namespace ivktool
 			Console.WriteLine("  -createExampleConfig");
 			Console.WriteLine("  -createMapScriptsAndUpdateMaps");
 			Console.WriteLine("  -createWorldmapDatabaseSQLFile <filename(s)>");
-			Console.WriteLine("  -exportItemsImages <path(s)>");
+			Console.WriteLine("  -exportItemImages <path(s)>");
 			Console.WriteLine("  -exportMonsterImages <path(s)>");
 			Console.WriteLine("  -getMonstersOnMap");
 			Console.WriteLine("  -getTilesetsFromMapsUsed");
@@ -2825,9 +2825,9 @@ namespace ivktool
 						monsterImage.SaveToPNGGDI(monsterDst);
 					}
 				}
-
-				Console.WriteLine("Monster Bilder wurden erfolgreich kopiert.");
 			}
+
+			Console.WriteLine("Monster Bilder wurden erfolgreich kopiert.");
 		}
 		#endregion
 
@@ -3528,7 +3528,7 @@ namespace ivktool
 					}
 				}
 			}
-			else if(parameters.GetBool("exportItemsImages"))
+			else if(parameters.GetBool("exportItemImages"))
 			{
 				List<string> paths=GetFilesFromParameters(parameters);
 
