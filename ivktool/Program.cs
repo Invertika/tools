@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.6.0");
+			Console.WriteLine("ivktool 1.6.1");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -1663,9 +1663,8 @@ namespace ivktool
 			if(page.text!=text)
 			{
 				page.text=text;
+				page.Save("Bot: Liste der Monster aktualisiert.", true);
 			}
-
-			page.Save("Bot: Liste der Monster aktualisiert.", true);
 		}
 
 		static void ExportPlantsTableToMediawikiAPI()
@@ -1702,9 +1701,8 @@ namespace ivktool
 			if(page.text!=text)
 			{
 				page.text=text;
+				page.Save("Bot: Liste der Pflanzen aktualisiert.", true);
 			}
-
-			page.Save("Bot: Liste der Pflanzen aktualisiert.", true);
 		}
 
 		static void ExportItemMonstersDropsToMediawikiAPI()
@@ -1727,9 +1725,9 @@ namespace ivktool
 			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonsterXml);
 			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
 
-			foreach(Page i in pl)
+			foreach(Page page in pl)
 			{
-				string text=i.text;
+				string text=page.text;
 
 				//Monster ID ermitteln
 				string start="{{Anker|AutomaticStartInfobox}}";
@@ -1800,13 +1798,12 @@ namespace ivktool
 				string replaceString="{{Anker|AutomaticStartDrops}}"+droplines;
 				text=text.Replace(start, replaceString);
 
-				if(i.text!=text)
+				if(page.text!=text)
 				{
-					i.text=text;
+					page.text=text;
+					page.Save("Bot: Item Drops aktualisiert.", true);
 				}
 			}
-
-			pl.SaveSmoothly(1, "Bot: Item Drops aktualisiert.", true);
 		}
 
 		static void ExportItemsInfoboxToMediawikiAPI()
@@ -1821,9 +1818,9 @@ namespace ivktool
 			pl.FillAllFromCategory("Item");
 			pl.LoadEx();
 
-			foreach(Page i in pl)
+			foreach(Page page in pl)
 			{
-				string text=i.text;
+				string text=page.text;
 				string start="{{Anker|AutomaticStartInfobox}}";
 				string end="{Anker|AutomaticEndInfobox}}";
 
@@ -1865,16 +1862,16 @@ namespace ivktool
 
 						text=text.Replace(start, replaceString);
 
-						if(i.text!=text)
+						if(page.text!=text)
 						{
-							i.text=text;
+							page.text=text;
+							page.Save("Bot: Infobox Item aktualisiert.", true);
 						}
+
 						break;
 					}
 				}
 			}
-
-			pl.SaveSmoothly(1, "Bot: Infobox Item aktualisiert.", true);
 		}
 
 		static void ExportMonstersInfoboxToMediawikiAPI()
@@ -1893,9 +1890,9 @@ namespace ivktool
 			pl.FillAllFromCategory("Pflanze");
 			pl.LoadEx();
 
-			foreach(Page i in pl)
+			foreach(Page page in pl)
 			{
-				string text=i.text;
+				string text=page.text;
 
 				//Monster ID ermitteln
 				string start="{{Anker|AutomaticStartInfobox}}";
@@ -1940,16 +1937,15 @@ namespace ivktool
 
 						text=text.Replace(start, replaceString);
 
-						if(i.text!=text)
+						if(page.text!=text)
 						{
-							i.text=text;
+							page.text=text;
+							page.Save("Bot: Infobox Monster aktualisiert.", true);
 						}
 						break;
 					}
 				}
 			}
-
-			pl.SaveSmoothly(1, "Bot: Infobox Monster aktualisiert.", true);
 		}
 
 		static void ExportItemTableToMediawikiAPI()
@@ -1986,9 +1982,8 @@ namespace ivktool
 			if(page.text!=text)
 			{
 				page.text=text;
+				page.Save("Bot: Liste der Items aktualisiert.", true);
 			}
-
-			page.Save("Bot: Liste der Items aktualisiert.", true);
 		}
 
 		static void ExportMonstersDropsToMediawikiAPI()
@@ -2012,9 +2007,9 @@ namespace ivktool
 			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonsterXml);
 			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
 
-			foreach(Page i in pl)
+			foreach(Page page in pl)
 			{
-				string text=i.text;
+				string text=page.text;
 
 				//Monster ID ermitteln
 				string start="{{Anker|AutomaticStartInfobox}}";
@@ -2096,16 +2091,15 @@ namespace ivktool
 						string replaceString="{{Anker|AutomaticStartDrops}}"+droplines;
 						text=text.Replace(start, replaceString);
 
-						if(i.text!=text)
+						if(page.text!=text)
 						{
-							i.text=text;
+							page.text=text;
+							page.Save("Bot: Drops Monster aktualisiert.", true);
 						}
 						break;
 					}
 				}
 			}
-
-			pl.SaveSmoothly(1, "Bot: Drops Monster aktualisiert.", true);
 		}
 
 		static void ExportMonstersVorkommenToMediawikiAPI()
@@ -2123,9 +2117,9 @@ namespace ivktool
 
 			Dictionary<int, List<string>> MonsterMapList=GetAllMonsterSpawnsFromMaps();
 
-			foreach(Page i in pl)
+			foreach(Page page in pl)
 			{
-				string text=i.text;
+				string text=page.text;
 
 				//Monster ID ermitteln
 				string start="{{Anker|AutomaticStartInfobox}}";
@@ -2187,16 +2181,15 @@ namespace ivktool
 
 						text=text.Replace(start, mvRolled);
 
-						if(i.text!=text)
+						if(page.text!=text)
 						{
-							i.text=text;
+							page.text=text;
+							page.Save("Bot: Vorkommen Monster aktualisiert.", true);
 						}
 						break;
 					}
 				}
 			}
-
-			pl.SaveSmoothly(1, "Bot: Vorkommen Monster aktualisiert.", true);
 		}
 
 		static void UpdateMediaWiki()
@@ -3367,9 +3360,8 @@ namespace ivktool
 								if(page.text!=text)
 								{
 									page.text=text;
+									page.Save("Sourcecode Dokumentation erstellt.", false);
 								}
-
-								page.Save("Sourcecode Dokumentation erstellt.", false);
 							}
 							else //Entsprechende Bereiche ersetzen
 							{
@@ -3400,9 +3392,8 @@ namespace ivktool
 								if(page.text!=text)
 								{
 									page.text=text;
+									page.Save("Sourcecode Dokumentation aktualisiert.", true);
 								}
-
-								page.Save("Sourcecode Dokumentation aktualisiert.", true);
 							}
 
 							//ExportLUADocuToMediawikiAPI();
