@@ -495,7 +495,7 @@ namespace ivktool
 			string msg="";
 			bool found=false;
 
-			List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+			List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata_maps, true, "*.tmx");
 			List<string> usedTilesets=new List<string>();
 
 			if(maps==null)
