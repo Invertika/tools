@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.6.2");
+			Console.WriteLine("ivktool 1.6.3");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -2360,10 +2360,11 @@ namespace ivktool
 					int newHeight=(int)(img.Height/100*zoom);
 					img=img.Resize(newWidth, newHeight);
 				}
+				
+				string fn=output+FileSystem.GetFilenameWithoutExt(tmx)+".png";
+				img.SaveToPNGGDI(fn);
 
-				img.SaveToPNGGDI(output+FileSystem.GetFilenameWithoutExt(tmx)+".png");
-
-				Console.WriteLine("Datei wurde gerendert");
+				Console.WriteLine("Datei {0} wurde nach {1} gerendert", tmx, fn);
 			}
 			catch(Exception exception)
 			{
