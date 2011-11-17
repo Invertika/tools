@@ -16,21 +16,14 @@ namespace Invertika
 		{
 			StreamWriter sw=new StreamWriter(filename);
 
-			sw.WriteLine("----------------------------------------------------------------------------------");
-			sw.WriteLine("-- Map File                                                                     --");
-			sw.WriteLine("--                                                                              --");
-			sw.WriteLine("-- In dieser Datei stehen die entsprechenden externen NPC's, Trigger und        --");
-			sw.WriteLine("-- anderer Dinge.                                                               --");
-			sw.WriteLine("--                                                                              --");
-			sw.WriteLine("----------------------------------------------------------------------------------");
-			sw.WriteLine("--  Copyright 2008-2010 The Invertika Development Team                          --");
-			sw.WriteLine("--                                                                              --");
-			sw.WriteLine("--  This file is part of Invertika.                                             --");
-			sw.WriteLine("--                                                                              --");
-			sw.WriteLine("--  Invertika is free software; you can redistribute it and/or modify it        --");
-			sw.WriteLine("--  under the terms of the GNU General  Public License as published by the Free --");
-			sw.WriteLine("--  Software Foundation; either version 2 of the License, or any later version. --");
-			sw.WriteLine("----------------------------------------------------------------------------------");
+			sw.WriteLine("-- Externe Map Skripting Datei");
+			sw.WriteLine("-- In dieser Datei stehen die entsprechenden externen NPCs, Trigger und anderer Dinge.");
+			sw.WriteLine("--");
+			sw.WriteLine("-- © 2008-2011 by The Invertika Development Team");
+			sw.WriteLine("--");
+			sw.WriteLine("-- This file is part of Invertika. Invertika is free software; you can redistribute ");
+			sw.WriteLine("-- it and/or modify it under the terms of the GNU General  Public License as published ");
+			sw.WriteLine("-- by the Free Software Foundation; either version 3 of the License, or any later version.");
 			sw.WriteLine("\n");
 			sw.WriteLine("require \"scripts/lua/npclib\"");
 			sw.WriteLine("\n");

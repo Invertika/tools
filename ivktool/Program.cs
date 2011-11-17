@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.6.3");
+			Console.WriteLine("ivktool 1.7.0");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -38,10 +38,12 @@ namespace ivktool
 			Console.WriteLine("  -createCollisionsOnMaps");
 			Console.WriteLine("  -createDataFolder <path(s)>");
 			Console.WriteLine("  -createExampleConfig");
+			Console.WriteLine("  -createInnerMap <mapFilename> <usedTemplateMap>");
 			Console.WriteLine("  -createMapScriptsAndUpdateMaps");
 			Console.WriteLine("  -createWorldmapDatabaseSQLFile <filename(s)>");
 			Console.WriteLine("  -exportItemImages <path(s)>");
 			Console.WriteLine("  -exportMonsterImages <path(s)>");
+			Console.WriteLine("  -exportNPCSprites <path(s)>");
 			Console.WriteLine("  -getMonstersOnMap");
 			Console.WriteLine("  -getTilesetsFromMapsUsed");
 			Console.WriteLine("  -removeBlankTilesFromMaps");
@@ -63,7 +65,15 @@ namespace ivktool
 		#region CreateConfig
 		static void CreateExampleConfig()
 		{
-			StreamWriter sw=new StreamWriter(FileSystem.ApplicationPath+"ivktool.xml");
+			string configName=FileSystem.ApplicationPath+"ivktool.xml";
+
+			if(FileSystem.ExistsFile(configName))
+			{
+				Console.WriteLine("Es existiert bereits eine Konfigurationsdatei!");
+				return;
+			}
+
+			StreamWriter sw=new StreamWriter(configName);
 
 			sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>");
 			sw.WriteLine("<xml>");
@@ -263,65 +273,15 @@ namespace ivktool
 			{
 				string fnMap=String.Format("{0}{1}.tmx", pathMaps, i.Name);
 
-				bool ExistDef=false;
-
 				if(FileSystem.Exists(fnMap))
 				{
-					TMX tmx=new TMX();
-					tmx.Open(fnMap);
+					WriteExternalMapEvents(fnMap);
 
-					foreach(Objectgroup og in tmx.ObjectLayers)
+					string fnLuaOutput=String.Format("{0}{1}.lua", pathOutput, i.Name);
+
+					if(!FileSystem.ExistsFile(fnLuaOutput))
 					{
-						foreach(CSCL.FileFormats.TMX.Object objk in og.Objects)
-						{
-							if(objk.Name.ToLower()=="external map events")
-							{
-								ExistDef=true;
-								break;
-							}
-						}
-					}
-
-					if(ExistDef==false)
-					{
-						XmlData mapAsXml=new XmlData(fnMap);
-						//Definition eintragen
-						List<XmlNode> mapnodes=mapAsXml.GetElements("map");
-						XmlNode mapnode=null;
-
-						foreach(XmlNode xmlnode in mapnodes)
-						{
-							if(xmlnode.Name.ToLower()=="map")
-							{
-								mapnode=xmlnode;
-							}
-						}
-
-						XmlNode objectgroup=mapAsXml.AddElement(mapnode, "objectgroup");
-						mapAsXml.AddAttribute(objectgroup, "name", "Object");
-						mapAsXml.AddAttribute(objectgroup, "width", 70);
-						mapAsXml.AddAttribute(objectgroup, "height", 70);
-						mapAsXml.AddAttribute(objectgroup, "x", 70);
-						mapAsXml.AddAttribute(objectgroup, "y", 70);
-
-						XmlNode @object=mapAsXml.AddElement(objectgroup, "object");
-						mapAsXml.AddAttribute(@object, "name", "External Map Events");
-						mapAsXml.AddAttribute(@object, "type", "SCRIPT");
-						mapAsXml.AddAttribute(@object, "x", 0);
-						mapAsXml.AddAttribute(@object, "y", 0);
-
-						XmlNode properties=mapAsXml.AddElement(@object, "properties");
-						XmlNode property=mapAsXml.AddElement(properties, "property");
-						mapAsXml.AddAttribute(property, "name", "FILENAME");
-
-						string fnLuaScript=String.Format("scripts/maps/{0}.lua", i.Name);
-						mapAsXml.AddAttribute(property, "value", fnLuaScript);
-
-						mapAsXml.Save();
-
 						//Lua Script schreiben
-						string fnLuaOutput=String.Format("{0}{1}.lua", pathOutput, i.Name);
-
 						switch(i.MapType.ToLower())
 						{
 							case "ow":
@@ -518,7 +478,7 @@ namespace ivktool
 				{
 					map.Open(fnCurrent, false);
 				}
-				catch(NotSupportedCompressionException ex)
+				catch(NotSupportedCompressionException)
 				{
 					msg+=String.Format("Unbekannte Kompressionsart (warscheinlich zlib) in Map {0} vorhanden.\n", fnCurrent);
 					continue;
@@ -587,6 +547,16 @@ namespace ivktool
 				if(countCollision>1) { found=true; newEntry=true; msg+=String.Format("Collision Layer in Map {0} öfter als ein Mal vorhanden.\n", fn); }
 
 				int externalMapEventsCount=0;
+
+				if(map.ObjectLayers.Count==0)
+				{
+					Console.WriteLine("Kein Objektlayer in der Map {0} vorhanden.", fn);
+				}
+
+				if(map.ObjectLayers.Count>1)
+				{
+					Console.WriteLine("Mehr als ein Objektlayer in der Map {0} vorhanden.", fn);
+				}
 
 				foreach(Objectgroup og in map.ObjectLayers)
 				{
@@ -1372,15 +1342,15 @@ namespace ivktool
 			return ret;
 		}
 
-		static List<string> GetMonsterVorkommen(int id, Dictionary<int, List<string>> monstermaplist)
+		static List<string> GetMonsterAppearance(int id, Dictionary<int, List<string>> monsterMapList)
 		{
 			List<string> ret=new List<string>();
 
 			ret.Add("Das Monster kommt auf folgenden Karten vor:");
 
-			if(monstermaplist.ContainsKey(id))
+			if(monsterMapList.ContainsKey(id))
 			{
-				List<string> maps=monstermaplist[id];
+				List<string> maps=monsterMapList[id];
 
 				foreach(string map in maps)
 				{
@@ -1442,7 +1412,7 @@ namespace ivktool
 				if(monster.ID<10000) continue; //Monster, etc. ignorieren
 				if(monster.ID>=20000) continue; //Experimentelle Monster etc. ignorieren
 
-				ret+=String.Format("| align=\"center\" | [[Image:monster-{0}.png]] {{{{Anker|{0}}}}}\n", monster.ID);
+				ret+=String.Format("| align=\"center\" | [[Image:Monster-{0}.png]] {{{{Anker|{0}}}}}\n", monster.ID);
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.ID);
 				ret+=String.Format("| [[monster-{0}|{1}]]\n", monster.ID, monster.Name);
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.HP);
@@ -1545,7 +1515,7 @@ namespace ivktool
 					}
 				}
 
-				ret+=String.Format("| align=\"center\" | [[Image:item-{0}.png]] {{{{Anker|{0}}}}}\n", item.ID);
+				ret+=String.Format("| align=\"center\" | [[Image:Item-{0}.png]] {{{{Anker|{0}}}}}\n", item.ID);
 				ret+=String.Format("| align=\"center\" | {0}\n", item.ID);
 				ret+=String.Format("| [[item-{0}|{1}]]\n", item.ID, item.Name);
 				ret+=String.Format("| align=\"center\" | {0}\n", item.Description);
@@ -1594,7 +1564,7 @@ namespace ivktool
 			{
 				if(monster.ID>=10000) continue; //Experimentelle Monster, Pflanzen etc. ignorieren
 
-				ret+=String.Format("| align=\"center\" | [[Image:monster-{0}.png]] {{{{Anker|{0}}}}}\n", monster.ID);
+				ret+=String.Format("| align=\"center\" | [[Image:Monster-{0}.png]] {{{{Anker|{0}}}}}\n", monster.ID);
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.ID);
 				ret+=String.Format("| [[monster-{0}|{1}]]\n", monster.ID, monster.Name);
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.HP);
@@ -1627,6 +1597,74 @@ namespace ivktool
 			ret+="|}\n";
 
 			return ret;
+		}
+
+		static string GetNPCSpritesAsMediaWiki()
+		{
+			string ret="";
+
+			//Parameter auswerten
+			ret+="{| border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\" align=\"center\" class=\"wikitable sortable\"\n"
+			+"! style=\"background:#efdead;\" | Bild\n"
+			+"! style=\"background:#efdead;\" | ID\n"
+			+"! style=\"background:#efdead;\" | Sprite (Dateiname)\n"
+			+"! style=\"background:#efdead;\" | Partikel FX (Dateiname)\n"
+			+"|-\n";
+
+			string fnNpcsXml=Globals.folder_clientdata+"npcs.xml";
+			List<Npc> npcs=Npc.GetNpcsFromXml(fnNpcsXml);
+
+			foreach(Npc npc in npcs)
+			{
+				ret+=String.Format("| align=\"center\" | [[Image:NpcSprite-{0}.png]] {{{{Anker|{0}}}}}\n", npc.ID);
+				ret+=String.Format("| align=\"center\" | {0}\n", npc.ID);
+				ret+=String.Format("| align=\"center\" | {0}\n", npc.SpriteFilename);
+				ret+=String.Format("| align=\"center\" | {0}\n", npc.ParticleFxFilename);
+
+				ret+=String.Format("|-\n");
+			}
+
+			ret+="|}\n";
+
+			return ret;
+		}
+
+		static void ExportNPCSpriteTableToMediaWiki()
+		{
+			string url=Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL");
+			string username=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username");
+			string password=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort");
+
+			Site wiki=new Site(url, username, password);
+
+			Page page=new Page(wiki, "Liste der NPC Sprites");
+			page.LoadEx();
+
+			string npcSpriteList=GetNPCSpritesAsMediaWiki();
+
+			//Monster Vorkommen ermitteln
+			string text=page.text;
+			string start="{{Anker|AutomaticStartNPCSpriteList}}";
+			string end="{Anker|AutomaticEndNPCSpriteList}}";
+			int idxBeginInfobox=text.IndexOf(start, 0);
+			int idxEndInfobox=text.IndexOf(end, 0);
+
+			int lengthOfString=(idxEndInfobox-idxBeginInfobox)-start.Length-1;
+
+			string monsterdrops=text.Substring(idxBeginInfobox+start.Length, lengthOfString);
+			if(monsterdrops!="\n")
+			{
+				text=text.Replace(monsterdrops, "");
+			}
+
+			string replaceString="{{Anker|AutomaticStartNPCSpriteList}}\n"+npcSpriteList;
+			text=text.Replace(start, replaceString);
+
+			if(page.text!=text)
+			{
+				page.text=text;
+				page.Save("Bot: Liste der NPC Sprites aktualisiert.", true);
+			}
 		}
 
 		static void ExportMonsterTableToMediawikiAPI()
@@ -2166,7 +2204,7 @@ namespace ivktool
 				{
 					if(monster.ID==monsterIndex)
 					{
-						List<string> mv=GetMonsterVorkommen(monster.ID, MonsterMapList);
+						List<string> mv=GetMonsterAppearance(monster.ID, MonsterMapList);
 						string mvRolled="{{Anker|AutomaticStartAppearance}}";
 
 						foreach(string mventry in mv)
@@ -2221,6 +2259,9 @@ namespace ivktool
 			//Pflanzen
 			try
 			{
+				Console.WriteLine("Exportiere NPC Sprites...");
+				ExportNPCSpriteTableToMediaWiki();
+
 				Console.WriteLine("Exportiere Pflanzentabelle...");
 				ExportPlantsTableToMediawikiAPI();
 
@@ -2360,7 +2401,7 @@ namespace ivktool
 					int newHeight=(int)(img.Height/100*zoom);
 					img=img.Resize(newWidth, newHeight);
 				}
-				
+
 				string fn=output+FileSystem.GetFilenameWithoutExt(tmx)+".png";
 				img.SaveToPNGGDI(fn);
 
@@ -2830,6 +2871,43 @@ namespace ivktool
 
 			Console.WriteLine("Monster Bilder wurden erfolgreich kopiert.");
 		}
+
+		static void ExportNPCSprites(string target)
+		{
+			if(Globals.folder_root=="")
+			{
+				Console.WriteLine("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.");
+				return;
+			}
+
+			string fnNpcsXml=Globals.folder_clientdata+"npcs.xml";
+			List<Npc> npcs=Npc.GetNpcsFromXml(fnNpcsXml);
+
+			foreach(Npc npc in npcs)
+			{
+				if(npc.SpriteFilename!=null)
+				{
+					if(npc.SpriteFilename!="")
+					{
+						string[] splited=npc.SpriteFilename.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+						string spritePath=Globals.folder_clientdata_graphics_sprites+splited[0];
+
+						Sprite tmp=Sprite.GetSpriteFromXml(spritePath);
+
+						Imageset set=tmp.Imagesets[0];
+						string[] splited2=set.Src.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+						string srcname=splited2[0];
+						gtImage setImage=gtImage.FromFile(Globals.folder_clientdata+srcname);
+						gtImage monsterImage=setImage.GetSubImage(0, 0, (uint)set.Width, (uint)set.Height);
+
+						string monsterDst=target+FileSystem.PathDelimiter+"npcsprite-"+npc.ID+".png";
+						monsterImage.SaveToPNGGDI(monsterDst);
+					}
+				}
+			}
+
+			Console.WriteLine("NPC Sprites wurden erfolgreich kopiert.");
+		}
 		#endregion
 
 		#region Tilesets
@@ -2953,6 +3031,93 @@ namespace ivktool
 		#endregion
 
 		#region Mapping
+		static void WriteExternalMapEvents(string fnMap)
+		{
+			TMX tmx=new TMX();
+			tmx.Open(fnMap);
+
+			bool ExistDef=false;
+
+			string fnLuaScript=String.Format("scripts/maps/{0}.lua", FileSystem.GetFilenameWithoutExt(fnMap));
+
+			foreach(Objectgroup og in tmx.ObjectLayers)
+			{
+				foreach(CSCL.FileFormats.TMX.Object objk in og.Objects)
+				{
+					if(objk.Name.ToLower()=="external map events")
+					{
+						//name der Skriptdatei korrekt setzen
+						foreach(Property prop in objk.Properties)
+						{
+							if(prop.Name.ToLower()=="filename")
+							{
+								prop.Value=fnLuaScript;
+							}
+						}
+
+						ExistDef=true;
+						break;
+					}
+				}
+			}
+
+			if(ExistDef==false)
+			{
+				Objectgroup objectGroup=null;
+
+				if(tmx.ObjectLayers.Count==0)
+				{
+					tmx.ObjectLayers.Add(new Objectgroup("Object", 0, 0, 0, 0));
+				}
+
+				objectGroup=tmx.ObjectLayers[0];
+				CSCL.FileFormats.TMX.Object mapObject=new CSCL.FileFormats.TMX.Object("External Map Events", "SCRIPT", 0, 0, 0, 0);
+				mapObject.Properties.Add(new Property("FILENAME", fnLuaScript));
+				objectGroup.Objects.Add(mapObject);
+			}
+
+			tmx.Save(fnMap);
+		}
+
+		static void CreateInnerMap(string mapFilename, string usedTemplateMap)
+		{
+			mapFilename=Globals.folder_clientdata_maps+mapFilename;
+			usedTemplateMap=Globals.folder_clientdata_mapstemplates+usedTemplateMap;
+
+			if(FileSystem.ExistsFile(mapFilename))
+			{
+				Console.WriteLine("Die Map {0} existiert bereits!", FileSystem.GetFilename(mapFilename));
+				return;
+			}
+
+			FileSystem.CopyFile(usedTemplateMap, mapFilename);
+			string luaFilename=String.Format("{0}{1}.lua", Globals.folder_serverdata_scripts_maps, FileSystem.GetFilenameWithoutExt(mapFilename));
+			Script.CreateMapScriptFile(luaFilename);
+
+			//Map öffnen und External Map Events umschreiben
+			WriteExternalMapEvents(mapFilename);
+
+			//Maps.xml erweiteren
+			string fnMapsXml=Globals.folder_serverdata+"maps.xml";
+			List<Map> maps=Map.GetMapsFromMapsXml(fnMapsXml);
+
+			//LastID für iw Maps ermitteln
+			int lastID=0;
+
+			foreach(Map map in maps)
+			{
+				if(map.MapType=="iw")
+				{
+					if(lastID<map.ID) lastID=map.ID;
+				}
+			}
+
+			maps.Add(new Map(++lastID, FileSystem.GetFilenameWithoutExt(mapFilename)));
+
+			//maps.xml speichern
+			Map.SaveToMapsXml(fnMapsXml, maps);
+		}
+
 		static void RemoveBlankTilesFromMaps()
 		{
 			//Maps laden
@@ -3379,8 +3544,6 @@ namespace ivktool
 									text=text.Replace(vorkommen, "");
 								}
 
-								//if(monsterIndex==-1) continue;
-
 								string replaceString="{{Anker|AutomaticStartFunctions}}\n";
 
 								foreach(string ll in ret.Functions)
@@ -3396,8 +3559,6 @@ namespace ivktool
 									page.Save("Sourcecode Dokumentation aktualisiert.", true);
 								}
 							}
-
-							//ExportLUADocuToMediawikiAPI();
 							break;
 						}
 					default:
@@ -3460,6 +3621,8 @@ namespace ivktool
 				return;
 			}
 
+			Console.WriteLine("Starte Aktion am {0} um {1} Uhr...", DateTime.Now.Date.ToShortDateString(), DateTime.Now.ToShortTimeString());
+
 			//Aktion starten
 			if(parameters.GetBool("calcAdler32"))
 			{
@@ -3512,6 +3675,19 @@ namespace ivktool
 			{
 				CreateExampleConfig();
 			}
+			else if(parameters.GetBool("createInnerMap"))
+			{
+				List<string> files=GetFilesFromParameters(parameters);
+
+				if(files.Count!=2) Console.WriteLine("Parameter inkorrekt!");
+				else
+				{
+					string mapFilename=files[0];
+					string usedTemplateMap=files[1];
+
+					CreateInnerMap(mapFilename, usedTemplateMap);
+				}
+			}
 			else if(parameters.GetBool("createMapScriptsAndUpdateMaps"))
 			{
 				CreateMapScriptsAndUpdateMaps();
@@ -3552,6 +3728,19 @@ namespace ivktool
 					foreach(string path in paths)
 					{
 						ExportMonsterImages(path);
+					}
+				}
+			}
+			else if(parameters.GetBool("exportNPCSprites"))
+			{
+				List<string> paths=GetFilesFromParameters(parameters);
+
+				if(paths.Count==0) Console.WriteLine("Keine Pfad(e) angegeben!");
+				else
+				{
+					foreach(string path in paths)
+					{
+						ExportNPCSprites(path);
 					}
 				}
 			}
@@ -3674,7 +3863,7 @@ namespace ivktool
 				DisplayHelp();
 			}
 
-			int debug=555;
+			Console.WriteLine("Beende Aktion am {0} um {1} Uhr...", DateTime.Now.Date.ToShortDateString(), DateTime.Now.ToShortTimeString());
 		}
 	}
 }
