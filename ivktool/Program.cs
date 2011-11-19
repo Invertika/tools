@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.7.7");
+			Console.WriteLine("ivktool 1.7.8");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -424,6 +424,7 @@ namespace ivktool
 			//Bestimmte NPC Namen ausschließen
 			npcsInWiki.Add("...");
 			npcsInWiki.Add("roulette");
+			npcsInWiki.Add("schild");
 			npcsInWiki.Add("slotmaschine");
 			npcsInWiki.Add("würfeltisch");			
 
