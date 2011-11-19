@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.7.5");
+			Console.WriteLine("ivktool 1.7.7");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -444,7 +444,9 @@ namespace ivktool
 						string npcname=line.Trim();
 						npcname=npcname.Replace("create_npc(\"", "");
 						npcname=npcname.Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries)[0];
-
+						
+						npcname=npcname.Replace('_', ' ');
+						
 						if(npcsInWiki.IndexOf(npcname.ToLower())==-1)
 						{
 							Console.WriteLine("NPC {0} in der Skriptdatei {1} ist nicht im Wiki dokumentiert.", npcname, FileSystem.GetFilename(mapscript));
