@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.7.2");
+			Console.WriteLine("ivktool 1.7.3");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -34,6 +34,7 @@ namespace ivktool
 			Console.WriteLine("");
 			Console.WriteLine("  -calcAdler32 <file(s)>");
 			Console.WriteLine("  -check");
+			Console.WriteLine("  -checkNPCsOnWiki");
 			Console.WriteLine("  -createClientUpdate <pathLastFullClient> <pathUpdate>");
 			Console.WriteLine("  -createCollisionsOnMaps");
 			Console.WriteLine("  -createDataFolder <path(s)>");
@@ -378,6 +379,75 @@ namespace ivktool
 		#endregion
 
 		#region Check
+		static void CheckNPCsOnWikiDocumentation()
+		{
+			if(Globals.folder_root=="")
+			{
+				Console.WriteLine("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.");
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL")=="")
+			{
+				Console.WriteLine("Bitte geben sie eine Mediawiki URL in den Optionen an.");
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username")=="")
+			{
+				Console.WriteLine("Bitte geben sie einen Mediawiki Nutzernamen in den Optionen an.");
+				return;
+			}
+
+			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort")=="")
+			{
+				Console.WriteLine("Bitte geben sie einen Mediawiki Passwort in den Optionen an.");
+				return;
+			}
+
+			//MediaWiki
+			string url=Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL");
+			string username=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username");
+			string password=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort");
+
+			Site wiki=new Site(url, username, password);
+
+			PageList pl=new PageList(wiki);
+			pl.FillAllFromCategory("NPC");
+
+			List<string> npcsInWiki=new List<string>();
+			foreach(Page page in pl)
+			{
+				npcsInWiki.Add(page.title);
+			}
+
+			string npcSpriteList=GetNPCSpritesAsMediaWiki();
+
+			//Mapskript
+			List<string> mapscripts=FileSystem.GetFiles(Globals.folder_serverdata_scripts_maps, false, "*.lua");
+
+			foreach(string mapscript in mapscripts)
+			{
+				string[] lines=File.ReadAllLines(mapscript);
+
+				foreach(string line in lines)
+				{
+					//    create_npc("Isskel", 36, 17 * TILESIZE + 16, 21 * TILESIZE + 16, isskel_talk, nil) --- Isskel
+					if(line.Trim().StartsWith("create_npc"))
+					{
+						string npcname=line.Trim();
+						npcname=npcname.Replace("create_npc(\"", "");
+						npcname=npcname.Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries)[0];
+
+						if(npcsInWiki.IndexOf(npcname)==-1)
+						{
+							Console.WriteLine("NPC {0} in der Skriptdatei {1} ist nicht im Wiki dokumentiert.", npcname, FileSystem.GetFilename(mapscript));
+						}
+					}
+				}
+			}
+		}
+
 		static string CheckItems()
 		{
 			Console.WriteLine("Überprüfe Items...");
@@ -1645,7 +1715,7 @@ namespace ivktool
 
 			string npcSpriteList=GetNPCSpritesAsMediaWiki();
 
-			//Monster Vorkommen ermitteln
+			//NPC Sprites ermitteln
 			string text=page.text;
 			string start="{{Anker|AutomaticStartNPCSpriteList}}";
 			string end="{Anker|AutomaticEndNPCSpriteList}}";
@@ -3643,6 +3713,10 @@ namespace ivktool
 			else if(parameters.GetBool("check"))
 			{
 				Check();
+			}
+			else if(parameters.GetBool("checkNPCsOnWiki"))
+			{
+				CheckNPCsOnWikiDocumentation();
 			}
 			else if(parameters.GetBool("createClientUpdate"))
 			{
