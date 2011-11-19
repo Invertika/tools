@@ -1162,6 +1162,12 @@ namespace ivktool
 				Console.WriteLine("Bitte geben sie in den Optionen den Pfad zum Invertika Repository an.");
 				return;
 			}
+			
+			if(!FileSystem.ExistsDirectory(Globals.folder_root))
+			{
+				Console.WriteLine("Der Pfad Invertika Repository existiert nicht.");
+				return;
+			}
 
 			string msg="Items:\n";
 			msg+=CheckItems();
