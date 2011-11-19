@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.7.4");
+			Console.WriteLine("ivktool 1.7.5");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -3662,19 +3662,25 @@ namespace ivktool
 		{
 			//Optionen
 			bool ExitsConfig=FileSystem.ExistsFile(Globals.OptionsXmlFilename);
-
-			try
+			
+			if(ExitsConfig)
 			{
-				Globals.Options=new XmlData(Globals.OptionsXmlFilename);
+				try
+				{
+					Globals.Options=new XmlData(Globals.OptionsXmlFilename);
+				}
+				catch(Exception ex)
+				{
+					Console.WriteLine("Fehler bei der Auswertung der Konfigurationsdatei:");
+					Console.WriteLine(ex.Message);
+					return;
+				}
 			}
-			catch(Exception ex)
+			else
 			{
-				Console.WriteLine("Fehler bei der Auswertung der Konfigurationsdatei:");
-				Console.WriteLine(ex.Message);
+				Console.WriteLine("Es existiert keine Konfigurationsdatei.");
 				return;
 			}
-
-			if(!ExitsConfig) Globals.Options.AddRoot("xml");
 
 			//Parameter auswerten
 			Parameters parameters=null;
