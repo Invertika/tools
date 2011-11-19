@@ -423,9 +423,9 @@ namespace ivktool
 			
 			//Bestimmte NPC Namen ausschließen
 			npcsInWiki.Add("...");
-			npcsInWiki.Add("Roulette");
-			npcsInWiki.Add("Slotmaschine");
-			npcsInWiki.Add("Würfeltisch");			
+			npcsInWiki.Add("roulette");
+			npcsInWiki.Add("slotmaschine");
+			npcsInWiki.Add("würfeltisch");			
 
 			//Mapskript
 			List<string> mapscripts=FileSystem.GetFiles(Globals.folder_serverdata_scripts_maps, false, "*.lua");
