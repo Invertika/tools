@@ -423,6 +423,7 @@ namespace ivktool
 			
 			//Bestimmte NPC Namen ausschließen
 			npcsInWiki.Add("...");
+			npcsInWiki.Add("grabstein");
 			npcsInWiki.Add("roulette");
 			npcsInWiki.Add("schild");
 			npcsInWiki.Add("slotmaschine");
