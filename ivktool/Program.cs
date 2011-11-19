@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.7.1");
+			Console.WriteLine("ivktool 1.7.2");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -1115,7 +1115,10 @@ namespace ivktool
 			msg+="\n\n";
 			msg+="Spriteüberprüfung auf Dateiebene:\n";
 			msg+=CheckSpritesOnFileLayer();
-
+			
+			Console.WriteLine("");
+			Console.WriteLine("Ergebnisse der Überprüfung:");
+			Console.WriteLine("");
 			Console.WriteLine(msg);
 		}
 		#endregion
