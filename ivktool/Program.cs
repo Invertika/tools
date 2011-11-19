@@ -422,6 +422,7 @@ namespace ivktool
 			}
 			
 			//Bestimmte NPC Namen ausschließen
+			npcsInWiki.Add("...");
 			npcsInWiki.Add("Roulette");
 			npcsInWiki.Add("Slotmaschine");
 			npcsInWiki.Add("Würfeltisch");			
@@ -431,6 +432,8 @@ namespace ivktool
 
 			foreach(string mapscript in mapscripts)
 			{
+				if(FileSystem.GetFilename(mapscript)=="uw-sandbox-o0000-o0000-o0000.lua") continue;
+				
 				string[] lines=File.ReadAllLines(mapscript);
 
 				foreach(string line in lines)
