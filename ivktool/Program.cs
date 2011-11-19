@@ -26,14 +26,14 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.7.0");
+			Console.WriteLine("ivktool 1.7.1");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
 			Console.WriteLine("  z.B. ivktool -worldmap");
 			Console.WriteLine("");
 			Console.WriteLine("  -calcAdler32 <file(s)>");
-			Console.WriteLine("  -checkAll");
+			Console.WriteLine("  -check");
 			Console.WriteLine("  -createClientUpdate <pathLastFullClient> <pathUpdate>");
 			Console.WriteLine("  -createCollisionsOnMaps");
 			Console.WriteLine("  -createDataFolder <path(s)>");
@@ -1087,7 +1087,7 @@ namespace ivktool
 			return msg;
 		}
 
-		static void CheckAll()
+		static void Check()
 		{
 			if(Globals.folder_root=="")
 			{
@@ -3637,9 +3637,9 @@ namespace ivktool
 					}
 				}
 			}
-			else if(parameters.GetBool("checkAll"))
+			else if(parameters.GetBool("check"))
 			{
-				CheckAll();
+				Check();
 			}
 			else if(parameters.GetBool("createClientUpdate"))
 			{
