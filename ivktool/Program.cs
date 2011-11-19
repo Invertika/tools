@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.7.3");
+			Console.WriteLine("ivktool 1.7.4");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -379,7 +379,7 @@ namespace ivktool
 		#endregion
 
 		#region Check
-		static void CheckNPCsOnWikiDocumentation()
+		static void CheckNPCsOnWiki()
 		{
 			if(Globals.folder_root=="")
 			{
@@ -418,10 +418,8 @@ namespace ivktool
 			List<string> npcsInWiki=new List<string>();
 			foreach(Page page in pl)
 			{
-				npcsInWiki.Add(page.title);
+				npcsInWiki.Add(page.title.ToLower());
 			}
-
-			string npcSpriteList=GetNPCSpritesAsMediaWiki();
 
 			//Mapskript
 			List<string> mapscripts=FileSystem.GetFiles(Globals.folder_serverdata_scripts_maps, false, "*.lua");
@@ -439,7 +437,7 @@ namespace ivktool
 						npcname=npcname.Replace("create_npc(\"", "");
 						npcname=npcname.Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries)[0];
 
-						if(npcsInWiki.IndexOf(npcname)==-1)
+						if(npcsInWiki.IndexOf(npcname.ToLower())==-1)
 						{
 							Console.WriteLine("NPC {0} in der Skriptdatei {1} ist nicht im Wiki dokumentiert.", npcname, FileSystem.GetFilename(mapscript));
 						}
@@ -1828,13 +1826,9 @@ namespace ivktool
 			pl.FillAllFromCategory("Item");
 			pl.LoadEx();
 
-			Dictionary<int, List<string>> MonsterMapList=GetAllMonsterSpawnsFromMaps();
-
 			string fnMonsterXml=Globals.folder_clientdata+"monsters.xml";
-			string fnItemsXml=Globals.folder_clientdata+"items.xml";
 
 			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonsterXml);
-			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
 
 			foreach(Page page in pl)
 			{
@@ -2109,8 +2103,6 @@ namespace ivktool
 			pl.FillAllFromCategory("Monster");
 			pl.FillAllFromCategory("Pflanze");
 			pl.LoadEx();
-
-			Dictionary<int, List<string>> MonsterMapList=GetAllMonsterSpawnsFromMaps();
 
 			string fnMonsterXml=Globals.folder_clientdata+"monsters.xml";
 			string fnItemsXml=Globals.folder_clientdata+"items.xml";
@@ -2638,9 +2630,9 @@ namespace ivktool
 		{
 			//Farben
 			Color green=Color.FromArgb(128, 0, 255, 0);
-			Color yellow=Color.FromArgb(128, 255, 255, 0);
+			//Color yellow=Color.FromArgb(128, 255, 255, 0);
 			Color red=Color.FromArgb(128, 255, 0, 0);
-			Color blue=Color.FromArgb(128, 0, 0, 255);
+			//Color blue=Color.FromArgb(128, 0, 0, 255);
 
 			//Images
 			gtImage tmpImage=img.GetImage();
@@ -3049,7 +3041,6 @@ namespace ivktool
 			{
 				TMX map=new TMX();
 				map.Open(fnCurrent, false);
-				string fn=FileSystem.GetRelativePath(fnCurrent, Globals.folder_clientdata);
 
 				for(int i=0; i<map.Tilesets.Count; i++)
 				{
@@ -3716,7 +3707,7 @@ namespace ivktool
 			}
 			else if(parameters.GetBool("checkNPCsOnWiki"))
 			{
-				CheckNPCsOnWikiDocumentation();
+				CheckNPCsOnWiki();
 			}
 			else if(parameters.GetBool("createClientUpdate"))
 			{
