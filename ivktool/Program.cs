@@ -2754,12 +2754,9 @@ namespace ivktool
 					Globals.Options.WriteElement(xmlPath, textHash);
 				}
 				
-				if(FileSystem.GetFilename(i)!="ow-n0004-n0004-o0000.tmx")
+				if(clearCache==false)
 				{
-					if(clearCache==false)
-					{
-						if(textHash==xmlHash) continue;
-					}
+					if(textHash==xmlHash) continue;
 				}
 
 				//Karte berechnen
