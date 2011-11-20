@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.7.8");
+			Console.WriteLine("ivktool 1.7.9");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -213,7 +213,7 @@ namespace ivktool
 			//Ziel
 			foreach(string i in filesNew)
 			{
-				string devRelativ2=FileSystem.GetRelativePath(i, FolderDev+'\\');
+				string devRelativ2=FileSystem.GetRelativePath(i, FolderDev+FileSystem.PathDelimiter);
 				devRelativ2=devRelativ2.Replace("client-data"+FileSystem.PathDelimiter, "");
 				devRelativ2=devRelativ2.Replace("client"+FileSystem.PathDelimiter+"data"+FileSystem.PathDelimiter, "");
 				string path2=FileSystem.GetPath(devRelativ2, true);
@@ -2687,9 +2687,9 @@ namespace ivktool
 				return;
 			}
 
-			string temp=FileSystem.TempPath+"Invertika Editor\\";
-			string tempFmMonsterSpreading=FileSystem.TempPath+"Invertika Editor\\fm-monster-spreading\\";
-			string tempFmMusic=FileSystem.TempPath+"Invertika Editor\\fm-music\\";
+			string temp=FileSystem.TempPath+"Invertika Editor" + FileSystem.PathDelimiter;
+			string tempFmMonsterSpreading=FileSystem.TempPath+"Invertika Editor"+FileSystem.PathDelimiter+"fm-monster-spreading"+FileSystem.PathDelimiter;
+			string tempFmMusic=FileSystem.TempPath+"Invertika Editor"+FileSystem.PathDelimiter+"fm-music"+FileSystem.PathDelimiter;
 
 			#region Bilderordner löschen und neu anlegen
 			Console.WriteLine("Bereinige Bilderordner...");
@@ -2753,10 +2753,13 @@ namespace ivktool
 				{
 					Globals.Options.WriteElement(xmlPath, textHash);
 				}
-
-				if(clearCache==false)
+				
+				if(FileSystem.GetFilename(i)!="ow-n0004-n0004-o0000.tmx")
 				{
-					if(textHash==xmlHash) continue;
+					if(clearCache==false)
+					{
+						if(textHash==xmlHash) continue;
+					}
 				}
 
 				//Karte berechnen
