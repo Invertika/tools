@@ -3679,6 +3679,7 @@ namespace ivktool
 			{
 				try
 				{
+					Console.WriteLine("Lade Konfiguration: {0}", Globals.OptionsXmlFilename);
 					Globals.Options=new XmlData(Globals.OptionsXmlFilename);
 				}
 				catch(Exception ex)
