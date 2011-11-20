@@ -3692,9 +3692,6 @@ namespace ivktool
 			else
 			{
 				Console.WriteLine("Es existiert keine Konfigurationsdatei.");
-				Console.WriteLine("");
-				DisplayHelp();
-				return;
 			}
 
 			//Parameter auswerten
