@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.7.9");
+			Console.WriteLine("ivktool 1.7.10");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -3904,7 +3904,7 @@ namespace ivktool
 			}
 			else if(parameters.GetBool("update"))
 			{
-				bool onlyVisble=parameters.GetBool("onlyVisible", true);
+				bool onlyVisble=parameters.GetBool("onlyVisible", false);
 				bool clearCache=parameters.GetBool("clearCache", false);
 
 				UpdateMinimaps(onlyVisble, clearCache);
@@ -3919,7 +3919,7 @@ namespace ivktool
 			}
 			else if(parameters.GetBool("updateMinimaps"))
 			{
-				bool onlyVisble=parameters.GetBool("onlyVisible", true);
+				bool onlyVisble=parameters.GetBool("onlyVisible", false);
 				bool clearCache=parameters.GetBool("clearCache", false);
 				UpdateMinimaps(onlyVisble, clearCache);
 			}
