@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.7.10");
+			Console.WriteLine("ivktool 1.8.0");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -2701,6 +2701,8 @@ namespace ivktool
 			#endregion
 
 			#region Bilder berechnen
+			//int debug=0;
+			
 			foreach(string i in files)
 			{
 				Console.WriteLine("Überprüfe für Map {0} auf Aktualisierung...", FileSystem.GetFilename(i));
@@ -2817,12 +2819,18 @@ namespace ivktool
 					pic=pic.Resize(imageSize, (int)(imageSize/imageVerhaeltnis));
 					GC.Collect(3);
 				}
+				
+				//Debug
+				//debug++;
+				//if(debug>5) break;
 			}
 			#endregion
 
 			#region Bilder per FTP hochladen
 			List<string> filesToUpload=new List<string>();
 			filesToUpload.AddRange(FileSystem.GetFiles(temp, true, "*.png"));
+			
+			Console.WriteLine("Lade {0} Dateien hoch...", filesToUpload.Count);
 
 			FTPSClient Client=new FTPSClient();
 
