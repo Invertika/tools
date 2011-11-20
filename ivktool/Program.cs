@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.8.0");
+			Console.WriteLine("ivktool 1.8.1");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -56,10 +56,10 @@ namespace ivktool
 			Console.WriteLine("  -transformTileInMaps -srcTileset:<name> -dstTileset:<name> -srcTile:<id> -dstTile:<id>");
 			Console.WriteLine("  -update [-onlyVisible] [-clearCache]");
 			Console.WriteLine("  -updateMapsInMapsXml");
-			Console.WriteLine("  -updateMinimaps [-onlyVisible] [-clearCache]");
+			Console.WriteLine("  -updateMinimaps [-all] [-clearCache]");
 			Console.WriteLine("  -updateMediaWiki");
 			Console.WriteLine("  -updateLuaInMediaWiki");
-			Console.WriteLine("  -updateWorldmap [-onlyVisible] [-clearCache]");
+			Console.WriteLine("  -updateWorldmap [-all] [-clearCache]");
 			Console.WriteLine("  -updateWorldmapDatabaseSQLFile <filename(s)>");
 		}
 
@@ -2373,7 +2373,7 @@ namespace ivktool
 		#endregion
 
 		#region Minimaps berechnen
-		static void UpdateMinimaps(bool onlyVisibleMaps, bool clearCache)
+		static void UpdateMinimaps(bool all, bool clearCache)
 		{
 			List<string> files=FileSystem.GetFiles(Globals.folder_clientdata_maps, true, "*.tmx");
 
@@ -2388,7 +2388,7 @@ namespace ivktool
 			foreach(string i in files)
 			{
 				//Nur sichtbare Weltkarte rendern.
-				if(onlyVisibleMaps)
+				if(!all)
 				{
 					Map map=new Map(0, FileSystem.GetFilenameWithoutExt(i));
 
@@ -2676,7 +2676,7 @@ namespace ivktool
 			tmpImage.SaveToFile(filename);
 		}
 
-		static void UpdateWorldmap(bool onlyVisibleMaps, bool clearCache)
+		static void UpdateWorldmap(bool all, bool clearCache)
 		{
 			List<string> files=FileSystem.GetFiles(Globals.folder_clientdata_maps, true, "*.tmx");
 
@@ -2710,7 +2710,7 @@ namespace ivktool
 				GC.Collect(2);
 
 				//Nur sichtbare Weltkarte rendern.
-				if(onlyVisibleMaps)
+				if(!all)
 				{
 					Map map=new Map(0, FileSystem.GetFilenameWithoutExt(i));
 
@@ -3912,13 +3912,11 @@ namespace ivktool
 			}
 			else if(parameters.GetBool("update"))
 			{
-				bool onlyVisble=parameters.GetBool("onlyVisible", false);
+				bool all=parameters.GetBool("all", false);
 				bool clearCache=parameters.GetBool("clearCache", false);
 
-				UpdateMinimaps(onlyVisble, clearCache);
-
-				UpdateWorldmap(onlyVisble, clearCache);
-
+				UpdateMinimaps(all, clearCache);
+				UpdateWorldmap(all, clearCache);
 				UpdateMediaWiki();
 			}
 			else if(parameters.GetBool("updateMapsInMapsXml"))
@@ -3927,9 +3925,9 @@ namespace ivktool
 			}
 			else if(parameters.GetBool("updateMinimaps"))
 			{
-				bool onlyVisble=parameters.GetBool("onlyVisible", false);
+				bool all=parameters.GetBool("all", false);
 				bool clearCache=parameters.GetBool("clearCache", false);
-				UpdateMinimaps(onlyVisble, clearCache);
+				UpdateMinimaps(all, clearCache);
 			}
 			else if(parameters.GetBool("updateMediaWiki"))
 			{
@@ -3941,9 +3939,9 @@ namespace ivktool
 			}
 			else if(parameters.GetBool("updateWorldmap"))
 			{
-				bool onlyVisble=parameters.GetBool("onlyVisible", true);
+				bool all=parameters.GetBool("all", false);
 				bool clearCache=parameters.GetBool("clearCache", false);
-				UpdateWorldmap(onlyVisble, clearCache);
+				UpdateWorldmap(all, clearCache);
 			}
 			else if(parameters.GetBool("updateWorldmapDatabaseSQLFile"))
 			{
