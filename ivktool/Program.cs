@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.8.1");
+			Console.WriteLine("ivktool 1.8.2");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -561,6 +561,11 @@ namespace ivktool
 				catch(NotSupportedCompressionException)
 				{
 					msg+=String.Format("Unbekannte Kompressionsart (warscheinlich zlib) in Map {0} vorhanden.\n", fnCurrent);
+					continue;
+				}
+				catch
+				{
+					msg+=String.Format("Map {0} konnte nicht geöffnet werden.\n", fnCurrent);
 					continue;
 				}
 
