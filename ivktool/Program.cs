@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.8.3");
+			Console.WriteLine("ivktool 1.8.4");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -635,12 +635,12 @@ namespace ivktool
 
 				if(map.ObjectLayers.Count==0)
 				{
-					msg+=String.Format("Kein Objektlayer in der Map {0} vorhanden.", fn);
+					msg+=String.Format("Kein Objektlayer in der Map {0} vorhanden.\n", fn);
 				}
 
 				if(map.ObjectLayers.Count>1)
 				{
-					msg+=String.Format("Mehr als ein Objektlayer in der Map {0} vorhanden.", fn);
+					msg+=String.Format("Mehr als ein Objektlayer in der Map {0} vorhanden.\n", fn);
 				}
 
 				foreach(Objectgroup og in map.ObjectLayers)
