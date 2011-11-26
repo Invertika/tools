@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.8.4");
+			Console.WriteLine("ivktool 1.8.5");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -83,13 +83,6 @@ namespace ivktool
 			sw.WriteLine("      <Repository>");
 			sw.WriteLine("        <Trunk>/home/seeseekey/Invertika/Repository/trunk</Trunk>");
 			sw.WriteLine("      </Repository>");
-			sw.WriteLine("      <CreateDataFolder>");
-			sw.WriteLine("        <TargetFolder>/home/seeseekey/Invertika/DataFolder</TargetFolder>");
-			sw.WriteLine("      </CreateDataFolder>");
-			sw.WriteLine("      <CreateClientUpdate>");
-			sw.WriteLine("        <LastClient>/home/seeseekey/Invertika/LastClient</LastClient>");
-			sw.WriteLine("        <TargetFolder>/home/seeseekey/Invertika/Update</TargetFolder>");
-			sw.WriteLine("      </CreateClientUpdate>");
 			sw.WriteLine("    </Paths>");
 			sw.WriteLine("    <FTP>");
 			sw.WriteLine("      <Worldmap>");
