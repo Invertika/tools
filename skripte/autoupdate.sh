@@ -1,23 +1,16 @@
 #!/bin/bash
 
 ##Start with "./autoupdate.sh &"
+REPOSITORY="/path/to/rep/"
 
 #Schleife
 while true
 do
     sleep 60
-    REVISION_SERVER=`svn info http://invertika.googlecode.com/svn/trunk | grep Revision|awk '{print $2}'`
-    REVISION_LOCAL=`svn info ~/invertika/trunk | grep Revision|awk '{print $2}'` # Pfad anpassen
-    let REVISION_SERVER_INT=$REVISION_SERVER
-    let REVISION_LOCAL_INT=$REVISION_LOCAL
-    if [ $REVISION_LOCAL_INT -eq 0 ]
-    then
-        False # Nix tun
-    elif [ $REVISION_SERVER_INT -eq 0 ]
-    then
-        False # Nix tun
-    elif [ $REVISION_SERVER != $REVISION_LOCAL ] 
-    then
+    git fetch --work-tree=$REPOSITORY
+    num_of_changes=`git diff HEAD origin/master --work-tree=$REPOSITORY|wc -l`
+    if [ $num_of_changes != 0 ]
+        git pull origin master --work-tree=$REPOSITORY
         mono autoupdate.exe autoupdate.xml
         sleep 600
     fi
