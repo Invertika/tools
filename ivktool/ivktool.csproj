@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -52,7 +52,7 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Externals\CSCL\CSCL\CSCL.csproj">
+    <ProjectReference Include="..\..\..\cscl.googlecode.com\CSCL\CSCL.csproj">
       <Project>{0E720343-5366-4C3A-BC59-7B7FD2C311B5}</Project>
       <Name>CSCL</Name>
     </ProjectReference>

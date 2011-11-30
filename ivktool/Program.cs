@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.8.5");
+			Console.WriteLine("ivktool 1.8.6");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -157,17 +157,17 @@ namespace ivktool
 			List<string> filesDev=new List<string>();
 
 			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_client, false, "*.xml"));
-			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_clientdata, false, "*.xml"));
+			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_data, false, "*.xml"));
 
 			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_client_data_fonts));
 			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_client_data_graphics));
-			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_clientdata_graphics));
+			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_data_graphics));
 
 			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_client_data_help));
 			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_client_data_icons));
-			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_clientdata_maps));
-			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_clientdata_music));
-			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_clientdata_sfx));
+			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_data_maps));
+			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_data_music));
+			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_data_sfx));
 
 			//Last Client
 			List<string> filesNew=new List<string>();
@@ -256,9 +256,9 @@ namespace ivktool
 		#region Create map script and update maps
 		static void CreateMapScriptsAndUpdateMaps()
 		{
-			string fnMapsXml=Globals.folder_serverdata+"maps.xml";
-			string pathMaps=Globals.folder_clientdata_maps;
-			string pathOutput=Globals.folder_serverdata_scripts_maps;
+			string fnMapsXml=Globals.folder_data+"maps.xml";
+			string pathMaps=Globals.folder_data_maps;
+			string pathOutput=Globals.folder_data_scripts_maps;
 
 			//Maps laden
 			List<Map> maps=Map.GetMapsFromMapsXml(fnMapsXml);
@@ -423,7 +423,7 @@ namespace ivktool
 			npcsInWiki.Add("würfeltisch");			
 
 			//Mapskript
-			List<string> mapscripts=FileSystem.GetFiles(Globals.folder_serverdata_scripts_maps, false, "*.lua");
+			List<string> mapscripts=FileSystem.GetFiles(Globals.folder_data_scripts_maps, false, "*.lua");
 
 			foreach(string mapscript in mapscripts)
 			{
@@ -455,7 +455,7 @@ namespace ivktool
 		{
 			Console.WriteLine("Überprüfe Items...");
 
-			string fnItemsXml=Globals.folder_clientdata+"items.xml";
+			string fnItemsXml=Globals.folder_data+"items.xml";
 			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
 			items.Sort();
 
@@ -470,7 +470,7 @@ namespace ivktool
 					if(item.Image!="")
 					{
 						string[] splited=item.Image.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-						string imagePath=Globals.folder_clientdata_graphics_items+splited[0];
+						string imagePath=Globals.folder_data_graphics_items+splited[0];
 
 						if(!FileSystem.Exists(imagePath))
 						{
@@ -485,7 +485,7 @@ namespace ivktool
 					if(item.Sprite!="")
 					{
 						string[] splited=item.Sprite.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-						string spritePath=Globals.folder_clientdata_graphics_sprites+splited[0];
+						string spritePath=Globals.folder_data_graphics_sprites+splited[0];
 
 						if(!FileSystem.Exists(spritePath))
 						{
@@ -500,7 +500,7 @@ namespace ivktool
 							foreach(Imageset set in tmpSprite.Imagesets)
 							{
 								string[] splited2=set.Src.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-								string setPath=Globals.folder_clientdata+splited2[0];
+								string setPath=Globals.folder_data+splited2[0];
 
 								if(!FileSystem.Exists(setPath))
 								{
@@ -528,7 +528,7 @@ namespace ivktool
 			string msg="";
 			bool found=false;
 
-			List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata_maps, true, "*.tmx");
+			List<string> maps=FileSystem.GetFiles(Globals.folder_data_maps, true, "*.tmx");
 			List<string> usedTilesets=new List<string>();
 
 			if(maps==null)
@@ -562,11 +562,11 @@ namespace ivktool
 					continue;
 				}
 
-				string fn=FileSystem.GetRelativePath(fnCurrent, Globals.folder_clientdata);
+				string fn=FileSystem.GetRelativePath(fnCurrent, Globals.folder_data);
 
 				foreach(CSCL.FileFormats.TMX.TMX.TilesetData fnTileset in map.Tilesets)
 				{
-					string cleanTileset=Globals.folder_clientdata+fnTileset.imgsource.Replace("../graphics", "graphics");
+					string cleanTileset=Globals.folder_data+fnTileset.imgsource.Replace("../graphics", "graphics");
 					if(usedTilesets.IndexOf(cleanTileset)==-1) usedTilesets.Add(cleanTileset);
 				}
 
@@ -704,7 +704,7 @@ namespace ivktool
 								dest_x=dest_x/32;
 								dest_y=dest_y/32;
 
-								string warpmapname=Globals.folder_clientdata_maps+dest_map+".tmx";
+								string warpmapname=Globals.folder_data_maps+dest_map+".tmx";
 								if(FileSystem.ExistsFile(warpmapname))
 								{
 									TMX warpMap=new TMX();
@@ -834,12 +834,12 @@ namespace ivktool
 			}
 
 			//Maps XML checken
-			string fnMapsXml=Globals.folder_serverdata+"maps.xml";
+			string fnMapsXml=Globals.folder_data+"maps.xml";
 			List<Map> mapsXml=Map.GetMapsFromMapsXml(fnMapsXml);
 
 			foreach(Map i in mapsXml)
 			{
-				string fnMap=Globals.folder_clientdata_maps+i.Name+".tmx";
+				string fnMap=Globals.folder_data_maps+i.Name+".tmx";
 
 				if(!FileSystem.Exists(fnMap))
 				{
@@ -864,10 +864,10 @@ namespace ivktool
 		{
 			Console.WriteLine("Überprüfe Monster...");
 
-			string fnItemsXml=Globals.folder_clientdata+"items.xml";
+			string fnItemsXml=Globals.folder_data+"items.xml";
 			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
 
-			string fnMonstersXml=Globals.folder_clientdata+"monsters.xml";
+			string fnMonstersXml=Globals.folder_data+"monsters.xml";
 			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonstersXml);
 			monsters.Sort();
 
@@ -907,7 +907,7 @@ namespace ivktool
 						{
 							if(sound.Filename!="")
 							{
-								string imagePath=Globals.folder_clientdata_sfx+sound.Filename;
+								string imagePath=Globals.folder_data_sfx+sound.Filename;
 
 								if(!FileSystem.Exists(imagePath))
 								{
@@ -924,7 +924,7 @@ namespace ivktool
 					if(monster.Sprite!="")
 					{
 						string[] splited=monster.Sprite.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-						string spritePath=Globals.folder_clientdata_graphics_sprites+splited[0];
+						string spritePath=Globals.folder_data_graphics_sprites+splited[0];
 
 						if(!FileSystem.Exists(spritePath))
 						{
@@ -939,7 +939,7 @@ namespace ivktool
 							foreach(Imageset set in tmpSprite.Imagesets)
 							{
 								string[] splited2=set.Src.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-								string setPath=Globals.folder_clientdata+splited2[0];
+								string setPath=Globals.folder_data+splited2[0];
 
 								if(!FileSystem.Exists(setPath))
 								{
@@ -967,7 +967,7 @@ namespace ivktool
 			bool found=false;
 			string msg="";
 
-			string fnNpcsXml=Globals.folder_clientdata+"npcs.xml";
+			string fnNpcsXml=Globals.folder_data+"npcs.xml";
 			List<Npc> npcs=Npc.GetNpcsFromXml(fnNpcsXml);
 
 			foreach(Npc npc in npcs)
@@ -976,11 +976,11 @@ namespace ivktool
 				{
 					//Sprite prüfen
 					string[] splited2=npc.SpriteFilename.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-					string setPath=Globals.folder_clientdata_graphics_sprites+splited2[0];
+					string setPath=Globals.folder_data_graphics_sprites+splited2[0];
 
 					if(!FileSystem.Exists(setPath))
 					{
-						string relpath=FileSystem.GetRelativePath(setPath, Globals.folder_clientdata);
+						string relpath=FileSystem.GetRelativePath(setPath, Globals.folder_data);
 
 						found=true;
 						msg+=String.Format("Sprite Datei ({0}) für NPC (ID: {1}) existiert nicht.\n", relpath, npc.ID);
@@ -991,11 +991,11 @@ namespace ivktool
 				{
 					//Sprite prüfen
 					string[] splited2=npc.ParticleFxFilename.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-					string setPath=Globals.folder_clientdata+splited2[0];
+					string setPath=Globals.folder_data+splited2[0];
 
 					if(!FileSystem.Exists(setPath))
 					{
-						string relpath=FileSystem.GetRelativePath(setPath, Globals.folder_clientdata);
+						string relpath=FileSystem.GetRelativePath(setPath, Globals.folder_data);
 
 						found=true;
 						msg+=String.Format("ParticleFX Datei ({0}) für NPC (ID: {1}) existiert nicht.\n", relpath, npc.ID);
@@ -1015,7 +1015,7 @@ namespace ivktool
 		{
 			Console.WriteLine("Überprüfe Sprites auf Dateibasis...");
 
-			List<string> Files=FileSystem.GetFiles(Globals.folder_clientdata_graphics_sprites, true, "*.png");
+			List<string> Files=FileSystem.GetFiles(Globals.folder_data_graphics_sprites, true, "*.png");
 
 			if(Files==null)
 			{
@@ -1024,13 +1024,13 @@ namespace ivktool
 				return "";
 			}
 
-			Files.AddRange(FileSystem.GetFiles(Globals.folder_clientdata_graphics_sprites, true, "*.xml"));
+			Files.AddRange(FileSystem.GetFiles(Globals.folder_data_graphics_sprites, true, "*.xml"));
 
 			Dictionary<string, int> fileCount=new Dictionary<string, int>();
 
 			foreach(string i in Files)
 			{
-				string path=FileSystem.GetRelativePath(FileSystem.GetPath(i), Globals.folder_clientdata_graphics_sprites);
+				string path=FileSystem.GetRelativePath(FileSystem.GetPath(i), Globals.folder_data_graphics_sprites);
 				string fn=FileSystem.GetFilenameWithoutExt(i);
 				string key=path+fn;
 
@@ -1081,7 +1081,7 @@ namespace ivktool
 			bool found=false;
 			string msg="";
 
-			List<string> spriteFiles=FileSystem.GetFiles(Globals.folder_clientdata_graphics_sprites, true, "*.xml");
+			List<string> spriteFiles=FileSystem.GetFiles(Globals.folder_data_graphics_sprites, true, "*.xml");
 
 			if(spriteFiles==null)
 			{
@@ -1098,14 +1098,14 @@ namespace ivktool
 				foreach(Imageset set in tmpSprite.Imagesets)
 				{
 					string[] splited2=set.Src.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-					string setPath=Globals.folder_clientdata+splited2[0];
+					string setPath=Globals.folder_data+splited2[0];
 
 					if(!FileSystem.Exists(setPath))
 					{
 						found=true;
 
-						string relpathPNG=FileSystem.GetRelativePath(setPath, Globals.folder_clientdata);
-						string relpathXML=FileSystem.GetRelativePath(i, Globals.folder_clientdata);
+						string relpathPNG=FileSystem.GetRelativePath(setPath, Globals.folder_data);
+						string relpathXML=FileSystem.GetRelativePath(i, Globals.folder_data);
 
 						msg+=String.Format("Sprite PNG Datei ({0}) für XML Datei {1} existiert nicht.\n", relpathPNG, relpathXML);
 					}
@@ -1124,7 +1124,7 @@ namespace ivktool
 		{
 			Console.WriteLine("Überprüfe Tilesets...");
 
-			List<string> files=FileSystem.GetFiles(Globals.folder_clientdata_graphics_tiles, false, "*.png");
+			List<string> files=FileSystem.GetFiles(Globals.folder_data_graphics_tiles, false, "*.png");
 
 			string msg="";
 
@@ -1240,13 +1240,13 @@ namespace ivktool
 			//Kopieren
 			FileSystem.CopyFiles(source, serverPath, "*.sh");
 			FileSystem.CopyFiles(source, serverPath, "*.xml");
-			FileSystem.CopyFiles(Globals.folder_clientdata, serverPath+"data"+FileSystem.PathDelimiter, "*.xml");
-			FileSystem.CopyFiles(Globals.folder_clientdata, serverPath+"data"+FileSystem.PathDelimiter, "*.xsd");
-			FileSystem.CopyFiles(Globals.folder_clientdata, serverPath+"data"+FileSystem.PathDelimiter, "*.xsl");
-			FileSystem.CopyFiles(Globals.folder_clientdata_maps, serverPath+"data"+FileSystem.PathDelimiter+"maps"+FileSystem.PathDelimiter, "*.tmx");
+			FileSystem.CopyFiles(Globals.folder_data, serverPath+"data"+FileSystem.PathDelimiter, "*.xml");
+			FileSystem.CopyFiles(Globals.folder_data, serverPath+"data"+FileSystem.PathDelimiter, "*.xsd");
+			FileSystem.CopyFiles(Globals.folder_data, serverPath+"data"+FileSystem.PathDelimiter, "*.xsl");
+			FileSystem.CopyFiles(Globals.folder_data_maps, serverPath+"data"+FileSystem.PathDelimiter+"maps"+FileSystem.PathDelimiter, "*.tmx");
 
-			FileSystem.CopyDirectory(Globals.folder_serverdata_scripts, serverPath+"data"+FileSystem.PathDelimiter+"scripts"+FileSystem.PathDelimiter, true, ExcludesDirs);
-			FileSystem.CopyFiles(Globals.folder_serverdata, serverPath+"data"+FileSystem.PathDelimiter, "*.xml");
+			FileSystem.CopyDirectory(Globals.folder_data_scripts, serverPath+"data"+FileSystem.PathDelimiter+"scripts"+FileSystem.PathDelimiter, true, ExcludesDirs);
+			FileSystem.CopyFiles(Globals.folder_data, serverPath+"data"+FileSystem.PathDelimiter, "*.xml");
 			#endregion
 
 			Console.WriteLine("Erzeuge Clientdaten...");
@@ -1273,17 +1273,17 @@ namespace ivktool
 			FileSystem.CopyFile(Globals.folder_client+"Invertika.url", clientPath+"Invertika.url");
 
 			FileSystem.CopyFiles(Globals.folder_client_data, clientPath+"data"+FileSystem.PathDelimiter, "*.*", ExcludeFiles);
-			FileSystem.CopyFiles(Globals.folder_clientdata, clientPath+"data"+FileSystem.PathDelimiter, "*.xml");
+			FileSystem.CopyFiles(Globals.folder_data, clientPath+"data"+FileSystem.PathDelimiter, "*.xml");
 
 			FileSystem.CopyFiles(Globals.folder_client_data_fonts, clientPath+"data"+FileSystem.PathDelimiter+"fonts"+FileSystem.PathDelimiter, "*.ttf");
 			FileSystem.CopyDirectory(Globals.folder_client_data_graphics, clientPath+"data"+FileSystem.PathDelimiter+"graphics"+FileSystem.PathDelimiter, true, ExcludesDirs, ExcludeFiles, true);
-			FileSystem.CopyDirectory(Globals.folder_clientdata_graphics, clientPath+"data"+FileSystem.PathDelimiter+"graphics"+FileSystem.PathDelimiter, true, ExcludesDirs, ExcludeFiles, true);
+			FileSystem.CopyDirectory(Globals.folder_data_graphics, clientPath+"data"+FileSystem.PathDelimiter+"graphics"+FileSystem.PathDelimiter, true, ExcludesDirs, ExcludeFiles, true);
 
 			FileSystem.CopyFiles(Globals.folder_client_data_help, clientPath+"data"+FileSystem.PathDelimiter+"help"+FileSystem.PathDelimiter, "*.*", ExcludeFiles);
 			FileSystem.CopyFiles(Globals.folder_client_data_icons, clientPath+"data"+FileSystem.PathDelimiter+"icons"+FileSystem.PathDelimiter, "*.*", ExcludeFiles);
-			FileSystem.CopyFiles(Globals.folder_clientdata_maps, clientPath+"data"+FileSystem.PathDelimiter+"maps"+FileSystem.PathDelimiter, "*.tmx");
-			FileSystem.CopyDirectory(Globals.folder_clientdata_music, clientPath+"data"+FileSystem.PathDelimiter+"music"+FileSystem.PathDelimiter, true, ExcludesDirs, ExcludeFiles);
-			FileSystem.CopyDirectory(Globals.folder_clientdata_sfx, clientPath+"data"+FileSystem.PathDelimiter+"sfx"+FileSystem.PathDelimiter, true, ExcludesDirs, ExcludeFiles);
+			FileSystem.CopyFiles(Globals.folder_data_maps, clientPath+"data"+FileSystem.PathDelimiter+"maps"+FileSystem.PathDelimiter, "*.tmx");
+			FileSystem.CopyDirectory(Globals.folder_data_music, clientPath+"data"+FileSystem.PathDelimiter+"music"+FileSystem.PathDelimiter, true, ExcludesDirs, ExcludeFiles);
+			FileSystem.CopyDirectory(Globals.folder_data_sfx, clientPath+"data"+FileSystem.PathDelimiter+"sfx"+FileSystem.PathDelimiter, true, ExcludesDirs, ExcludeFiles);
 			#endregion
 
 			Console.WriteLine("Erzeuge minimale Clientdaten...");
@@ -1298,7 +1298,7 @@ namespace ivktool
 			FileSystem.CopyFile(source+"AUTHORS-INVERTIKA", clientPath+"AUTHORS-INVERTIKA");
 			FileSystem.CopyFile(source+"COPYING", clientPath+"COPYING");
 			FileSystem.CopyFile(Globals.folder_client+"Invertika.url", clientPath+"Invertika.url");
-			FileSystem.CopyFile(Globals.folder_clientdata_music+"godness.ogg", clientPath+"data"+FileSystem.PathDelimiter+"music"+FileSystem.PathDelimiter+"godness.ogg");
+			FileSystem.CopyFile(Globals.folder_data_music+"godness.ogg", clientPath+"data"+FileSystem.PathDelimiter+"music"+FileSystem.PathDelimiter+"godness.ogg");
 			#endregion
 
 			Console.WriteLine("Erzeuge Datenordner...");
@@ -1307,7 +1307,7 @@ namespace ivktool
 
 			FileSystem.CreateDirectory(clientPath);
 			FileSystem.CreateDirectory(clientPath+"data"+FileSystem.PathDelimiter, true);
-			FileSystem.CopyDirectory(Globals.folder_clientdata, clientPath+"data"+FileSystem.PathDelimiter, true, ExcludesDirs);
+			FileSystem.CopyDirectory(Globals.folder_data, clientPath+"data"+FileSystem.PathDelimiter, true, ExcludesDirs);
 			#endregion
 
 			Console.WriteLine("Erzeuge Nullupdate...");
@@ -1362,7 +1362,7 @@ namespace ivktool
 
 			Dictionary<int, List<string>> MonsterMapList=GetAllMonsterSpawnsFromMaps();
 
-			string fnMonstersXml=Globals.folder_clientdata+"monsters.xml";
+			string fnMonstersXml=Globals.folder_data+"monsters.xml";
 			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonstersXml);
 			monsters.Sort();
 
@@ -1398,7 +1398,7 @@ namespace ivktool
 		{
 			Dictionary<int, List<string>> ret=new Dictionary<int, List<string>>();
 
-			List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+			List<string> maps=FileSystem.GetFiles(Globals.folder_data, true, "*.tmx");
 
 			if(maps==null)
 			{
@@ -1470,8 +1470,8 @@ namespace ivktool
 		{
 			string ret="";
 			//Parameter auswerten
-			string fnMonsterXml=Globals.folder_clientdata+"monsters.xml";
-			string fnItemsXml=Globals.folder_clientdata+"items.xml";
+			string fnMonsterXml=Globals.folder_data+"monsters.xml";
+			string fnItemsXml=Globals.folder_data+"items.xml";
 
 			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
 
@@ -1536,7 +1536,7 @@ namespace ivktool
 		static string GetItemsAsMediaWiki()
 		{
 			string ret="";
-			string fnItemsXml=Globals.folder_clientdata+"items.xml";
+			string fnItemsXml=Globals.folder_data+"items.xml";
 
 			ret+="{| border=\"1\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\" align=\"center\" class=\"wikitable sortable\"\n"
 			+"! style=\"background:#efdead;\" | Bild\n"
@@ -1622,8 +1622,8 @@ namespace ivktool
 		{
 			string ret="";
 			//Parameter auswerten
-			string fnMonsterXml=Globals.folder_clientdata+"monsters.xml";
-			string fnItemsXml=Globals.folder_clientdata+"items.xml";
+			string fnMonsterXml=Globals.folder_data+"monsters.xml";
+			string fnItemsXml=Globals.folder_data+"items.xml";
 
 			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
 
@@ -1698,7 +1698,7 @@ namespace ivktool
 			+"! style=\"background:#efdead;\" | Partikel FX (Dateiname)\n"
 			+"|-\n";
 
-			string fnNpcsXml=Globals.folder_clientdata+"npcs.xml";
+			string fnNpcsXml=Globals.folder_data+"npcs.xml";
 			List<Npc> npcs=Npc.GetNpcsFromXml(fnNpcsXml);
 
 			foreach(Npc npc in npcs)
@@ -1842,7 +1842,7 @@ namespace ivktool
 			pl.FillAllFromCategory("Item");
 			pl.LoadEx();
 
-			string fnMonsterXml=Globals.folder_clientdata+"monsters.xml";
+			string fnMonsterXml=Globals.folder_data+"monsters.xml";
 
 			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonsterXml);
 
@@ -1971,7 +1971,7 @@ namespace ivktool
 
 				if(itemIndex==-1) continue;
 
-				string fnItemsXml=Globals.folder_clientdata+"items.xml";
+				string fnItemsXml=Globals.folder_data+"items.xml";
 
 				List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
 
@@ -1997,7 +1997,7 @@ namespace ivktool
 
 		static void ExportMonstersInfoboxToMediawikiAPI()
 		{
-			string fnItemsXml=Globals.folder_clientdata+"items.xml";
+			string fnItemsXml=Globals.folder_data+"items.xml";
 			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
 
 			string url=Globals.Options.GetElementAsString("xml.Options.Mediawiki.URL");
@@ -2046,7 +2046,7 @@ namespace ivktool
 				if(monsterIndex==-1) continue;
 
 				//Infobox updaten
-				string fnMonstersXml=Globals.folder_clientdata+"monsters.xml";
+				string fnMonstersXml=Globals.folder_data+"monsters.xml";
 
 				List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonstersXml);
 
@@ -2120,8 +2120,8 @@ namespace ivktool
 			pl.FillAllFromCategory("Pflanze");
 			pl.LoadEx();
 
-			string fnMonsterXml=Globals.folder_clientdata+"monsters.xml";
-			string fnItemsXml=Globals.folder_clientdata+"items.xml";
+			string fnMonsterXml=Globals.folder_data+"monsters.xml";
+			string fnItemsXml=Globals.folder_data+"items.xml";
 
 			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonsterXml);
 			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
@@ -2278,7 +2278,7 @@ namespace ivktool
 
 				if(monsterIndex==-1) continue;
 
-				string fnMonstersXml=Globals.folder_clientdata+"monsters.xml";
+				string fnMonstersXml=Globals.folder_data+"monsters.xml";
 				List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonstersXml);
 
 				foreach(Monster monster in monsters)
@@ -2373,7 +2373,7 @@ namespace ivktool
 		#region Minimaps berechnen
 		static void UpdateMinimaps(bool all, bool clearCache)
 		{
-			List<string> files=FileSystem.GetFiles(Globals.folder_clientdata_maps, true, "*.tmx");
+			List<string> files=FileSystem.GetFiles(Globals.folder_data_maps, true, "*.tmx");
 
 			if(files==null)
 			{
@@ -2458,7 +2458,7 @@ namespace ivktool
 				pic=pic.Resize(imageSize, (int)(imageSize/imageVerhaeltnis));
 
 				string fn=FileSystem.GetFilenameWithoutExt(i);
-				string fnMinimap=Globals.folder_clientdata_graphics_minimaps+fn+".png";
+				string fnMinimap=Globals.folder_data_graphics_minimaps+fn+".png";
 				pic.SaveToFile(fnMinimap);
 			}
 			#endregion
@@ -2499,7 +2499,7 @@ namespace ivktool
 		static void RenameTileset(string oldName, string newName)
 		{
 			//Maps laden
-			List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+			List<string> mapfiles=FileSystem.GetFiles(Globals.folder_data, true, "*.tmx");
 
 			foreach(string i in mapfiles)
 			{
@@ -2529,8 +2529,8 @@ namespace ivktool
 			}
 
 			//Tileset umbennen
-			string oldFn=Globals.folder_clientdata_graphics_tiles+oldName;
-			string newFn=Globals.folder_clientdata_graphics_tiles+newName;
+			string oldFn=Globals.folder_data_graphics_tiles+oldName;
+			string newFn=Globals.folder_data_graphics_tiles+newName;
 
 			FileSystem.RenameFile(oldFn, newFn);
 		}
@@ -2539,8 +2539,8 @@ namespace ivktool
 		#region UpdateMapsInMapsXml
 		static void UpdateMapsInMapsXml()
 		{
-			string fnMapsXml=Globals.folder_serverdata+"maps.xml";
-			string pathMaps=Globals.folder_clientdata_maps;
+			string fnMapsXml=Globals.folder_data+"maps.xml";
+			string pathMaps=Globals.folder_data_maps;
 
 			//Maps laden
 			List<Map> maps=Map.GetMapsFromMapsXml(fnMapsXml);
@@ -2676,7 +2676,7 @@ namespace ivktool
 
 		static void UpdateWorldmap(bool all, bool clearCache)
 		{
-			List<string> files=FileSystem.GetFiles(Globals.folder_clientdata_maps, true, "*.tmx");
+			List<string> files=FileSystem.GetFiles(Globals.folder_data_maps, true, "*.tmx");
 
 			if(files==null)
 			{
@@ -2785,7 +2785,7 @@ namespace ivktool
 
 					//Featuremap Monster Spreading
 					string fnMonsterSpreading=tempFmMonsterSpreading+fn+"-"+imageSize+".png";
-					Imaging.SaveFeatureMapMonsterSpreading(Globals.folder_clientdata, fnMonsterSpreading, pic, file);
+					Imaging.SaveFeatureMapMonsterSpreading(Globals.folder_data, fnMonsterSpreading, pic, file);
 
 					//Featuremap Music
 					string fnMusic=tempFmMusic+fn+"-"+imageSize+".png";
@@ -2905,7 +2905,7 @@ namespace ivktool
 				return;
 			}
 
-			string fnItemsXml=Globals.folder_clientdata+"items.xml";
+			string fnItemsXml=Globals.folder_data+"items.xml";
 
 			List<Item> items=Item.GetItemsFromItemsXml(fnItemsXml);
 
@@ -2913,7 +2913,7 @@ namespace ivktool
 			{
 				if(item.ID<0) continue; //Unötige Items (Hairsets etc) ignorieren
 				string itemImageName=item.Image.Split('|')[0].Trim();
-				string itemfnSrc=Globals.folder_clientdata_graphics_items+itemImageName;
+				string itemfnSrc=Globals.folder_data_graphics_items+itemImageName;
 				string itemfnDst=target+FileSystem.PathDelimiter+"Item-"+item.ID+".png";
 				//File.Copy(itemfnSrc, itemfnDst, true);
 				FileSystem.CopyFile(itemfnSrc, itemfnDst, true);
@@ -2930,7 +2930,7 @@ namespace ivktool
 				return;
 			}
 
-			string fnMonstersXml=Globals.folder_clientdata+"monsters.xml";
+			string fnMonstersXml=Globals.folder_data+"monsters.xml";
 			List<Monster> monsters=Monster.GetMonstersFromMonsterXml(fnMonstersXml);
 
 			foreach(Monster monster in monsters)
@@ -2942,14 +2942,14 @@ namespace ivktool
 					if(monster.Sprite!="")
 					{
 						string[] splited=monster.Sprite.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-						string spritePath=Globals.folder_clientdata_graphics_sprites+splited[0];
+						string spritePath=Globals.folder_data_graphics_sprites+splited[0];
 
 						Sprite tmp=Sprite.GetSpriteFromXml(spritePath);
 
 						Imageset set=tmp.Imagesets[0];
 						string[] splited2=set.Src.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 						string srcname=splited2[0];
-						gtImage setImage=gtImage.FromFile(Globals.folder_clientdata+srcname);
+						gtImage setImage=gtImage.FromFile(Globals.folder_data+srcname);
 						gtImage monsterImage=setImage.GetSubImage(0, 0, (uint)set.Width, (uint)set.Height);
 
 						string monsterDst=target+FileSystem.PathDelimiter+"Monster-"+monster.ID+".png";
@@ -2969,7 +2969,7 @@ namespace ivktool
 				return;
 			}
 
-			string fnNpcsXml=Globals.folder_clientdata+"npcs.xml";
+			string fnNpcsXml=Globals.folder_data+"npcs.xml";
 			List<Npc> npcs=Npc.GetNpcsFromXml(fnNpcsXml);
 
 			foreach(Npc npc in npcs)
@@ -2979,14 +2979,14 @@ namespace ivktool
 					if(npc.SpriteFilename!="")
 					{
 						string[] splited=npc.SpriteFilename.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-						string spritePath=Globals.folder_clientdata_graphics_sprites+splited[0];
+						string spritePath=Globals.folder_data_graphics_sprites+splited[0];
 
 						Sprite tmp=Sprite.GetSpriteFromXml(spritePath);
 
 						Imageset set=tmp.Imagesets[0];
 						string[] splited2=set.Src.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
 						string srcname=splited2[0];
-						gtImage setImage=gtImage.FromFile(Globals.folder_clientdata+srcname);
+						gtImage setImage=gtImage.FromFile(Globals.folder_data+srcname);
 						gtImage monsterImage=setImage.GetSubImage(0, 0, (uint)set.Width, (uint)set.Height);
 
 						string monsterDst=target+FileSystem.PathDelimiter+"npcsprite-"+npc.ID+".png";
@@ -3008,7 +3008,7 @@ namespace ivktool
 				return;
 			}
 
-			List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+			List<string> maps=FileSystem.GetFiles(Globals.folder_data, true, "*.tmx");
 			Dictionary<string, int> usedTilesets=new Dictionary<string, int>();
 
 			foreach(string fn in maps)
@@ -3058,7 +3058,7 @@ namespace ivktool
 				return;
 			}
 
-			List<string> maps=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+			List<string> maps=FileSystem.GetFiles(Globals.folder_data, true, "*.tmx");
 			int removedTilesets=0;
 
 			foreach(string fnCurrent in maps)
@@ -3070,7 +3070,7 @@ namespace ivktool
 				{
 					CSCL.FileFormats.TMX.TMX.TilesetData fnTileset=map.Tilesets[i];
 
-					string cleanTileset=Globals.folder_clientdata+fnTileset.imgsource.Replace("../graphics", "graphics");
+					string cleanTileset=Globals.folder_data+fnTileset.imgsource.Replace("../graphics", "graphics");
 
 					if(!FileSystem.ExistsFile(cleanTileset))
 					{
@@ -3088,7 +3088,7 @@ namespace ivktool
 		static void RenameTilesetNameInMapsToTilesetFilename()
 		{
 			//Maps laden
-			List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+			List<string> mapfiles=FileSystem.GetFiles(Globals.folder_data, true, "*.tmx");
 
 			foreach(string i in mapfiles)
 			{
@@ -3169,8 +3169,8 @@ namespace ivktool
 
 		static void CreateInnerMap(string mapFilename, string usedTemplateMap)
 		{
-			mapFilename=Globals.folder_clientdata_maps+mapFilename;
-			usedTemplateMap=Globals.folder_clientdata_mapstemplates+usedTemplateMap;
+			mapFilename=Globals.folder_data_maps+mapFilename;
+			usedTemplateMap=Globals.folder_data_mapstemplates+usedTemplateMap;
 
 			if(FileSystem.ExistsFile(mapFilename))
 			{
@@ -3179,14 +3179,14 @@ namespace ivktool
 			}
 
 			FileSystem.CopyFile(usedTemplateMap, mapFilename);
-			string luaFilename=String.Format("{0}{1}.lua", Globals.folder_serverdata_scripts_maps, FileSystem.GetFilenameWithoutExt(mapFilename));
+			string luaFilename=String.Format("{0}{1}.lua", Globals.folder_data_scripts_maps, FileSystem.GetFilenameWithoutExt(mapFilename));
 			Script.CreateMapScriptFile(luaFilename);
 
 			//Map öffnen und External Map Events umschreiben
 			WriteExternalMapEvents(mapFilename);
 
 			//Maps.xml erweiteren
-			string fnMapsXml=Globals.folder_serverdata+"maps.xml";
+			string fnMapsXml=Globals.folder_data+"maps.xml";
 			List<Map> maps=Map.GetMapsFromMapsXml(fnMapsXml);
 
 			//LastID für iw Maps ermitteln
@@ -3209,7 +3209,7 @@ namespace ivktool
 		static void RemoveBlankTilesFromMaps()
 		{
 			//Maps laden
-			List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+			List<string> mapfiles=FileSystem.GetFiles(Globals.folder_data, true, "*.tmx");
 
 			foreach(string i in mapfiles)
 			{
@@ -3256,7 +3256,7 @@ namespace ivktool
 		static void CreateCollisionsOnMaps()
 		{
 			//Maps laden
-			List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+			List<string> mapfiles=FileSystem.GetFiles(Globals.folder_data, true, "*.tmx");
 
 			foreach(string filename in mapfiles)
 			{
@@ -3371,7 +3371,7 @@ namespace ivktool
 		static void TransformTileInMaps(string srcTileset, string dstTileset, int src, int dst)
 		{
 			//Maps laden
-			List<string> mapfiles=FileSystem.GetFiles(Globals.folder_clientdata, true, "*.tmx");
+			List<string> mapfiles=FileSystem.GetFiles(Globals.folder_data, true, "*.tmx");
 
 			foreach(string i in mapfiles)
 			{
@@ -3471,7 +3471,7 @@ namespace ivktool
 			}
 
 			//Maps laden
-			string fnMapsXml=Globals.folder_serverdata+"maps.xml";
+			string fnMapsXml=Globals.folder_data+"maps.xml";
 			List<Map> maps=Map.GetMapsFromMapsXml(fnMapsXml);
 
 			//Ini
@@ -3507,7 +3507,7 @@ namespace ivktool
 			}
 
 			//Maps laden
-			string fnMapsXml=Globals.folder_serverdata+"maps.xml";
+			string fnMapsXml=Globals.folder_data+"maps.xml";
 			List<Map> maps=Map.GetMapsFromMapsXml(fnMapsXml);
 
 			//Ini
@@ -3516,7 +3516,7 @@ namespace ivktool
 			//maps
 			foreach(Map i in maps)
 			{
-				string fnMap=Globals.folder_clientdata_maps+i.Name+".tmx";
+				string fnMap=Globals.folder_data_maps+i.Name+".tmx";
 				TMX tmx=new TMX();
 				tmx.Open(fnMap, false);
 
@@ -3570,7 +3570,7 @@ namespace ivktool
 
 			Site wiki=new Site(url, username, password);
 
-			List<string> luafiles=FileSystem.GetFiles(Globals.folder_serverdata_scripts_libs, true, "*.lua");
+			List<string> luafiles=FileSystem.GetFiles(Globals.folder_data_scripts_libs, true, "*.lua");
 
 			foreach(string file in luafiles)
 			{
@@ -3890,7 +3890,7 @@ namespace ivktool
 				{
 					foreach(string file in files)
 					{
-						RenderTMX(Globals.folder_clientdata_maps+file, output, zoom);
+						RenderTMX(Globals.folder_data_maps+file, output, zoom);
 						GC.Collect(3);
 					}
 				}

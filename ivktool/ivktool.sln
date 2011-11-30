@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ivktool", "ivktool.csproj", "{AB1C853C-0447-437E-B96E-065866E5FB22}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invertika", "..\Externals\Invertika\Invertika.csproj", "{52EE41F6-4F3E-4EB1-832A-F18515CA875A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICSharpCode.SharpZLib", "..\Externals\SharpZipLib\src\ICSharpCode.SharpZLib.csproj", "{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSCL", "..\Externals\CSCL\CSCL\CSCL.csproj", "{0E720343-5366-4C3A-BC59-7B7FD2C311B5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSCL", "..\..\..\cscl.googlecode.com\CSCL\CSCL.csproj", "{0E720343-5366-4C3A-BC59-7B7FD2C311B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

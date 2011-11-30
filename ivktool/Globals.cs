@@ -20,6 +20,7 @@ namespace ivktool
 			}
 		}
 
+		#region Repository client
 		public static string folder_client
 		{
 			get
@@ -67,134 +68,129 @@ namespace ivktool
 				return folder_client_data+"icons"+FileSystem.PathDelimiter;
 			}
 		}
+		#endregion
 
-		public static string folder_serverdata
+		#region Repository data
+		public static string folder_data
 		{
 			get
 			{
-				return Globals.folder_root+"server-data"+FileSystem.PathDelimiter;
+				return Globals.folder_root+"data"+FileSystem.PathDelimiter;
 			}
 		}
 
-		public static string folder_serverdata_scripts
+		public static string folder_data_scripts
 		{
 			get
 			{
-				return folder_serverdata+"scripts"+FileSystem.PathDelimiter;
+				return folder_data+"scripts"+FileSystem.PathDelimiter;
 			}
 		}
 
-		public static string folder_serverdata_scripts_libs
+		public static string folder_data_scripts_libs
 		{
 			get
 			{
-				return folder_serverdata_scripts+"libs"+FileSystem.PathDelimiter;
+				return folder_data_scripts+"libs"+FileSystem.PathDelimiter;
 			}
 		}
 
-		public static string folder_serverdata_scripts_maps
+		public static string folder_data_scripts_maps
 		{
 			get
 			{
-				return folder_serverdata_scripts+"maps"+FileSystem.PathDelimiter;
+				return folder_data_scripts+"maps"+FileSystem.PathDelimiter;
 			}
 		}
 
-		public static string folder_clientdata
+		public static string folder_data_maps
 		{
 			get
 			{
-				return Globals.folder_root+"client-data"+FileSystem.PathDelimiter;
+				return folder_data+"maps"+FileSystem.PathDelimiter;
 			}
 		}
 
-		public static string folder_clientdata_maps
+		public static string folder_data_graphics_items
 		{
 			get
 			{
-				return folder_clientdata+"maps"+FileSystem.PathDelimiter;
+				return folder_data_graphics+"items"+FileSystem.PathDelimiter;
 			}
 		}
 
-		public static string folder_clientdata_graphics_items
+		public static string folder_data_graphics_sprites
 		{
 			get
 			{
-				return folder_clientdata_graphics+"items"+FileSystem.PathDelimiter;
+				return folder_data_graphics+"sprites"+FileSystem.PathDelimiter;
 			}
 		}
 
-		public static string folder_clientdata_graphics_sprites
+		public static string folder_data_graphics_particles
 		{
 			get
 			{
-				return folder_clientdata_graphics+"sprites"+FileSystem.PathDelimiter;
+				return folder_data_graphics+"particles"+FileSystem.PathDelimiter;
 			}
 		}
 
-		public static string folder_clientdata_graphics_particles
+		public static string folder_data_mapstemplates
 		{
 			get
 			{
-				return folder_clientdata_graphics+"particles"+FileSystem.PathDelimiter;
+				return folder_data+"maps_templates"+FileSystem.PathDelimiter;
 			}
 		}
 
-		public static string folder_clientdata_mapstemplates
+		public static string folder_data_mapsrules
 		{
 			get
 			{
-				return folder_clientdata+"maps_templates"+FileSystem.PathDelimiter;
+				return folder_data+"maps_rules"+FileSystem.PathDelimiter;
 			}
 		}
 
-		public static string folder_clientdata_mapsrules
+		public static string folder_data_music
 		{
 			get
 			{
-				return folder_clientdata+"maps_rules"+FileSystem.PathDelimiter;
+				return folder_data+"music"+FileSystem.PathDelimiter;
 			}
 		}
 
-		public static string folder_clientdata_music
+		public static string folder_data_sfx
 		{
 			get
 			{
-				return folder_clientdata+"music"+FileSystem.PathDelimiter;
+				return folder_data+"sfx"+FileSystem.PathDelimiter;
 			}
 		}
 
-		public static string folder_clientdata_sfx
+		public static string folder_data_graphics
 		{
 			get
 			{
-				return folder_clientdata+"sfx"+FileSystem.PathDelimiter;
+				return folder_data+"graphics"+FileSystem.PathDelimiter;
 			}
 		}
 
-		public static string folder_clientdata_graphics
+		public static string folder_data_graphics_minimaps
 		{
 			get
 			{
-				return folder_clientdata+"graphics"+FileSystem.PathDelimiter;
+				return folder_data_graphics+"minimaps"+FileSystem.PathDelimiter;
 			}
 		}
 
-		public static string folder_clientdata_graphics_minimaps
+		public static string folder_data_graphics_tiles
 		{
 			get
 			{
-				return folder_clientdata_graphics+"minimaps"+FileSystem.PathDelimiter;
+				return folder_data_graphics+"tiles"+FileSystem.PathDelimiter;
 			}
 		}
-
-		public static string folder_clientdata_graphics_tiles
-		{
-			get
-			{
-				return folder_clientdata_graphics+"tiles"+FileSystem.PathDelimiter;
-			}
-		}
+		#endregion
 		#endregion
 	}
 }

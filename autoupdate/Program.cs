@@ -45,6 +45,8 @@ namespace autoupdate
 				return;
 			}
 
+			Console.WriteLine("Autoupdate 1.1 wurde gestartet...");
+
 			string workfolder_original=Directory.GetCurrentDirectory();
 
 			string misc_servername=config.GetElementAsString("xml.misc.servername");
@@ -68,10 +70,9 @@ namespace autoupdate
 
 			string path_repostiory_trunk=FileSystem.GetPathWithPathDelimiter(config.GetElementAsString("xml.path.repository.trunk"));
 			string path_repostiory_server=path_repostiory_trunk+"server/";
-			string path_repostiory_serverdata=path_repostiory_trunk+"server-data/";
-			string path_repostiory_serverdata_scripts=path_repostiory_trunk+"server-data/scripts/";
-			string path_repostiory_clientdata=path_repostiory_trunk+"client-data/";
-			string path_repostiory_clientdata_maps=path_repostiory_trunk+"client-data/maps/";
+			string path_repostiory_data=path_repostiory_trunk+"data/";
+			string path_repostiory_data_scripts=path_repostiory_data+"/scripts/";
+			string path_repostiory_data_maps=path_repostiory_data+"/maps/";
 
 			string path_server_root=FileSystem.GetPathWithPathDelimiter(config.GetElementAsString("xml.path.server.root"));
 			string path_server_data=path_server_root+"data/";
@@ -80,9 +81,12 @@ namespace autoupdate
 			string path_server_start_script=path_server_root+"start-server.sh";
 			string path_server_stop_script=path_server_root+"stop-server.sh";
 
-			List<string> ExcludesDirs=new List<string>();
-			ExcludesDirs.Add(".svn");
-			ExcludesDirs.Add("maps_templates");
+			List<string> ExcludesDirsClient=new List<string>();
+			ExcludesDirsClient.Add("maps_templates");
+			ExcludesDirsClient.Add("scripts");
+
+			List<string> ExcludesDirsServer=new List<string>();
+			ExcludesDirsClient.Add("maps_templates");
 
 			List<string> ExcludeFiles=new List<string>();
 			ExcludeFiles.Add("CMakeLists.txt");
@@ -112,8 +116,8 @@ namespace autoupdate
 
 			#region Repository updaten
 			Console.WriteLine("Update Repository...");
-			Directory.SetCurrentDirectory(path_repostiory_trunk);
-			ProcessHelpers.StartProcess("svn update", "", true);
+			Directory.SetCurrentDirectory(path_repostiory_data);
+			ProcessHelpers.StartProcess("git push", "", true);
 			#endregion
 
 			#region Server stoppen und Serverdaten löschen
@@ -140,10 +144,10 @@ namespace autoupdate
 
 			FileSystem.CreateDirectory(path_server_data_maps, true);
 
-			FileSystem.CopyDirectory(path_repostiory_serverdata, path_server_data, true, ExcludesDirs, ExcludeFiles);
+			FileSystem.CopyDirectory(path_repostiory_data, path_server_data, true, ExcludesDirsServer, ExcludeFiles);
 
-			FileSystem.CopyFiles(path_repostiory_clientdata, path_server_data, "*.xml", ExcludeFiles, true);
-			FileSystem.CopyFiles(path_repostiory_clientdata_maps, path_server_data_maps, "*.tmx", ExcludeFiles, true);
+			FileSystem.CopyFiles(path_repostiory_data, path_server_data, "*.xml", ExcludeFiles, true);
+			FileSystem.CopyFiles(path_repostiory_data_maps, path_server_data_maps, "*.tmx", ExcludeFiles, true);
 			#endregion
 
 			#region Clientdaten
@@ -152,7 +156,7 @@ namespace autoupdate
 
 			FileSystem.CreateDirectory(clientPath, true);
 			FileSystem.CreateDirectory(clientPath+"data"+FileSystem.PathDelimiter, true);
-			FileSystem.CopyDirectory(path_repostiory_clientdata, clientPath+"data"+FileSystem.PathDelimiter, true, ExcludesDirs);
+			FileSystem.CopyDirectory(path_repostiory_data, clientPath+"data"+FileSystem.PathDelimiter, true, ExcludesDirsClient);
 
 			List<string> clientDataFiles=FileSystem.GetFiles(clientPath, true);
 			#endregion
