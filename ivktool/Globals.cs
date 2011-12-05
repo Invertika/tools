@@ -16,7 +16,14 @@ namespace ivktool
 		{
 			get
 			{
-				return FileSystem.GetPathWithPathDelimiter(Globals.Options.GetElementAsString("xml.Options.Paths.Repository.Trunk"));
+				if(Globals.Options==null)
+				{
+					return "";
+				}
+				else
+				{
+					return FileSystem.GetPathWithPathDelimiter(Globals.Options.GetElementAsString("xml.Options.Paths.Repository.Trunk"));
+				}
 			}
 		}
 
