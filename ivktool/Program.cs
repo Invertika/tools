@@ -26,7 +26,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.8.6");
+			Console.WriteLine("ivktool 1.8.7");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -1515,7 +1515,15 @@ namespace ivktool
 					ret+=String.Format("| align=\"center\" | nicht definiert");
 				}
 
-				ret+=String.Format("| align=\"center\" | {0}-{1}\n", monster.Attributes.AttackMin, monster.Attributes.AttackMin+monster.Attributes.AttackDelta);
+				if(monster.Attributes.AttackDelta==0)
+				{
+					ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.AttackMin);
+				}
+				else
+				{
+					ret+=String.Format("| align=\"center\" | {0}-{1}\n", monster.Attributes.AttackMin, monster.Attributes.AttackMin+monster.Attributes.AttackDelta);
+				}
+
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.PhysicalDefence);
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.MagicalDefence);
 				ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.Mutation);
@@ -1667,7 +1675,15 @@ namespace ivktool
 					ret+=String.Format("| align=\"center\" | nicht definiert");
 				}
 
-				ret+=String.Format("| align=\"center\" | {0}-{1}\n", monster.Attributes.AttackMin, monster.Attributes.AttackMin+monster.Attributes.AttackDelta);
+				if(monster.Attributes.AttackDelta==0)
+				{
+					ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.AttackMin);
+				}
+				else
+				{
+					ret+=String.Format("| align=\"center\" | {0}-{1}\n", monster.Attributes.AttackMin, monster.Attributes.AttackMin+monster.Attributes.AttackDelta);
+				}
+
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.PhysicalDefence);
 				ret+=String.Format("| align=\"center\" | {0}\n", monster.Attributes.MagicalDefence);
 				ret+=String.Format("| align=\"center\" | {0}%\n", monster.Attributes.Mutation);
