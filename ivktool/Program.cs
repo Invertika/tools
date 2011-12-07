@@ -19,6 +19,7 @@ using Invertika;
 using Invertika.Classes;
 using CSCL.Exceptions;
 using Invertika.LuaDoc;
+using System.Threading;
 
 namespace ivktool
 {
@@ -26,7 +27,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.9.1");
+			Console.WriteLine("ivktool 1.9.2");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -2874,13 +2875,27 @@ namespace ivktool
 				Client.CreateDirectory("fm-music");
 			}
 
-			foreach(string i in filesToUpload)
+			for(int i=0; i<filesToUpload.Count; i++)
 			{
-				Console.WriteLine("Lade Bild {0} hoch...", FileSystem.GetFilename(i));
-				string uploadf=FileSystem.GetRelativePath(i, temp);
-				uploadf=uploadf.Replace('\\', '/');
-				//Client.UploadFile(i, uploadf);
-				Client.PutFile(i, uploadf);
+				string filename=filesToUpload[i];
+
+				try
+				{
+					Console.WriteLine("Lade Bild {0} hoch...", FileSystem.GetFilename(filename));
+					string uploadf=FileSystem.GetRelativePath(filename, temp);
+					uploadf=uploadf.Replace('\\', '/');
+					//Client.UploadFile(i, uploadf);
+					Client.PutFile(filename, uploadf);
+				}
+				catch
+				{
+					Console.WriteLine("Fehler beim Upload von Bild {0}.", FileSystem.GetFilename(filename));
+					Thread.Sleep(2000);
+					Console.WriteLine("Stelle Verbindung wieder her...", FileSystem.GetFilename(filename));
+					Client.Connect(networkCredential.Domain, networkCredential, ESSLSupportMode.ClearText);
+
+					i--;
+				}
 			}
 
 			Client.Close();
