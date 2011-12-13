@@ -45,7 +45,7 @@ namespace autoupdate
 				return;
 			}
 
-			Console.WriteLine("Autoupdate 1.1 wurde gestartet...");
+			Console.WriteLine("Autoupdate 1.1.1 wurde gestartet...");
 
 			string workfolder_original=Directory.GetCurrentDirectory();
 
@@ -55,9 +55,16 @@ namespace autoupdate
 			string ftp_data_user=config.GetElementAsString("xml.ftp.data.user");
 			string ftp_data_password=config.GetElementAsString("xml.ftp.data.password");
 
-			bool irc_active=Convert.ToBoolean(config.GetElementAsString("xml.irc.active"));
-			string irc_network=config.GetElementAsString("xml.irc.network");
-			string irc_channel=config.GetElementAsString("xml.irc.channel");
+			bool irc_active=false;
+			string irc_network="";
+			string irc_channel="";
+
+			if(config.GetElementAsString("xml.irc.active")!="")
+			{
+				irc_active=Convert.ToBoolean(config.GetElementAsString("xml.irc.active"));
+				irc_network=config.GetElementAsString("xml.irc.network");
+				irc_channel=config.GetElementAsString("xml.irc.channel");
+			}
 
 			string ftp_update_server=config.GetElementAsString("xml.ftp.update.server");
 			string ftp_update_user=config.GetElementAsString("xml.ftp.update.user");
