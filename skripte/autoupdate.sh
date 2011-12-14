@@ -9,9 +9,9 @@ do
     sleep 60
     git fetch --work-tree=$REPOSITORY
     num_of_changes=`git diff HEAD origin/master --work-tree=$REPOSITORY|wc -l`
-    if [ $num_of_changes != 0 ]
+    [ $num_of_changes != 0 ] && {
         git pull origin master --work-tree=$REPOSITORY
         mono autoupdate.exe autoupdate.xml
         sleep 600
-    fi
+    }
 done 
