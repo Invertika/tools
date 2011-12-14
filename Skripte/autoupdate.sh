@@ -1,7 +1,8 @@
 #!/bin/bash
 
 ##Start with "./autoupdate.sh &"
-REPOSITORY="/home/ablu/invertika/invertika/data/"
+REPOSITORY="/home/manaserv/invertika/data/"
+AUTOUPDATE_EXE_PATH="/home/manaserv/autoupdate.exe"
 
 cd $REPOSITORY
 
