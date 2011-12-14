@@ -1,12 +1,16 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xml>
   <misc>
-    <servername>Serenity</servername>
+    <servername>Serenity</servername> 
   </misc>
+  <irc>
+      <active>true</active>
+      <network>irc.freenode.net</network>
+      <channel>#invertika</channel>
+  </irc>
   <path>
     <temp>/home/manaserv/temp/</temp>
 	<repository>
-	  <trunk>/home/manaserv/invertika/trunk/</trunk>
+	  <trunk>/home/manaserv/invertika/</trunk>
 	</repository>
 	<server>
 	  <root>/home/manaserv/</root>
@@ -24,11 +28,6 @@
 	  <password>geheim</password>
     </update>
   </ftp>
-  <irc>
-    <active>false</active>
-	<channel>#invertika</channel>
-	<network>irc.freenode.net</network>
-  </irc>
   <activate>
     <data>false</data>
 	<update>true</update>

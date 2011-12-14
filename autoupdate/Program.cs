@@ -22,6 +22,53 @@ namespace autoupdate
 			irc.Listen();
 		}
 
+		static string[] FunkyWords
+		{
+			get
+			{
+				List<string> ret=new List<string>();
+
+				ret.Add("Funky.");
+				ret.Add("Yeah.");
+				ret.Add("Shiny.");
+				ret.Add("Schon abgefahren.");
+				ret.Add("Stylish.");
+				ret.Add("Common.");
+				ret.Add("Nothing. Absolute Nothing.");
+				ret.Add("BOOM.");
+				ret.Add("BAAM.");
+				ret.Add("Try it again, Sam.");
+				ret.Add("Commit me.");
+				ret.Add("Yes Sir.");
+				ret.Add("Yes Mam.");
+				ret.Add("Next turn.");
+				ret.Add("Great.");
+				ret.Add("Splash.");
+				ret.Add("Wow.");
+				ret.Add("Yep.");
+				ret.Add("I need five minutes.");
+				ret.Add("Condition Red.");
+				ret.Add("Cowabunga.");
+				ret.Add("Eat my shorts arrays.");
+				ret.Add("Next.");
+				ret.Add("Gimme more.");
+				ret.Add("Not really?.");
+				ret.Add("Woooooooosh.");
+				ret.Add("Oops i did it again.");
+				ret.Add("Wall Wall Wall, Door.");
+				ret.Add("Recticulating Splines.");
+				ret.Add("Sharp C.");
+				ret.Add("Cookies.");
+				ret.Add("Pi has an end.");
+				ret.Add("Shure.");
+				ret.Add("Downdate.");
+				ret.Add("Do you hear it?");
+				ret.Add("Save five percent.");
+
+				return ret.ToArray();
+			}
+		}
+
 		static void Main(string[] args)
 		{
 			#region Init
@@ -29,6 +76,12 @@ namespace autoupdate
 			{
 				Console.WriteLine("Argument fehlt:");
 				Console.WriteLine("z.B. mono autoupdate.exe autoupdate.xml");
+				return;
+			}
+
+			if(!FileSystem.ExistsFile(args[0]))
+			{
+				Console.WriteLine("Angegebene Datei existiert nicht.");
 				return;
 			}
 
@@ -45,7 +98,7 @@ namespace autoupdate
 				return;
 			}
 
-			Console.WriteLine("Autoupdate 1.1.1 wurde gestartet...");
+			Console.WriteLine("Autoupdate 1.2.0 wurde gestartet...");
 
 			string workfolder_original=Directory.GetCurrentDirectory();
 
@@ -90,10 +143,17 @@ namespace autoupdate
 
 			List<string> ExcludesDirsClient=new List<string>();
 			ExcludesDirsClient.Add("maps_templates");
+			ExcludesDirsClient.Add("maps_rules");
 			ExcludesDirsClient.Add("scripts");
+			ExcludesDirsClient.Add(".git");
 
 			List<string> ExcludesDirsServer=new List<string>();
-			ExcludesDirsClient.Add("maps_templates");
+			ExcludesDirsServer.Add("maps_templates");
+			ExcludesDirsServer.Add("maps_rules");
+			ExcludesDirsServer.Add("graphics");
+			ExcludesDirsServer.Add("music");
+			ExcludesDirsServer.Add("sfx");
+			ExcludesDirsServer.Add(".git");
 
 			List<string> ExcludeFiles=new List<string>();
 			ExcludeFiles.Add("CMakeLists.txt");
@@ -115,7 +175,9 @@ namespace autoupdate
 				irc.Login("Autoupdate", "Autoupdate", 0, "AutoupdateIRC");
 				irc.RfcJoin("#invertika");
 
-				irc.SendMessage(SendType.Message, irc_channel, String.Format("Autoupdate wurde auf dem Server {0} gestartet.", misc_servername));
+				Random rnd=new Random();
+				string funkyWord=FunkyWords[rnd.Next(FunkyWords.Length)];
+				irc.SendMessage(SendType.Message, irc_channel, String.Format("Autoupdate wurde auf dem Server {0} gestartet. {1}", misc_servername, funkyWord));
 
 				new Thread(new ThreadStart(StartIRCListen)).Start();
 			}
@@ -124,7 +186,7 @@ namespace autoupdate
 			#region Repository updaten
 			Console.WriteLine("Update Repository...");
 			Directory.SetCurrentDirectory(path_repostiory_data);
-			ProcessHelpers.StartProcess("git push", "", true);
+			ProcessHelpers.StartProcess("git", "pull", true);
 			#endregion
 
 			#region Server stoppen und Serverdaten löschen
@@ -152,9 +214,6 @@ namespace autoupdate
 			FileSystem.CreateDirectory(path_server_data_maps, true);
 
 			FileSystem.CopyDirectory(path_repostiory_data, path_server_data, true, ExcludesDirsServer, ExcludeFiles);
-
-			FileSystem.CopyFiles(path_repostiory_data, path_server_data, "*.xml", ExcludeFiles, true);
-			FileSystem.CopyFiles(path_repostiory_data_maps, path_server_data_maps, "*.tmx", ExcludeFiles, true);
 			#endregion
 
 			#region Clientdaten
