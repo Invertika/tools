@@ -8,7 +8,7 @@ while true
 do
     sleep 60
     git fetch --work-tree=$REPOSITORY
-    num_of_changes=`git diff HEAD origin/master --work-tree=$REPOSITORY|wc -l`
+    num_of_changes=`git diff HEAD origin/master -- --work-tree=$REPOSITORY|wc -l`
     [ $num_of_changes != 0 ] && {
         git pull origin master --work-tree=$REPOSITORY
         mono autoupdate.exe autoupdate.xml
