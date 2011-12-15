@@ -85,7 +85,7 @@ namespace autoupdate
 				ret.Add("Vector math.");
 				ret.Add("Piano time.");
 				ret.Add("Good to know.");
-				ret.Add("Cat contet.");
+				ret.Add("Cat content.");
 				ret.Add("Yes.");
 				ret.Add("Not.");
 				ret.Add("I'am exclusive or.");
