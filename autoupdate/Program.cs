@@ -64,6 +64,31 @@ namespace autoupdate
 				ret.Add("Downdate.");
 				ret.Add("Do you hear it?");
 				ret.Add("Save five percent.");
+				ret.Add("Freaky.");
+				ret.Add("Surprise, surprise.");
+				ret.Add("Dragon power.");
+				ret.Add("Hadouken");
+				ret.Add("Kamehameha");
+				ret.Add("Alone, Alone.");
+				ret.Add("Ice bear fever.");
+				ret.Add("Rocket belt.");
+				ret.Add("Powered by EVA.");
+				ret.Add("Ready to take off.");
+				ret.Add("YMMD.");
+				ret.Add("Hallelujah.");
+				ret.Add("I think, it's good.");
+				ret.Add("Something is breaking.");
+				ret.Add("Seven Second Nova.");
+				ret.Add("Okay.");
+				ret.Add("Corelate reality.");
+				ret.Add("Verify universe.");
+				ret.Add("Vector math.");
+				ret.Add("Piano time.");
+				ret.Add("Good to know.");
+				ret.Add("Cat contet.");
+				ret.Add("Yes.");
+				ret.Add("Not.");
+				ret.Add("I'am exclusive or.");
 
 				return ret.ToArray();
 			}
@@ -98,7 +123,7 @@ namespace autoupdate
 				return;
 			}
 
-			Console.WriteLine("Autoupdate 1.2.0 wurde gestartet...");
+			Console.WriteLine("Autoupdate 1.2.1 wurde gestartet...");
 
 			string workfolder_original=Directory.GetCurrentDirectory();
 
