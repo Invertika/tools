@@ -27,7 +27,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.9.3");
+			Console.WriteLine("ivktool 1.9.4");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -3927,7 +3927,11 @@ namespace ivktool
 				{
 					foreach(string file in files)
 					{
-						RenderTMX(Globals.folder_data_maps+file, output, zoom);
+						string fileRepository=Globals.folder_data_maps+file;
+						
+						if(FileSystem.ExistsFile(fileRepository)) RenderTMX(fileRepository, output, zoom); //Rendern für den Fall das es im Repository vorhanden ist
+						else RenderTMX(file, output, zoom); //Rendern für den Fall das eine nicht Repositorydatei gerendert werden soll
+							
 						GC.Collect(3);
 					}
 				}
