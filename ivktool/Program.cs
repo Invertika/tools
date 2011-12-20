@@ -3922,7 +3922,7 @@ namespace ivktool
 				string output=parameters.GetString("output", "");
 				double zoom=parameters.GetDouble("zoom", 100);
 
-				if(output=="") Console.WriteLine("Keine Ausgabepfad angegeben!");
+				if(output=="") Console.WriteLine("Keinen Ausgabepfad angegeben!");
 				else
 				{
 					foreach(string file in files)
@@ -3944,7 +3944,7 @@ namespace ivktool
 				string srcTile=parameters.GetString("srcTile", "");
 				string dstTile=parameters.GetString("dstTile", "");
 
-				if(srcTileset==""||srcTileset=="") Console.WriteLine("Keine Tileset angegeben!");
+				if(srcTileset==""||srcTileset=="") Console.WriteLine("Kein Tileset angegeben!");
 				if(srcTile==""||dstTile=="") Console.WriteLine("Keine Tiles angegeben!");
 
 				TransformTileInMaps(srcTileset, dstTileset, Convert.ToInt32(srcTile), Convert.ToInt32(dstTile));
