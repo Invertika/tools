@@ -27,7 +27,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.9.2");
+			Console.WriteLine("ivktool 1.9.3");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -2489,6 +2489,12 @@ namespace ivktool
 		{
 			try
 			{
+				if(!FileSystem.ExistsFile(tmx))
+				{
+					Console.WriteLine("Die Datei {0} existiert nicht!.", tmx);
+					return;
+				}
+				
 				TMX map=new TMX();
 				map.Open(tmx);
 				gtImage img=map.Render();
