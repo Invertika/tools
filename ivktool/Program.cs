@@ -27,7 +27,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.9.4");
+			Console.WriteLine("ivktool 1.9.5");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -546,11 +546,11 @@ namespace ivktool
 				bool ground=false, fringe=false, over=false, collision=false, @object=false;
 				int countGround=0, countFringe=0, countOver=0, countCollision=0;
 
-				TMX map=new TMX();
+				TMX map=null;
 
 				try
 				{
-					map.Open(fnCurrent, false);
+					map=new TMX(fnCurrent, false);
 				}
 				catch(NotSupportedCompressionException)
 				{
@@ -708,8 +708,7 @@ namespace ivktool
 								string warpmapname=Globals.folder_data_maps+dest_map+".tmx";
 								if(FileSystem.ExistsFile(warpmapname))
 								{
-									TMX warpMap=new TMX();
-									warpMap.Open(warpmapname);
+									TMX warpMap=new TMX(warpmapname);
 
 									if(!(dest_x>=0&&dest_x<=warpMap.Width&&dest_y>=0&&dest_y<=warpMap.Height)) //Warp in der Map enthalten
 									{
@@ -2462,8 +2461,7 @@ namespace ivktool
 				//Karte berechnen
 				Console.WriteLine("Berechne Minimap für Map {0}", FileSystem.GetFilename(i));
 
-				TMX file=new TMX();
-				file.Open(i);
+				TMX file=new TMX(i);
 
 				gtImage pic=file.Render();
 
@@ -2487,16 +2485,17 @@ namespace ivktool
 		#region RenderTMX
 		static void RenderTMX(string tmx, string output, double zoom)
 		{
+#if! DEBUG
 			try
 			{
+#endif
 				if(!FileSystem.ExistsFile(tmx))
 				{
 					Console.WriteLine("Die Datei {0} existiert nicht!.", tmx);
 					return;
 				}
-				
-				TMX map=new TMX();
-				map.Open(tmx);
+
+				TMX map=new TMX(tmx);
 				gtImage img=map.Render();
 
 				if(zoom!=100)
@@ -2510,11 +2509,13 @@ namespace ivktool
 				img.SaveToPNGGDI(fn);
 
 				Console.WriteLine("Datei {0} wurde nach {1} gerendert", tmx, fn);
+#if! DEBUG
 			}
 			catch(Exception exception)
 			{
 				Console.WriteLine("Es gab Probleme beim Parsen der Datei {0}.\n{1}", FileSystem.GetFilename(tmx), exception.ToString());
 			}
+#endif
 		}
 		#endregion
 
@@ -2528,8 +2529,7 @@ namespace ivktool
 			{
 				bool changed=false;
 
-				TMX maptmx=new TMX();
-				maptmx.Open(i);
+				TMX maptmx=new TMX(i);
 
 				//Tiles transformieren
 				foreach(TMX.TilesetData ld in maptmx.Tilesets)
@@ -2785,8 +2785,7 @@ namespace ivktool
 				//Karte berechnen
 				Console.WriteLine("Berechne Bilder für Map {0}", FileSystem.GetFilename(i));
 
-				TMX file=new TMX();
-				file.Open(i);
+				TMX file=new TMX(i);
 
 				gtImage pic=file.Render();
 
@@ -3052,8 +3051,7 @@ namespace ivktool
 			{
 				Console.WriteLine("Überprüfe Map {0} auf Tilesets...", FileSystem.GetFilename(fn));
 
-				TMX map=new TMX();
-				map.Open(fn, false);
+				TMX map=new TMX(fn, false);
 
 				foreach(CSCL.FileFormats.TMX.TMX.TilesetData fnTileset in map.Tilesets)
 				{
@@ -3100,8 +3098,7 @@ namespace ivktool
 
 			foreach(string fnCurrent in maps)
 			{
-				TMX map=new TMX();
-				map.Open(fnCurrent, false);
+				TMX map=new TMX(fnCurrent, false);
 
 				for(int i=0; i<map.Tilesets.Count; i++)
 				{
@@ -3131,8 +3128,7 @@ namespace ivktool
 			{
 				bool changed=false;
 
-				TMX maptmx=new TMX();
-				maptmx.Open(i);
+				TMX maptmx=new TMX(i);
 
 				//Tiles transformieren
 				foreach(TMX.TilesetData ld in maptmx.Tilesets)
@@ -3158,8 +3154,7 @@ namespace ivktool
 		#region Mapping
 		static void WriteExternalMapEvents(string fnMap)
 		{
-			TMX tmx=new TMX();
-			tmx.Open(fnMap);
+			TMX tmx=new TMX(fnMap);
 
 			bool ExistDef=false;
 
@@ -3252,8 +3247,7 @@ namespace ivktool
 			{
 				bool changed=false;
 
-				TMX maptmx=new TMX();
-				maptmx.Open(i);
+				TMX maptmx=new TMX(i);
 
 				//für jeden Layer
 				foreach(TMX.LayerData ld in maptmx.Layers)
@@ -3297,8 +3291,7 @@ namespace ivktool
 
 			foreach(string filename in mapfiles)
 			{
-				TMX TestTMX=new TMX();
-				TestTMX.Open(filename);
+				TMX TestTMX=new TMX(filename);
 
 				TMX.LayerData fringe=null;
 				TMX.LayerData coll=null;
@@ -3414,8 +3407,7 @@ namespace ivktool
 			{
 				bool changed=false;
 
-				TMX maptmx=new TMX();
-				maptmx.Open(i);
+				TMX maptmx=new TMX(i);
 
 				//schauen ob zieltileset vorhanden
 				bool TargetTilesetExists=false;
@@ -3554,8 +3546,7 @@ namespace ivktool
 			foreach(Map i in maps)
 			{
 				string fnMap=Globals.folder_data_maps+i.Name+".tmx";
-				TMX tmx=new TMX();
-				tmx.Open(fnMap, false);
+				TMX tmx=new TMX(fnMap, false);
 
 				Property p=tmx.GetProperty("music");
 				if(p==null)

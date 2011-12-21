@@ -15,8 +15,7 @@ namespace Invertika
 		/// <returns></returns>
 		public static List<MonsterSpawn> GetMonsterSpawnFromMap(string filename)
 		{
-			TMX map=new TMX();
-			map.Open(filename, false);
+			TMX map=new TMX(filename, false);
 			return GetMonsterSpawnFromMap(map);
 		}
 
