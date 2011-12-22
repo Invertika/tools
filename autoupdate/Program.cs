@@ -314,8 +314,8 @@ namespace autoupdate
 				sw.WriteLine("##3 Serenity");
 				sw.WriteLine("##0");
 				sw.WriteLine("##0 Entwicklerserver des Invertika Projektes");
-				sw.WriteLine("##0 Jeden Tag wird ein neues Image aus");
-				sw.WriteLine("##0 dem SVN Repository erstellt.");
+				sw.WriteLine("##0 Automatisches Update wird nach jedem");
+				sw.WriteLine("##0 Commit im Repository vorgenommen.");
 				sw.WriteLine("##0");
 				sw.WriteLine("##0 Status: in Betrieb");
 				sw.WriteLine("##0 Autoupdate vom {0}, {1} Uhr.", DateTime.Now.ToShortDateString(), DateTime.Now.ToShortTimeString());
