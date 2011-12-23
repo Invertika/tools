@@ -27,7 +27,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.9.6");
+			Console.WriteLine("ivktool 1.9.7");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -1217,9 +1217,11 @@ namespace ivktool
 			List<string> ExcludesDirs=new List<string>();
 			ExcludesDirs.Add(".git");
 			ExcludesDirs.Add("maps_templates");
+			ExcludesDirs.Add("maps_rules");
 
 			List<string> ExcludeFiles=new List<string>();
 			ExcludeFiles.Add("CMakeLists.txt");
+			ExcludeFiles.Add(".gitignore");
 
 			if(FileSystem.ExistsDirectory(target))
 			{
@@ -1307,7 +1309,11 @@ namespace ivktool
 
 			FileSystem.CreateDirectory(clientPath);
 			FileSystem.CreateDirectory(clientPath+"data"+FileSystem.PathDelimiter, true);
-			FileSystem.CopyDirectory(Globals.folder_data, clientPath+"data"+FileSystem.PathDelimiter, true, ExcludesDirs);
+			
+			List<string> manaDataExcludeDirs=new List<string>(ExcludesDirs);
+			manaDataExcludeDirs.Add("scripts");
+			
+			FileSystem.CopyDirectory(Globals.folder_data, clientPath+"data"+FileSystem.PathDelimiter, true, ExcludesDirs, ExcludeFiles);
 			#endregion
 
 			Console.WriteLine("Erzeuge Nullupdate...");
