@@ -27,7 +27,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.9.5");
+			Console.WriteLine("ivktool 1.9.6");
 			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -107,12 +107,12 @@ namespace ivktool
 		#endregion
 
 		#region Clientupdate erstellen
-		static List<string> GetFilesWithoutSVN(string Path)
+		static List<string> GetFilesWithoutGit(string Path)
 		{
-			return GetFilesWithoutSVN(Path, true, "*.*");
+			return GetFilesWithoutGit(Path, true, "*.*");
 		}
 
-		static List<string> GetFilesWithoutSVN(string Path, bool rekursiv, string filter)
+		static List<string> GetFilesWithoutGit(string Path, bool rekursiv, string filter)
 		{
 			List<string> tmpFiles=FileSystem.GetFiles(Path, rekursiv, filter);
 			List<string> files=new List<string>();
@@ -129,7 +129,7 @@ namespace ivktool
 
 			foreach(string i in files)
 			{
-				if(i.IndexOf(FileSystem.PathDelimiter+".svn"+FileSystem.PathDelimiter)==-1) ret.Add(i);
+				if(i.IndexOf(FileSystem.PathDelimiter+".git"+FileSystem.PathDelimiter)==-1) ret.Add(i);
 			}
 
 			return ret;
@@ -157,18 +157,18 @@ namespace ivktool
 			//Dev Verzeichniss
 			List<string> filesDev=new List<string>();
 
-			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_client, false, "*.xml"));
-			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_data, false, "*.xml"));
+			filesDev.AddRange(GetFilesWithoutGit(Globals.folder_client, false, "*.xml"));
+			filesDev.AddRange(GetFilesWithoutGit(Globals.folder_data, false, "*.xml"));
 
-			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_client_data_fonts));
-			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_client_data_graphics));
-			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_data_graphics));
+			filesDev.AddRange(GetFilesWithoutGit(Globals.folder_client_data_fonts));
+			filesDev.AddRange(GetFilesWithoutGit(Globals.folder_client_data_graphics));
+			filesDev.AddRange(GetFilesWithoutGit(Globals.folder_data_graphics));
 
-			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_client_data_help));
-			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_client_data_icons));
-			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_data_maps));
-			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_data_music));
-			filesDev.AddRange(GetFilesWithoutSVN(Globals.folder_data_sfx));
+			filesDev.AddRange(GetFilesWithoutGit(Globals.folder_client_data_help));
+			filesDev.AddRange(GetFilesWithoutGit(Globals.folder_client_data_icons));
+			filesDev.AddRange(GetFilesWithoutGit(Globals.folder_data_maps));
+			filesDev.AddRange(GetFilesWithoutGit(Globals.folder_data_music));
+			filesDev.AddRange(GetFilesWithoutGit(Globals.folder_data_sfx));
 
 			//Last Client
 			List<string> filesNew=new List<string>();
@@ -1215,7 +1215,7 @@ namespace ivktool
 			string target=FileSystem.GetPathWithPathDelimiter(dst);
 
 			List<string> ExcludesDirs=new List<string>();
-			ExcludesDirs.Add(".svn");
+			ExcludesDirs.Add(".git");
 			ExcludesDirs.Add("maps_templates");
 
 			List<string> ExcludeFiles=new List<string>();
