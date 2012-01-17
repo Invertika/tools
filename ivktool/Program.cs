@@ -3793,7 +3793,7 @@ namespace ivktool
 			else if(parameters.GetBool("checkNPCsOnWiki"))
 			{
 				CheckNPCsOnWiki();
-			}Aa
+			}
 			else if(parameters.GetBool("createClientUpdate"))
 			{
 				List<string> files=GetFilesFromParameters(parameters);
