@@ -110,7 +110,22 @@ namespace autoupdate
 				ret.Add("Yes.");
 				ret.Add("Not.");
 				ret.Add("I'am exclusive or.");
-
+				ret.Add("Fat bread.");
+				ret.Add("Should be better written in C#.");
+				ret.Add("Back to Future?");
+				ret.Add("Restore");
+				ret.Add("READY.");
+				ret.Add("Woof.");
+				ret.Add("Worf, here is Data.");
+				ret.Add("Energy.");
+				ret.Add("3, 2, 1 - Error.");
+				ret.Add("Singularity.");
+				ret.Add("It lives.");
+				ret.Add("Interesting.");
+				ret.Add("Nice to meet you.");
+				ret.Add("Kumbaya. Not.");
+				ret.Add("Good luck.");
+	
 				return ret.ToArray();
 			}
 		}
