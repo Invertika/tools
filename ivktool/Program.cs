@@ -48,8 +48,8 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.9.9");
-			Console.WriteLine("(c) 2008-2011 by the Invertika Developer Team (http://invertika.org)");
+			Console.WriteLine("ivktool 1.9.10");
+			Console.WriteLine("(c) 2008-2012 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
 			Console.WriteLine("  z.B. ivktool -worldmap");
@@ -729,7 +729,17 @@ namespace ivktool
 								string warpmapname=Globals.folder_data_maps+dest_map+".tmx";
 								if(FileSystem.ExistsFile(warpmapname))
 								{
-									TMX warpMap=new TMX(warpmapname);
+									TMX warpMap=null;
+
+									try
+									{
+										warpMap=new TMX(warpmapname);
+									}
+									catch(TilesetNotExistsException ex)
+									{
+										Console.WriteLine("Tileset {0} existiert nicht (in Map {1})", FileSystem.GetFilename(ex.Filename), fn);
+										continue;
+									}
 
 									if(!(dest_x>=0&&dest_x<=warpMap.Width&&dest_y>=0&&dest_y<=warpMap.Height)) //Warp in der Map enthalten
 									{
