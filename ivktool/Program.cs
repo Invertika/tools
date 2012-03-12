@@ -48,7 +48,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.9.10");
+			Console.WriteLine("ivktool 1.9.11");
 			Console.WriteLine("(c) 2008-2012 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -2387,6 +2387,15 @@ namespace ivktool
 			if(Globals.Options.GetElementAsString("xml.Options.Mediawiki.Passwort")=="")
 			{
 				Console.WriteLine("Bitte geben sie einen Mediawiki Passwort in den Optionen an.");
+				return;
+			}
+
+			//Berechtigung überprüfen
+			string username=Globals.Options.GetElementAsString("xml.Options.Mediawiki.Username");
+
+			if(username!="InvertikaBot")
+			{
+				Console.WriteLine("Der Nutzer benötigt spezielle Botrechte für die Massenbearbeitung.");
 				return;
 			}
 
