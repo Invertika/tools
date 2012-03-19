@@ -36,11 +36,11 @@ using System.Xml;
 using CSCL.Helpers;
 using ICSharpCode.SharpZipLib.Zip;
 using CSCL.Bots.Mediawiki;
-using Invertika;
-using Invertika.Classes;
 using CSCL.Exceptions;
-using Invertika.LuaDoc;
 using System.Threading;
+using ISL;
+using ISL.LuaDoc;
+using ISL.Classes;
 
 namespace ivktool
 {
