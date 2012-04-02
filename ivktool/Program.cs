@@ -3248,7 +3248,7 @@ namespace ivktool
 		static void CreateInnerMap(string mapFilename, string usedTemplateMap)
 		{
 			mapFilename=Globals.folder_data_maps+mapFilename;
-			usedTemplateMap=Globals.folder_data_mapstemplates+usedTemplateMap;
+			usedTemplateMap=Globals.folder_data_mapstemplates+FileSystem.GetFilename(usedTemplateMap);
 
 			if(FileSystem.ExistsFile(mapFilename))
 			{
