@@ -48,7 +48,7 @@ namespace ivktool
 	{
 		static void DisplayHelp()
 		{
-			Console.WriteLine("ivktool 1.9.11");
+			Console.WriteLine("ivktool 1.9.12");
 			Console.WriteLine("(c) 2008-2012 by the Invertika Developer Team (http://invertika.org)");
 			Console.WriteLine("");
 			Console.WriteLine("Nutzung: ivktool -aktion -parameter");
@@ -817,7 +817,7 @@ namespace ivktool
 										}
 									}
 
-									if(FileSystem.GetFilenameWithoutExt(fn)!=FileSystem.GetFilenameWithoutExt(scriptfilename))
+									if(scriptfilename==""||FileSystem.GetFilenameWithoutExt(fn)!=FileSystem.GetFilenameWithoutExt(scriptfilename))
 									{
 										found=true;
 										newEntry=true;
