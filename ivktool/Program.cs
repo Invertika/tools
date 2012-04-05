@@ -3200,7 +3200,7 @@ namespace ivktool
 		#region Mapping
 		static void WriteExternalMapEvents(string fnMap)
 		{
-			TMX tmx=new TMX(fnMap);
+			TMX tmx=new TMX(fnMap, false);
 
 			bool ExistDef=false;
 
