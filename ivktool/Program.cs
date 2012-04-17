@@ -3382,6 +3382,49 @@ namespace ivktool
 
 						switch(FileSystem.GetFilename(tInfo.imgsource))
 						{
+                            case "wood1_32_64.png":
+                                {
+                                    int realID = fieldData - tInfo.firstgid;
+
+                                    switch (realID)
+                                    {
+                                        case 0: //Stein
+                                        case 1: //Stein
+                                        case 2: //Pfeil Links
+                                        case 3: //Pfeil Rechts
+                                        case 4: //Baum
+                                        case 5: //Holzteil
+                                        case 6: //Pflanze
+                                        case 7: //Pflanze
+                                        case 10: //Pflanze
+                                        case 11: //Pflanze
+                                        case 14: //Pflanze
+                                        case 15: //Pflanze
+                                        case 22: //Heu
+                                        case 23: //Heu
+                                        case 25: //Schild
+                                        case 26: //Schild
+                                        case 27: //Schild
+                                        case 28: //Schild
+                                        case 29: //Schild
+                                        case 30: //Schild
+                                        case 31: //Schild
+                                        case 32: //Pflanze
+                                        case 33: //Pflanze
+                                        case 34: //Pflanze
+                                        case 35: //Pflanze
+                                        case 36: //Pflanze
+                                        case 37: //Pflanze
+                                        case 38: //Pflanze
+                                            {
+                                                FileChanged = true;
+                                                coll.data[x, y] = CollID;
+                                                break;
+                                            }
+                                    }
+
+                                    break;
+                                }
 							case "wood1_32_96.png":
 								{
 									int realID=fieldData-tInfo.firstgid;
@@ -3394,6 +3437,16 @@ namespace ivktool
 										case 3: //Baum
 										case 4: //Baum
 										case 5: //Baum
+                                        case 14: //Baum
+                                        case 15: //Baum
+                                        case 32: //Pflanze
+                                        case 33: //Pflanze
+                                        case 34: //Pflanze
+                                        case 35: //Pflanze
+                                        case 36: //Pflanze
+                                        case 37: //Pflanze
+                                        case 46: //Baum
+                                        case 47: //Baum
 											{
 												FileChanged=true;
 												coll.data[x, y]=CollID;
@@ -3403,6 +3456,39 @@ namespace ivktool
 
 									break;
 								}
+                            case "wood1_32_128.png":
+                                {
+                                    int realID = fieldData - tInfo.firstgid;
+
+                                    switch (realID)
+                                    {
+                                        case 0: //Baum
+                                        case 1: //Baum
+                                        case 2: //Baum
+                                        case 3: //Baum
+                                            {
+                                                FileChanged = true;
+                                                coll.data[x, y] = CollID;
+                                                break;
+                                            }
+                                        case 4:
+                                        case 7:
+                                            {
+                                                FileChanged = true;
+                                                coll.data[x, y--] = CollID;
+                                                break;
+                                            }
+                                        case 5:
+                                        case 6:
+                                            {
+                                                FileChanged = true;
+                                                coll.data[x, y] = CollID;
+                                                coll.data[x, y--] = CollID;
+                                                break;
+                                            }
+                                    }
+                                    break;
+                                }
 							case "wood1_32_160.png":
 								{
 									int realID=fieldData-tInfo.firstgid;
