@@ -1,37 +1,72 @@
-pkgname=ivktool-svn
-pkgver=4158
+pkgname=ivktool-git
+pkgver=20120430
 pkgrel=1
 pkgdesc="A helper program with some special functions for invertika-developer"
 arch=('any')
 url="http://invertika.org/"
 license=('GPL2')
-makedepends=('subversion' 'monodevelop')
+makedepends=('git' 'monodevelop')
 depends=('mono')
 provides=('ivktool')
-_svntrunk="http://invertika.googlecode.com/svn/trunk/tools"
-_svnmod=invertika-tools
+
+_gitroot=git://github.com/Invertika/tools.git
+_gitname=invertika-tools
+
+_gitroot2=git://github.com/Invertika/libraries.git
+_gitname2=libraries
+
+_gitroot3=https://code.google.com/p/cscl/
+_gitname3=cscl
 
 build() {
   cd "$srcdir"
+  msg "Connecting to GIT server...."
 
-  if [ -d $_svnmod/.svn ]; then
-    (cd $_svnmod && svn up -r $pkgver)
+  if [[ -d "$_gitname" ]]; then
+    cd "$_gitname" && git pull origin
+    msg "The local files (ivktool) are updated."
   else
-    svn co $_svntrunk --config-dir ./ -r $pkgver $_svnmod
+    git clone "$_gitroot" "$_gitname"
   fi
 
-  msg "SVN checkout done or server timeout"
-  msg "Starting make..."
+  cd "$srcdir"
+  if [[ -d "$_gitname2" ]]; then
+    cd "$_gitname2" && git pull origin
+    msg "The local files (libraries) are updated."
+  else
+    git clone "$_gitroot2" "$_gitname2"
+  fi
 
-  rm -rf "$srcdir/$_svnmod-build"
-  cp -r "$srcdir/$_svnmod" "$srcdir/$_svnmod-build"
-  cd "$srcdir/$_svnmod-build"
+  cd "$srcdir"
+  if [[ -d "$_gitname3" ]]; then
+    cd "$_gitname3" && git pull origin
+    msg "The local files (CSCL) are updated."
+  else
+    git clone "$_gitroot3" "$_gitname3"
+  fi
+
+  msg "GIT checkout done or server timeout"
+  msg "Starting build..."
+
+  rm -rf "$srcdir/$_gitname-build"
+  git clone "$srcdir/$_gitname" "$srcdir/$_gitname-build"
+  rm -rf "$srcdir/$_gitname2-build"
+  git clone "$srcdir/$_gitname2" "$srcdir/$_gitname2-build"
+  rm -rf "$srcdir/$_gitname3-build"
+  git clone "$srcdir/$_gitname3" "$srcdir/$_gitname3-build"
+  cd "$srcdir/$_gitname-build"
 
   #
   # BUILD
   #
   cd "./ivktool"
+  sed -i 's/\.\.\\\.\.\\\.\.\\cscl\.googlecode\.com\\CSCL\\CSCL.csproj/\.\.\\\.\.\\'$_gitname3-build'\\CSCL\\CSCL\.csproj/' ./ivktool.sln
+  sed -i 's/\.\.\\\.\.\\libraries/\.\.\\\.\.\\'$_gitname2-build'/' ./ivktool.sln
   mdtool build
+}
+
+package() {
+  cd "$srcdir/$_gitname-build/ivktool"
   mkdir -p $pkgdir/opt/ivktool
   mkdir -p $pkgdir/usr/bin
   cp ./bin/Debug/* $pkgdir/opt/ivktool/
