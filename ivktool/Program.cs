@@ -592,7 +592,13 @@ namespace ivktool
 					if(usedTilesets.IndexOf(cleanTileset)==-1) usedTilesets.Add(cleanTileset);
 				}
 
-				//Check ob Layer gleiche Größe wie die Map haben
+				if(!CheckName(FileSystem.GetFilenameWithoutExt(fn)))
+				{
+					found=true;
+					msg+=String.Format("Mapname {0} enthält kein iw, uw oder ow.\n", fn);
+				}
+
+				//Checkt ob die Layer die selbe Größe wie die Map haben
 				foreach(TMX.LayerData ld in map.Layers)
 				{
 					if(ld.width!=map.Width) msg+=String.Format("Layerbreite des Layers {0} ungleich Mapbreite in Map {1}.\n", ld.name, fn);
@@ -817,6 +823,13 @@ namespace ivktool
 										}
 									}
 
+									if(!CheckName(FileSystem.GetFilenameWithoutExt(fn)))
+									{
+										found=true;
+										newEntry=true;
+										msg+=String.Format("Dateiname der Skriptdatei {0} enthält kein uw, iw oder ow.", scriptfilename);
+									}
+
 									if(scriptfilename==""||FileSystem.GetFilenameWithoutExt(fn)!=FileSystem.GetFilenameWithoutExt(scriptfilename))
 									{
 										found=true;
@@ -889,6 +902,14 @@ namespace ivktool
 			}
 
 			return msg;
+		}
+
+		static bool CheckName(string name)
+		{
+			if(name.StartsWith("iw-")) return true;
+			else if(name.StartsWith("ow-")) return true;
+			else if(name.StartsWith("uw-")) return true;
+			return false;
 		}
 
 		static string CheckMonster()
@@ -3843,7 +3864,7 @@ namespace ivktool
 		}
 
 		static void Main(string[] args)
-		{		
+		{
 			//Optionen
 			bool ExitsConfig=FileSystem.ExistsFile(Globals.OptionsXmlFilename);
 			
