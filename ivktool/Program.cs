@@ -1347,7 +1347,7 @@ namespace ivktool
 			FileSystem.CreateDirectory(clientPath+"data"+FileSystem.PathDelimiter+"music", true);
 
 			FileSystem.CreateDirectory(clientPath);
-			FileSystem.CopyDirectory(source+"client"+FileSystem.PathDelimiter+"data"+FileSystem.PathDelimiter, clientPath+"data"+FileSystem.PathDelimiter, true, ExcludesDirs, ExcludeFiles);
+			FileSystem.CopyDirectory(Globals.folder_client_data, clientPath+"data"+FileSystem.PathDelimiter, true, ExcludesDirs, ExcludeFiles);
 			FileSystem.CopyFile(source+"AUTHORS-MANA", clientPath+"AUTHORS-MANA");
 			FileSystem.CopyFile(source+"AUTHORS-INVERTIKA", clientPath+"AUTHORS-INVERTIKA");
 			FileSystem.CopyFile(source+"COPYING", clientPath+"COPYING");

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
     <DebugSymbols>true</DebugSymbols>
-    <Commandlineparameters>-check</Commandlineparameters>
+    <Commandlineparameters>-createDataFolder /Users/seeseekey/Invertika</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -64,7 +64,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\cscl.googlecode.com\CSCL\CSCL.csproj">
       <Project>{0E720343-5366-4C3A-BC59-7B7FD2C311B5}</Project>
-      <Name>CSCL %28CSCL\CSCL%29</Name>
+      <Name>CSCL</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\libraries\External\SharpZipLib\src\ICSharpCode.SharpZLib.csproj">
       <Project>{0E7413FF-EB9E-4714-ACF2-BE3A6A7B2FFD}</Project>

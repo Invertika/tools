@@ -53,7 +53,7 @@ namespace ivktool
 		{
 			get
 			{
-				return folder_root+"client"+FileSystem.PathDelimiter;
+				return folder_root+"invertika/semistable/client"+FileSystem.PathDelimiter;
 			}
 		}
 
