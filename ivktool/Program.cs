@@ -2567,8 +2567,8 @@ namespace ivktool
 
 				if(zoom!=100)
 				{
-					int newWidth=(int)(img.Width/100*zoom);
-					int newHeight=(int)(img.Height/100*zoom);
+					int newWidth=(int)(img.Width/100.0*zoom+0.5);
+					int newHeight=(int)(img.Height/100.0*zoom+0.5);
 					img=img.Resize(newWidth, newHeight);
 				}
 
