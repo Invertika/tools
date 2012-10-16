@@ -3305,8 +3305,14 @@ namespace ivktool
 
         static void CreateInnerMap(string mapFilename, string usedTemplateMap)
         {
-            mapFilename = Globals.folder_data_maps + FileSystem.ChangeExtension(mapFilename, ".tmx");
-            usedTemplateMap = Globals.folder_data_mapstemplates + FileSystem.ChangeExtension(FileSystem.GetFilename(usedTemplateMap), ".tmx");
+            if (FileSystem.GetExtension(mapFilename) != ".tmx" || FileSystem.GetExtension(usedTemplateMap) != usedTemplateMap)
+            {
+                Console.WriteLine("Sowohl der Parameter mapFilename, als auch der Parameter usedTemplateMap, müssen eine .tmx Dateiendung haben");
+                return;
+            }
+
+            mapFilename = Globals.folder_data_maps + mapFilename;
+            usedTemplateMap = Globals.folder_data_mapstemplates + FileSystem.GetFilename(usedTemplateMap);
 
             if (FileSystem.ExistsFile(mapFilename))
             {
