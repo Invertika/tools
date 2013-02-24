@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
     <Optimize>False</Optimize>
     <DebugSymbols>True</DebugSymbols>
-    <Commandlineparameters>-createDataFolder /Users/seeseekey/Invertika</Commandlineparameters>
+    <Commandlineparameters>-updateWorldmap -all</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
