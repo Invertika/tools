@@ -34,7 +34,7 @@
     <WarningLevel>4</WarningLevel>
     <Optimize>False</Optimize>
     <DebugSymbols>True</DebugSymbols>
-    <Commandlineparameters>-updateWorldmap -all</Commandlineparameters>
+    <Commandlineparameters>-decompressMaps</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
