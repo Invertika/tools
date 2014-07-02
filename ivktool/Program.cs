@@ -23,7 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CSCL.Graphic;
+using CSCL.Imaging;
 using CSCL.FileFormats.TMX;
 using System.IO;
 using CSCL;
@@ -35,7 +35,7 @@ using CSCL.Games.Manasource;
 using System.Xml;
 using CSCL.Helpers;
 using ICSharpCode.SharpZipLib.Zip;
-using CSCL.Bots.Mediawiki;
+using CSCL.Bots.MediaWiki;
 using CSCL.Exceptions;
 using System.Threading;
 using ISL;
@@ -1244,7 +1244,7 @@ namespace ivktool
                 if(i.IndexOf("xold_")!=-1)
                     continue; //xold Tilesets werden nicht geprüft
 
-                gtImage tmp=gtImage.FromFile(i);
+                Graphic tmp=Graphic.FromFile(i);
 
                 string[] splited=FileSystem.GetFilenameWithoutExt(i).Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
                 int tileheight=Convert.ToInt32(splited[splited.Length-1]);
@@ -1855,7 +1855,7 @@ namespace ivktool
             Site wiki=new Site(url, username, password);
 
             Page page=new Page(wiki, "Liste der NPC Sprites");
-            page.LoadEx();
+            page.Load();
 
             string npcSpriteList=GetNPCSpritesAsMediaWiki();
 
@@ -1893,7 +1893,7 @@ namespace ivktool
             Site wiki=new Site(url, username, password);
 
             Page page=new Page(wiki, "Liste der Monster");
-            page.LoadEx();
+            page.Load();
 
             string monsterlist=GetMonstersAsMediaWiki();
 
@@ -1931,7 +1931,7 @@ namespace ivktool
             Site wiki=new Site(url, username, password);
 
             Page page=new Page(wiki, "Liste der Pflanzen");
-            page.LoadEx();
+            page.Load();
 
             string monsterlist=GetPlantAsMediaWiki();
 
@@ -1970,7 +1970,7 @@ namespace ivktool
 
             PageList pl=new PageList(wiki);
             pl.FillAllFromCategory("Item");
-            pl.LoadEx();
+            pl.Load();
 
             string fnMonsterXml=Globals.folder_data+"monsters.xml";
 
@@ -2069,7 +2069,7 @@ namespace ivktool
 
             PageList pl=new PageList(wiki);
             pl.FillAllFromCategory("Item");
-            pl.LoadEx();
+            pl.Load();
 
             foreach(Page page in pl)
             {
@@ -2142,7 +2142,7 @@ namespace ivktool
             PageList pl=new PageList(wiki);
             pl.FillAllFromCategory("Monster");
             pl.FillAllFromCategory("Pflanze");
-            pl.LoadEx();
+            pl.Load();
 
             foreach(Page page in pl)
             {
@@ -2212,7 +2212,7 @@ namespace ivktool
             Site wiki=new Site(url, username, password);
 
             Page page=new Page(wiki, "Liste der Items");
-            page.LoadEx();
+            page.Load();
 
             string itemlist=GetItemsAsMediaWiki();
 
@@ -2252,7 +2252,7 @@ namespace ivktool
             PageList pl=new PageList(wiki);
             pl.FillAllFromCategory("Monster");
             pl.FillAllFromCategory("Pflanze");
-            pl.LoadEx();
+            pl.Load();
 
             string fnMonsterXml=Globals.folder_data+"monsters.xml";
             string fnItemsXml=Globals.folder_data+"items.xml";
@@ -2367,7 +2367,7 @@ namespace ivktool
             PageList pl=new PageList(wiki);
             pl.FillAllFromCategory("Monster");
             pl.FillAllFromCategory("Pflanze");
-            pl.LoadEx();
+            pl.Load();
 
             Dictionary<int, List<string>> MonsterMapList=GetAllMonsterSpawnsFromMaps();
 
@@ -2618,7 +2618,7 @@ namespace ivktool
 
                 TMX file=new TMX(i);
 
-                gtImage pic=file.Render();
+                Graphic pic=file.Render();
 
                 int imageSizeOriginalWidth=(int)pic.Width;
                 int imageSizeOriginalHeight=(int)pic.Height;
@@ -2651,7 +2651,7 @@ namespace ivktool
             }
 
             TMX map=new TMX(tmx);
-            gtImage img=map.Render();
+            Graphic img=map.Render();
 
             if(zoom!=100)
             {
@@ -2661,7 +2661,7 @@ namespace ivktool
             }
 
             string fn=output+FileSystem.GetFilenameWithoutExt(tmx)+".png";
-            img.SaveToPNGGDI(fn);
+            img.SaveToPNG(fn);
 
             Console.WriteLine("Datei {0} wurde nach {1} gerendert", tmx, fn);
 #if! DEBUG
@@ -2829,7 +2829,7 @@ namespace ivktool
             }
         }
 
-        static void SaveFeatureMapMusic(string filename, gtImage img, TMX map)
+        static void SaveFeatureMapMusic(string filename, Graphic img, TMX map)
         {
             //Farben
             Color green=Color.FromArgb(128, 0, 255, 0);
@@ -2838,8 +2838,8 @@ namespace ivktool
             //Color blue=Color.FromArgb(128, 0, 0, 255);
 
             //Images
-            gtImage tmpImage=img.GetImage();
-            gtImage tmpDraw=new gtImage(tmpImage.Width, tmpImage.Height, tmpImage.ChannelFormat);
+            Graphic tmpImage=img.GetImage();
+            Graphic tmpDraw=new Graphic(tmpImage.Width, tmpImage.Height, tmpImage.ChannelFormat);
 
             //Properties durchsuchen
             bool found=false;
@@ -2954,7 +2954,7 @@ namespace ivktool
 
                 TMX file=new TMX(i);
 
-                gtImage pic=file.Render();
+                Graphic pic=file.Render();
 
                 int imageSizeOriginalWidth=(int)pic.Width;
                 int imageSizeOriginalHeight=(int)pic.Height;
@@ -3154,11 +3154,11 @@ namespace ivktool
                         Imageset set=tmp.Imagesets[0];
                         string[] splited2=set.Src.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
                         string srcname=splited2[0];
-                        gtImage setImage=gtImage.FromFile(Globals.folder_data+srcname);
-                        gtImage monsterImage=setImage.GetSubImage(0, 0, (uint)set.Width, (uint)set.Height);
+                        Graphic setImage=Graphic.FromFile(Globals.folder_data+srcname);
+                        Graphic monsterImage=setImage.GetSubImage(0, 0, (uint)set.Width, (uint)set.Height);
 
                         string monsterDst=target+FileSystem.PathDelimiter+"Monster-"+monster.ID+".png";
-                        monsterImage.SaveToPNGGDI(monsterDst);
+                        monsterImage.SaveToPNG(monsterDst);
                     }
                 }
             }
@@ -3191,11 +3191,11 @@ namespace ivktool
                         Imageset set=tmp.Imagesets[0];
                         string[] splited2=set.Src.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
                         string srcname=splited2[0];
-                        gtImage setImage=gtImage.FromFile(Globals.folder_data+srcname);
-                        gtImage monsterImage=setImage.GetSubImage(0, 0, (uint)set.Width, (uint)set.Height);
+                        Graphic setImage=Graphic.FromFile(Globals.folder_data+srcname);
+                        Graphic monsterImage=setImage.GetSubImage(0, 0, (uint)set.Width, (uint)set.Height);
 
                         string monsterDst=target+FileSystem.PathDelimiter+"npcsprite-"+npc.ID+".png";
-                        monsterImage.SaveToPNGGDI(monsterDst);
+                        monsterImage.SaveToPNG(monsterDst);
                     }
                 }
             }
@@ -3437,7 +3437,7 @@ namespace ivktool
                             if(TileNumber==0)
                                 continue; //leeres Tile
 
-                            gtImage tile=maptmx.GetTile(TileNumber);
+                            Graphic tile=maptmx.GetTile(TileNumber);
                             Color median=tile.GetMedianColor();
 
                             int summe=median.A+median.R+median.G+median.R;
@@ -3961,21 +3961,6 @@ namespace ivktool
         }
 		#endregion
 
-        static List<string> GetFilesFromParameters(Parameters param)
-        {
-            List<string> ret=new List<string>();
-
-            foreach(string i in param.GetNames())
-            {
-                if(i.StartsWith("file"))
-                {
-                    ret.Add(param.GetString(i));
-                }
-            }
-
-            return ret;
-        }
-
         static void Main(string[] args)
         {
             //Optionen
@@ -4001,11 +3986,11 @@ namespace ivktool
             }
 
             //Parameter auswerten
-            Parameters parameters=null;
+            Dictionary<string, string> commandLine=null;
 
             try
             {
-                parameters=Parameters.InterpretCommandLine(args);
+                commandLine=CommandLineHelpers.GetCommandLine(args);
             }
             catch
             {
@@ -4018,9 +4003,9 @@ namespace ivktool
             Console.WriteLine("Starte Aktion am {0} um {1} Uhr...", DateTime.Now.Date.ToShortDateString(), DateTime.Now.ToShortTimeString());
 
             //Aktion starten
-            if(parameters.GetBool("calcAdler32"))
+            if(Convert.ToBoolean(commandLine["calcAdler32"]))
             {
-                List<string> files=GetFilesFromParameters(parameters);
+                List<string> files=CommandLineHelpers.GetFilesFromCommandline(commandLine);
 
                 if(files.Count==0)
                     Console.WriteLine("Kein Dateiname angegeben!");
@@ -4032,17 +4017,17 @@ namespace ivktool
                     }
                 }
             }
-            else if(parameters.GetBool("check"))
+            else if(Convert.ToBoolean(commandLine["check"]))
             {
                 Check();
             }
-            else if(parameters.GetBool("checkNPCsOnWiki"))
+            else if(Convert.ToBoolean(commandLine["checkNPCsOnWiki"]))
             {
                 CheckNPCsOnWiki();
             }
-            else if(parameters.GetBool("createClientUpdate"))
+            else if(Convert.ToBoolean(commandLine["createClientUpdate"]))
             {
-                List<string> files=GetFilesFromParameters(parameters);
+                List<string> files=CommandLineHelpers.GetFilesFromCommandline(commandLine);
 
                 if(files.Count!=2)
                     Console.WriteLine("Keine Pfade angegeben!");
@@ -4054,13 +4039,13 @@ namespace ivktool
                     CreateClientUpdate(folderLastFullClient, folderUpdateTarget);
                 }
             }
-            else if(parameters.GetBool("createCollisionsOnMaps"))
+            else if(Convert.ToBoolean(commandLine["createCollisionsOnMaps"]))
             {
                 CreateCollisionsOnMaps();
             }
-            else if(parameters.GetBool("createDataFolder"))
+            else if(Convert.ToBoolean(commandLine["createDataFolder"]))
             {
-                List<string> paths=GetFilesFromParameters(parameters);
+                List<string> paths=CommandLineHelpers.GetFilesFromCommandline(commandLine);
 
                 if(paths.Count==0)
                     Console.WriteLine("Keine Pfad(e) angegeben!");
@@ -4072,13 +4057,13 @@ namespace ivktool
                     }
                 }
             }
-            else if(parameters.GetBool("createExampleConfig"))
+            else if(Convert.ToBoolean(commandLine["createExampleConfig"]))
             {
                 CreateExampleConfig();
             }
-            else if(parameters.GetBool("createInnerMap"))
+            else if(Convert.ToBoolean(commandLine["createInnerMap"]))
             {
-                List<string> files=GetFilesFromParameters(parameters);
+                List<string> files=CommandLineHelpers.GetFilesFromCommandline(commandLine);
 
                 if(files.Count!=2)
                     Console.WriteLine("Parameter inkorrekt!");
@@ -4090,13 +4075,13 @@ namespace ivktool
                     CreateInnerMap(mapFilename, usedTemplateMap);
                 }
             }
-            else if(parameters.GetBool("createMapScriptsAndUpdateMaps"))
+            else if(Convert.ToBoolean(commandLine["createMapScriptsAndUpdateMaps"]))
             {
                 CreateMapScriptsAndUpdateMaps();
             }
-            else if(parameters.GetBool("createWorldmapDatabaseSQLFile"))
+            else if(Convert.ToBoolean(commandLine["createWorldmapDatabaseSQLFile"]))
             {
-                List<string> files=GetFilesFromParameters(parameters);
+                List<string> files=CommandLineHelpers.GetFilesFromCommandline(commandLine);
 
                 if(files.Count==0)
                     Console.WriteLine("Keine Datei(en) angegeben!");
@@ -4108,13 +4093,13 @@ namespace ivktool
                     }
                 }
             }
-            else if(parameters.GetBool("decompressMaps"))
+            else if(Convert.ToBoolean(commandLine["decompressMaps"]))
             {
                 DecompressMaps();
             }
-            else if(parameters.GetBool("exportItemImages"))
+            else if(Convert.ToBoolean(commandLine["exportItemImages"]))
             {
-                List<string> paths=GetFilesFromParameters(parameters);
+                List<string> paths=CommandLineHelpers.GetFilesFromCommandline(commandLine);
 
                 if(paths.Count==0)
                     Console.WriteLine("Keine Pfad(e) angegeben!");
@@ -4126,9 +4111,9 @@ namespace ivktool
                     }
                 }
             }
-            else if(parameters.GetBool("exportMonsterImages"))
+            else if(Convert.ToBoolean(commandLine["exportMonsterImages"]))
             {
-                List<string> paths=GetFilesFromParameters(parameters);
+                List<string> paths=CommandLineHelpers.GetFilesFromCommandline(commandLine);
 
                 if(paths.Count==0)
                     Console.WriteLine("Keine Pfad(e) angegeben!");
@@ -4140,9 +4125,9 @@ namespace ivktool
                     }
                 }
             }
-            else if(parameters.GetBool("exportNPCSprites"))
+            else if(Convert.ToBoolean(commandLine["exportNPCSprites"]))
             {
-                List<string> paths=GetFilesFromParameters(parameters);
+                List<string> paths=CommandLineHelpers.GetFilesFromCommandline(commandLine);
 
                 if(paths.Count==0)
                     Console.WriteLine("Keine Pfad(e) angegeben!");
@@ -4154,29 +4139,29 @@ namespace ivktool
                     }
                 }
             }
-            else if(parameters.GetBool("getMonstersOnMap"))
+            else if(Convert.ToBoolean(commandLine["getMonstersOnMap"]))
             {
                 GetMonstersOnMap();
             }
-            else if(parameters.GetBool("getTilesetsFromMapsUsed"))
+            else if(Convert.ToBoolean(commandLine["getTilesetsFromMapsUsed"]))
             {
                 GetTilesetsFromMapsUsed();
             }
-            else if(parameters.GetBool("removeBlankTilesFromMaps"))
+            else if(Convert.ToBoolean(commandLine["removeBlankTilesFromMaps"]))
             {
                 RemoveBlankTilesFromMaps();
             }
-            else if(parameters.GetBool("removeBomFromFiles"))
+            else if(Convert.ToBoolean(commandLine["removeBomFromFiles"]))
             {
                 RemoveBOMFromFiles();
             }
-            else if(parameters.GetBool("removeNonExistingTilesetsFromMaps"))
+            else if(Convert.ToBoolean(commandLine["removeNonExistingTilesetsFromMaps"]))
             {
                 RemoveNonExistingTilesetsFromMaps();
             }
-            else if(parameters.GetBool("renameTileset"))
+            else if(Convert.ToBoolean(commandLine["renameTileset"]))
             {
-                List<string> tilesets=GetFilesFromParameters(parameters);
+                List<string> tilesets=CommandLineHelpers.GetFilesFromCommandline(commandLine);
 
                 if(tilesets.Count!=2)
                     Console.WriteLine("Parameter inkorrekt angegeben.");
@@ -4187,19 +4172,21 @@ namespace ivktool
                     RenameTileset(oldName, newName);
                 }
             }
-            else if(parameters.GetBool("renameTilesetNameInMapsToTilesetFilename"))
+            else if(Convert.ToBoolean(commandLine["renameTilesetNameInMapsToTilesetFilename"]))
             {
                 RenameTilesetNameInMapsToTilesetFilename();
             }
-            else if(parameters.GetBool("renderTMX"))
+            else if(Convert.ToBoolean(commandLine["renderTMX"]))
             {
-                List<string> files=GetFilesFromParameters(parameters);
+                List<string> files=CommandLineHelpers.GetFilesFromCommandline(commandLine);
 
-                string output=parameters.GetString("output", "");
-                double zoom=parameters.GetDouble("zoom", 100);
+                string output=commandLine["output"];
+              double zoom=Convert.ToDouble(commandLine["zoom"]);
 
-                if(output=="")
-                    Console.WriteLine("Keinen Ausgabepfad angegeben!");
+                                                                                                    if(output=="")
+                                                                                                    {
+                                                                                                        Console.WriteLine("Keinen Ausgabepfad angegeben!");
+                                                                                                    }
                 else
                 {
                     foreach(string file in files)
@@ -4215,57 +4202,55 @@ namespace ivktool
                     }
                 }
             }
-            else if(parameters.GetBool("transformTileInMaps"))
+            else if(Convert.ToBoolean(commandLine["transformTileInMaps"]))
             {
-                string srcTileset=parameters.GetString("srcTileset", "");
-                string dstTileset=parameters.GetString("dstTileset", "");
+                string srcTileset=commandLine["srcTileset"];
+                string dstTileset=commandLine["dstTileset"];
 
-                string srcTile=parameters.GetString("srcTile", "");
-                string dstTile=parameters.GetString("dstTile", "");
+                string srcTile=commandLine["srcTile"];
+                string dstTile=commandLine["dstTile"];
 
-                if(srcTileset==""||srcTileset=="")
-                    Console.WriteLine("Kein Tileset angegeben!");
-                if(srcTile==""||dstTile=="")
-                    Console.WriteLine("Keine Tiles angegeben!");
+                if(srcTileset==""||srcTileset=="")                  Console.WriteLine("Kein Tileset angegeben!");
+                if(srcTile==""||dstTile=="")                 Console.WriteLine("Keine Tiles angegeben!");
 
                 TransformTileInMaps(srcTileset, dstTileset, Convert.ToInt32(srcTile), Convert.ToInt32(dstTile));
             }
-            else if(parameters.GetBool("update"))
+            else if(Convert.ToBoolean(commandLine["update"]))
             {
-                bool all=parameters.GetBool("all", false);
-                bool clearCache=parameters.GetBool("clearCache", false);
+                bool all=Convert.ToBoolean(commandLine["all"]);
+                bool clearCache=Convert.ToBoolean(commandLine["clearCache"]);
 
                 UpdateMinimaps(all, clearCache);
                 UpdateWorldmap(all, clearCache);
                 UpdateMediaWiki();
             }
-            else if(parameters.GetBool("updateMapsInMapsXml"))
+            else if(Convert.ToBoolean(commandLine["updateMapsInMapsXml"]))
             {
                 UpdateMapsInMapsXml();
             }
-            else if(parameters.GetBool("updateMinimaps"))
+            else if(Convert.ToBoolean(commandLine["updateMinimaps"]))
             {
-                bool all=parameters.GetBool("all", false);
-                bool clearCache=parameters.GetBool("clearCache", false);
+                bool all=Convert.ToBoolean(commandLine["all"]);
+                bool clearCache=Convert.ToBoolean(commandLine["clearCache"]);
                 UpdateMinimaps(all, clearCache);
             }
-            else if(parameters.GetBool("updateMediaWiki"))
+            else if(Convert.ToBoolean(commandLine["updateMediaWiki"]))
             {
                 UpdateMediaWiki();
             }
-            else if(parameters.GetBool("updateLuaInMediaWiki"))
+            else if(Convert.ToBoolean(commandLine["updateLuaInMediaWiki"]))
             {
                 UpdateLuaInMediaWiki();
             }
-            else if(parameters.GetBool("updateWorldmap"))
+            else if(Convert.ToBoolean(commandLine["updateWorldmap"]))
             {
-                bool all=parameters.GetBool("all", false);
-                bool clearCache=parameters.GetBool("clearCache", false);
+                bool all=Convert.ToBoolean(commandLine["all"]);
+                bool clearCache=Convert.ToBoolean(commandLine["clearCache"]);
                 UpdateWorldmap(all, clearCache);
             }
-            else if(parameters.GetBool("updateWorldmapDatabaseSQLFile"))
+            else if(Convert.ToBoolean(commandLine["updateWorldmapDatabaseSQLFile"]))
             {
-                List<string> files=GetFilesFromParameters(parameters);
+                List<string> files=CommandLineHelpers.GetFilesFromCommandline(commandLine);
 
                 if(files.Count==0)
                     Console.WriteLine("Keine Datei(en) angegeben!");
